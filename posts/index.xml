@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | xuii&#39;s blog wind</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Wed, 11 Jan 2023 02:03:51 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[游戏机制] 交换球</title>
+    <link>http://blog.xuaii.cc/game-idea-exchange/</link>
+    <pubDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</pubDate>
+    <author>xuaii</author>
+    <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
+    <description><![CDATA[灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设]]></description>
+</item>
+<item>
     <title>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</title>
     <link>http://blog.xuaii.cc/game-idea-mmoplat/</link>
     <pubDate>Wed, 11 Jan 2023 02:03:51 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>xuaii</author>
     <guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie/</guid>
     <description><![CDATA[里世界机制 机制概念简述：存在两个不同的世界，里世界和表世界 他们有大致相同的场景整体形状，不同的场景风格（例如，崭新&lt;-&gt;老旧，清]]></description>
-</item>
-<item>
-    <title>[游戏机制] 窗体互动</title>
-    <link>http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/</link>
-    <pubDate>Tue, 03 Jan 2023 18:36:24 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/</guid>
-    <description><![CDATA[使用 Godot 对WindowFrame 进行拙劣的模仿，观察视频中的窗体有以下性质： 窗体既是 UI 也是可以与玩家互动的 场景物体 窗口的位置可以由场景物理改变]]></description>
 </item>
 </channel>
 </rss>

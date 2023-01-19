@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>[游戏机制] 交换球 - xuii&#39;s blog wind</title><meta name="Description" content=""><meta property="og:title" content="[游戏机制] 交换球" />
+<meta property="og:description" content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.xuaii.cc/game-idea-exchange/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-16T06:58:23+08:00" />
+<meta property="article:modified_time" content="2023-01-16T06:58:23+08:00" /><meta property="og:site_name" content="我的网站" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
+
+<meta name="twitter:title" content="[游戏机制] 交换球"/>
+<meta name="twitter:description" content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设"/>
+<meta name="application-name" content="我的网站">
+<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/game-idea-exchange/" /><link rel="prev" href="http://blog.xuaii.cc/game-idea-mmoplat/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[游戏机制] 交换球",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/"
+        },"genre": "posts","wordcount":  1486 ,
+        "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-16T06:58:23+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 交换球</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1486 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#灵感来源">灵感来源</a></li>
+    <li><a href="#需要解决的问题">需要解决的问题？</a></li>
+    <li><a href="#如何进行有效的冲突测试">如何进行有效的冲突测试？</a></li>
+    <li><a href="#解决碰撞冲突网格搜索">解决碰撞冲突(网格搜索)</a>
+      <ul>
+        <li><a href="#方法一网格枚举">方法一(网格枚举)</a></li>
+        <li><a href="#方法二碰撞解算">方法二(碰撞解算)</a></li>
+        <li><a href="#方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><!-- <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1Sv411M7LP&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+ -->
+<h2 id="灵感来源">灵感来源</h2>
+<p>前段时间玩了 <a href="https://wiki.teamfortress.com/wiki/Portal_2/zh-hans" target="_blank" rel="noopener noreffer ">传送门2</a>, 想到一个新的游戏机制</p>
+<blockquote>
+<p>玩家A可以发射一个<strong>交换球</strong>，交换球碰撞到特定的<strong>可交换物体</strong> B后交换 A 和 B 的位置</p>
+</blockquote>
+<p>该机制可以用来设计同传送门相似的各种奇思妙想的关卡，需要将整个机制分解为以下两个机制</p>
+<ol>
+<li>移动场景中的物体</li>
+<li>玩家获得位置移动</li>
+</ol>
+<h2 id="需要解决的问题">需要解决的问题？</h2>
+<ul>
+<li>上文中 A 和 B 的<strong>体积</strong> 和 <strong>碰撞 Layer/Mask</strong> 都是不一样的，如何保证交换的物体在交换后不会与场景中已有的物体发生冲突呢？</li>
+<li>如何进行碰撞测试？</li>
+</ul>
+<h2 id="如何进行有效的冲突测试">如何进行有效的冲突测试？</h2>
+<p>引擎提供的冲突检测仅给出碰撞点和碰撞方向, 要实现将物体放置到安全位置还需要知道冲突重叠区域在碰撞法线方向上投影的最大宽度(将物体平移到恰好不碰撞的位移)</p>
+<p>所以我们定义一个 <strong>恢复偏移向量</strong>:</p>
+<blockquote>
+<p>假设物体 A 和环境碰撞体 B 发生碰撞, 碰撞点为 P, 碰撞法线为 N, 那么以 P 点为起始点方向为 -N 发射射线, 与 A 的碰撞体积计算几何交点 $Q_i$ 取最长的 $Q_iP$
+QP, QP 则是<strong>恢复偏移向量</strong></p>
+</blockquote>
+<p>按照 QP 移动物体能解决 A/B 的冲突但是可能引入新的冲突, 所以需要多次进行 冲突测试-避免冲突</p>
+<p><strong>几何交点</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">GeometryIntersection</span><span class="p">(</span><span class="n">Polygon</span> <span class="n">polygon</span><span class="p">,</span> <span class="n">Ray</span> <span class="n">ray</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">res</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span><span class="p">(</span><span class="n">Segment</span> <span class="n">segment</span> <span class="k">in</span> <span class="n">polygon</span><span class="p">.</span><span class="n">GetSegments</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vector2</span> <span class="n">intersection</span> <span class="p">=</span> <span class="n">GeometryIntersection</span><span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="n">ray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">intersection</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">res</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">intersection</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">GeometryIntersection</span><span class="p">(</span><span class="n">Segment</span> <span class="n">segment</span><span class="p">,</span> <span class="n">Ray</span> <span class="n">ray</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">A</span> <span class="p">=</span> <span class="n">segment</span><span class="p">.</span><span class="n">Start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">B</span> <span class="p">=</span> <span class="n">segment</span><span class="p">.</span><span class="n">End</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">P</span> <span class="p">=</span> <span class="n">ray</span><span class="p">.</span><span class="n">Start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">D</span> <span class="p">=</span> <span class="n">ray</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">k</span> <span class="p">=</span> <span class="p">((</span><span class="n">B</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">P</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">*</span> <span class="n">D</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">P</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="p">*</span> <span class="n">D</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">/</span> <span class="p">((</span><span class="n">B</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">A</span><span class="p">.</span><span class="n">x</span><span class="p">)*</span><span class="n">D</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">A</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="p">*</span> <span class="n">D</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">t</span> <span class="p">=</span> <span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">P</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">k</span> <span class="p">*</span> <span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">A</span><span class="p">.</span><span class="n">x</span><span class="p">))</span> <span class="p">/</span> <span class="n">D</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">k</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">k</span> <span class="p">&lt;=</span><span class="m">1</span> <span class="p">&amp;&amp;</span> <span class="n">t</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">P</span> <span class="p">+</span> <span class="n">t</span> <span class="p">*</span> <span class="n">D</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="解决碰撞冲突网格搜索">解决碰撞冲突(网格搜索)</h2>
+<p>目前已知物体 A / B, 要交换它们的位置，当某个物体改变位置后如果发生碰撞，我们可以<strong>微调</strong>目标位置，使其以最小的偏移实现 <strong>无碰撞交换</strong></p>
+<p>但是微调是一个很暧昧的概念，什么叫微调，移动多远的距离算微调，如果对微调距离不加限制，那么 A/B 呆在原地也恰好不发生碰撞，所以限制微调距离是必要的</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Tip<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">交换指 <em>位置互换</em>，微调指在一定的 <em>容忍范围</em> 内移动目标位置</div>
+        </div>
+    </div>
+<p>所以我们可以得到一个朴素的假算法</p>
+<blockquote>
+<p>假定有目标位置 $P(x_0, y_0)$, 容忍距离 $d$, 有点集:
+$$
+D = \lbrace (x, y) | \sqrt{(x-x_0)^2 + (y-y_0)^2} &lt; d \rbrace
+$$
+搜索点集中距离 P 最近并且无碰撞的点作为新的目标位置</p>
+</blockquote>
+<p>上述算法存在几个问题</p>
+<ul>
+<li>点集 D 是无穷集合无法枚举</li>
+<li>环境的碰撞不是有序的(无法简单的二分)</li>
+</ul>
+<h3 id="方法一网格枚举">方法一(网格枚举)</h3>
+<p>可以使用网格划分 D ，然后由P点到边缘的顺序枚举每一个网格点，并对点其进行 <strong>碰撞测试</strong>，找到第一个无碰撞的点 记划分粒度为 k, 算法复杂度为 $O(\frac{d^2}{k^2})$
+(可以使用QP 向量来减小碰撞测试的次数)</p>
+<p><strong>缺点</strong> 网格碰撞, 可能因为空间的整数划分而找不到安全点(可能实际上有安全点)
+<strong>解决</strong> 配合碰撞解算(方法三)</p>
+<h3 id="方法二碰撞解算">方法二(碰撞解算)</h3>
+<blockquote>
+<p>在该方法中, 我们将物体在某一位置的所有碰撞简化为与多条直线的碰撞(直线与法线 N 垂直,并且过点 P)
+对于任意碰撞 $c_i$, 可以计算碰撞的 $(QP)_i$ 向量, 我们移动物体解决碰撞的本质是 计算一个 $M_i$ 向量, 该向量在 $(QP)_i$ 方向的投影大于等于 $|(QP)_i|$</p>
+</blockquote>
+<p>$$
+\frac{\vec{M} \cdot \vec{QP}}{|\vec{QP}|} \ge |\vec{QP}| \\
+\quad\\
+\Rightarrow \vec{M} \cdot \vec{QP} \ge |\vec{QP}|^2
+$$</p>
+<p>此外还需要满足 M 尽可能地小的约束(确保靠近选中的位置)
+所以对于所有的碰撞点:</p>
+<p>$$
+\begin{cases}
+\vec{M} \cdot \vec{QP_i} \ge |\vec{QP_i}|^2,\quad i = 1,2,3,&hellip;\\
+\\
+\arg \mathop{\min}\limits_{M} |\vec{QP_i}|
+\end{cases}
+$$</p>
+<p>我们观察上式, 所有的 $QP$ 是已知的, 每一个不等式约束都是一个线性约束设  $M(x, y)$, 每一个约束都是一个关于 $x, y$ 的不等式
+所以该问题就转化为了熟悉的不等式约束的优化问题, 优化目标是 $M$ 位移的距离</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Tip<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">可以使用<a href="https://blog.csdn.net/qq_41133375/article/details/105642352" target="_blank" rel="noopener noreffer ">带 KKT 条件的拉格朗日乘数法</a>来解 M</div>
+        </div>
+    </div>
+<p><strong>无解条件</strong></p>
+<ul>
+<li>如果所有 QP 向量分解到 x, y 轴上并同时有 $x^-, x^+, y^-, y^-$ 方向的移动, 那么是不可解的</li>
+<li>拉格朗日乘数法无解</li>
+</ul>
+<p><strong>问题</strong> 解决一次碰撞后可能产生新的碰撞,如果新的碰撞和原有的碰撞是冲突的那该怎么办？</p>
+<p><strong>解决</strong> 暂时没想到什么更好的方法, 就顶一个数字m, 每次都进行 m 次移动, 如果找不到安全位置就判定为失败即可。</p>
+<h3 id="方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</h3>
+<p>这是一个启发式的方法(没什么依据,乱想的):</p>
+<ol>
+<li>
+<p>使用网格划分, 记每个格点上的所有 QP 的长度之和为 $W = \sum_i |QP_i|$</p>
+</li>
+<li>
+<p>取 W 值最小的格点并在此处执行碰撞解算</p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-01-16</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/game-idea-exchange/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/game-idea-exchange/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/game-idea-mmoplat/" class="prev" rel="prev" title="[游戏IDEA] 开源 2D多人在线平台跳跃游戏"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">xuaii</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
