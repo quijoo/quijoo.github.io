@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/"
-        },"genre": "posts","wordcount":  1486 ,
+        },"genre": "posts","wordcount":  2839 ,
         "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-16T06:58:23+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -103,8 +103,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 交换球</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1486 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2839 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -119,6 +119,7 @@
       <ul>
         <li><a href="#方法一网格枚举">方法一(网格枚举)</a></li>
         <li><a href="#方法二碰撞解算">方法二(碰撞解算)</a></li>
+        <li><a href="#线性约束的非线性规划问题">线性约束的非线性规划问题</a></li>
         <li><a href="#方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</a></li>
       </ul>
     </li>
@@ -264,6 +265,263 @@ $$</p>
             <div class="admonition-content">可以使用<a href="https://blog.csdn.net/qq_41133375/article/details/105642352" target="_blank" rel="noopener noreffer ">带 KKT 条件的拉格朗日乘数法</a>来解 M</div>
         </div>
     </div>
+<h3 id="线性约束的非线性规划问题">线性约束的非线性规划问题</h3>
+<p>但是优化问题相关的第三方库都是使用迭代的数值优化方法来计算解, 这会导致算法复杂度可能无法预估。
+所以这里我们用一个朴素的算法来解决线性约束的非线性规划问题, 算法分成两步:</p>
+<p>由于所有的约束都是线性约束, 所以可行域一定是多边形区域(或者开放的凸多边形区域)
+最优解的点只会取约束直线上某点或者顶点(不会取可行域内的点)
+如何计算 <strong>可行域边界</strong> ？</p>
+<ol>
+<li>
+<p>每个约束条件与其余约束条件计算公共区域(<code>Intercepted</code> 方法)</p>
+<ul>
+<li>Tips1: 存在线段和射线约束, 需要检查交点是否在线段或者射线上</li>
+<li>Tips2：直线的法线代表可行域区域, 可以通过两条直线的<strong>方向</strong> 和 <strong>法线方向</strong>判断两线相交分割出的四条射线哪两段是有效的 (见 <code>Intercepted</code> 中判断 <code>Direction</code> 和 <code>Normal</code> 夹角 &lt;= 90&gt;)
+<figure><img src="/images/line_cast.jpg"/><figcaption>
+                    <h4>线段剪切</h4>
+                </figcaption>
+        </figure>
+</li>
+<li>Tips3: 线的相交只会缩短端点, 所以需要进行 Max/Min 判断(见 Intercepted)</li>
+<li>Tips4: 那些 左端点 &gt;= 右端点 的边界视为无效边界( 见<code>SolveCollition</code> 和 <code>Line.IsValid()</code>)
+更深层的意思是, 出现无效边时, 可能有以下几种情况(但是只要去除所有无效边即可获得正确的可行域)
+<figure><img src="/images/enum_line_cast.png"/><figcaption>
+                    <h4>线段剪切枚举</h4>
+                </figcaption>
+        </figure>
+</li>
+</ul>
+</li>
+<li>
+<p>得到一个边界集合(元素可能是 直线/线段/射线), 其中某些边界有效, 某些边界无效</p>
+</li>
+<li>
+<p>对边界集合中所有有效的边界, 计算其与 O(0,0) 点的距离, 并取最小距离，最小距离仅可能以下情况：</p>
+<ul>
+<li>O 向边界线作垂线的垂足(需要保证垂足再 minT 和 maxT 约束之间)</li>
+<li>边界射线端点</li>
+<li>边界线段断电
+所以, 只需要遍历所有的边界线垂足和边界顶点, 取与 O 最近的点即可 (见 SolveCollition 第二个 for 循环)
+该算法复杂度为 $O(n^2)$, 比计算出所有交点, 再检查焦点是否在可行域内的方法($O(n^3)$)更快</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Line</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">Point</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">Normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">minT</span> <span class="p">=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">maxT</span> <span class="p">=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Line</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">_p</span><span class="p">,</span> <span class="n">Vector2</span> <span class="n">_n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Point</span> <span class="p">=</span> <span class="n">_p</span><span class="p">;</span> <span class="n">Normal</span> <span class="p">=</span> <span class="n">_n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Direction</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">Normal</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">-</span><span class="n">Normal</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsRay</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="n">minT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span> <span class="p">||</span> <span class="p">(</span><span class="n">minT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsLine</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="n">minT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsSegment</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="n">minT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="n">minT</span> <span class="p">&lt;=</span> <span class="n">maxT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">GetRayPoint</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">minT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Point</span> <span class="p">+</span> <span class="n">maxT</span> <span class="p">*</span> <span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">minT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Point</span> <span class="p">+</span> <span class="n">minT</span> <span class="p">*</span> <span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Point</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">GetRayDirection</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">minT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">-</span><span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">minT</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MinValue</span> <span class="p">&amp;&amp;</span> <span class="n">maxT</span> <span class="p">==</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">Zero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Perpendicular</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">point</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2</span> <span class="n">foot</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">distance</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Line</span> <span class="n">pLine</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Line</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="n">Direction</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Intersect</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">pLine</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">t1</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">t2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">foot</span> <span class="p">=</span> <span class="n">pLine</span><span class="p">.</span><span class="n">Point</span> <span class="p">+</span> <span class="n">pLine</span><span class="p">.</span><span class="n">Direction</span> <span class="p">*</span> <span class="n">t2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">t1</span> <span class="p">&lt;=</span> <span class="n">maxT</span> <span class="p">&amp;&amp;</span> <span class="n">t1</span> <span class="p">&gt;=</span> <span class="n">minT</span><span class="p">)</span> <span class="n">distance</span> <span class="p">=</span> <span class="p">(</span><span class="n">foot</span> <span class="p">-</span> <span class="n">point</span><span class="p">).</span><span class="n">Length</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">distance</span> <span class="p">=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="k">public</span> <span class="k">void</span> <span class="n">Intersect</span><span class="p">(</span><span class="n">Line</span> <span class="n">B1</span><span class="p">,</span> <span class="n">Line</span> <span class="n">B2</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">t1</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">t2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">P1</span> <span class="p">=</span> <span class="n">B1</span><span class="p">.</span><span class="n">Point</span><span class="p">;</span> <span class="n">Vector2</span> <span class="n">P2</span> <span class="p">=</span> <span class="n">B2</span><span class="p">.</span><span class="n">Point</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">D1</span> <span class="p">=</span> <span class="n">B1</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span> <span class="n">Vector2</span> <span class="n">D2</span> <span class="p">=</span> <span class="n">B2</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t2</span> <span class="p">=</span> <span class="p">(</span><span class="n">D1</span><span class="p">.</span><span class="n">y</span> <span class="p">*</span> <span class="p">(</span><span class="n">P1</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">P2</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">-</span> <span class="n">D1</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="p">(</span><span class="n">P1</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">P2</span><span class="p">.</span><span class="n">y</span><span class="p">))</span> <span class="p">/</span> <span class="p">(</span><span class="n">D2</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">D1</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">D1</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">D2</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t1</span> <span class="p">=</span> <span class="p">(</span><span class="n">P2</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="n">t2</span> <span class="p">*</span> <span class="n">D2</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">P1</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">/</span> <span class="n">D1</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="k">public</span> <span class="k">void</span> <span class="n">Intercepted</span><span class="p">(</span><span class="k">ref</span> <span class="n">Line</span> <span class="n">B1</span><span class="p">,</span> <span class="k">ref</span> <span class="n">Line</span> <span class="n">B2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Intersect</span><span class="p">(</span><span class="n">B1</span><span class="p">,</span> <span class="n">B2</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">k1</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">k2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">B1</span><span class="p">.</span><span class="n">Direction</span><span class="p">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">B2</span><span class="p">.</span><span class="n">Normal</span><span class="p">)</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">)</span> <span class="n">B1</span><span class="p">.</span><span class="n">minT</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Max</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">B1</span><span class="p">.</span><span class="n">minT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">B1</span><span class="p">.</span><span class="n">maxT</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Min</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">B1</span><span class="p">.</span><span class="n">maxT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">B2</span><span class="p">.</span><span class="n">Direction</span><span class="p">.</span><span class="n">Dot</span><span class="p">(</span><span class="n">B1</span><span class="p">.</span><span class="n">Normal</span><span class="p">)</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">)</span> <span class="n">B2</span><span class="p">.</span><span class="n">minT</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Max</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="n">B2</span><span class="p">.</span><span class="n">minT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">B2</span><span class="p">.</span><span class="n">maxT</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Min</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="n">B2</span><span class="p">.</span><span class="n">maxT</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="k">public</span> <span class="n">Vector2</span> <span class="n">SolveCollition</span><span class="p">(</span><span class="n">Line</span><span class="p">[]</span> <span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">lines</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Intercepted</span><span class="p">(</span><span class="k">ref</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="k">ref</span> <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">;</span> <span class="n">Vector2</span> <span class="n">Selected</span> <span class="p">=</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">Zero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">line</span> <span class="k">in</span> <span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 跳过无效边</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">line</span><span class="p">.</span><span class="n">IsValid</span><span class="p">())</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 计算线上垂点</span>
+</span></span><span class="line"><span class="cl">        <span class="n">line</span><span class="p">.</span><span class="n">Perpendicular</span><span class="p">(</span><span class="n">Vector2</span><span class="p">.</span><span class="n">Zero</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2</span> <span class="n">f</span><span class="p">,</span> <span class="k">out</span> <span class="kt">float</span> <span class="n">d</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">d</span> <span class="p">&lt;</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span> <span class="n">Selected</span> <span class="p">=</span> <span class="n">f</span><span class="p">;</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">d</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 计算射线起点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">IsRay</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector2</span> <span class="n">rayPoint</span> <span class="p">=</span> <span class="n">line</span><span class="p">.</span><span class="n">GetRayPoint</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">rayPoint</span><span class="p">.</span><span class="n">Length</span><span class="p">()</span> <span class="p">&lt;</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span> <span class="n">Selected</span> <span class="p">=</span> <span class="n">rayPoint</span><span class="p">;</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">rayPoint</span><span class="p">.</span><span class="n">Length</span><span class="p">();</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 计算线段端点</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">IsSegment</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector2</span> <span class="n">L</span> <span class="p">=</span> <span class="n">line</span><span class="p">.</span><span class="n">Point</span> <span class="p">+</span> <span class="n">line</span><span class="p">.</span><span class="n">minT</span> <span class="p">*</span> <span class="n">line</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector2</span> <span class="n">R</span> <span class="p">=</span> <span class="n">line</span><span class="p">.</span><span class="n">Point</span> <span class="p">+</span> <span class="n">line</span><span class="p">.</span><span class="n">maxT</span> <span class="p">*</span> <span class="n">line</span><span class="p">.</span><span class="n">Direction</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">L</span><span class="p">.</span><span class="n">Length</span><span class="p">()</span> <span class="p">&lt;</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span> <span class="n">Selected</span> <span class="p">=</span> <span class="n">L</span><span class="p">;</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">L</span><span class="p">.</span><span class="n">Length</span><span class="p">();</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="n">Length</span><span class="p">()</span> <span class="p">&lt;</span> <span class="n">distance</span><span class="p">)</span> <span class="p">{</span> <span class="n">Selected</span> <span class="p">=</span> <span class="n">R</span><span class="p">;</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">R</span><span class="p">.</span><span class="n">Length</span><span class="p">();</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">distance</span> <span class="p">!=</span> <span class="kt">float</span><span class="p">.</span><span class="n">MaxValue</span><span class="p">)</span> <span class="k">return</span> <span class="n">Selected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">return</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">Zero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>最后一个问题</strong> 如何将线性规划的约束条件转化为 (Point, Normal) 的形式？</p>
+<p>设 约束条件为 $ax + by \ge c$, 边界上一点 $(x_0, y_0)$</p>
+<p>边界直线的法线方向有 $(a, b)$ 和 $(-a, -b)$ 两个方向</p>
+<p>可以计算得到边界直线外一点 $(x_1, y_1) = (x_0 + a, y_0 + b)$, 将该点带入直线方程
+$$
+a (x_0 + a) + b(y_0 + b) = (ax_0 + by_0) + a^2 + b^2 = c + (a^2 + b^2) \ge c
+$$
+所以 $N(a, b)$ 是该边界指向内部的法线</p>
 <p><strong>无解条件</strong></p>
 <ul>
 <li>如果所有 QP 向量分解到 x, y 轴上并同时有 $x^-, x^+, y^-, y^-$ 方向的移动, 那么是不可解的</li>
