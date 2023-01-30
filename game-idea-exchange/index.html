@@ -9,7 +9,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.xuaii.cc/game-idea-exchange/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-01-16T06:58:23+08:00" />
-<meta property="article:modified_time" content="2023-01-16T06:58:23+08:00" /><meta property="og:site_name" content="我的网站" />
+<meta property="article:modified_time" content="2023-01-22T11:46:19+08:00" /><meta property="og:site_name" content="我的网站" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
 
@@ -29,8 +29,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/"
-        },"genre": "posts","wordcount":  2839 ,
-        "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-16T06:58:23+08:00","publisher": {
+        },"genre": "posts","wordcount":  3021 ,
+        "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-22T11:46:19+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -103,8 +103,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 交换球</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2839 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3021 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -123,6 +123,7 @@
         <li><a href="#方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</a></li>
       </ul>
     </li>
+    <li><a href="#总结">总结</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><!-- <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1Sv411M7LP&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
@@ -539,11 +540,15 @@ $$
 <p>取 W 值最小的格点并在此处执行碰撞解算</p>
 </li>
 </ol>
+<h2 id="总结">总结</h2>
+<p>实际上由于不知道物体周围的全部碰撞信息, 碰撞解算并不能避免掉未知的碰撞, 一次碰撞解决后可能引入新的碰撞, 所以基于解算的方法在不知道全局碰撞信息的情况下是不可靠的。</p>
+<p>而基于迭代的解算完全不需要使用解算得到的移动方向, 只需要使用当前所有碰撞法线的求和得到移动方向。</p>
+<p>所以这篇博客实际上<strong>没什么用</strong>, 唯一的作用可能是O(n^2)的解决了一个特定的线性规划问题。 确实没什么用？</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2023-01-16</span>
+                <span>Updated on 2023-01-22</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
