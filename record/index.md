@@ -252,4 +252,58 @@ LGBT+群体的出现并且在美国变成政治正确，可以说是美国自由
 > —— 《风声》
 
 ## 2023.1.30
-无论在什么时代, 共产主义都是人类最美好的理想。
+在这个时代以及上一个时代, 共产主义是人类最美好的理想。
+
+## 2023.2.2
+卓别林的《当我真正开始爱自己》
+《As I Began to Love Myself》
+
+As I began to love myself I found that anguish and emotional suffering are only warning signs that I was living against my own truth. Today, I know, this is AUTHENTICITY.
+
+As I began to love myself I understood how much it can offend somebody as I try to force my desires on this person, even though I knew the time was not right and the person was not ready for it, and even though this person was me. Today I call it RESPECT.
+
+As I began to love myself I stopped craving for a different life, and I could see that everything that surrounded me was inviting me to grow. Today I call it MATURITY.
+
+As I began to love myself I understood that at any circumstance, I am in the right place at the right time, and everything happens at the exactly right moment, so I could be calm. Today I call it SELF-CONFIDENCE.
+
+As I began to love myself I quit stealing my own time, and I stopped designing huge projects for the future. Today, I only do what brings me joy and happiness, things I love to do and that make my heart cheer, and I do them in my own way and in my own rhythm. Today I call it SIMPLICITY.
+
+As I began to love myself I freed myself of anything that is no good for my health – food, people, things, situations, and everything that drew me down and away from myself. At first I called this attitude a healthy egoism. Today I know it is LOVE OF ONESELF.
+
+As I began to love myself I quit trying to always be right, and ever since I was wrong less of the time. Today I discovered that is MODESTY.
+
+As I began to love myself I refused to go on living in the past and worry about the future. Now, I only live for the moment, where EVERYTHING is happening. Today I live each day, day by day, and I call it FULFILLMENT.
+
+As I began to love myself I recognized that my mind can disturb me and it can make me sick. But As I connected it to my heart, my mind became a valuable ally. Today I call this connection WISDOM OF THE HEART.
+
+We no longer need to fear arguments, confrontations or any kind of problems with ourselves or others. Even stars collide, and out of their crashing new worlds are born. Today I know THAT IS LIFE!
+
+## 2023.2.4
+《路人》
+> 西贝不知为何，明明想和你说话。却骗你说，风雨正好，该去写点诗句。
+> 不必嘲讽我，你笑出声来，我也当是天籁。
+> 不必怀有敌意，你所有心计，我都当是你对我的心意。
+> 我的宿命分两段，未遇见你时，和遇见你以后。
+> 你治好我的忧郁，而后赐我悲伤。
+> 忧郁和悲伤之间的片刻欢喜，透支了我生命全部的热情储蓄。
+> 想饮一些酒，让灵魂失重，好被风吹走。
+> 可一想到终将是你的路人，便觉得，沦为整个世界的路人。
+> 风虽大，都绕过我灵魂。
+
+
+## 2023.2.4
+> 目前我们的年轻人大致可分为三类
+
+第一类熟悉历史了解过往，甚至真正读过一些选论，能站在历史的高度以发展的眼光全面的思考问题。他们对犯过的错误和遭受过的挫折有一定认识，深知这一路走来的不容易。因此他们能较为全面的分析当下，既能指出不足，也能看到进步。他们对未来抱有希望，怀揣着使命感，有望成为社会的中坚力量。
+
+第二类对历史有粗略了解，或仅对特定时期有较为深入的研究，知道 选 论 的某些片段，但由于缺乏全面认识，想法往往趋于片面。他们怀念曾经的辉煌，崇拜老一辈，但却忽视了每个时代都有困难要克服，都有问题要解决。他们难以接受现在的不足，看不起取得的进步，经常借古讽今，担心甚至认定路已经走歪，对未来多为悲观态度。
+
+第三类则陷于历史虚无，谜语人，乐子，无情的烂梗机器，搞笑的怪话大王。发生过的事，书本上的话，于他们而言不过是梗罢了。自认为看透了一切，但由于对历史缺乏认识，实质上是极容易被带偏思想的。他们是可悲的，首先战斗力上就不行，除了在网络上抱团发泄情绪外，别无所长。他们看不见努力和进步，把自己埋在阴谋论之中。他们的知识水平也不够，不足以让他们分辨出事物的真假对错。他们更不知道自己的言论在他人看来是多么的不解和迷惑，仿佛魔怔了一般。”
+——《论当代中国青年》
+
+
+## 2023.2.4
+"这里的每一个人都是囚徒。"
+
+我们以为的交流不过是信息的多次单向传递产生了彼此了解的幻觉。实际上我们并不能确定任何一次信息传递是有效的。例如在信息时代的今天，996的今天，我发起一个反996的提议或许会有很多人支持，但是每个支持的人都会思考我反对996要是其他人在偷偷加班怎么办，因此信息的单向传递很难形成共识。这就导致我们难以达成共识去做那些我们都认为对的事情！这是悲哀，也是我们应该有的对**应该**的自觉。
+
