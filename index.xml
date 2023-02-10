@@ -4,9 +4,17 @@
         <link>http://blog.xuaii.cc/</link>
         <description>xuii&#39;s blog wind</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</lastBuildDate>
+            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</lastBuildDate>
             <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
+    <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
+    <pubDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</pubDate>
+    <author>xuaii</author>
+    <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
+    <description><![CDATA[Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo]]></description>
+</item>
+<item>
     <title>[游戏机制] 交换球</title>
     <link>http://blog.xuaii.cc/game-idea-exchange/</link>
     <pubDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</pubDate>
@@ -77,14 +85,6 @@
     <author>xuaii</author>
     <guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</guid>
     <description><![CDATA[在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有]]></description>
-</item>
-<item>
-    <title>[游戏机制] 里世界</title>
-    <link>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie/</link>
-    <pubDate>Tue, 03 Jan 2023 18:37:08 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie/</guid>
-    <description><![CDATA[里世界机制 机制概念简述：存在两个不同的世界，里世界和表世界 他们有大致相同的场景整体形状，不同的场景风格（例如，崭新&lt;-&gt;老旧，清]]></description>
 </item>
 </channel>
 </rss>
