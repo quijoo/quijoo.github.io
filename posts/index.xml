@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | xuii&#39;s blog wind</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Sun, 12 Feb 2023 07:05:34 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[Godot] 多语言脚本交互</title>
+    <link>http://blog.xuaii.cc/godot-script-interact/</link>
+    <pubDate>Sun, 12 Feb 2023 07:05:34 &#43;0800</pubDate>
+    <author>xuaii</author>
+    <guid>http://blog.xuaii.cc/godot-script-interact/</guid>
+    <description><![CDATA[godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。 直接与特定脚本交互 对于那些直接与脚本系统交互]]></description>
+</item>
+<item>
     <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
     <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
     <pubDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>xuaii</author>
     <guid>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</guid>
     <description><![CDATA[参考列表 Python embedding c++多线程调用python yolov7-ncnn Yolo-FastestV2 ncnn教程 ncnn 环境 opencv之Mat格式数据转换成onnxruntime的输入tensor处理]]></description>
-</item>
-<item>
-    <title>[游戏机制] 里世界-优化</title>
-    <link>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</link>
-    <pubDate>Tue, 03 Jan 2023 18:37:43 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</guid>
-    <description><![CDATA[在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有]]></description>
 </item>
 </channel>
 </rss>

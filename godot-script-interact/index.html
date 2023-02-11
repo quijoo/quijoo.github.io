@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[Godot] 多语言脚本交互 - xuii's blog wind</title><meta content="" name="Description"/><meta content="[Godot] 多语言脚本交互" property="og:title"/>
+<meta content="godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。 直接与特定脚本交互 对于那些直接与脚本系统交互" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/godot-script-interact/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-02-12T07:05:34+08:00" property="article:published_time"/>
+<meta content="2023-02-12T07:05:34+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[Godot] 多语言脚本交互" name="twitter:title"/>
+<meta content="godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。 直接与特定脚本交互 对于那些直接与脚本系统交互" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/godot-script-interact/" rel="canonical"/><link href="http://blog.xuaii.cc/godot_dialogue_plugin/" rel="prev"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[Godot] 多语言脚本交互",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/godot-script-interact\/"
+        },"genre": "posts","wordcount":  506 ,
+        "url": "http:\/\/blog.xuaii.cc\/godot-script-interact\/","datePublished": "2023-02-12T07:05:34+08:00","dateModified": "2023-02-12T07:05:34+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
+    </script></head>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
+</header><header class="mobile" id="header-mobile">
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header><div class="search-dropdown desktop">
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot] 多语言脚本交互</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-12">2023-02-12</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 506 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 2 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#直接与特定脚本交互">直接与特定脚本交互</a></li>
+<li><a href="#间接脚本交互">间接脚本交互</a></li>
+</ul>
+</li>
+</ul>
+</nav></div>
+</div><div class="content" id="content"><p>godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。</p>
+<h3 id="直接与特定脚本交互">直接与特定脚本交互</h3>
+<p>对于那些直接与脚本系统交互的gdscript插件，可能需要修改脚本源码才对 c# 生效</p>
+<p>例如：行为树插件，该插件实现了一个行为树的图形编辑界面，可以为 <code>NodeGraph</code> 中的节点绑定状态脚本，并且可以在UI中查看和编辑行为树的 <code>blackboard</code>，或者为行为树添加一些运行时变量。</p>
+<p>这类插件如果一开始只是支持特定语言 (获取属性和方法调用通过 <code>.</code> 获取)，就需要修改插件代码，使用<code>GodotObject.Call \ GodotObject.Set/Get</code> 来调用方法/访问属性</p>
+<h3 id="间接脚本交互">间接脚本交互</h3>
+<p><code>github/godot_dialogue_manager</code> 这样的插件对然是纯 gdscript 实现，但是整个系统仅提供一个名为<code>DialogueManager</code>的单例对象，那访问该对象就很容易了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">DialogueManagerRuntime</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">DialogueManager</span> <span class="p">:</span> <span class="n">Node</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">RefCounted</span><span class="p">&gt;</span> <span class="n">GetNextDialogueLine</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">dialogueManager</span> <span class="p">=</span> <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">dialogueManager</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="s">"_bridge_get_next_dialogue_line"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">dialogueManager</span><span class="p">.</span><span class="n">ToSignal</span><span class="p">(</span><span class="n">dialogueManager</span><span class="p">,</span> <span class="s">"bridge_get_next_dialogue_line_completed"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">(</span><span class="n">RefCounted</span><span class="p">)</span><span class="n">result</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">ShowExampleDialogueBalloon</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">).</span><span class="n">Call</span><span class="p">(</span><span class="s">"show_example_dialogue_balloon"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>无论是 c# 还是 gsdcript 使用 AutoLoad 方式加载的全局单例对象都可以通过 Engine.GetSingleton(“DialogueManager”) 获取。</p>
+<p>但是得到的 Manger 对象是一个  GodotObject 对象，只能通过以下方式访问对象</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Call</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">CallDeferred</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Callv</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="n">Collections</span><span class="p">.</span><span class="n">Array</span> <span class="n">argArray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Get</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">Set</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">,</span> <span class="n">Variant</span> <span class="k">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-02-12</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/godot-script-interact/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[Godot] 多语言脚本交互" data-url="http://blog.xuaii.cc/godot-script-interact/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/godot-script-interact/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[Godot] 多语言脚本交互" data-url="http://blog.xuaii.cc/godot-script-interact/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[Godot] 多语言脚本交互" data-url="http://blog.xuaii.cc/godot-script-interact/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[Godot] 多语言脚本交互" data-url="http://blog.xuaii.cc/godot-script-interact/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/godot_dialogue_plugin/" rel="prev" title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</a></div>
+</div>
+</article></div>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
+</html>
