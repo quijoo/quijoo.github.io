@@ -1,122 +1,120 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>[游戏机制] 窗体互动 - xuii&#39;s blog wind</title><meta name="Description" content=""><meta property="og:title" content="[游戏机制] 窗体互动" />
-<meta property="og:description" content="使用 Godot 对WindowFrame 进行拙劣的模仿，观察视频中的窗体有以下性质： 窗体既是 UI 也是可以与玩家互动的 场景物体 窗口的位置可以由场景物理改变" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:36:24+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="[游戏机制] 窗体互动"/>
-<meta name="twitter:description" content="使用 Godot 对WindowFrame 进行拙劣的模仿，观察视频中的窗体有以下性质： 窗体既是 UI 也是可以与玩家互动的 场景物体 窗口的位置可以由场景物理改变"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" /><link rel="prev" href="http://blog.xuaii.cc/you-xi-dong-hua-zhong-de-huan-dong-han-shu/" /><link rel="next" href="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[游戏机制] 窗体互动",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-chuang-ti-hu-dong\/"
-        },"genre": "posts","wordcount":  2457 ,
-        "url": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-chuang-ti-hu-dong\/","datePublished": "2023-01-03T18:36:24+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "xuaii"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[游戏机制] 窗体互动 - xuii's blog wind</title><meta content="" name="Description"/><meta content="[游戏机制] 窗体互动" property="og:title"/>
+<meta content="使用 Godot 对WindowFrame 进行拙劣的模仿，观察视频中的窗体有以下性质： 窗体既是 UI 也是可以与玩家互动的 场景物体 窗口的位置可以由场景物理改变" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:36:24+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[游戏机制] 窗体互动" name="twitter:title"/>
+<meta content="使用 Godot 对WindowFrame 进行拙劣的模仿，观察视频中的窗体有以下性质： 窗体既是 UI 也是可以与玩家互动的 场景物体 窗口的位置可以由场景物理改变" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" rel="canonical"/><link href="http://blog.xuaii.cc/you-xi-dong-hua-zhong-de-huan-dong-han-shu/" rel="prev"/><link href="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[游戏机制] 窗体互动",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-chuang-ti-hu-dong\/"
+        },"genre": "posts","wordcount":  2457 ,
+        "url": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-chuang-ti-hu-dong\/","datePublished": "2023-01-03T18:36:24+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 窗体互动</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2457 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#方案一">方案一</a></li>
-    <li><a href="#方案二">方案二</a></li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 窗体互动</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 2457 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 5 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#方案一">方案一</a></li>
+<li><a href="#方案二">方案二</a></li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p>使用 Godot 对<a href="https://www.bilibili.com/video/BV1gi4y1D7Vx?spm_id_from=333.337.search-card.all.click" target="_blank" rel="noopener noreffer ">WindowFrame</a> 进行拙劣的模仿，观察视频中的窗体有以下性质：</p>
+</div><div class="content" id="content"><p>使用 Godot 对<a href="https://www.bilibili.com/video/BV1gi4y1D7Vx?spm_id_from=333.337.search-card.all.click" rel="noopener noreffer" target="_blank">WindowFrame</a> 进行拙劣的模仿，观察视频中的窗体有以下性质：</p>
 <ol>
 <li>窗体既是 <em>UI</em> 也是可以与玩家互动的 <em>场景物体</em></li>
 <li>窗口的位置可以由场景物理改变也可以由鼠标控制改变</li>
@@ -125,14 +123,7 @@
 </ol>
 <h2 id="方案一">方案一</h2>
 <p>存在一个窗体对象window和场景对象rect
-<img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1659391754573.png"
-        data-srcset="https://xuaii.github.io/post-images/1659391754573.png, https://xuaii.github.io/post-images/1659391754573.png 1.5x, https://xuaii.github.io/post-images/1659391754573.png 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1659391754573.png"
-        title="https://xuaii.github.io/post-images/1659391754573.png" /></p>
+<img alt="https://xuaii.github.io/post-images/1659391754573.png" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1659391754573.png" data-srcset="https://xuaii.github.io/post-images/1659391754573.png, https://xuaii.github.io/post-images/1659391754573.png 1.5x, https://xuaii.github.io/post-images/1659391754573.png 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1659391754573.png"/></p>
 <ol>
 <li>每一帧将rect大小和位置经过MPV变换后同步到窗口大小</li>
 <li>每一个rect 对象有一个默认的初始大小</li>
@@ -146,7 +137,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+<pre class="chroma" tabindex="0"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -437,7 +428,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span><span class="lnt">289
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">InteractiveAnchor</span> <span class="p">:</span> <span class="n">RigidBody2D</span>
@@ -455,7 +446,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">_velocity</span><span class="p">,</span> <span class="n">InteractiveAnchorCallBack</span> <span class="n">_callback</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_ExitTree</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">//  // Called every frame. &#39;delta&#39; is the elapsed time since the previous frame.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//  // Called every frame. 'delta' is the elapsed time since the previous frame.</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_PhysicsProcess</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// 添加抖动将要删除时 </span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">_on_DeleteEffect_timeout</span><span class="p">();</span>
@@ -499,7 +490,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">InteractiveLine</span> <span class="p">:</span> <span class="n">KinematicBody2D</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsLocked</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">public</span> <span class="kt">string</span> <span class="n">IsSlideName</span> <span class="p">=</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="k">public</span> <span class="kt">string</span> <span class="n">IsSlideName</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SegmentShape2D</span> <span class="n">shape</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">InteractiveWindow</span> <span class="n">window</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">velocity</span> <span class="p">=</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">Zero</span><span class="p">;</span>
@@ -572,7 +563,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">            <span class="n">_machine</span><span class="p">.</span><span class="n">Transition</span><span class="p">&lt;</span><span class="n">InteractiveLineFollow</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionJustPressed</span><span class="p">(</span><span class="s">&#34;mouse_right&#34;</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">target</span><span class="p">.</span><span class="n">NormalToLine</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">GetGlobalMousePosition</span><span class="p">(),</span> <span class="n">target</span><span class="p">.</span><span class="n">GlobalPosition</span> <span class="p">+</span> <span class="n">target</span><span class="p">.</span><span class="n">shape</span><span class="p">.</span><span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">.</span><span class="n">GlobalPosition</span> <span class="p">+</span> <span class="n">target</span><span class="p">.</span><span class="n">shape</span><span class="p">.</span><span class="n">B</span><span class="p">).</span><span class="n">Length</span><span class="p">()</span> <span class="p">&lt;</span> <span class="m">14f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionJustPressed</span><span class="p">(</span><span class="s">"mouse_right"</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">target</span><span class="p">.</span><span class="n">NormalToLine</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">GetGlobalMousePosition</span><span class="p">(),</span> <span class="n">target</span><span class="p">.</span><span class="n">GlobalPosition</span> <span class="p">+</span> <span class="n">target</span><span class="p">.</span><span class="n">shape</span><span class="p">.</span><span class="n">A</span><span class="p">,</span> <span class="n">target</span><span class="p">.</span><span class="n">GlobalPosition</span> <span class="p">+</span> <span class="n">target</span><span class="p">.</span><span class="n">shape</span><span class="p">.</span><span class="n">B</span><span class="p">).</span><span class="n">Length</span><span class="p">()</span> <span class="p">&lt;</span> <span class="m">14f</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="c1">// 进入拖动状态</span>
 </span></span><span class="line"><span class="cl">            <span class="n">_machine</span><span class="p">.</span><span class="n">Transition</span><span class="p">&lt;</span><span class="n">InteractiveLineMove</span><span class="p">&gt;();</span>
@@ -614,7 +605,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionJustReleased</span><span class="p">(</span><span class="s">&#34;mouse_right&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionJustReleased</span><span class="p">(</span><span class="s">"mouse_right"</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">        <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">_machine</span><span class="p">.</span><span class="n">Transition</span><span class="p">&lt;</span><span class="n">InteractiveLineLock</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
@@ -644,7 +635,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">    <span class="n">RandomNumberGenerator</span> <span class="n">_random</span> <span class="p">=</span> <span class="k">new</span> <span class="n">RandomNumberGenerator</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Queue</span><span class="p">&lt;</span><span class="n">InteractiveAnchor</span><span class="p">&gt;</span> <span class="n">queue</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="n">InteractiveAnchor</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// mouse related</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// physics&#39;s disabled area</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// physics's disabled area</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Area2D</span> <span class="n">area</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">RectangleShape2D</span> <span class="n">shape</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="na">    [Export]</span> <span class="n">Vector2</span> <span class="n">SoftMargin</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
@@ -687,8 +678,8 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">                    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">InteractiveAnchor</span> <span class="n">anchor</span> <span class="p">=</span> <span class="n">bullet</span><span class="p">.</span><span class="n">Instance</span><span class="p">&lt;</span><span class="n">InteractiveAnchor</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">anchor</span><span class="p">.</span><span class="n">GlobalPosition</span> <span class="p">=</span> <span class="n">GetGlobalTransform</span><span class="p">().</span><span class="n">AffineInverse</span><span class="p">()</span> <span class="p">*</span> <span class="n">GetViewportTransform</span><span class="p">().</span><span class="n">AffineInverse</span><span class="p">()</span> <span class="p">*</span> <span class="p">(</span><span class="n">border</span><span class="p">.</span><span class="n">Start</span> <span class="p">+</span> <span class="n">mouseEvent</span><span class="p">.</span><span class="n">Position</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                        <span class="k">this</span><span class="p">.</span><span class="n">CallDeferred</span><span class="p">(</span><span class="s">&#34;add_child&#34;</span><span class="p">,</span> <span class="n">anchor</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                        <span class="c1">// anchor.CallDeferred(&#34;Init&#34;, border.Start + mouseEvent.Position - BasicFollowCamera.Target.ScreenPosition, (object)EffectCallback);</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">this</span><span class="p">.</span><span class="n">CallDeferred</span><span class="p">(</span><span class="s">"add_child"</span><span class="p">,</span> <span class="n">anchor</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// anchor.CallDeferred("Init", border.Start + mouseEvent.Position - BasicFollowCamera.Target.ScreenPosition, (object)EffectCallback);</span>
 </span></span><span class="line"><span class="cl">                        <span class="n">anchor</span><span class="p">.</span><span class="n">Init</span><span class="p">((</span><span class="n">border</span><span class="p">.</span><span class="n">Start</span> <span class="p">+</span> <span class="n">mouseEvent</span><span class="p">.</span><span class="n">Position</span> <span class="p">-</span> <span class="n">BasicFollowCamera</span><span class="p">.</span><span class="n">Target</span><span class="p">.</span><span class="n">ScreenPosition</span><span class="p">),</span> <span class="n">EffectCallback</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">                    <span class="p">}</span>		
 </span></span><span class="line"><span class="cl">					<span class="k">break</span><span class="p">;</span>
@@ -714,7 +705,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">disturb_offset</span><span class="p">(</span><span class="kt">float</span> <span class="n">_strength</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">dialog</span><span class="p">.</span><span class="n">RectPosition</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">),</span> <span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">        <span class="n">screen</span><span class="p">.</span><span class="n">GetNode</span><span class="p">&lt;</span><span class="n">TextureRect</span><span class="p">&gt;(</span><span class="s">&#34;CanvasLayer/_ScreenTexture&#34;</span><span class="p">).</span><span class="n">RectPosition</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">),</span> <span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">screen</span><span class="p">.</span><span class="n">GetNode</span><span class="p">&lt;</span><span class="n">TextureRect</span><span class="p">&gt;(</span><span class="s">"CanvasLayer/_ScreenTexture"</span><span class="p">).</span><span class="n">RectPosition</span> <span class="p">+=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">),</span> <span class="n">_random</span><span class="p">.</span><span class="n">RandfRange</span><span class="p">(-</span><span class="n">_strength</span><span class="p">,</span> <span class="n">_strength</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">LockTarget</span><span class="p">(</span><span class="n">KinematicBody2D</span> <span class="n">target</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">UnlockTarget</span><span class="p">();</span>
@@ -736,14 +727,7 @@ Idle 状态，是场景中没有 target 时的状态</li>
 </ol>
 <h2 id="方案二">方案二</h2>
 <p>不使用 UI 对象，将交互和物理全部集中到一个 Rect 对象中。
-<img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1659395615675.png"
-        data-srcset="https://xuaii.github.io/post-images/1659395615675.png, https://xuaii.github.io/post-images/1659395615675.png 1.5x, https://xuaii.github.io/post-images/1659395615675.png 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1659395615675.png"
-        title="https://xuaii.github.io/post-images/1659395615675.png" /></p>
+<img alt="https://xuaii.github.io/post-images/1659395615675.png" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1659395615675.png" data-srcset="https://xuaii.github.io/post-images/1659395615675.png, https://xuaii.github.io/post-images/1659395615675.png 1.5x, https://xuaii.github.io/post-images/1659395615675.png 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1659395615675.png"/></p>
 <ol>
 <li>交互窗体包含四条边，每条边包含碰撞设置和鼠标靠近检查（锁定状态）</li>
 <li>每条边拥有相似的几种状态，特别的在拖动时，依然使用velocity来移动每条边
@@ -767,42 +751,39 @@ a. 所有进入窗体的对象将恢复更新，退出窗体的对象停止更�
 b. 场景对象持有所有场景物体的引用，所以当玩家进入窗口时可以直接调用场景节点的Stop方法，这将停止所有除（player，window，obj_in_window）的对象。</li>
 </ol>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/you-xi-ji-zhi-chuang-ti-hu-dong/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" data-title="[游戏机制] 窗体互动"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" data-title="[游戏机制] 窗体互动"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" data-title="[游戏机制] 窗体互动"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" data-title="[游戏机制] 窗体互动" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/you-xi-dong-hua-zhong-de-huan-dong-han-shu/" class="prev" rel="prev" title="游戏动画中的缓动函数"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>游戏动画中的缓动函数</a>
-            <a href="/you-xi-ji-zhi-li-shi-jie/" class="next" rel="next" title="[游戏机制] 里世界">[游戏机制] 里世界<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/you-xi-ji-zhi-chuang-ti-hu-dong/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[游戏机制] 窗体互动" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[游戏机制] 窗体互动" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[游戏机制] 窗体互动" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[游戏机制] 窗体互动" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/you-xi-dong-hua-zhong-de-huan-dong-han-shu/" rel="prev" title="游戏动画中的缓动函数"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>游戏动画中的缓动函数</a>
+<a class="next" href="/you-xi-ji-zhi-li-shi-jie/" rel="next" title="[游戏机制] 里世界">[游戏机制] 里世界<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">xuaii</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

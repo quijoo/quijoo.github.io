@@ -1,135 +1,133 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>[游戏机制] 交换球 - xuii&#39;s blog wind</title><meta name="Description" content=""><meta property="og:title" content="[游戏机制] 交换球" />
-<meta property="og:description" content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/game-idea-exchange/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-16T06:58:23+08:00" />
-<meta property="article:modified_time" content="2023-01-22T11:46:19+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="[游戏机制] 交换球"/>
-<meta name="twitter:description" content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/game-idea-exchange/" /><link rel="prev" href="http://blog.xuaii.cc/game-idea-mmoplat/" /><link rel="next" href="http://blog.xuaii.cc/godot_dialogue_plugin/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[游戏机制] 交换球",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/"
-        },"genre": "posts","wordcount":  3021 ,
-        "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-22T11:46:19+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "xuaii"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[游戏机制] 交换球 - xuii's blog wind</title><meta content="" name="Description"/><meta content="[游戏机制] 交换球" property="og:title"/>
+<meta content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/game-idea-exchange/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-16T06:58:23+08:00" property="article:published_time"/>
+<meta content="2023-01-22T11:46:19+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[游戏机制] 交换球" name="twitter:title"/>
+<meta content="灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/game-idea-exchange/" rel="canonical"/><link href="http://blog.xuaii.cc/game-idea-mmoplat/" rel="prev"/><link href="http://blog.xuaii.cc/godot_dialogue_plugin/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[游戏机制] 交换球",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/"
+        },"genre": "posts","wordcount":  3021 ,
+        "url": "http:\/\/blog.xuaii.cc\/game-idea-exchange\/","datePublished": "2023-01-16T06:58:23+08:00","dateModified": "2023-01-22T11:46:19+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 交换球</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-16">2023-01-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3021 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#灵感来源">灵感来源</a></li>
-    <li><a href="#需要解决的问题">需要解决的问题？</a></li>
-    <li><a href="#如何进行有效的冲突测试">如何进行有效的冲突测试？</a></li>
-    <li><a href="#解决碰撞冲突网格搜索">解决碰撞冲突(网格搜索)</a>
-      <ul>
-        <li><a href="#方法一网格枚举">方法一(网格枚举)</a></li>
-        <li><a href="#方法二碰撞解算">方法二(碰撞解算)</a></li>
-        <li><a href="#线性约束的非线性规划问题">线性约束的非线性规划问题</a></li>
-        <li><a href="#方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 交换球</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-16">2023-01-16</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 3021 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 7 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#灵感来源">灵感来源</a></li>
+<li><a href="#需要解决的问题">需要解决的问题？</a></li>
+<li><a href="#如何进行有效的冲突测试">如何进行有效的冲突测试？</a></li>
+<li><a href="#解决碰撞冲突网格搜索">解决碰撞冲突(网格搜索)</a>
+<ul>
+<li><a href="#方法一网格枚举">方法一(网格枚举)</a></li>
+<li><a href="#方法二碰撞解算">方法二(碰撞解算)</a></li>
+<li><a href="#线性约束的非线性规划问题">线性约束的非线性规划问题</a></li>
+<li><a href="#方法三网格划分--碰撞解算">方法三(网格划分 + 碰撞解算)</a></li>
+</ul>
+</li>
+<li><a href="#总结">总结</a></li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><!-- <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1Sv411M7LP&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+</div><div class="content" id="content"><!-- <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1Sv411M7LP&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
  -->
 <h2 id="灵感来源">灵感来源</h2>
-<p>前段时间玩了 <a href="https://wiki.teamfortress.com/wiki/Portal_2/zh-hans" target="_blank" rel="noopener noreffer ">传送门2</a>, 想到一个新的游戏机制</p>
+<p>前段时间玩了 <a href="https://wiki.teamfortress.com/wiki/Portal_2/zh-hans" rel="noopener noreffer" target="_blank">传送门2</a>, 想到一个新的游戏机制</p>
 <blockquote>
 <p>玩家A可以发射一个<strong>交换球</strong>，交换球碰撞到特定的<strong>可交换物体</strong> B后交换 A 和 B 的位置</p>
 </blockquote>
@@ -154,7 +152,7 @@ QP, QP 则是<strong>恢复偏移向量</strong></p>
 <p><strong>几何交点</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -181,7 +179,7 @@ QP, QP 则是<strong>恢复偏移向量</strong></p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">GeometryIntersection</span><span class="p">(</span><span class="n">Polygon</span> <span class="n">polygon</span><span class="p">,</span> <span class="n">Ray</span> <span class="n">ray</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">GeometryIntersection</span><span class="p">(</span><span class="n">Polygon</span> <span class="n">polygon</span><span class="p">,</span> <span class="n">Ray</span> <span class="n">ray</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;</span> <span class="n">res</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Vector2</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">    <span class="k">foreach</span><span class="p">(</span><span class="n">Segment</span> <span class="n">segment</span> <span class="k">in</span> <span class="n">polygon</span><span class="p">.</span><span class="n">GetSegments</span><span class="p">())</span>
@@ -212,13 +210,13 @@ QP, QP 则是<strong>恢复偏移向量</strong></p>
 <p>目前已知物体 A / B, 要交换它们的位置，当某个物体改变位置后如果发生碰撞，我们可以<strong>微调</strong>目标位置，使其以最小的偏移实现 <strong>无碰撞交换</strong></p>
 <p>但是微调是一个很暧昧的概念，什么叫微调，移动多远的距离算微调，如果对微调距离不加限制，那么 A/B 呆在原地也恰好不发生碰撞，所以限制微调距离是必要的</p>
 <div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Tip<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">交换指 <em>位置互换</em>，微调指在一定的 <em>容忍范围</em> 内移动目标位置</div>
-        </div>
-    </div>
+<div class="details-summary admonition-title">
+<i aria-hidden="true" class="icon fas fa-info-circle fa-fw"></i>Tip<i aria-hidden="true" class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class="details-content">
+<div class="admonition-content">交换指 <em>位置互换</em>，微调指在一定的 <em>容忍范围</em> 内移动目标位置</div>
+</div>
+</div>
 <p>所以我们可以得到一个朴素的假算法</p>
 <blockquote>
 <p>假定有目标位置 $P(x_0, y_0)$, 容忍距离 $d$, 有点集:
@@ -251,7 +249,7 @@ $$</p>
 所以对于所有的碰撞点:</p>
 <p>$$
 \begin{cases}
-\vec{M} \cdot \vec{QP_i} \ge |\vec{QP_i}|^2,\quad i = 1,2,3,&hellip;\\
+\vec{M} \cdot \vec{QP_i} \ge |\vec{QP_i}|^2,\quad i = 1,2,3,…\\
 \\
 \arg \mathop{\min}\limits_{M} |\vec{QP_i}|
 \end{cases}
@@ -259,13 +257,13 @@ $$</p>
 <p>我们观察上式, 所有的 $QP$ 是已知的, 每一个不等式约束都是一个线性约束设  $M(x, y)$, 每一个约束都是一个关于 $x, y$ 的不等式
 所以该问题就转化为了熟悉的不等式约束的优化问题, 优化目标是 $M$ 位移的距离</p>
 <div class="details admonition info open">
-        <div class="details-summary admonition-title">
-            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>Tip<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
-        </div>
-        <div class="details-content">
-            <div class="admonition-content">可以使用<a href="https://blog.csdn.net/qq_41133375/article/details/105642352" target="_blank" rel="noopener noreffer ">带 KKT 条件的拉格朗日乘数法</a>来解 M</div>
-        </div>
-    </div>
+<div class="details-summary admonition-title">
+<i aria-hidden="true" class="icon fas fa-info-circle fa-fw"></i>Tip<i aria-hidden="true" class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class="details-content">
+<div class="admonition-content">可以使用<a href="https://blog.csdn.net/qq_41133375/article/details/105642352" rel="noopener noreffer" target="_blank">带 KKT 条件的拉格朗日乘数法</a>来解 M</div>
+</div>
+</div>
 <h3 id="线性约束的非线性规划问题">线性约束的非线性规划问题</h3>
 <p>但是优化问题相关的第三方库都是使用迭代的数值优化方法来计算解, 这会导致算法复杂度可能无法预估。
 所以这里我们用一个朴素的算法来解决线性约束的非线性规划问题, 算法分成两步:</p>
@@ -279,17 +277,17 @@ $$</p>
 <li>Tips1: 存在线段和射线约束, 需要检查交点是否在线段或者射线上</li>
 <li>Tips2：直线的法线代表可行域区域, 可以通过两条直线的<strong>方向</strong> 和 <strong>法线方向</strong>判断两线相交分割出的四条射线哪两段是有效的 (见 <code>Intercepted</code> 中判断 <code>Direction</code> 和 <code>Normal</code> 夹角 &lt;= 90&gt;)
 <figure><img src="/images/line_cast.jpg"/><figcaption>
-                    <h4>线段剪切</h4>
-                </figcaption>
-        </figure>
+<h4>线段剪切</h4>
+</figcaption>
+</figure>
 </li>
 <li>Tips3: 线的相交只会缩短端点, 所以需要进行 Max/Min 判断(见 Intercepted)</li>
 <li>Tips4: 那些 左端点 &gt;= 右端点 的边界视为无效边界( 见<code>SolveCollition</code> 和 <code>Line.IsValid()</code>)
 更深层的意思是, 出现无效边时, 可能有以下几种情况(但是只要去除所有无效边即可获得正确的可行域)
 <figure><img src="/images/enum_line_cast.png"/><figcaption>
-                    <h4>线段剪切枚举</h4>
-                </figcaption>
-        </figure>
+<h4>线段剪切枚举</h4>
+</figcaption>
+</figure>
 </li>
 </ul>
 </li>
@@ -309,7 +307,7 @@ $$</p>
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+<pre class="chroma" tabindex="0"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -412,7 +410,7 @@ $$</p>
 </span><span class="lnt">101
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Line</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Line</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">Point</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2</span> <span class="n">Normal</span><span class="p">;</span>
@@ -545,42 +543,39 @@ $$
 <p>而基于迭代的解算完全不需要使用解算得到的移动方向, 只需要使用当前所有碰撞法线的求和得到移动方向。</p>
 <p>所以这篇博客实际上<strong>没什么用</strong>, 唯一的作用可能是O(n^2)的解决了一个特定的线性规划问题。 确实没什么用？</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-22</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/game-idea-exchange/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/game-idea-exchange/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/game-idea-exchange/" data-title="[游戏机制] 交换球" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/game-idea-mmoplat/" class="prev" rel="prev" title="[游戏IDEA] 开源 2D多人在线平台跳跃游戏"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</a>
-            <a href="/godot_dialogue_plugin/" class="next" rel="next" title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic">[Godot-Plugin] Dialogue Manager && Dialogic<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-22</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/game-idea-exchange/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[游戏机制] 交换球" data-url="http://blog.xuaii.cc/game-idea-exchange/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/game-idea-exchange/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[游戏机制] 交换球" data-url="http://blog.xuaii.cc/game-idea-exchange/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[游戏机制] 交换球" data-url="http://blog.xuaii.cc/game-idea-exchange/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[游戏机制] 交换球" data-url="http://blog.xuaii.cc/game-idea-exchange/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/game-idea-mmoplat/" rel="prev" title="[游戏IDEA] 开源 2D多人在线平台跳跃游戏"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</a>
+<a class="next" href="/godot_dialogue_plugin/" rel="next" title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic">[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">xuaii</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

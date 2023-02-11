@@ -1,168 +1,166 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>计算机组成原理 中央处理器 - xuii&#39;s blog wind</title><meta name="Description" content=""><meta property="og:title" content="计算机组成原理 中央处理器" />
-<meta property="og:description" content="中央处理器(Central Processing Unit，简称CPU) CPU 功能和基本结构 CPU 功能 指令控制（取指，分析，执行） 操作控制一条指令执行，需要控制的各个门电" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:27:39+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="计算机组成原理 中央处理器"/>
-<meta name="twitter:description" content="中央处理器(Central Processing Unit，简称CPU) CPU 功能和基本结构 CPU 功能 指令控制（取指，分析，执行） 操作控制一条指令执行，需要控制的各个门电"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" /><link rel="prev" href="http://blog.xuaii.cc/ji-suan-ji-zhi-ling-xi-tong/" /><link rel="next" href="http://blog.xuaii.cc/neural-network/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "计算机组成原理 中央处理器",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi\/"
-        },"genre": "posts","wordcount":  7669 ,
-        "url": "http:\/\/blog.xuaii.cc\/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi\/","datePublished": "2023-01-03T18:27:39+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "xuaii"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>计算机组成原理 中央处理器 - xuii's blog wind</title><meta content="" name="Description"/><meta content="计算机组成原理 中央处理器" property="og:title"/>
+<meta content="中央处理器(Central Processing Unit，简称CPU) CPU 功能和基本结构 CPU 功能 指令控制（取指，分析，执行） 操作控制一条指令执行，需要控制的各个门电" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:27:39+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="计算机组成原理 中央处理器" name="twitter:title"/>
+<meta content="中央处理器(Central Processing Unit，简称CPU) CPU 功能和基本结构 CPU 功能 指令控制（取指，分析，执行） 操作控制一条指令执行，需要控制的各个门电" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" rel="canonical"/><link href="http://blog.xuaii.cc/ji-suan-ji-zhi-ling-xi-tong/" rel="prev"/><link href="http://blog.xuaii.cc/neural-network/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "计算机组成原理 中央处理器",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi\/"
+        },"genre": "posts","wordcount":  7669 ,
+        "url": "http:\/\/blog.xuaii.cc\/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi\/","datePublished": "2023-01-03T18:27:39+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">计算机组成原理 中央处理器</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;7669 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;16 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#cpu-功能和基本结构">CPU 功能和基本结构</a>
-      <ul>
-        <li><a href="#cpu-功能">CPU 功能</a></li>
-        <li><a href="#结构">结构</a></li>
-      </ul>
-    </li>
-    <li><a href="#指令执行过程">指令执行过程</a>
-      <ul>
-        <li><a href="#1-指令周期">1. 指令周期</a></li>
-        <li><a href="#2-指令周期的数据流">2. 指令周期的数据流</a></li>
-        <li><a href="#3-指令执行方案">3. 指令执行方案</a></li>
-      </ul>
-    </li>
-    <li><a href="#数据通路的功能和基本结构">数据通路的功能和基本结构</a>
-      <ul>
-        <li><a href="#1-数据通路功能">1. 数据通路功能</a></li>
-        <li><a href="#2-数据通路结构">2. 数据通路结构</a></li>
-      </ul>
-    </li>
-    <li><a href="#控制器">控制器</a>
-      <ul>
-        <li><a href="#硬布线控制器">硬布线控制器</a></li>
-        <li><a href="#微程序控制器">微程序控制器</a></li>
-      </ul>
-    </li>
-    <li><a href="#异常和中断机制">异常和中断机制</a>
-      <ul>
-        <li><a href="#概念">概念</a></li>
-        <li><a href="#分类">分类</a></li>
-        <li><a href="#响应">响应</a></li>
-      </ul>
-    </li>
-    <li><a href="#指令流水线">*指令流水线</a>
-      <ul>
-        <li><a href="#1-基本概念">1. 基本概念</a></li>
-        <li><a href="#2-流水线冒险">2. 流水线冒险</a></li>
-        <li><a href="#3-性能指标">3. 性能指标</a></li>
-        <li><a href="#4-高级流水线技术">4. 高级流水线技术</a></li>
-      </ul>
-    </li>
-    <li><a href="#多处理器基本概念">多处理器基本概念</a>
-      <ul>
-        <li><a href="#sisdsimdmimd">SISD、SIMD、MIMD</a></li>
-        <li><a href="#硬件多线程">硬件多线程</a></li>
-        <li><a href="#多核处理器">多核处理器</a></li>
-        <li><a href="#共享内存多处理器">共享内存多处理器</a></li>
-      </ul>
-    </li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">计算机组成原理 中央处理器</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 7669 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 16 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#cpu-功能和基本结构">CPU 功能和基本结构</a>
+<ul>
+<li><a href="#cpu-功能">CPU 功能</a></li>
+<li><a href="#结构">结构</a></li>
+</ul>
+</li>
+<li><a href="#指令执行过程">指令执行过程</a>
+<ul>
+<li><a href="#1-指令周期">1. 指令周期</a></li>
+<li><a href="#2-指令周期的数据流">2. 指令周期的数据流</a></li>
+<li><a href="#3-指令执行方案">3. 指令执行方案</a></li>
+</ul>
+</li>
+<li><a href="#数据通路的功能和基本结构">数据通路的功能和基本结构</a>
+<ul>
+<li><a href="#1-数据通路功能">1. 数据通路功能</a></li>
+<li><a href="#2-数据通路结构">2. 数据通路结构</a></li>
+</ul>
+</li>
+<li><a href="#控制器">控制器</a>
+<ul>
+<li><a href="#硬布线控制器">硬布线控制器</a></li>
+<li><a href="#微程序控制器">微程序控制器</a></li>
+</ul>
+</li>
+<li><a href="#异常和中断机制">异常和中断机制</a>
+<ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#分类">分类</a></li>
+<li><a href="#响应">响应</a></li>
+</ul>
+</li>
+<li><a href="#指令流水线">*指令流水线</a>
+<ul>
+<li><a href="#1-基本概念">1. 基本概念</a></li>
+<li><a href="#2-流水线冒险">2. 流水线冒险</a></li>
+<li><a href="#3-性能指标">3. 性能指标</a></li>
+<li><a href="#4-高级流水线技术">4. 高级流水线技术</a></li>
+</ul>
+</li>
+<li><a href="#多处理器基本概念">多处理器基本概念</a>
+<ul>
+<li><a href="#sisdsimdmimd">SISD、SIMD、MIMD</a></li>
+<li><a href="#硬件多线程">硬件多线程</a></li>
+<li><a href="#多核处理器">多核处理器</a></li>
+<li><a href="#共享内存多处理器">共享内存多处理器</a></li>
+</ul>
+</li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p>中央处理器(Central Processing Unit，简称CPU)</p>
+</div><div class="content" id="content"><p>中央处理器(Central Processing Unit，简称CPU)</p>
 <h2 id="cpu-功能和基本结构">CPU 功能和基本结构</h2>
 <h3 id="cpu-功能">CPU 功能</h3>
 <p><strong>指令控制</strong>（取指，分析，执行）</p>
@@ -186,13 +184,13 @@
 <p>取指周期</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">MAR</span> <span class="p">-&gt;</span> <span class="err">地址总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">MAR</span> <span class="p">-&gt;</span> <span class="err">地址总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="n">CU</span><span class="err">读命令</span> <span class="p">-&gt;</span> <span class="err">控制总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="err">主存</span> <span class="p">-&gt;</span> <span class="err">数据总线</span> <span class="p">-&gt;</span> <span class="n">MDR</span> <span class="p">-&gt;</span> <span class="n">IR</span>
 </span></span><span class="line"><span class="cl"><span class="n">CU</span><span class="err">控制信号</span> <span class="p">-&gt;</span> <span class="n">PC</span><span class="p">+</span><span class="m">1</span>
@@ -201,12 +199,12 @@
 </div><p>间地周期</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">MAR</span> <span class="p">-&gt;</span> <span class="err">地址总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">MAR</span> <span class="p">-&gt;</span> <span class="err">地址总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="n">CU</span> <span class="err">读命令</span> <span class="p">-&gt;</span> <span class="err">控制总线</span> <span class="p">-&gt;</span> <span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="err">主存</span> <span class="p">-&gt;</span> <span class="err">数据总线</span> <span class="p">-&gt;</span><span class="n">MDR</span>
 </span></span></code></pre></td></tr></table>
@@ -214,13 +212,13 @@
 </div><p>中断周期</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">CU</span><span class="err">控制</span><span class="n">SP</span><span class="p">-</span><span class="m">1</span><span class="err">，</span> <span class="n">SP</span><span class="p">-&gt;</span><span class="n">MAR</span><span class="p">-&gt;</span><span class="err">地址总线</span><span class="p">-&gt;</span><span class="err">主存</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">CU</span><span class="err">控制</span><span class="n">SP</span><span class="p">-</span><span class="m">1</span><span class="err">，</span> <span class="n">SP</span><span class="p">-&gt;</span><span class="n">MAR</span><span class="p">-&gt;</span><span class="err">地址总线</span><span class="p">-&gt;</span><span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="n">CU</span><span class="err">写命令</span><span class="p">-&gt;</span><span class="err">控制总线</span><span class="p">-&gt;</span><span class="err">主存</span>
 </span></span><span class="line"><span class="cl"><span class="n">PC</span><span class="p">-&gt;</span><span class="n">MDR</span><span class="p">-&gt;</span><span class="err">数据总线</span><span class="p">-&gt;</span><span class="err">主存（存入断点）</span>
 </span></span><span class="line"><span class="cl"><span class="n">CU</span><span class="err">（中断服务程序入口）</span> <span class="p">-&gt;</span> <span class="n">PC</span>
@@ -248,24 +246,24 @@
 <p><strong>寄存器间数据传送</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">Bus</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">Bus</span>
 </span></span><span class="line"><span class="cl"><span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">MAR</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>主存 &amp; CPU 信息传送</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">MAR</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">PC</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">MAR</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="p">-&gt;</span> <span class="n">R</span>
 </span></span><span class="line"><span class="cl"><span class="n">MEM</span><span class="p">(</span><span class="n">MAR</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">MDR</span>
 </span></span><span class="line"><span class="cl"><span class="n">MDR</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">IR</span>
@@ -274,7 +272,7 @@
 </div><p><strong>执行算术逻辑运算</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -282,7 +280,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">MAR</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span> <span class="n">MAR</span>
 </span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="p">-&gt;</span> <span class="n">R</span>
 </span></span><span class="line"><span class="cl"><span class="n">MEM</span><span class="p">-&gt;</span><span class="err">数据线</span><span class="p">-&gt;</span><span class="n">MDR</span>
 </span></span><span class="line"><span class="cl"><span class="n">MDR</span> <span class="p">-&gt;</span> <span class="n">Bus</span> <span class="p">-&gt;</span><span class="n">Y</span>
@@ -321,7 +319,7 @@
 <p>向系统中的部件提供运行所需的<strong>控制信号</strong></p>
 </li>
 </ol>
-<hr>
+<hr/>
 <p><strong>控制器的主要功能：</strong></p>
 <ul>
 <li>
@@ -342,16 +340,16 @@
 <li>
 <p>硬布线控制单元图</p>
 <p>硬布线控制单元，从 CU 中分离出 <strong>操作码译码器</strong>， <strong>节拍发生器</strong>，其中操作译码器将 N 位操作码翻译为 $2^N$ 位， 再输入 CU。</p>
-<p><strong>节拍发生器</strong> 产生的节拍(T1, T2, T3, &hellip;) 由 <strong>机器主频</strong>(CLK) 分频得到，CU 使用 <strong>操作码</strong>， <strong>节拍信号</strong>， <strong>状态标志</strong> 在不同的节拍输出不同的控制信号（微操作命令 $C_i$）</p>
+<p><strong>节拍发生器</strong> 产生的节拍(T1, T2, T3, …) 由 <strong>机器主频</strong>(CLK) 分频得到，CU 使用 <strong>操作码</strong>， <strong>节拍信号</strong>， <strong>状态标志</strong> 在不同的节拍输出不同的控制信号（微操作命令 $C_i$）</p>
 <p><strong>使用节拍的原因</strong> 首先信号发出到稳定需要一个极短的时间间隔，所以 CPU 需要有一个最短时间（类似于我们的普朗克时间），其次，一个 <strong>机器指令</strong>，需要由多个微操作来完成，微操作按照<strong>一定的顺序</strong>生效，所以需要<strong>节拍</strong> 来区分微操作顺序 例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">操作A -&gt; 操作B -&gt; 操作C
+<pre class="chroma" tabindex="0"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">操作A -&gt; 操作B -&gt; 操作C
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">out = T1 <span class="ge">* A + T2 *</span> B + T3 * C
 </span></span></code></pre></td></tr></table>
@@ -376,7 +374,7 @@
 <p><strong>取址</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -384,7 +382,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">PC</span>       <span class="o">-&gt;</span>     <span class="n">MAR</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">PC</span>       <span class="o">-&gt;</span>     <span class="n">MAR</span>
 </span></span><span class="line"><span class="cl"><span class="mi">1</span>        <span class="o">-&gt;</span>     <span class="n">R</span>
 </span></span><span class="line"><span class="cl"><span class="n">M</span><span class="p">(</span><span class="n">MAR</span><span class="p">)</span>   <span class="o">-&gt;</span>     <span class="n">MDR</span>
 </span></span><span class="line"><span class="cl"><span class="n">MDR</span>      <span class="o">-&gt;</span>     <span class="n">IR</span>
@@ -395,12 +393,12 @@
 </div><p><strong>间址周期</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span>   <span class="o">-&gt;</span>    <span class="n">MAR</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">Ad</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span>   <span class="o">-&gt;</span>    <span class="n">MAR</span>
 </span></span><span class="line"><span class="cl"><span class="mi">1</span>        <span class="o">-&gt;</span>    <span class="n">R</span>
 </span></span><span class="line"><span class="cl"><span class="n">M</span><span class="p">(</span><span class="n">MAR</span><span class="p">)</span>   <span class="o">-&gt;</span>    <span class="n">MDR</span>
 </span></span></code></pre></td></tr></table>
@@ -408,7 +406,7 @@
 </div><p><strong>执行周期</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -433,7 +431,7 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">a</span><span class="p">.</span> <span class="err">非访存指令</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">a</span><span class="p">.</span> <span class="err">非访存指令</span>
 </span></span><span class="line"><span class="cl"><span class="n">CLA</span>    <span class="c1">// 清ACC</span>
 </span></span><span class="line"><span class="cl"><span class="n">COM</span>    <span class="c1">// 取反</span>
 </span></span><span class="line"><span class="cl"><span class="n">SHR</span>    <span class="c1">// 算术右移</span>
@@ -477,44 +475,16 @@
 <p>硬布线控制单元设计步骤</p>
 <p><strong>步骤一:</strong>  列出微操作命令时间表</p>
 <p>以下是 CLR， COM， SHR 等10条机器指令微操作命令的时间表，观察表结构，共有<strong>工作周期标记</strong>、<strong>节拍</strong>、<strong>状态条件</strong>、<strong>微操作命令信号</strong>、<strong>微操作命令</strong>表项，其中一个工作周期可能包含多个节拍， 其中一个节拍内可以完成多个<strong>独立的微操作命令（不独立的命令会造成冲突）</strong></p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662435646503.JPG"
-        data-srcset="https://xuaii.github.io/post-images/1662435646503.JPG, https://xuaii.github.io/post-images/1662435646503.JPG 1.5x, https://xuaii.github.io/post-images/1662435646503.JPG 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662435646503.JPG"
-        title="https://xuaii.github.io/post-images/1662435646503.JPG" /></p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662435655639.JPG"
-        data-srcset="https://xuaii.github.io/post-images/1662435655639.JPG, https://xuaii.github.io/post-images/1662435655639.JPG 1.5x, https://xuaii.github.io/post-images/1662435655639.JPG 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662435655639.JPG"
-        title="https://xuaii.github.io/post-images/1662435655639.JPG" /></p>
+<p><img alt="https://xuaii.github.io/post-images/1662435646503.JPG" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662435646503.JPG" data-srcset="https://xuaii.github.io/post-images/1662435646503.JPG, https://xuaii.github.io/post-images/1662435646503.JPG 1.5x, https://xuaii.github.io/post-images/1662435646503.JPG 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662435646503.JPG"/></p>
+<p><img alt="https://xuaii.github.io/post-images/1662435655639.JPG" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662435655639.JPG" data-srcset="https://xuaii.github.io/post-images/1662435655639.JPG, https://xuaii.github.io/post-images/1662435655639.JPG 1.5x, https://xuaii.github.io/post-images/1662435655639.JPG 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662435655639.JPG"/></p>
 <p><strong>步骤二:</strong>  微操作信号综合</p>
 <p>$$
 微操作控制信号 = 机器周期 \land 节拍 \land 脉冲 \land 操作码 \land 机器状态条件
 $$</p>
 <p>根据表构造逻辑表达式，然后经过化简整理得到可用现有门电路实现的微操作命令逻辑表达式：</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662435665517.JPG"
-        data-srcset="https://xuaii.github.io/post-images/1662435665517.JPG, https://xuaii.github.io/post-images/1662435665517.JPG 1.5x, https://xuaii.github.io/post-images/1662435665517.JPG 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662435665517.JPG"
-        title="https://xuaii.github.io/post-images/1662435665517.JPG" /></p>
+<p><img alt="https://xuaii.github.io/post-images/1662435665517.JPG" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662435665517.JPG" data-srcset="https://xuaii.github.io/post-images/1662435665517.JPG, https://xuaii.github.io/post-images/1662435665517.JPG 1.5x, https://xuaii.github.io/post-images/1662435665517.JPG 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662435665517.JPG"/></p>
 <p><strong>步骤三:</strong> 绘制微操作命令组合电路图（没什么技巧，就嗯画）</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662435671505.JPG"
-        data-srcset="https://xuaii.github.io/post-images/1662435671505.JPG, https://xuaii.github.io/post-images/1662435671505.JPG 1.5x, https://xuaii.github.io/post-images/1662435671505.JPG 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662435671505.JPG"
-        title="https://xuaii.github.io/post-images/1662435671505.JPG" /></p>
+<p><img alt="https://xuaii.github.io/post-images/1662435671505.JPG" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662435671505.JPG" data-srcset="https://xuaii.github.io/post-images/1662435671505.JPG, https://xuaii.github.io/post-images/1662435671505.JPG 1.5x, https://xuaii.github.io/post-images/1662435671505.JPG 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662435671505.JPG"/></p>
 </li>
 </ol>
 <h3 id="微程序控制器">微程序控制器</h3>
@@ -545,14 +515,7 @@ $$</p>
 <p>微程序控制器<strong>组成</strong>和<strong>工作过程</strong></p>
 <p><strong>组成</strong></p>
 <p>控制存储器，微指令寄存器，微地址形成部件（产生最初地址和后继地址），微地址寄存器</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662435681568.png"
-        data-srcset="https://xuaii.github.io/post-images/1662435681568.png, https://xuaii.github.io/post-images/1662435681568.png 1.5x, https://xuaii.github.io/post-images/1662435681568.png 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662435681568.png"
-        title="https://xuaii.github.io/post-images/1662435681568.png" /></p>
+<p><img alt="https://xuaii.github.io/post-images/1662435681568.png" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662435681568.png" data-srcset="https://xuaii.github.io/post-images/1662435681568.png, https://xuaii.github.io/post-images/1662435681568.png 1.5x, https://xuaii.github.io/post-images/1662435681568.png 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662435681568.png"/></p>
 <p><strong>工作过程</strong></p>
 <p>取微指令公共操作 <strong>==&gt;</strong> 机器开始时，自动将取指微程序入口地址送入 CMAR，并取址；一般时 CM 的 0号地址，该微程序完成后 主存中取出的机器指令就存储在 IR 中</p>
 <p>IR 操作码 ==&gt; 微地址形成部件 ==&gt; 微程序入口地址 ==&gt; CMAR</p>
@@ -745,14 +708,7 @@ $$</p>
 </ul>
 <p><strong>大量连续任务</strong>才能提高流水效率，流水<strong>延长单个指令</strong>执行时间，<strong>缩短整体</strong>执行时间</p>
 <p><em>Tips:流水线需要多个锁存器来存储上一流水阶段的计算结果，控制信号，等来进行下一阶段计算</em></p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662522792155.JPG"
-        data-srcset="https://xuaii.github.io/post-images/1662522792155.JPG, https://xuaii.github.io/post-images/1662522792155.JPG 1.5x, https://xuaii.github.io/post-images/1662522792155.JPG 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662522792155.JPG"
-        title="https://xuaii.github.io/post-images/1662522792155.JPG" /></p>
+<p><img alt="https://xuaii.github.io/post-images/1662522792155.JPG" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662522792155.JPG" data-srcset="https://xuaii.github.io/post-images/1662522792155.JPG, https://xuaii.github.io/post-images/1662522792155.JPG 1.5x, https://xuaii.github.io/post-images/1662522792155.JPG 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662522792155.JPG"/></p>
 <h3 id="2-流水线冒险">2. 流水线冒险</h3>
 <p><strong>结构冒险</strong> 多条指令同时访问同一资源（例如：存储器，取指和访存都要访问）</p>
 <p>解决：</p>
@@ -854,42 +810,39 @@ $$</p>
 <p>最初内存控制器没有整合进 CPU， 需要通过北桥的内存控制器访问内存，这种架构随着 多核 CPU 的发展而达到瓶颈（争用前端总线），所以NUMA 架构诞生，每个 CPU 分配一个内存区域，而 CPU 之间通过 QPI 总线相连，CPU 通过 QPI 访问其他CPU的远程内存。</p>
 <p>由于内存共享， 对于共享变量需要使用同步机制，例如对变量加锁 3</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" data-title="计算机组成原理 中央处理器"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" data-title="计算机组成原理 中央处理器"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" data-title="计算机组成原理 中央处理器"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" data-title="计算机组成原理 中央处理器" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/ji-suan-ji-zhi-ling-xi-tong/" class="prev" rel="prev" title="计算机指令系统"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>计算机指令系统</a>
-            <a href="/neural-network/" class="next" rel="next" title="Neural Network">Neural Network<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="计算机组成原理 中央处理器" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="计算机组成原理 中央处理器" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="计算机组成原理 中央处理器" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="计算机组成原理 中央处理器" data-url="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/ji-suan-ji-zhi-ling-xi-tong/" rel="prev" title="计算机指令系统"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>计算机指令系统</a>
+<a class="next" href="/neural-network/" rel="next" title="Neural Network">Neural Network<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">xuaii</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

@@ -1,90 +1,91 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>xuii&#39;s blog wind</title>
-        <link>http://blog.xuaii.cc/</link>
-        <description>xuii&#39;s blog wind</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</lastBuildDate>
-            <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml" />
-        <item>
-    <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
-    <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
-    <pubDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
-    <description><![CDATA[Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo]]></description>
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>xuii's blog wind</title>
+<link>http://blog.xuaii.cc/</link>
+<description>xuii's blog wind</description>
+<generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
+<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 10 Feb 2023 09:17:02 +0800</lastBuildDate>
+<atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
+<link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
+<pubDate>Fri, 10 Feb 2023 09:17:02 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
+<description>Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo</description>
 </item>
 <item>
-    <title>[游戏机制] 交换球</title>
-    <link>http://blog.xuaii.cc/game-idea-exchange/</link>
-    <pubDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
-    <description><![CDATA[灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设]]></description>
+<title>[游戏机制] 交换球</title>
+<link>http://blog.xuaii.cc/game-idea-exchange/</link>
+<pubDate>Mon, 16 Jan 2023 06:58:23 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
+<description>灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设</description>
 </item>
 <item>
-    <title>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</title>
-    <link>http://blog.xuaii.cc/game-idea-mmoplat/</link>
-    <pubDate>Wed, 11 Jan 2023 02:03:51 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/game-idea-mmoplat/</guid>
-    <description><![CDATA[为什么想到这样一个游戏？ 前两年入坑了 《最终幻想14》，感受到现今 MMORPG 最大的缺点就是更新慢慢慢慢！通常两个版本之间有3个月的长草期，在这段时间玩]]></description>
+<title>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</title>
+<link>http://blog.xuaii.cc/game-idea-mmoplat/</link>
+<pubDate>Wed, 11 Jan 2023 02:03:51 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/game-idea-mmoplat/</guid>
+<description>为什么想到这样一个游戏？ 前两年入坑了 《最终幻想14》，感受到现今 MMORPG 最大的缺点就是更新慢慢慢慢！通常两个版本之间有3个月的长草期，在这段时间玩</description>
 </item>
 <item>
-    <title>[挖坑] 将高级语言编译为红石电路</title>
-    <link>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:42:51 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</guid>
-    <description><![CDATA[既然我的世界是图灵完备的，那么一定可以将c/c++等静态语言编译成红石电路，只用提供一些基础的模块就能（输入输出，各种库）编译出确定的红石电]]></description>
+<title>[挖坑] 将高级语言编译为红石电路</title>
+<link>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</link>
+<pubDate>Tue, 03 Jan 2023 18:42:51 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</guid>
+<description>既然我的世界是图灵完备的，那么一定可以将c/c++等静态语言编译成红石电路，只用提供一些基础的模块就能（输入输出，各种库）编译出确定的红石电</description>
 </item>
 <item>
-    <title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:42:13 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
-    <description><![CDATA[转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费]]></description>
+<title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
+<link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
+<pubDate>Tue, 03 Jan 2023 18:42:13 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
+<description>转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费</description>
 </item>
 <item>
-    <title>[转载] p2p 内网穿透技术</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:41:36 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
-    <description><![CDATA[原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便]]></description>
+<title>[转载] p2p 内网穿透技术</title>
+<link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
+<pubDate>Tue, 03 Jan 2023 18:41:36 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
+<description>原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便</description>
 </item>
 <item>
-    <title>[转载] c 多线程调用 python</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</link>
-    <pubDate>Tue, 03 Jan 2023 18:41:05 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</guid>
-    <description><![CDATA[脚本语言是快速编写富有弹性的代码的重要方法之一，在 Unix 系统自动化管理中已经应用了多种脚本语言。现在，在许多应用开发中，也提供了脚本层，这大大方]]></description>
+<title>[转载] c 多线程调用 python</title>
+<link>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</link>
+<pubDate>Tue, 03 Jan 2023 18:41:05 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</guid>
+<description>脚本语言是快速编写富有弹性的代码的重要方法之一，在 Unix 系统自动化管理中已经应用了多种脚本语言。现在，在许多应用开发中，也提供了脚本层，这大大方</description>
 </item>
 <item>
-    <title>状态机的几种写法</title>
-    <link>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</link>
-    <pubDate>Tue, 03 Jan 2023 18:40:24 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</guid>
-    <description><![CDATA[在各个Godot初学者教程中，实现第一个人物控制器都是使用的状态机，常见的有以下写法： 写法一 全在 Update 中 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20]]></description>
+<title>状态机的几种写法</title>
+<link>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</link>
+<pubDate>Tue, 03 Jan 2023 18:40:24 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</guid>
+<description>在各个Godot初学者教程中，实现第一个人物控制器都是使用的状态机，常见的有以下写法： 写法一 全在 Update 中 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</description>
 </item>
 <item>
-    <title>[游戏外挂] 辅助瞄准系统</title>
-    <link>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</link>
-    <pubDate>Tue, 03 Jan 2023 18:38:22 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</guid>
-    <description><![CDATA[参考列表 Python embedding c++多线程调用python yolov7-ncnn Yolo-FastestV2 ncnn教程 ncnn 环境 opencv之Mat格式数据转换成onnxruntime的输入tensor处理]]></description>
+<title>[游戏外挂] 辅助瞄准系统</title>
+<link>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</link>
+<pubDate>Tue, 03 Jan 2023 18:38:22 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</guid>
+<description>参考列表 Python embedding c++多线程调用python yolov7-ncnn Yolo-FastestV2 ncnn教程 ncnn 环境 opencv之Mat格式数据转换成onnxruntime的输入tensor处理</description>
 </item>
 <item>
-    <title>[游戏机制] 里世界-优化</title>
-    <link>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</link>
-    <pubDate>Tue, 03 Jan 2023 18:37:43 &#43;0800</pubDate>
-    <author>xuaii</author>
-    <guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</guid>
-    <description><![CDATA[在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有]]></description>
+<title>[游戏机制] 里世界-优化</title>
+<link>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</link>
+<pubDate>Tue, 03 Jan 2023 18:37:43 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/</guid>
+<description>在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &amp;ldquo;透镜&amp;rdquo; 来观察里世界的物体，这样的设计有</description>
 </item>
 </channel>
 </rss>

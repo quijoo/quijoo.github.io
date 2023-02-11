@@ -1,168 +1,163 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Neural Network - xuii&#39;s blog wind</title><meta name="Description" content=""><meta property="og:title" content="Neural Network" />
-<meta property="og:description" content="L层神经网络.html Neural Network 实现方式：采用BP算法，使用梯度下降来优化W，b 需要实现的函数如下： initial():根据用户自定义的层laye" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/neural-network/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:28:30+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="Neural Network"/>
-<meta name="twitter:description" content="L层神经网络.html Neural Network 实现方式：采用BP算法，使用梯度下降来优化W，b 需要实现的函数如下： initial():根据用户自定义的层laye"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/neural-network/" /><link rel="prev" href="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" /><link rel="next" href="http://blog.xuaii.cc/record/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Neural Network",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/neural-network\/"
-        },"genre": "posts","wordcount":  4038 ,
-        "url": "http:\/\/blog.xuaii.cc\/neural-network\/","datePublished": "2023-01-03T18:28:30+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "xuaii"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>Neural Network - xuii's blog wind</title><meta content="" name="Description"/><meta content="Neural Network" property="og:title"/>
+<meta content="L层神经网络.html Neural Network 实现方式：采用BP算法，使用梯度下降来优化W，b 需要实现的函数如下： initial():根据用户自定义的层laye" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/neural-network/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:28:30+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="Neural Network" name="twitter:title"/>
+<meta content="L层神经网络.html Neural Network 实现方式：采用BP算法，使用梯度下降来优化W，b 需要实现的函数如下： initial():根据用户自定义的层laye" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/neural-network/" rel="canonical"/><link href="http://blog.xuaii.cc/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" rel="prev"/><link href="http://blog.xuaii.cc/record/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Neural Network",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/neural-network\/"
+        },"genre": "posts","wordcount":  4038 ,
+        "url": "http:\/\/blog.xuaii.cc\/neural-network\/","datePublished": "2023-01-03T18:28:30+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="xuii&#39;s blog wind">Wind Island</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Neural Network</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>xuaii</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4038 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#实现方式采用bp算法使用梯度下降来优化wb">实现方式：采用BP算法，使用梯度下降来优化W，b</a></li>
-    <li><a href="#需要实现的函数如下">需要实现的函数如下：</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#由于在布置编程作业之前就自己实现了一下神经网络所以实现的是任意层数和任意数量神经元的神经网络所以就改下参数交作业了">由于在布置编程作业之前就自己实现了一下神经网络，所以实现的是任意层数和任意数量神经元的神经网络，所以就改下参数交作业了</a></li>
-    <li><a href="#初始化函数initiallayers">初始化函数<code>initial(layers)</code></a></li>
-    <li><a href="#激活函数-sigmoid">激活函数 Sigmoid()</a></li>
-    <li><a href="#前向线性传播">前向线性传播</a></li>
-    <li><a href="#l层的前向传播">L层的前向传播</a>
-      <ul>
-        <li><a href="#loss函数均方误差">Loss函数（均方误差）</a></li>
-      </ul>
-    </li>
-    <li><a href="#预测函数">预测函数</a></li>
-    <li><a href="#反向传播函数">反向传播函数</a></li>
-    <li><a href="#更新参数">更新参数</a></li>
-    <li><a href="#evaulate">evaulate</a></li>
-    <li><a href="#load_data">load_data</a></li>
-    <li><a href="#back-propagationbp算法的整体框架">Back Propagation(BP算法的整体框架)</a>
-      <ul>
-        <li><a href="#实现累计bp算法">实现累计BP算法</a></li>
-        <li><a href="#实现标准bp算法也就是mini-batch--1这样的话在python下使用for循环喂数据会非常慢">实现标准BP算法（也就是Mini-batch = 1，这样的话在python下使用for循环喂数据会非常慢）</a></li>
-      </ul>
-    </li>
-    <li><a href="#动态可视化训练过程">动态可视化训练过程</a></li>
-  </ul>
-
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#导入数据">导入数据</a></li>
-        <li><a href="#累计bp">累计BP</a></li>
-        <li><a href="#标准bp算法">标准BP算法</a></li>
-      </ul>
-    </li>
-  </ul>
-
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#神经网络的优势">神经网络的优势</a></li>
-      </ul>
-    </li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Neural Network</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 4038 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 9 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#实现方式采用bp算法使用梯度下降来优化wb">实现方式：采用BP算法，使用梯度下降来优化W，b</a></li>
+<li><a href="#需要实现的函数如下">需要实现的函数如下：</a></li>
+</ul>
+<ul>
+<li><a href="#由于在布置编程作业之前就自己实现了一下神经网络所以实现的是任意层数和任意数量神经元的神经网络所以就改下参数交作业了">由于在布置编程作业之前就自己实现了一下神经网络，所以实现的是任意层数和任意数量神经元的神经网络，所以就改下参数交作业了</a></li>
+<li><a href="#初始化函数initiallayers">初始化函数<code>initial(layers)</code></a></li>
+<li><a href="#激活函数-sigmoid">激活函数 Sigmoid()</a></li>
+<li><a href="#前向线性传播">前向线性传播</a></li>
+<li><a href="#l层的前向传播">L层的前向传播</a>
+<ul>
+<li><a href="#loss函数均方误差">Loss函数（均方误差）</a></li>
+</ul>
+</li>
+<li><a href="#预测函数">预测函数</a></li>
+<li><a href="#反向传播函数">反向传播函数</a></li>
+<li><a href="#更新参数">更新参数</a></li>
+<li><a href="#evaulate">evaulate</a></li>
+<li><a href="#load_data">load_data</a></li>
+<li><a href="#back-propagationbp算法的整体框架">Back Propagation(BP算法的整体框架)</a>
+<ul>
+<li><a href="#实现累计bp算法">实现累计BP算法</a></li>
+<li><a href="#实现标准bp算法也就是mini-batch--1这样的话在python下使用for循环喂数据会非常慢">实现标准BP算法（也就是Mini-batch = 1，这样的话在python下使用for循环喂数据会非常慢）</a></li>
+</ul>
+</li>
+<li><a href="#动态可视化训练过程">动态可视化训练过程</a></li>
+</ul>
+<ul>
+<li>
+<ul>
+<li><a href="#导入数据">导入数据</a></li>
+<li><a href="#累计bp">累计BP</a></li>
+<li><a href="#标准bp算法">标准BP算法</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<ul>
+<li><a href="#神经网络的优势">神经网络的优势</a></li>
+</ul>
+</li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="http://xuaii.github.io//L%e5%b1%82%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c.html" target="_blank" rel="noopener noreffer ">L层神经网络.html</a></p>
+</div><div class="content" id="content"><p><a href="http://xuaii.github.io//L%e5%b1%82%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c.html" rel="noopener noreffer" target="_blank">L层神经网络.html</a></p>
 <h1 id="neural-network">Neural Network</h1>
 <h2 id="实现方式采用bp算法使用梯度下降来优化wb">实现方式：采用BP算法，使用梯度下降来优化W，b</h2>
 <h2 id="需要实现的函数如下">需要实现的函数如下：</h2>
-<p><code>initial()</code>:根据用户自定义的层<code>layer</code>-&gt;[ $n_1, n_2,n_3,&hellip;,n_m$ ]来初始化参数W，b</p>
+<p><code>initial()</code>:根据用户自定义的层<code>layer</code>-&gt;[ $n_1, n_2,n_3,…,n_m$ ]来初始化参数W，b</p>
 <p><code>sigmoid()</code>:输入$X \in R^{m x n}$ ，返回$A = \frac{1}{1+e^{-WX + b}}$</p>
 <p><code>liner_propagation()</code>:实现一层的前向传播，返回 A，并且缓存中间量Z</p>
 <p><code>L_layers_propagation()</code>:实现L层的前向传播，并且缓存所有中间层的A，Z</p>
@@ -210,7 +205,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p><strong>由于推导的迭代式子中包含A, Z, 等前向传播产生的中间结果， 所以在前向传播时需要将它们缓存下来</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -223,7 +218,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="kn">import</span> <span class="n">FuncAnimation</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
@@ -239,27 +234,27 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </div><h2 id="初始化函数initiallayers">初始化函数<code>initial(layers)</code></h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">input: layers -&gt; [layer_1, layer_2, layer_3, ..., layer_m]
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">input: layers -&gt; [layer_1, layer_2, layer_3, ..., layer_m]
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">output</span><span class="p">:</span> <span class="n">paramters</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">()</span>  
-</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_w</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layers</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">output</span><span class="p">:</span> <span class="n">paramters</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">()</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_w</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s1">'layers'</span><span class="p">]</span> <span class="o">=</span> <span class="n">layers</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -270,48 +265,34 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">initial</span><span class="p">(</span><span class="n">layers</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">temp_w</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)):</span>
 </span></span><span class="line"><span class="cl">        <span class="n">temp_w</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">layers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">layers</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_w</span>
-</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layers</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_w</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s1">'layers'</span><span class="p">]</span> <span class="o">=</span> <span class="n">layers</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">parameters</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="激活函数-sigmoid">激活函数 Sigmoid()</h2>
 <p><strong>激活函数种类：</strong></p>
-<p><code>sigmoid()</code>:&ldquo;S&quot;形函数$f(x) = \frac{1}{1+e^{-WX + b}}$$</p>
+<p><code>sigmoid()</code>:“S"形函数$f(x) = \frac{1}{1+e^{-WX + b}}$$</p>
 <p><code>ReLU()</code>:线性修正单元$f(x) = max(0,x)$</p>
 <p><code>tanh()</code>:双曲正切函数$f(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$</p>
 <p><code>ELU</code>:</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
-        data-srcset="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast, https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 1.5x, https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 2x"
-        data-sizes="auto"
-        alt="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
-        title="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" /></p>
+<p><img alt="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" class="lazyload" data-sizes="auto" data-src="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" data-srcset="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast, https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 1.5x, https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 2x" src="/svg/loading.min.svg" title="https://img-blog.csdn.net/20180104121237935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"/></p>
 <p><code>PReLU</code>:</p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
-        data-srcset="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast, https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 1.5x, https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 2x"
-        data-sizes="auto"
-        alt="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
-        title="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" /></p>
+<p><img alt="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" class="lazyload" data-sizes="auto" data-src="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" data-srcset="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast, https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 1.5x, https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast 2x" src="/svg/loading.min.svg" title="https://img-blog.csdn.net/20180104115618817?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2FuZ3lpNDEx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"/></p>
 <p><code>LReLU</code>:x负半轴斜率比较小的PReLU</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">A</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -320,13 +301,13 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p>$A = \frac{1}{1+e^-Z}$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">liner_propagation</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">liner_propagation</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">A</span>
@@ -339,7 +320,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -359,22 +340,22 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">L_layers_propagation</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">L_layers_propagation</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">A_cache</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Z_cache</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">A_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Z_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;layers&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">'layers'</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Z</span><span class="p">,</span> <span class="n">A</span> <span class="o">=</span> <span class="n">liner_propagation</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A_cache</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="n">Z</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Z_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">A_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;A&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_cache</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;Z&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z_cache</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">"A"</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_cache</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">"Z"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z_cache</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">cache</span>
 </span></span></code></pre></td></tr></table>
@@ -386,12 +367,12 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">lossFunc</span><span class="p">(</span><span class="n">Y_pre</span><span class="p">,</span> <span class="n">Y_true</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&#34;MSE&#34;</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">lossFunc</span><span class="p">(</span><span class="n">Y_pre</span><span class="p">,</span> <span class="n">Y_true</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">"MSE"</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">temp</span> <span class="o">=</span> <span class="n">Y_pre</span> <span class="o">-</span> <span class="n">Y_true</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mf">.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">temp</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
@@ -404,7 +385,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p>$y\le .5$       =&gt;      $y= 0$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -412,8 +393,8 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">draw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Y</span> <span class="o">=</span> <span class="n">L_layers_propagation</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">)[</span><span class="s1">&#39;A&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">draw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Y</span> <span class="o">=</span> <span class="n">L_layers_propagation</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="p">)[</span><span class="s1">'A'</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">draw</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>    
 </span></span><span class="line"><span class="cl">        <span class="n">Y</span><span class="p">[</span><span class="n">Y</span> <span class="o">&gt;</span> <span class="mf">.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Y</span><span class="p">[</span><span class="n">Y</span> <span class="o">&lt;=</span> <span class="mf">.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -442,12 +423,12 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </li>
 </ul>
 <p><strong>参考</strong></p>
-<p><a href="https://zhuanlan.zhihu.com/p/24863977" target="_blank" rel="noopener noreffer ">矩阵求导术（下）</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/24709748" target="_blank" rel="noopener noreffer ">矩阵求导术（上）</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/24863977" rel="noopener noreffer" target="_blank">矩阵求导术（下）</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/24709748" rel="noopener noreffer" target="_blank">矩阵求导术（上）</a></p>
 <p><em>引入克罗内克积实现矩阵的链式求导，在注释代码中是没经过花间的Kron积，运算量极大，经过化简得到简单的矩阵表达式</em></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -467,7 +448,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">back_propagation</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">,</span> <span class="n">dZ</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">back_propagation</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">,</span> <span class="n">dZ</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="c1"># dZA_prev = np.diag(   (A_prev * (1 - A_prev)).T.flatten()  )</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1"># I = np.eye(A_prev.shape[1])</span>
@@ -489,7 +470,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -504,18 +485,18 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">L_back_propagation</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;layers&#34;</span><span class="p">]</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">L_back_propagation</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">"layers"</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;A&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">A</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"A"</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">dW_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">dZ_prev</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">L</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">L</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">L</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">)):</span>
 </span></span><span class="line"><span class="cl">        <span class="n">dZ_prev</span><span class="p">,</span> <span class="n">dW</span> <span class="o">=</span> <span class="n">back_propagation</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dZ_prev</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">dW_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dW</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;dW&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dW_list</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span><span class="p">[</span><span class="s2">"dW"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dW_list</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">cache</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -523,7 +504,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p>pass</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -535,15 +516,15 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;layers&#34;</span><span class="p">]</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">update_parameters</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">w</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">"layers"</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;dW&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"dW"</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">dW</span><span class="p">[</span><span class="n">L</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">learning_rate</span>
 </span></span><span class="line"><span class="cl">        <span class="c1"># b[i] = b[i] - db[len(b)-i-1] * learning_rate</span>
-</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">&#34;w&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
+</span></span><span class="line"><span class="cl">    <span class="n">parameters</span><span class="p">[</span><span class="s2">"w"</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">parameters</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -551,13 +532,13 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p><strong>使用准确度作为评估标准</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">bools</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">==</span> <span class="n">Y</span>
 </span></span><span class="line"><span class="cl">    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">bools</span><span class="p">,</span><span class="n">bools</span><span class="o">.</span><span class="n">size</span><span class="p">))</span><span class="o">/</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">accuracy</span>
@@ -565,7 +546,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -592,46 +573,46 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate_detial</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate_detial</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">y_test</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">y_t</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">y_p</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The roc_auc_score is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>    
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">"The roc_auc_score is </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>    
 </span></span><span class="line"><span class="cl">    <span class="n">tpr</span><span class="p">,</span><span class="n">fpr</span><span class="p">,</span><span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC curve for diabetes classifier&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate (1 - Specificity)&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate (Sensitivity)&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'ROC curve for diabetes classifier'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'False Positive Rate (1 - Specificity)'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'True Positive Rate (Sensitivity)'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1"># mean = np.sum(y_pred)/y_pred.shape[0]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span><span class="p">[(</span><span class="n">y_pred</span> <span class="o">&lt;</span>  <span class="mf">0.5</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span><span class="p">[(</span><span class="n">y_pred</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">    <span class="c1"># plt.scatter(x_test[0, :], x_test[1, :], c = y_pred[:, 0])</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The accuracy is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">"The accuracy is </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])))</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1"># 计算召回， 查全率， 查准率 。。。。</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;class0&#39;</span><span class="p">,</span><span class="s1">&#39;class1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'class0'</span><span class="p">,</span><span class="s1">'class1'</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">,</span><span class="n">target_names</span> <span class="o">=</span> <span class="n">target_names</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">## 绘图</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -644,7 +625,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">Plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">Plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">.5</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">.5</span>
@@ -661,7 +642,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 <p><em><strong>加载数据的管道</strong></em></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -691,13 +672,13 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="s2">&#34;circle&#34;</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="s2">"circle"</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">200</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">one</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">C</span> <span class="o">=</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">shape</span> <span class="o">==</span> <span class="s2">&#34;circle&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">shape</span> <span class="o">==</span> <span class="s2">"circle"</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="c1"># 同心圆</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mf">.5</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mf">.03</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -705,7 +686,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span></span><span class="line"><span class="cl">                <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">shape</span> <span class="o">==</span> <span class="s2">&#34;xor&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">shape</span> <span class="o">==</span> <span class="s2">"xor"</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="c1"># 四分</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">)</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -738,7 +719,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -757,7 +738,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span><span class="n">canvs</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">detial</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">draw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span><span class="n">canvs</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">detial</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">draw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initial</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">draw_param</span> <span class="o">=</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
@@ -768,10 +749,10 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span></span><span class="line"><span class="cl">            <span class="c1"># draw_param.append(copy.deepcopy(parameters))</span>
 </span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="n">predict</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">draw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">canvs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">detial</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;this is </span><span class="si">{}</span><span class="s2">th epoch.&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s2">"this is </span><span class="si">{}</span><span class="s2">th epoch."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Y_predict</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">draw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Y_predict</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;accuracy is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">"accuracy is </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">draw</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">parameters</span>
 </span></span></code></pre></td></tr></table>
@@ -779,7 +760,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </div><h3 id="实现累计bp算法">实现累计BP算法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -807,7 +788,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model_caculate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model_caculate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initial</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Loss</span> <span class="o">=</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span>
@@ -818,7 +799,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="n">cache</span> <span class="o">=</span> <span class="n">L_layers_propagation</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">cache</span> <span class="o">=</span> <span class="n">L_back_propagation</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">lossFunc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">[</span><span class="s2">&#34;A&#34;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">lossFunc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">cache</span><span class="p">[</span><span class="s2">"A"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">        <span class="n">parameters</span> <span class="o">=</span> <span class="n">update_parameters</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -829,7 +810,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">interval</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Calculate Dense Net:~$ </span><span class="si">{}</span><span class="s2">th epoch,  accuracy: </span><span class="si">{}</span><span class="s2">,   loss:</span><span class="si">{}</span><span class="s2">,  time:</span><span class="si">{}</span><span class="s2">-&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">loss</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">"Calculate Dense Net:~$ </span><span class="si">{}</span><span class="s2">th epoch,  accuracy: </span><span class="si">{}</span><span class="s2">,   loss:</span><span class="si">{}</span><span class="s2">,  time:</span><span class="si">{}</span><span class="s2">-"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">loss</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">                <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Loss</span><span class="p">,</span> <span class="n">Acc</span><span class="p">,</span> <span class="n">Y_predict</span>
@@ -837,7 +818,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -856,7 +837,7 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">epoch</span> <span class="o">=</span> <span class="mi">25000</span>
@@ -865,12 +846,12 @@ $$所以有：\frac{\partial E}{\beta} = dZ A^T$$</p>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">#开始画图</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training loss&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training accuracy&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training loss'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training accuracy'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 显示图例</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration times&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'iteration times'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'rate'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">evaluate_detial</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Y_pred</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
@@ -886,14 +867,7 @@ Calculate Dense Net:~$ 17500th epoch,  accuracy: 0.965,   loss:6.105461022050368
 Calculate Dense Net:~$ 20000th epoch,  accuracy: 0.99,   loss:2.3057686501449832,  time:0.7090015411376953-
 Calculate Dense Net:~$ 22500th epoch,  accuracy: 0.99,   loss:0.958385284049958,  time:0.6965689659118652-
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/1185500/output_36_1.png"
-        data-srcset="C:/Users/herrn/Downloads/1185500/output_36_1.png, C:/Users/herrn/Downloads/1185500/output_36_1.png 1.5x, C:/Users/herrn/Downloads/1185500/output_36_1.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/1185500/output_36_1.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/1185500/output_36_1.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/1185500/output_36_1.png" data-srcset="C:/Users/herrn/Downloads/1185500/output_36_1.png, C:/Users/herrn/Downloads/1185500/output_36_1.png 1.5x, C:/Users/herrn/Downloads/1185500/output_36_1.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <pre><code>The roc_auc_score is 1.0
 The accuracy is 1.0
               precision    recall  f1-score   support
@@ -905,24 +879,17 @@ The accuracy is 1.0
    macro avg       1.00      1.00      1.00       200
 weighted avg       1.00      1.00      1.00       200
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/1185500/output_36_3.png"
-        data-srcset="C:/Users/herrn/Downloads/1185500/output_36_3.png, C:/Users/herrn/Downloads/1185500/output_36_3.png 1.5x, C:/Users/herrn/Downloads/1185500/output_36_3.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/1185500/output_36_3.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/1185500/output_36_3.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/1185500/output_36_3.png" data-srcset="C:/Users/herrn/Downloads/1185500/output_36_3.png, C:/Users/herrn/Downloads/1185500/output_36_3.png 1.5x, C:/Users/herrn/Downloads/1185500/output_36_3.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><h3 id="实现标准bp算法也就是mini-batch--1这样的话在python下使用for循环喂数据会非常慢">实现标准BP算法（也就是Mini-batch = 1，这样的话在python下使用for循环喂数据会非常慢）</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -949,7 +916,7 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model_std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">model_std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initial</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Loss</span> <span class="o">=</span> <span class="p">[]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Acc</span> <span class="o">=</span> <span class="p">[]</span>
@@ -971,20 +938,20 @@ weighted avg       1.00      1.00      1.00       200
 </span></span><span class="line"><span class="cl">            <span class="n">Acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">interval</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">                <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Stander Dense Net:~$  </span><span class="si">{}</span><span class="s2">th epoch,  accuracy: </span><span class="si">{}</span><span class="s2">,   loss:</span><span class="si">{}</span><span class="s2">,  time:</span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">"Stander Dense Net:~$  </span><span class="si">{}</span><span class="s2">th epoch,  accuracy: </span><span class="si">{}</span><span class="s2">,   loss:</span><span class="si">{}</span><span class="s2">,  time:</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">                <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Loss</span><span class="p">,</span> <span class="n">Acc</span><span class="p">,</span> <span class="n">Y_pred</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1002,19 +969,19 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">epoch</span> <span class="o">=</span> <span class="mi">33300</span>
 </span></span><span class="line"><span class="cl"><span class="n">Loss</span><span class="p">,</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">Y_pred</span> <span class="o">=</span> <span class="n">model_std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span> <span class="n">epoch</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">#开始画图</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="n">epoch</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training loss&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training accuracy&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training loss'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training accuracy'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 显示图例</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration times&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'iteration times'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'rate'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">evaluate_detial</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Y_pred</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -1024,14 +991,14 @@ weighted avg       1.00      1.00      1.00       200
 </code></pre>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><h2 id="动态可视化训练过程">动态可视化训练过程</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1046,7 +1013,7 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">detial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">draw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>   
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">detial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">draw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>   
 </span></span><span class="line"><span class="cl">    <span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">draw</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
@@ -1063,17 +1030,17 @@ weighted avg       1.00      1.00      1.00       200
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">main</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span> <span class="mi">20000</span><span class="p">,</span> <span class="n">detial</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">draw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">main</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span> <span class="mi">20000</span><span class="p">,</span> <span class="n">detial</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">draw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h1 id="西瓜数据集30alpha上的分类">西瓜数据集3.0$\alpha$上的分类</h1>
 <h3 id="导入数据">导入数据</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1109,7 +1076,7 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">copy</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">load</span><span class="p">():</span> 
 </span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.697</span><span class="p">,</span> <span class="mf">0.460</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
@@ -1148,23 +1115,23 @@ weighted avg       1.00      1.00      1.00       200
 </div><h3 id="累计bp">累计BP</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y_test</span><span class="o">.</span><span class="n">shape</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y_test</span><span class="o">.</span><span class="n">shape</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1182,7 +1149,7 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">epoch</span> <span class="o">=</span> <span class="mi">5500</span>
 </span></span><span class="line"><span class="cl"><span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">Loss</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">,</span> <span class="n">Y_pred</span> <span class="o">=</span> <span class="n">model_caculate</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="n">interval</span><span class="p">)</span>
@@ -1190,37 +1157,37 @@ weighted avg       1.00      1.00      1.00       200
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">#开始画图</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="n">epoch</span><span class="o">/</span><span class="n">interval</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training loss&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training accuracy&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training loss'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training accuracy'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 显示图例</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration times&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'iteration times'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'rate'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">evaluate_detial</span><span class="p">(</span><span class="n">Y_test</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Y_pred</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">canvs</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">label</span><span class="o">.</span><span class="n">shape</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">label</span><span class="o">.</span><span class="n">shape</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="标准bp算法">标准BP算法</h3>
 <p><strong>由于实现了累计误差的算法， 所以可以将样样本拆分得到mini-batch的神经网络就是标准BP算法</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1238,19 +1205,19 @@ weighted avg       1.00      1.00      1.00       200
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="n">epoch</span> <span class="o">=</span> <span class="mi">5500</span>
 </span></span><span class="line"><span class="cl"><span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl"><span class="n">Loss</span><span class="p">,</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">Y_pred</span> <span class="o">=</span> <span class="n">model_std</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span> <span class="n">epoch</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">#开始画图</span>
 </span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="n">epoch</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training loss&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;training accuracy&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">Loss</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">Loss</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training loss'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'training accuracy'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 显示图例</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration times&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'iteration times'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'rate'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">evaluate_detial</span><span class="p">(</span><span class="n">Y_test</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Y_pred</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -1274,42 +1241,39 @@ weighted avg       1.00      1.00      1.00       200
 &amp; F\otimes G = \vee_U(\mu_F(u_i)\vee\mu_G(u_i))
 \end{split}</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/neural-network/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/neural-network/" data-title="Neural Network"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/neural-network/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/neural-network/" data-title="Neural Network"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/neural-network/" data-title="Neural Network"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/neural-network/" data-title="Neural Network" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" class="prev" rel="prev" title="计算机组成原理 中央处理器"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>计算机组成原理 中央处理器</a>
-            <a href="/record/" class="next" rel="next" title="Record">Record<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/neural-network/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="Neural Network" data-url="http://blog.xuaii.cc/neural-network/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/neural-network/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="Neural Network" data-url="http://blog.xuaii.cc/neural-network/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="Neural Network" data-url="http://blog.xuaii.cc/neural-network/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="Neural Network" data-url="http://blog.xuaii.cc/neural-network/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/ji-suan-ji-zu-cheng-yuan-li-zhong-yang-chu-li-qi/" rel="prev" title="计算机组成原理 中央处理器"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>计算机组成原理 中央处理器</a>
+<a class="next" href="/record/" rel="next" title="Record">Record<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">xuaii</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>
