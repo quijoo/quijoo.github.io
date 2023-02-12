@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[Godot4.0] 实用插件搜索计划 第一期 - xuii's blog wind</title><meta content="" name="Description"/><meta content="[Godot4.0] 实用插件搜索计划 第一期" property="og:title"/>
+<meta content="godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/godot_useful_plugin/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-02-13T03:56:46+08:00" property="article:published_time"/>
+<meta content="2023-02-13T03:56:46+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[Godot4.0] 实用插件搜索计划 第一期" name="twitter:title"/>
+<meta content="godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/godot_useful_plugin/" rel="canonical"/><link href="http://blog.xuaii.cc/godot-script-interact/" rel="prev"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[Godot4.0] 实用插件搜索计划 第一期",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/godot_useful_plugin\/"
+        },"genre": "posts","wordcount":  1392 ,
+        "url": "http:\/\/blog.xuaii.cc\/godot_useful_plugin\/","datePublished": "2023-02-13T03:56:46+08:00","dateModified": "2023-02-13T03:56:46+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
+    </script></head>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
+</header><header class="mobile" id="header-mobile">
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header><div class="search-dropdown desktop">
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot4.0] 实用插件搜索计划 第一期</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-13">2023-02-13</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1392 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 3 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#panku-console---a-in-game-consolehttpsgithubcomark2000pankuconsole"></a><a href="https://github.com/Ark2000/PankuConsole">Panku Console - <em>A in-game console</em></a></li>
+<li><a href="#softbody-2d---a-squishy-shapes-generatorhttpsgithubcomughuuugodot-4-softbody2d"></a><a href="https://github.com/Ughuuu/godot-4-softbody2d">Softbody 2D - <em>A squishy shapes generator</em></a></li>
+<li><a href="#vp-gamess-series-of-pluginshttpsgithubcomvp-games"></a><a href="https://github.com/VP-GAMES">VP-GAMES’s series of plugins</a></li>
+<li><a href="#simple-grass-textured---a-3d-grass-editorhttpsgithubcomicterusgamessimplegrasstextured"></a><a href="https://github.com/IcterusGames/SimpleGrassTextured">Simple Grass Textured - <em>A 3D grass editor</em></a></li>
+<li><a href="#compute-worker---a-simple-compute-nodehttpsgithubcomwardensdevcomputeworker"></a><a href="https://github.com/wardensdev/ComputeWorker">Compute Worker - <em>A simple compute node</em></a></li>
+<li><a href="#gameplay-attributeshttpsgithubcomoctodgodot-gameplay-attributes"></a><a href="https://github.com/OctoD/godot-gameplay-attributes">Gameplay Attributes</a></li>
+<li><a href="#controller-icons---a-controller-uihttpsgithubcomrsubtilcontroller_icons"></a><a href="https://github.com/rsubtil/controller_icons/">Controller Icons - <em>A controller UI</em></a></li>
+<li><a href="#godot-rl-agents---a-reinforcement-learning-frameworkhttpsgithubcomedbeechinggodot_rl_agents_plugin"></a><a href="https://github.com/edbeeching/godot_rl_agents_plugin">Godot RL Agents - <em>A reinforcement learning framework</em></a></li>
+<li><a href="#smoother---a-physics-smoother-nodehttpsgithubcomanatolbogungodot-smoother-node"></a><a href="https://github.com/anatolbogun/godot-smoother-node">Smoother - <em>A physics smoother node</em></a></li>
+<li><a href="#beehave---a-full-featured-behaviour-treehttpsgithubcombitbrainbeehave"></a><a href="https://github.com/bitbrain/beehave">Beehave - <em>A full-featured behaviour tree</em></a></li>
+<li><a href="#dialogue-manager---the-bestest-dialogue-managerhttpsgithubcomnathanhoadgodot_dialogue_manager"></a><a href="https://github.com/nathanhoad/godot_dialogue_manager">Dialogue Manager - <em>The bestest dialogue manager</em></a></li>
+</ul>
+</nav></div>
+</div><div class="content" id="content"><p>godot4.0 rc 版本发布后，新插件如雨后春笋的涌现
+很多插件我还没有尝试，但是很多感兴趣的插件，列表如下</p>
+<h2 id="panku-console---a-in-game-consolehttpsgithubcomark2000pankuconsole"><a href="https://github.com/Ark2000/PankuConsole" rel="noopener noreffer" target="_blank">Panku Console - <em>A in-game console</em></a></h2>
+<p><img alt="https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp" class="lazyload" data-sizes="auto" data-src="https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp" data-srcset="https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp, https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp 1.5x, https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp 2x" src="/svg/loading.min.svg" title="https://raw.githubusercontent.com/Ark2000/PankuConsole/master/assets/preview.webp"/></p>
+<p><strong>特性如下：</strong></p>
+<ul>
+<li>漂亮灵活的多窗口系统</li>
+<li>简单开箱即用</li>
+<li>创建窗口实时检测表达式的值</li>
+<li>绑定表达式到key</li>
+<li>Popup Notification</li>
+<li>系统debug 信息</li>
+<li>Powerful Inspector Generator（游戏内显示export变量）</li>
+<li>历史表达式管理</li>
+</ul>
+<p>这个真有点猛吧, 很多In-game 的控制台都是侵入式的，需要修改很多游戏代码，但是这个插件利用 <code>GodotObject</code> 的 <code>call(name, params[]) / get(name) / set(name, value)</code> 方法监控变量，计算表达式，调用方法！</p>
+<h2 id="softbody-2d---a-squishy-shapes-generatorhttpsgithubcomughuuugodot-4-softbody2d"><a href="https://github.com/Ughuuu/godot-4-softbody2d" rel="noopener noreffer" target="_blank">Softbody 2D - <em>A squishy shapes generator</em></a></h2>
+<p>在 Unity3D 中有很多方法使用软体物理(Juice), 但是 Godot4.0 中仅提供了 3D 软体，而没有2D 软体</p>
+<p>虽然可以手动的通过 <code>Rigidibody2D</code>， <code>Spring</code> 等组件来构造弹性物体，但是 弹簧和钢体之间的连接方式以及数值设置非常令人头疼， 这个插件可以基于 Polygon2D 生成器来生成<strong>多边形轮廓</strong>、<strong>内部顶点</strong>、<strong>骨骼</strong>、<strong>刚体</strong></p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe allowfullscreen="" src="https://www.youtube-nocookie.com/embed/7n8giBCOX3Q" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube Video"></iframe>
+</div>
+<h2 id="vp-gamess-series-of-pluginshttpsgithubcomvp-games"><a href="https://github.com/VP-GAMES" rel="noopener noreffer" target="_blank">VP-GAMES’s series of plugins</a></h2>
+<ul>
+<li><a href="https://github.com/VP-GAMES/Godot4QuestEditor" rel="noopener noreffer" target="_blank">Quest Editor(G4)</a> : 一个任务编辑器</li>
+<li><a href="https://github.com/VP-GAMES/DialogueEditor" rel="noopener noreffer" target="_blank">Dialogue Editor(G4)</a> : 对话编辑器</li>
+<li><a href="https://github.com/VP-GAMES/InventoryEditor" rel="noopener noreffer" target="_blank">Inventory Editor (G4) </a>: 库存系统</li>
+<li><a href="https://github.com/VP-GAMES/Godot4LocalizationEditor" rel="noopener noreffer" target="_blank">Localization Editor (G4)</a> : 本地化编辑器</li>
+</ul>
+<p>这个没了解, 但是看起来不错，之后可以试试 库存和本地化管理器</p>
+<h2 id="simple-grass-textured---a-3d-grass-editorhttpsgithubcomicterusgamessimplegrasstextured"><a href="https://github.com/IcterusGames/SimpleGrassTextured" rel="noopener noreffer" target="_blank">Simple Grass Textured - <em>A 3D grass editor</em></a></h2>
+<p>一个简单的3D草地编辑器，主要功能就是种草，我应该用不上，但是很好奇是怎么实现在草地上种草的(没写过3D 项目)</p>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe allowfullscreen="" src="https://www.youtube-nocookie.com/embed/E_LTrFUfrrw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube Video"></iframe>
+</div>
+<h2 id="compute-worker---a-simple-compute-nodehttpsgithubcomwardensdevcomputeworker"><a href="https://github.com/wardensdev/ComputeWorker" rel="noopener noreffer" target="_blank">Compute Worker - <em>A simple compute node</em></a></h2>
+<p>这是一个比较有趣的东西， 一个支持 GPU 的运算节点，可能哟点类似各个游戏引擎中的 ComputeShader，用于计算大量数据（例如数以千/万计的动画），该节点简化了数据从内存拷贝到缓冲区的过程（大概吧，只看了简介，没用过），想要通过这个项目了解 Godot 的 ComputeShader 如何工作的/</p>
+<h2 id="gameplay-attributeshttpsgithubcomoctodgodot-gameplay-attributes"><a href="https://github.com/OctoD/godot-gameplay-attributes" rel="noopener noreffer" target="_blank">Gameplay Attributes</a></h2>
+<p>游戏属性是一组用于描述某些节点 使用戈多制作的 2D 和 3D 游戏的角色属性。</p>
+<h2 id="controller-icons---a-controller-uihttpsgithubcomrsubtilcontroller_icons"><a href="https://github.com/rsubtil/controller_icons/" rel="noopener noreffer" target="_blank">Controller Icons - <em>A controller UI</em></a></h2>
+<p>这是一个简单的支持各种控制器的 Controller UI 插件，可以方便的在频幕上显示提示 UI 等
+<strong>支持列表</strong>
+Xbox 360
+Xbox One
+Xbox Series
+PlayStation 3
+PlayStation 4
+PlayStation 5
+Nintendo Switch Controller
+Nintendo Switch Joy-Con
+Steam Controller
+Steam Deck
+Amazon Luna
+Google Stadia</p>
+<h2 id="godot-rl-agents---a-reinforcement-learning-frameworkhttpsgithubcomedbeechinggodot_rl_agents_plugin"><a href="https://github.com/edbeeching/godot_rl_agents_plugin" rel="noopener noreffer" target="_blank">Godot RL Agents - <em>A reinforcement learning framework</em></a></h2>
+<p>AI  Agent 插件, 这个好像有点牛逼，一个强化学习框架，提供了很多功能。
+<strong>功能如下</strong></p>
+<ul>
+<li>提供 在Python 中运行机器学习算法的接口</li>
+<li>提供三个著名 RL 框架包装器: <strong>StableBaselines3</strong>、<strong>Sample Factory</strong> 和 <strong>Ray RLLib</strong></li>
+<li>支持 记忆模型、LSTM、注意力模型</li>
+<li>支持 2D / 3D 游戏</li>
+<li>一套 AI 传感器用于增强 Agent 对于游戏世界的感知</li>
+</ul>
+<h2 id="smoother---a-physics-smoother-nodehttpsgithubcomanatolbogungodot-smoother-node"><a href="https://github.com/anatolbogun/godot-smoother-node" rel="noopener noreffer" target="_blank">Smoother - <em>A physics smoother node</em></a></h2>
+<p>用于平滑运动的节点，即使在真率很低的情况下，也能有等同于屏幕刷新率的效果！</p>
+<p>虽然但是，有以下缺点：</p>
+<ol>
+<li>适用于刚体，不适用于复杂节点</li>
+<li>插值落后真实移动</li>
+<li>没有 Look Forward</li>
+</ol>
+<p>效果真挺好！
+<img alt="https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif" class="lazyload" data-sizes="auto" data-src="https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif" data-srcset="https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif, https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif 1.5x, https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif 2x" src="/svg/loading.min.svg" title="https://user-images.githubusercontent.com/7110246/209624079-86824089-444d-4f6e-bd02-b2b38e3952c4.gif"/></p>
+<h2 id="beehave---a-full-featured-behaviour-treehttpsgithubcombitbrainbeehave"><a href="https://github.com/bitbrain/beehave" rel="noopener noreffer" target="_blank">Beehave - <em>A full-featured behaviour tree</em></a></h2>
+<p><img alt="https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg" class="lazyload" data-sizes="auto" data-src="https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg" data-srcset="https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg, https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg 1.5x, https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg 2x" src="/svg/loading.min.svg" title="https://raw.githubusercontent.com/bitbrain/beehave/godot-4.x/assets/logo.svg"/></p>
+<p>这是 <a href="www.github.com" rel="">github</a> 上标星最多的 godot 行为树项目， 相比其他很多行为树插件，该插件看起来文档详细，并且作者自己也在使用并且也会经常更新(比起很多行为树插件bug多，几乎没人维护，这个应该是唯一能用的了)</p>
+<p>行为树的树结构是借用了 Godot 的 <code>SceneTree</code>, 没有实现基于 <code>GraphyNode</code> 的节点编辑器, 但是基本节点和功能都覆盖了。</p>
+<p>行为树相关知识可以参考 <a href="https://github.com/viniciusgerevini/godot-behavior-tree-example" rel="noopener noreffer" target="_blank">Godot Behavior Tree Example</a>
+</p><div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+<iframe allowfullscreen="" src="https://www.youtube-nocookie.com/embed/YHUQY2Kea9U" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube Video"></iframe>
+</div>
+<h2 id="dialogue-manager---the-bestest-dialogue-managerhttpsgithubcomnathanhoadgodot_dialogue_manager"><a href="https://github.com/nathanhoad/godot_dialogue_manager" rel="noopener noreffer" target="_blank">Dialogue Manager - <em>The bestest dialogue manager</em></a></h2>
+<p>这是一个简单的对话管理器插件，功能简单只专注于<strong>对话内容</strong> 和 <strong>对话过程</strong> 的管理（对话过程可以调用方法，类似于godot 动画中调用一样）</p>
+<p><strong>简洁</strong>, 没有多余的 GUI，仅有一个用于编写 .dialogue 文件的编辑器</p>
+<p><strong>高效</strong>, 对话采用<strong>文本编辑</strong>，类似代码中的流程控制，一个 .dialogue 文件甚至可以 import 其他的dialogue，这很符合程序员的想法（hhhh</p>
+<p><strong>独立</strong>, 它是一个完全独立的系统，仅仅提供 <code>DialogueManager</code> 的数个 API ，对原本游戏系统几乎"零"侵入。</p>
+<p>正因为它足够简单和高效，拓展或者实现自定义 UI 都非常简单！</p>
+<p><img alt="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png" class="lazyload" data-sizes="auto" data-src="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png" data-srcset="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png, https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png 1.5x, https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png 2x" src="/svg/loading.min.svg" title="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png"/></p>
+<p>几乎把 godot 4.0 的插件列表翻了一遍，对上边这些比较感兴趣，并且打算 <strong>Panku Console</strong> 和 <strong>Beehave</strong> 应用到自己的项目中！</p>
+</div><div class="post-footer" id="post-footer">
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-02-13</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/godot_useful_plugin/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[Godot4.0] 实用插件搜索计划 第一期" data-url="http://blog.xuaii.cc/godot_useful_plugin/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/godot_useful_plugin/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[Godot4.0] 实用插件搜索计划 第一期" data-url="http://blog.xuaii.cc/godot_useful_plugin/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[Godot4.0] 实用插件搜索计划 第一期" data-url="http://blog.xuaii.cc/godot_useful_plugin/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[Godot4.0] 实用插件搜索计划 第一期" data-url="http://blog.xuaii.cc/godot_useful_plugin/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/godot-script-interact/" rel="prev" title="[Godot] 多语言脚本交互"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[Godot] 多语言脚本交互</a></div>
+</div>
+</article></div>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
+</html>

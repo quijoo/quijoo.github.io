@@ -5,8 +5,16 @@
 <link>http://blog.xuaii.cc/</link>
 <description>xuii's blog wind</description>
 <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Sun, 12 Feb 2023 07:05:34 +0800</lastBuildDate>
+<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Mon, 13 Feb 2023 03:56:46 +0800</lastBuildDate>
 <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>[Godot4.0] 实用插件搜索计划 第一期</title>
+<link>http://blog.xuaii.cc/godot_useful_plugin/</link>
+<pubDate>Mon, 13 Feb 2023 03:56:46 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
+<description>godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱</description>
+</item>
 <item>
 <title>[Godot] 多语言脚本交互</title>
 <link>http://blog.xuaii.cc/godot-script-interact/</link>
@@ -78,14 +86,6 @@
 <author>xuaii</author>
 <guid>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</guid>
 <description>在各个Godot初学者教程中，实现第一个人物控制器都是使用的状态机，常见的有以下写法： 写法一 全在 Update 中 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</description>
-</item>
-<item>
-<title>[游戏外挂] 辅助瞄准系统</title>
-<link>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</link>
-<pubDate>Tue, 03 Jan 2023 18:38:22 +0800</pubDate>
-<author>xuaii</author>
-<guid>http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/</guid>
-<description>参考列表 Python embedding c++多线程调用python yolov7-ncnn Yolo-FastestV2 ncnn教程 ncnn 环境 opencv之Mat格式数据转换成onnxruntime的输入tensor处理</description>
 </item>
 </channel>
 </rss>
