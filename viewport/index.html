@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE - xuii's blog wind</title><meta content="" name="Description"/><meta content="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" property="og:title"/>
+<meta content="官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/viewport/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-02-14T10:28:50+08:00" property="article:published_time"/>
+<meta content="2023-02-14T10:28:50+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" name="twitter:title"/>
+<meta content="官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/viewport/" rel="canonical"/><link href="http://blog.xuaii.cc/godot_useful_plugin/" rel="prev"/><link href="http://blog.xuaii.cc/flexible-2d-platform-game-controller/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[godot4] Viewport \u0026\u0026 CanvasLayer \u0026\u0026 Camera \u0026\u0026 SCREEN_TEXTURE",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/viewport\/"
+        },"genre": "posts","wordcount":  934 ,
+        "url": "http:\/\/blog.xuaii.cc\/viewport\/","datePublished": "2023-02-14T10:28:50+08:00","dateModified": "2023-02-14T10:28:50+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "xuaii"
+            },"description": ""
+    }
+    </script></head>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
+</header><header class="mobile" id="header-mobile">
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="xuii's blog wind">Wind Island</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header><div class="search-dropdown desktop">
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>xuaii</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-14">2023-02-14</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 934 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 2 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#canvasitem"><code>CanvasItem</code></a></li>
+<li><a href="#canvaslayer"><code>CanvasLayer</code></a></li>
+<li><a href="#camera2d"><code>Camera2D</code></a></li>
+</ul>
+</nav></div>
+</div><div class="content" id="content"><p>官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的</p>
+<h2 id="canvasitem"><code>CanvasItem</code></h2>
+<p>所有的 Node 和 Control 都继承自 CanvasItem, 每个 CanvasItem 都继承其父节点的 Transform</p>
+<p>所有被显示的 CanvasItem 都是Viewport 的直接或间接子节点。</p>
+<p>移动整个场景，应该改变 Viewport 的Transform 而不是场景的 Node</p>
+<h2 id="canvaslayer"><code>CanvasLayer</code></h2>
+<p><img alt="https://docs.godotengine.org/en/latest/_images/canvaslayers.png" class="lazyload" data-sizes="auto" data-src="https://docs.godotengine.org/en/latest/_images/canvaslayers.png" data-srcset="https://docs.godotengine.org/en/latest/_images/canvaslayers.png, https://docs.godotengine.org/en/latest/_images/canvaslayers.png 1.5x, https://docs.godotengine.org/en/latest/_images/canvaslayers.png 2x" src="/svg/loading.min.svg" title="https://docs.godotengine.org/en/latest/_images/canvaslayers.png"/>
+比如我们希望 HUD / UI 的屏幕位置不发生改变，就可以为 UI 创建一个单独的 CanvasLayer，能够让某层独立的渲染它通过 Layer 数字规定了<strong>渲染的优先级</strong>，这很重要。</p>
+<p>CanvasLayers 的渲染顺序与树结构无关，只依赖于层编号 <code>layer</code>.</p>
+<p>也就是说，树上存在两个有不同 <code>layer</code> 、且是直接或间接父子关系的 CanvasLayer，其渲染关系/顺序不依照树结构，而是 <code>layer</code> 。</p>
+<p><code>layer</code> 越大，越后绘制，在图层越上面！</p>
+<h2 id="camera2d"><code>Camera2D</code></h2>
+<p>一个 Viewport 中仅存在一个被激活的 Camera2D, 这意味着一个 Viewport 仅为一个相机显示画面。</p>
+<p>3D中情况不同，可以使用多个相机对世界进行观察，并将其中一些映射到纹理。</p>
+<p>那么2D 下如何实现这种功能呢？例如我们需要做一个 2D 的双人同屏游戏该怎么做呢？</p>
+<p>Viewport 所观测的世界由资源对象 <code>World2D</code> 控制, 如果两个Viewport 的 <code>World2D</code> 指向同一个对象，他们的相机在 <code>World2D</code> 的不同位置，那么它们的 Viewport 所绘制的画面也是不同的。例如双人同屏游戏可以按如下结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">* root
+</span></span><span class="line"><span class="cl">    * WorldNode
+</span></span><span class="line"><span class="cl">    * CanvasLayer
+</span></span><span class="line"><span class="cl">        * HBoxContainer
+</span></span><span class="line"><span class="cl">            * SubViewportContainer(Left Screen)
+</span></span><span class="line"><span class="cl">                * SubViewport
+</span></span><span class="line"><span class="cl">                    * Camera_left
+</span></span><span class="line"><span class="cl">            * SubViewportContainer(Right Screen)
+</span></span><span class="line"><span class="cl">                * SubViewport
+</span></span><span class="line"><span class="cl">                    * Camera_right
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">let LeftSubViewportContainer.SubViewport.World2D = root.GetViewport();
+</span></span><span class="line"><span class="cl">let RightSubViewportContainer.SubViewport.World2D = root.GetViewport();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种结构是侵入性的，它需要修改整个项目的树结构。有时我们只想为场景添加一个 Mini Map UI 怎么办呢？可以使用以下结构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">* root
+</span></span><span class="line"><span class="cl">    * WorldNode
+</span></span><span class="line"><span class="cl">        * ...
+</span></span><span class="line"><span class="cl">        * MainCamera
+</span></span><span class="line"><span class="cl">    * CanvasLayer
+</span></span><span class="line"><span class="cl">        * SubViewportContainer
+</span></span><span class="line"><span class="cl">            * SubViewport
+</span></span><span class="line"><span class="cl">                * MapCamera
+</span></span><span class="line"><span class="cl">let SubViewport.World2D = root.GetViewport();
+</span></span><span class="line"><span class="cl">let MapCamera.GlobalPosition = MainCamera.GlobalPosition;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样就能将 SubViewportContainer 作为小地图，并且通过CanvasLayer限制其层数。</p>
+<p>值得注意的是：这里必须要使用 CanvasLayer， 这是由硬件的并行工作原理限制的。
+如果在同一层渲染，渲染 root.Viewport 时需要获得 SubViewport 的纹理，渲染 SubViewport  时需要 root.Viewport  纹理，这就在一次渲染中既需要读也需要写纹理，这在目前的硬件上是不好实现的。</p>
+<p>所以添加了 CanvasLayer，让两个 Viewport 的绘制不是同一个调用中绘制的！！</p>
+<p>此外 SubViewportContainer 好像有神奇的功能， 使用ViewportTexture 会抛出找不到 SubViewport 的错误（虽然也能显示，但是会报错，不清楚具体原因）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">E 0:00:00:0625   get_node: Node not found: "CanvasLayer/CustomSubViewport" (relative to "Node2D").
+</span></span><span class="line"><span class="cl">  &lt;C++ 错误&gt;       Method/function failed. Returning: nullptr
+</span></span><span class="line"><span class="cl">  &lt;C++ Source&gt;   scene/main/node.cpp:1364 @ get_node()
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">E 0:00:00:0625   setup_local_to_scene: ViewportTexture: Path to node is invalid.
+</span></span><span class="line"><span class="cl">  &lt;C++ 错误&gt;       Condition "!vpn" is true.
+</span></span><span class="line"><span class="cl">  &lt;C++ Source&gt;   scene/main/viewport.cpp:76 @ setup_local_to_scene()
+</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-02-14</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/viewport/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" data-url="http://blog.xuaii.cc/viewport/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/viewport/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" data-url="http://blog.xuaii.cc/viewport/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" data-url="http://blog.xuaii.cc/viewport/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE" data-url="http://blog.xuaii.cc/viewport/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/godot_useful_plugin/" rel="prev" title="[Godot4.0] 实用插件搜索计划 第一期"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[Godot4.0] 实用插件搜索计划 第一期</a>
+<a class="next" href="/flexible-2d-platform-game-controller/" rel="next" title="List of 2D Platformer Controllers [23.2.17]">List of 2D Platformer Controllers [23.2.17]<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">xuaii</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
+</html>

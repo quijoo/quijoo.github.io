@@ -5,8 +5,24 @@
 <link>http://blog.xuaii.cc/</link>
 <description>xuii's blog wind</description>
 <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Mon, 13 Feb 2023 03:56:46 +0800</lastBuildDate>
+<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 17 Feb 2023 10:02:41 +0800</lastBuildDate>
 <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>List of 2D Platformer Controllers [23.2.17]</title>
+<link>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</link>
+<pubDate>Fri, 17 Feb 2023 10:02:41 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</guid>
+<description>在我自己的 2D Platformer 项目中控制器手感非常僵硬，有一部分原因是缺少合适的角色动画，另一部分原因是控制器没有足够灵活。 然而在 Bilibili、Yout</description>
+</item>
+<item>
+<title>[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE</title>
+<link>http://blog.xuaii.cc/viewport/</link>
+<pubDate>Tue, 14 Feb 2023 10:28:50 +0800</pubDate>
+<author>xuaii</author>
+<guid>http://blog.xuaii.cc/viewport/</guid>
+<description>官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control</description>
+</item>
 <item>
 <title>[Godot4.0] 实用插件搜索计划 第一期</title>
 <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
@@ -70,22 +86,6 @@
 <author>xuaii</author>
 <guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
 <description>原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便</description>
-</item>
-<item>
-<title>[转载] c 多线程调用 python</title>
-<link>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</link>
-<pubDate>Tue, 03 Jan 2023 18:41:05 +0800</pubDate>
-<author>xuaii</author>
-<guid>http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/</guid>
-<description>脚本语言是快速编写富有弹性的代码的重要方法之一，在 Unix 系统自动化管理中已经应用了多种脚本语言。现在，在许多应用开发中，也提供了脚本层，这大大方</description>
-</item>
-<item>
-<title>状态机的几种写法</title>
-<link>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</link>
-<pubDate>Tue, 03 Jan 2023 18:40:24 +0800</pubDate>
-<author>xuaii</author>
-<guid>http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/</guid>
-<description>在各个Godot初学者教程中，实现第一个人物控制器都是使用的状态机，常见的有以下写法： 写法一 全在 Update 中 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</description>
 </item>
 </channel>
 </rss>
