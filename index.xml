@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-<title>xuii's blog wind</title>
+<title>Quijo's blog</title>
 <link>http://blog.xuaii.cc/</link>
-<description>xuii's blog wind</description>
-<generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (xuaii)</managingEditor>
-<webMaster>herrn.xu@outlook.com (xuaii)</webMaster><lastBuildDate>Fri, 17 Feb 2023 10:02:41 +0800</lastBuildDate>
+<description>Quijo's blog</description>
+<generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
+<webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Fri, 17 Feb 2023 10:02:41 +0800</lastBuildDate>
 <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml"/>
 <item>
 <title>List of 2D Platformer Controllers [23.2.17]</title>
 <link>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</link>
 <pubDate>Fri, 17 Feb 2023 10:02:41 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</guid>
 <description>在我自己的 2D Platformer 项目中控制器手感非常僵硬，有一部分原因是缺少合适的角色动画，另一部分原因是控制器没有足够灵活。 然而在 Bilibili、Yout</description>
 </item>
@@ -19,7 +19,7 @@
 <title>[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE</title>
 <link>http://blog.xuaii.cc/viewport/</link>
 <pubDate>Tue, 14 Feb 2023 10:28:50 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/viewport/</guid>
 <description>官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control</description>
 </item>
@@ -27,7 +27,7 @@
 <title>[Godot4.0] 实用插件搜索计划 第一期</title>
 <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
 <pubDate>Mon, 13 Feb 2023 03:56:46 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
 <description>godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱</description>
 </item>
@@ -35,7 +35,7 @@
 <title>[Godot] 多语言脚本交互</title>
 <link>http://blog.xuaii.cc/godot-script-interact/</link>
 <pubDate>Sun, 12 Feb 2023 07:05:34 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/godot-script-interact/</guid>
 <description>godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。 直接与特定脚本交互 对于那些直接与脚本系统交互</description>
 </item>
@@ -43,7 +43,7 @@
 <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
 <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
 <pubDate>Fri, 10 Feb 2023 09:17:02 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
 <description>Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo</description>
 </item>
@@ -51,7 +51,7 @@
 <title>[游戏机制] 交换球</title>
 <link>http://blog.xuaii.cc/game-idea-exchange/</link>
 <pubDate>Mon, 16 Jan 2023 06:58:23 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
 <description>灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设</description>
 </item>
@@ -59,7 +59,7 @@
 <title>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</title>
 <link>http://blog.xuaii.cc/game-idea-mmoplat/</link>
 <pubDate>Wed, 11 Jan 2023 02:03:51 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/game-idea-mmoplat/</guid>
 <description>为什么想到这样一个游戏？ 前两年入坑了 《最终幻想14》，感受到现今 MMORPG 最大的缺点就是更新慢慢慢慢！通常两个版本之间有3个月的长草期，在这段时间玩</description>
 </item>
@@ -67,7 +67,7 @@
 <title>[挖坑] 将高级语言编译为红石电路</title>
 <link>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</link>
 <pubDate>Tue, 03 Jan 2023 18:42:51 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</guid>
 <description>既然我的世界是图灵完备的，那么一定可以将c/c++等静态语言编译成红石电路，只用提供一些基础的模块就能（输入输出，各种库）编译出确定的红石电</description>
 </item>
@@ -75,7 +75,7 @@
 <title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
 <link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
 <pubDate>Tue, 03 Jan 2023 18:42:13 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
 <description>转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费</description>
 </item>
@@ -83,7 +83,7 @@
 <title>[转载] p2p 内网穿透技术</title>
 <link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
 <pubDate>Tue, 03 Jan 2023 18:41:36 +0800</pubDate>
-<author>xuaii</author>
+<author>_quijo</author>
 <guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
 <description>原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便</description>
 </item>
