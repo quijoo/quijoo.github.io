@@ -28,7 +28,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/blog.xuaii.cc\/godot_useful_plugin\/"
-        },"genre": "posts","wordcount":  1392 ,
+        },"genre": "posts","wordcount":  1565 ,
         "url": "http:\/\/blog.xuaii.cc\/godot_useful_plugin\/","datePublished": "2023-02-13T03:56:46+08:00","dateModified": "2023-02-13T03:56:46+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -101,8 +101,8 @@
 <div class="toc-content" id="toc-content-auto"></div>
 </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot4.0] 实用插件搜索计划 第一期</h1><div class="post-meta">
 <div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
-<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-13">2023-02-13</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1392 words 
-                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 3 minutes </div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-13">2023-02-13</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1565 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 4 minutes </div>
 </div><div class="details toc" data-kept="true" id="toc-static">
 <div class="details-summary toc-title">
 <span>Contents</span>
@@ -139,6 +139,21 @@
 <li>历史表达式管理</li>
 </ul>
 <p>这个真有点猛吧, 很多In-game 的控制台都是侵入式的，需要修改很多游戏代码，但是这个插件利用 <code>GodotObject</code> 的 <code>call(name, params[]) / get(name) / set(name, value)</code> 方法监控变量，计算表达式，调用方法！</p>
+<div class="details admonition info open">
+<div class="details-summary admonition-title">
+<i aria-hidden="true" class="icon fas fa-info-circle fa-fw"></i>Tip<i aria-hidden="true" class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class="details-content">
+<div class="admonition-content"><p>[2023.2.24] 使用情况：设计很方便，主要功能是能在游戏运行时监控对象，但是 godot 本来就有类似的性能监视器功能只是是在编辑器界面的。
+对于屏幕小而不能同时到编辑器和游戏窗口的情况很方便。</p>
+<p>但是在使用过程中遇到了恶性BUG：</p>
+<ol>
+<li>监控的对象一旦被销毁，则会触发空引用报错 。。。</li>
+<li>有些时候会出现狂掉帧（原因不明，但是关掉这个插件就恢复了）</li>
+</ol>
+</div>
+</div>
+</div>
 <h2 id="softbody-2d---a-squishy-shapes-generatorhttpsgithubcomughuuugodot-4-softbody2d"><a href="https://github.com/Ughuuu/godot-4-softbody2d" rel="noopener noreffer" target="_blank">Softbody 2D - <em>A squishy shapes generator</em></a></h2>
 <p>在 Unity3D 中有很多方法使用软体物理(Juice), 但是 Godot4.0 中仅提供了 3D 软体，而没有2D 软体</p>
 <p>虽然可以手动的通过 <code>Rigidibody2D</code>， <code>Spring</code> 等组件来构造弹性物体，但是 弹簧和钢体之间的连接方式以及数值设置非常令人头疼， 这个插件可以基于 Polygon2D 生成器来生成<strong>多边形轮廓</strong>、<strong>内部顶点</strong>、<strong>骨骼</strong>、<strong>刚体</strong></p>
@@ -212,6 +227,14 @@ Google Stadia</p>
 <p><strong>独立</strong>, 它是一个完全独立的系统，仅仅提供 <code>DialogueManager</code> 的数个 API ，对原本游戏系统几乎"零"侵入。</p>
 <p>正因为它足够简单和高效，拓展或者实现自定义 UI 都非常简单！</p>
 <p><img alt="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png" class="lazyload" data-sizes="auto" data-src="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png" data-srcset="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png, https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png 1.5x, https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png 2x" src="/svg/loading.min.svg" title="https://raw.githubusercontent.com/nathanhoad/godot_dialogue_manager/main/docs/hero.png"/></p>
+<div class="details admonition info open">
+<div class="details-summary admonition-title">
+<i aria-hidden="true" class="icon fas fa-info-circle fa-fw"></i>Tip<i aria-hidden="true" class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class="details-content">
+<div class="admonition-content">[2023.2.24] 使用情况：很简单易用，暂时没有发现 BUG</div>
+</div>
+</div>
 <p>几乎把 godot 4.0 的插件列表翻了一遍，对上边这些比较感兴趣，并且打算 <strong>Panku Console</strong> 和 <strong>Beehave</strong> 应用到自己的项目中！</p>
 </div><div class="post-footer" id="post-footer">
 <div class="post-info">
