@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Fri, 17 Feb 2023 10:02:41 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Tue, 07 Mar 2023 21:34:58 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Lerp 函数与递推缓动</title>
+    <link>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</link>
+    <pubDate>Tue, 07 Mar 2023 21:34:58 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</guid>
+    <description><![CDATA[从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度]]></description>
+</item>
+<item>
     <title>List of 2D Platformer Controllers [23.2.17]</title>
     <link>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</link>
     <pubDate>Fri, 17 Feb 2023 10:02:41 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
     <description><![CDATA[转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费]]></description>
-</item>
-<item>
-    <title>[转载] p2p 内网穿透技术</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:41:36 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
-    <description><![CDATA[原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便]]></description>
 </item>
 </channel>
 </rss>
