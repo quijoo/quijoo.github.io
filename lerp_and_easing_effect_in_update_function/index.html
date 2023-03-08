@@ -327,7 +327,7 @@ $$
 其中 $p, \triangle t$ 几乎是不变的, 所以对于某时刻 $t$, <strong>当前值(c)</strong> 随 <strong>终点值(f)</strong> 的变化而平滑变化</p>
 <h4 id="当前值c-的变化速率">当前值(c) 的变化速率</h4>
 <p>由于 $g(t)$ 是一个以 $y=f$ 为渐近线的渐进曲线。所以 我们可以计算 $\delta = |g(t) - f| = (1-p)^{\frac{t}{\triangle t} \cdot (f -s)}$ 来表示值得接近程度,</p>
-<p>$(1-p)^{\frac{t}{\triangle t}}$ 表示,随着越来越接近 <strong>终点值(f)</strong> 变化将越来越缓慢, 所以该曲线影响 渐进速度的量是 $(1-p)^{\frac{t}{\triangle t}$ 项</p>
+<p>$(1-p)^{\frac{t}{\triangle t}}$ 表示,随着越来越接近 <strong>终点值(f)</strong> 变化将越来越缓慢, 所以该曲线影响 渐进速度的量是 $(1-p)^{\frac{t}{\triangle t}}$ 项</p>
 <p>当 <code>s = 0, f = 1, p = 0.83, dt = [0.1 -&gt; 0.7]</code> 是如下图：（$\triangle t$ 越大曲线弯曲程度越小）</p>
 <iframe frameborder="0" height="500" src="https://www.desmos.com/calculator/nslvhpefyz?embed" style="border: 1px solid #ccc" width="500"></iframe>
 <p>可见 $p$ 和 $\triangle t$ 都会影响曲线的<strong>弯曲程度(渐进时间)</strong>, 并且 影响的方向相反(一个变平滑一个变弯曲)</p>
