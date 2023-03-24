@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Fri, 10 Mar 2023 14:29:11 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Fri, 24 Mar 2023 14:06:48 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[转载]C#垃圾回收机制(GC)</title>
+    <link>http://blog.xuaii.cc/csharp-gc/</link>
+    <pubDate>Fri, 24 Mar 2023 14:06:48 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/csharp-gc/</guid>
+    <description><![CDATA[GC的前世与今生 虽然本文是以 .Net 作为目标来讲述 GC，但是 GC 的概念并非才诞生不久。早在1958年，由鼎鼎大名的图林奖得主 John McCarthy 所实现的 Lisp 语言就已经]]></description>
+</item>
+<item>
     <title>[转载] 为什么我国中学的哲学教育这么失败?</title>
     <link>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</link>
     <pubDate>Fri, 10 Mar 2023 14:29:11 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/game-idea-mmoplat/</guid>
     <description><![CDATA[为什么想到这样一个游戏？ 前两年入坑了 《最终幻想14》，感受到现今 MMORPG 最大的缺点就是更新慢慢慢慢！通常两个版本之间有3个月的长草期，在这段时间玩]]></description>
-</item>
-<item>
-    <title>[挖坑] 将高级语言编译为红石电路</title>
-    <link>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:42:51 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/</guid>
-    <description><![CDATA[既然我的世界是图灵完备的，那么一定可以将c/c++等静态语言编译成红石电路，只用提供一些基础的模块就能（输入输出，各种库）编译出确定的红石电]]></description>
 </item>
 </channel>
 </rss>
