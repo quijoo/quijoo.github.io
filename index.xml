@@ -56,14 +56,6 @@
 <description>godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱</description>
 </item>
 <item>
-<title>[Godot] 多语言脚本交互</title>
-<link>http://blog.xuaii.cc/godot-script-interact/</link>
-<pubDate>Sun, 12 Feb 2023 07:05:34 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/godot-script-interact/</guid>
-<description>godot 社区的许多插件都是用 gdscript 写的，但是为了结构清晰自己在些项目的时候习惯用 C#，这就带来了很多不便。 直接与特定脚本交互 对于那些直接与脚本系统交互</description>
-</item>
-<item>
 <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
 <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
 <pubDate>Fri, 10 Feb 2023 09:17:02 +0800</pubDate>
@@ -80,12 +72,20 @@
 <description>灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设</description>
 </item>
 <item>
-<title>[游戏IDEA] 开源 2D多人在线平台跳跃游戏</title>
-<link>http://blog.xuaii.cc/game-idea-mmoplat/</link>
-<pubDate>Wed, 11 Jan 2023 02:03:51 +0800</pubDate>
+<title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
+<link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
+<pubDate>Tue, 03 Jan 2023 18:42:13 +0800</pubDate>
 <author>_quijo</author>
-<guid>http://blog.xuaii.cc/game-idea-mmoplat/</guid>
-<description>为什么想到这样一个游戏？ 前两年入坑了 《最终幻想14》，感受到现今 MMORPG 最大的缺点就是更新慢慢慢慢！通常两个版本之间有3个月的长草期，在这段时间玩</description>
+<guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
+<description>转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费</description>
+</item>
+<item>
+<title>[转载] p2p 内网穿透技术</title>
+<link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
+<pubDate>Tue, 03 Jan 2023 18:41:36 +0800</pubDate>
+<author>_quijo</author>
+<guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
+<description>原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便</description>
 </item>
 </channel>
 </rss>
