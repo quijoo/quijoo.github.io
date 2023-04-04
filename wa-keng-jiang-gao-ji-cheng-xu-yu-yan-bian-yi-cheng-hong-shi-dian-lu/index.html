@@ -19,23 +19,23 @@
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu/" rel="canonical"/><link href="http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/" rel="prev"/><link href="http://blog.xuaii.cc/game-idea-mmoplat/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[挖坑] 将高级语言编译为红石电路",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu\/"
-        },"genre": "posts","wordcount":  431 ,
-        "url": "http:\/\/blog.xuaii.cc\/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu\/","datePublished": "2023-01-03T18:42:51+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[挖坑] 将高级语言编译为红石电路",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu\/"
+        },"genre": "posts","wordcount":  431 ,
+        "url": "http:\/\/blog.xuaii.cc\/wa-keng-jiang-gao-ji-cheng-xu-yu-yan-bian-yi-cheng-hong-shi-dian-lu\/","datePublished": "2023-01-03T18:42:51+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
 <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -83,8 +83,8 @@
 <i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
 </span>
 </div>
-<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
-                        Cancel
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
 <i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
@@ -101,7 +101,7 @@
 <div class="toc-content" id="toc-content-auto"></div>
 </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[挖坑] 将高级语言编译为红石电路</h1><div class="post-meta">
 <div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
-<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 431 words 
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 431 words 
                 <i aria-hidden="true" class="far fa-clock fa-fw"></i> One minute </div>
 </div><div class="details toc" data-kept="true" id="toc-static">
 <div class="details-summary toc-title">
@@ -111,8 +111,8 @@
 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
 </div><div class="content" id="content"><p>既然我的世界是图灵完备的，那么一定可以将c/c++等静态语言编译成红石电路，只用提供一些基础的模块就能（输入输出，各种库）编译出确定的红石电路。</p>
 <ol>
-<li>要通过代码控制我的世界，就要有 Minecraft 的API接口
-<a href="https://github.com/PrismarineJS/mineflayer" rel="noopener noreffer" target="_blank">Mine Player API</a> 用于创建游戏机器人，通过对机器人的操作可以按照编译出的指令执行创建/设置方块，并且可以在游戏中录制建造过程，API功能如下：
+<li>要通过代码控制我的世界，就要有 Minecraft 的API接口
+<a href="https://github.com/PrismarineJS/mineflayer" rel="noopener noreffer" target="_blank">Mine Player API</a> 用于创建游戏机器人，通过对机器人的操作可以按照编译出的指令执行创建/设置方块，并且可以在游戏中录制建造过程，API功能如下：
 <ul>
 <li>Entity knowledge and tracking.</li>
 <li>Block knowledge. You can query the world around you. Milliseconds to find any block.</li>
@@ -132,14 +132,14 @@
 </ol>
 <p>要实现上述功能需要以下模块：</p>
 <ol>
-<li>机器人控制器
+<li>机器人控制器
 <ul>
 <li>该模块使用 Mine Player API 控制机器人操作方块</li>
 <li>当接收到某个指令，需要指挥机器人行动</li>
 <li>维护一个 世界对象，需要计算 创建/销毁 的位置</li>
 </ul>
 </li>
-<li>AST  解析器
+<li>AST  解析器
 <ul>
 <li>遍历 AST 生成指令（这里的指令是位置无关的，例如创建一个变量，但是不需要知道在什么位置创建，需要 机器人控制器来计算合理的位置）</li>
 </ul>

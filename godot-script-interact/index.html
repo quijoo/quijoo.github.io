@@ -19,23 +19,23 @@
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/godot-script-interact/" rel="canonical"/><link href="http://blog.xuaii.cc/godot_dialogue_plugin/" rel="prev"/><link href="http://blog.xuaii.cc/godot_useful_plugin/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[Godot] 多语言脚本交互",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/godot-script-interact\/"
-        },"genre": "posts","wordcount":  506 ,
-        "url": "http:\/\/blog.xuaii.cc\/godot-script-interact\/","datePublished": "2023-02-12T07:05:34+08:00","dateModified": "2023-02-12T07:05:34+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[Godot] 多语言脚本交互",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/godot-script-interact\/"
+        },"genre": "posts","wordcount":  506 ,
+        "url": "http:\/\/blog.xuaii.cc\/godot-script-interact\/","datePublished": "2023-02-12T07:05:34+08:00","dateModified": "2023-02-12T07:05:34+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
 <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -83,8 +83,8 @@
 <i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
 </span>
 </div>
-<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
-                        Cancel
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
 <i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
@@ -101,7 +101,7 @@
 <div class="toc-content" id="toc-content-auto"></div>
 </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot] 多语言脚本交互</h1><div class="post-meta">
 <div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
-<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-12">2023-02-12</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 506 words 
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-12">2023-02-12</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 506 words 
                 <i aria-hidden="true" class="far fa-clock fa-fw"></i> 2 minutes </div>
 </div><div class="details toc" data-kept="true" id="toc-static">
 <div class="details-summary toc-title">
@@ -127,68 +127,68 @@
 <p><code>github/godot_dialogue_manager</code> 这样的插件对然是纯 gdscript 实现，但是整个系统仅提供一个名为<code>DialogueManager</code>的单例对象，那访问该对象就很容易了</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">DialogueManagerRuntime</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">DialogueManager</span> <span class="p">:</span> <span class="n">Node</span>
-</span></span><span class="line"><span class="cl">  <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">RefCounted</span><span class="p">&gt;</span> <span class="n">GetNextDialogueLine</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">dialogueManager</span> <span class="p">=</span> <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">      <span class="n">dialogueManager</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="s">"_bridge_get_next_dialogue_line"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
-</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">dialogueManager</span><span class="p">.</span><span class="n">ToSignal</span><span class="p">(</span><span class="n">dialogueManager</span><span class="p">,</span> <span class="s">"bridge_get_next_dialogue_line_completed"</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">(</span><span class="n">RefCounted</span><span class="p">)</span><span class="n">result</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">ShowExampleDialogueBalloon</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">).</span><span class="n">Call</span><span class="p">(</span><span class="s">"show_example_dialogue_balloon"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">DialogueManagerRuntime</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span> <span class="k">partial</span> <span class="k">class</span> <span class="nc">DialogueManager</span> <span class="p">:</span> <span class="n">Node</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">RefCounted</span><span class="p">&gt;</span> <span class="n">GetNextDialogueLine</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">dialogueManager</span> <span class="p">=</span> <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">dialogueManager</span><span class="p">.</span><span class="n">Call</span><span class="p">(</span><span class="s">"_bridge_get_next_dialogue_line"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">dialogueManager</span><span class="p">.</span><span class="n">ToSignal</span><span class="p">(</span><span class="n">dialogueManager</span><span class="p">,</span> <span class="s">"bridge_get_next_dialogue_line_completed"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">(</span><span class="n">RefCounted</span><span class="p">)</span><span class="n">result</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">ShowExampleDialogueBalloon</span><span class="p">(</span><span class="n">Resource</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="s">"0"</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;</span> <span class="n">extraGameStates</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Engine</span><span class="p">.</span><span class="n">GetSingleton</span><span class="p">(</span><span class="s">"DialogueManager"</span><span class="p">).</span><span class="n">Call</span><span class="p">(</span><span class="s">"show_example_dialogue_balloon"</span><span class="p">,</span> <span class="n">dialogueResource</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">extraGameStates</span> <span class="p">??</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">Variant</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>无论是 c# 还是 gsdcript 使用 AutoLoad 方式加载的全局单例对象都可以通过 Engine.GetSingleton(“DialogueManager”) 获取。</p>
 <p>但是得到的 Manger 对象是一个  GodotObject 对象，只能通过以下方式访问对象</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Call</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">CallDeferred</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Callv</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="n">Collections</span><span class="p">.</span><span class="n">Array</span> <span class="n">argArray</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Get</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">Set</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">,</span> <span class="n">Variant</span> <span class="k">value</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">...</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Call</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">CallDeferred</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="k">params</span> <span class="n">Variant</span><span class="p">[]</span> <span class="n">args</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Callv</span><span class="p">(</span><span class="n">StringName</span> <span class="n">method</span><span class="p">,</span> <span class="n">Collections</span><span class="p">.</span><span class="n">Array</span> <span class="n">argArray</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Variant</span> <span class="n">Get</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">Set</span><span class="p">(</span><span class="n">StringName</span> <span class="n">property</span><span class="p">,</span> <span class="n">Variant</span> <span class="k">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">

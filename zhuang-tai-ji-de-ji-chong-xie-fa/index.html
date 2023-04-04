@@ -19,23 +19,23 @@
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/zhuang-tai-ji-de-ji-chong-xie-fa/" rel="canonical"/><link href="http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/" rel="prev"/><link href="http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "状态机的几种写法",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/zhuang-tai-ji-de-ji-chong-xie-fa\/"
-        },"genre": "posts","wordcount":  1870 ,
-        "url": "http:\/\/blog.xuaii.cc\/zhuang-tai-ji-de-ji-chong-xie-fa\/","datePublished": "2023-01-03T18:40:24+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "状态机的几种写法",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/zhuang-tai-ji-de-ji-chong-xie-fa\/"
+        },"genre": "posts","wordcount":  1870 ,
+        "url": "http:\/\/blog.xuaii.cc\/zhuang-tai-ji-de-ji-chong-xie-fa\/","datePublished": "2023-01-03T18:40:24+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
 <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -83,8 +83,8 @@
 <i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
 </span>
 </div>
-<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
-                        Cancel
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
 <i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
@@ -101,7 +101,7 @@
 <div class="toc-content" id="toc-content-auto"></div>
 </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">状态机的几种写法</h1><div class="post-meta">
 <div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
-<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1870 words 
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1870 words 
                 <i aria-hidden="true" class="far fa-clock fa-fw"></i> 4 minutes </div>
 </div><div class="details toc" data-kept="true" id="toc-static">
 <div class="details-summary toc-title">
@@ -127,156 +127,156 @@
 <h2 id="写法一-全在-update-中">写法一 全在 Update 中</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ScriptName</span> <span class="p">:</span> <span class="n">Node</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">// fields</span>
-</span></span><span class="line"><span class="cl"><span class="na">   [Export]</span> <span class="kt">float</span> <span class="n">Speed</span><span class="err">；</span>
-</span></span><span class="line"><span class="cl"><span class="na">   [Export]</span> <span class="kt">float</span> <span class="n">JumpHeight</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="k">private</span> <span class="n">State</span> <span class="n">state</span> <span class="p">=</span> <span class="n">State</span><span class="p">.</span><span class="n">Idle</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="k">enum</span> <span class="n">State</span> <span class="p">:</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="cl">   <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   		<span class="n">Run</span><span class="p">,</span> <span class="n">Jump</span><span class="p">,</span> <span class="n">Idle</span><span class="p">,</span> <span class="n">Fall</span>
-</span></span><span class="line"><span class="cl">   <span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="k">public</span> <span class="k">void</span> <span class="n">Update</span>
-</span></span><span class="line"><span class="cl">   <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    	<span class="k">switch</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        	<span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Idel</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// code</span>
-</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Run</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
-</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Jump</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
-</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Fall</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
-</span></span><span class="line"><span class="cl">           <span class="k">default</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">   <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ScriptName</span> <span class="p">:</span> <span class="n">Node</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// fields</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Export]</span> <span class="kt">float</span> <span class="n">Speed</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Export]</span> <span class="kt">float</span> <span class="n">JumpHeight</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">private</span> <span class="n">State</span> <span class="n">state</span> <span class="p">=</span> <span class="n">State</span><span class="p">.</span><span class="n">Idle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="k">enum</span> <span class="n">State</span> <span class="p">:</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   		<span class="n">Run</span><span class="p">,</span> <span class="n">Jump</span><span class="p">,</span> <span class="n">Idle</span><span class="p">,</span> <span class="n">Fall</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">public</span> <span class="k">void</span> <span class="n">Update</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="k">switch</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        	<span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Idel</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// code</span>
+</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Run</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
+</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Jump</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
+</span></span><span class="line"><span class="cl">           <span class="k">case</span> <span class="n">State</span><span class="p">.</span><span class="n">Fall</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
+</span></span><span class="line"><span class="cl">           <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">           	<span class="c1">// code</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><strong>优点</strong> ： 至少能实现功能，
+</div><p><strong>优点</strong> ： 至少能实现功能，
 <strong>缺点</strong>： 不利于维护，不方便拓展</p>
 <h2 id="写法二-写成状态类和状态机类">写法二 写成状态类和状态机类</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IState</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Enter</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IState</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">StateMachine</span> <span class="n">_machine</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">T</span> <span class="n">agent</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Enter</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateMachine</span> <span class="p">:</span> <span class="n">Node</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">IState</span><span class="p">&gt;</span> <span class="n">StateInfo</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">IState</span> <span class="n">CurrentState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;()</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IState</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_Process</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">){</span> <span class="n">CurrentState</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_Process</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="n">CurrentState</span><span class="p">.</span><span class="n">PhysicsUpdate</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">RunState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">JumpState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">IdleState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">horizontalInput</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0.01</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">_machine</span><span class="p">.</span><span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">RunState</span><span class="p">&gt;();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">verticalInput</span> <span class="p">&gt;</span> <span class="m">0.1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">_machine</span><span class="p">.</span><span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">Jump</span><span class="p">&gt;();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IState</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Enter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">IState</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">StateMachine</span> <span class="n">_machine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">T</span> <span class="n">agent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Enter</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateMachine</span> <span class="p">:</span> <span class="n">Node</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">IState</span><span class="p">&gt;</span> <span class="n">StateInfo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">IState</span> <span class="n">CurrentState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;()</span> <span class="k">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IState</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_Process</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">){</span> <span class="n">CurrentState</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_Process</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="n">CurrentState</span><span class="p">.</span><span class="n">PhysicsUpdate</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">RunState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">JumpState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">IdleState</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">horizontalInput</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0.01</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_machine</span><span class="p">.</span><span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">RunState</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">verticalInput</span> <span class="p">&gt;</span> <span class="m">0.1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_machine</span><span class="p">.</span><span class="n">ChangeTo</span><span class="p">&lt;</span><span class="n">Jump</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><strong>优点</strong>:比写法一便于维护
+</div><p><strong>优点</strong>:比写法一便于维护
 <strong>缺点</strong>：如果要实现一个 Player 的状态机 和一个Enemy的状态机，他们都有相似的移动逻辑，但是Player状态机多出一些技能相关的状态；如果采用上述写法，ChangeTo()是硬编码在状态内部的，这样就不方便添加边和状态以拓展状态机</p>
 <h2 id="写法三-基于-grapheditor的状态机">写法三 ：基于 GraphEditor的状态机</h2>
 <p><a href="https://godotengine.org/asset-library/asset" rel="noopener noreffer" target="_blank">Godot Asset Store</a> 有很多基于 GraphEdit 的状态机实现，通过：</p>
@@ -284,571 +284,571 @@
 <li>为状态绑定状态脚本</li>
 <li>为转移边绑定脚本或者添加转换条件</li>
 </ol>
-<p>减少状态 和 转移边 的耦合。
-它们都有一个共同的缺点：不支持 c# 或者c#版本bug多
+<p>减少状态 和 转移边 的耦合。
+它们都有一个共同的缺点：不支持 c# 或者c#版本bug多
 所以能不能实现一个足够简单的，C#版本的，解耦状态和转化边的状态机呢？</p>
 <h2 id="写法四">写法四</h2>
 <h3 id="状态类">状态类</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot.Collections</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">StateMachine.Base</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">interface</span> <span class="nc">IState</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">StateName</span> <span class="p">{</span><span class="k">get</span><span class="p">;}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Object</span> <span class="n">agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">,</span> <span class="n">IStateMachine</span> <span class="n">machine</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">OnEnter</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">OnExit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">StateBase</span> <span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="n">IState</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// state 只持有 agent 对象不持有状态机对象</span>
-</span></span><span class="line"><span class="cl">        <span class="k">protected</span> <span class="kt">string</span> <span class="n">_StateName</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">string</span> <span class="n">StateName</span> <span class="p">=&gt;</span> <span class="n">_StateName</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Object</span> <span class="n">agent</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">IStateMachine</span> <span class="n">machine</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Object</span> <span class="n">_agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">_blackboard</span><span class="p">,</span>  <span class="n">IStateMachine</span> <span class="n">_machine</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">agent</span> <span class="p">=</span> <span class="n">_agent</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">blackboard</span> <span class="p">=</span> <span class="n">_blackboard</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">machine</span> <span class="p">=</span> <span class="n">_machine</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnExit</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">machine</span><span class="p">.</span><span class="n">Transition</span><span class="p">(</span><span class="n">StateName</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">Godot.Collections</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">StateMachine.Base</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">interface</span> <span class="nc">IState</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">StateName</span> <span class="p">{</span><span class="k">get</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Object</span> <span class="n">agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">,</span> <span class="n">IStateMachine</span> <span class="n">machine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">OnEnter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">OnExit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">StateBase</span> <span class="p">:</span> <span class="n">Object</span><span class="p">,</span> <span class="n">IState</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// state 只持有 agent 对象不持有状态机对象</span>
+</span></span><span class="line"><span class="cl">        <span class="k">protected</span> <span class="kt">string</span> <span class="n">_StateName</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">string</span> <span class="n">StateName</span> <span class="p">=&gt;</span> <span class="n">_StateName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Object</span> <span class="n">agent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">IStateMachine</span> <span class="n">machine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Object</span> <span class="n">_agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">_blackboard</span><span class="p">,</span>  <span class="n">IStateMachine</span> <span class="n">_machine</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">agent</span> <span class="p">=</span> <span class="n">_agent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">blackboard</span> <span class="p">=</span> <span class="n">_blackboard</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">machine</span> <span class="p">=</span> <span class="n">_machine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">OnExit</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">machine</span><span class="p">.</span><span class="n">Transition</span><span class="p">(</span><span class="n">StateName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>状态类内部不能调用StateMachine的ChangeTo()方法，只能实现状态自身的更新逻辑</p>
 <h3 id="工具类">工具类</h3>
-<p>IStateMachine 接口，Condition 是用于转换边的方法（返回true就转换，否则就不转换）
-满足AssertTo.condition 则转换到AssertTo.nextState
+<p>IStateMachine 接口，Condition 是用于转换边的方法（返回true就转换，否则就不转换）
+满足AssertTo.condition 则转换到AssertTo.nextState
 Transition的属性用于标志该方法是判断哪个状态转移到哪个状态的</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">interface</span> <span class="nc">IStateMachine</span>
-</span></span><span class="line"><span class="cl"> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">current</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Start</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">delegate</span> <span class="kt">bool</span> <span class="n">Condition</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">class</span> <span class="nc">AssertTo</span> <span class="p">:</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span>
-</span></span><span class="line"><span class="cl"> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">Condition</span> <span class="n">condition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="n">nextState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">AssertTo</span><span class="p">(</span><span class="n">Condition</span> <span class="n">_condition</span><span class="p">,</span> <span class="kt">string</span> <span class="n">_nextState</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="p">{</span>
-</span></span><span class="line"><span class="cl">         <span class="n">condition</span> <span class="p">=</span> <span class="n">_condition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">         <span class="n">nextState</span> <span class="p">=</span> <span class="n">_nextState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="p">}</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="na"> [System.AttributeUsage(System.AttributeTargets.Method)]</span>
-</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">class</span> <span class="nc">Transition</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">Attribute</span>
-</span></span><span class="line"><span class="cl"> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="k">from</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="n">to</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">_from</span><span class="p">,</span> <span class="kt">string</span> <span class="n">_to</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">     <span class="p">{</span>
-</span></span><span class="line"><span class="cl">         <span class="k">from</span> <span class="p">=</span> <span class="n">_from</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">         <span class="n">to</span> <span class="p">=</span> <span class="n">_to</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">     <span class="p">}</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span> 
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">interface</span> <span class="nc">IStateMachine</span>
+</span></span><span class="line"><span class="cl"> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">current</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Start</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">     <span class="k">void</span> <span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">delegate</span> <span class="kt">bool</span> <span class="n">Condition</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">class</span> <span class="nc">AssertTo</span> <span class="p">:</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span>
+</span></span><span class="line"><span class="cl"> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">Condition</span> <span class="n">condition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="n">nextState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">AssertTo</span><span class="p">(</span><span class="n">Condition</span> <span class="n">_condition</span><span class="p">,</span> <span class="kt">string</span> <span class="n">_nextState</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="n">condition</span> <span class="p">=</span> <span class="n">_condition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="n">nextState</span> <span class="p">=</span> <span class="n">_nextState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na"> [System.AttributeUsage(System.AttributeTargets.Method)]</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span> <span class="k">class</span> <span class="nc">Transition</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">Attribute</span>
+</span></span><span class="line"><span class="cl"> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="k">from</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="kt">string</span> <span class="n">to</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">public</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">_from</span><span class="p">,</span> <span class="kt">string</span> <span class="n">_to</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="k">from</span> <span class="p">=</span> <span class="n">_from</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="n">to</span> <span class="p">=</span> <span class="n">_to</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span> 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="状态机类">状态机类</h3>
 <p>状态机类继承自 StateBase，因此状态机是可嵌套的</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span><span class="lnt">112
-</span><span class="lnt">113
-</span><span class="lnt">114
-</span><span class="lnt">115
-</span><span class="lnt">116
-</span><span class="lnt">117
-</span><span class="lnt">118
-</span><span class="lnt">119
-</span><span class="lnt">120
-</span><span class="lnt">121
-</span><span class="lnt">122
-</span><span class="lnt">123
-</span><span class="lnt">124
-</span><span class="lnt">125
-</span><span class="lnt">126
-</span><span class="lnt">127
-</span><span class="lnt">128
-</span><span class="lnt">129
-</span><span class="lnt">130
-</span><span class="lnt">131
-</span><span class="lnt">132
-</span><span class="lnt">133
-</span><span class="lnt">134
-</span><span class="lnt">135
+<pre class="chroma" tabindex="0"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateMachineBase</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">,</span> <span class="n">IStateMachine</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">IState</span> <span class="n">CurrentState</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;&gt;</span> <span class="n">TransitionMap</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;&gt;();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">Name2State</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 状态机黑板</span>
-</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Godot</span><span class="p">.</span><span class="n">Object</span> <span class="n">_agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">_blackboard</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span> <span class="n">IStateMachine</span> <span class="n">_machine</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">base</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">_agent</span><span class="p">,</span> <span class="n">_blackboard</span><span class="p">,</span> <span class="n">_machine</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">blackboard</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">blackboard</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;();</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">_machine</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 初始化状态列表 &amp;&amp; 初始化状态名</span>
-</span></span><span class="line"><span class="cl">    <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">info</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">().</span><span class="n">GetFields</span><span class="p">(</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">NonPublic</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">ReflectedType</span><span class="p">.</span><span class="n">IsSubclassOf</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StateMachine</span><span class="p">.</span><span class="n">Base</span><span class="p">.</span><span class="n">StateBase</span><span class="p">)))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">"[FSM runtime] duplicate state "</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="k">else</span>
-</span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">IState</span> <span class="n">state</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">GetValue</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(</span><span class="n">state</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">                <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="c1">// current state is null before start</span>
-</span></span><span class="line"><span class="cl">                    <span class="k">continue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">                <span class="n">Name2State</span><span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span> <span class="p">=</span> <span class="n">state</span> <span class="k">as</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">blackboard</span><span class="p">,</span> <span class="k">this</span> <span class="k">as</span> <span class="n">IStateMachine</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="n">state</span> <span class="k">as</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">).</span><span class="n">Set</span><span class="p">(</span><span class="s">"_StateName"</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 初始化转换边列表</span>
-</span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">info</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">().</span><span class="n">GetMethods</span><span class="p">(</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">NonPublic</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">GetCustomAttribute</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;()</span> <span class="k">is</span> <span class="n">Transition</span> <span class="n">transition</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">)</span> <span class="p">||</span> <span class="p">!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">to</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">                <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(!</span><span class="n">TransitionMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">                <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">TransitionMap</span><span class="p">[</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;();</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">                <span class="n">TransitionMap</span><span class="p">[</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">].</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">AssertTo</span><span class="p">((</span><span class="n">Condition</span><span class="p">)</span><span class="n">Delegate</span><span class="p">.</span><span class="n">CreateDelegate</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">Condition</span><span class="p">),</span> <span class="k">this</span><span class="p">,</span> <span class="n">info</span><span class="p">),</span> <span class="n">transition</span><span class="p">.</span><span class="n">to</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="cp">#region life cycle</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Start</span><span class="p">(</span><span class="s">"entry"</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span><span class="p">.</span><span class="n">PhysicsUpdate</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">machine</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">else</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">base</span><span class="p">.</span><span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// API</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">current</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="k">is</span> <span class="n">ExitState</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnExit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">TransitionMap</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(!</span><span class="n">TransitionMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="n">AssertTo</span> <span class="n">edge</span> <span class="k">in</span> <span class="n">TransitionMap</span><span class="p">[</span><span class="n">current</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">edge</span><span class="p">.</span><span class="n">condition</span><span class="p">.</span><span class="n">Invoke</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">            <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="c1">// 添加信号</span>
-</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnExit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span> <span class="p">=</span> <span class="n">Name2State</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">nextState</span><span class="p">]</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnEnter</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Start</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span> <span class="p">=</span> <span class="n">Name2State</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnEnter</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">StateMachineBase</span> <span class="p">:</span> <span class="n">StateBase</span><span class="p">,</span> <span class="n">IStateMachine</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">IState</span> <span class="n">CurrentState</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;&gt;</span> <span class="n">TransitionMap</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">Name2State</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 状态机黑板</span>
+</span></span><span class="line"><span class="cl">    <span class="k">protected</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">blackboard</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Init</span><span class="p">(</span><span class="n">Godot</span><span class="p">.</span><span class="n">Object</span> <span class="n">_agent</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">_blackboard</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span> <span class="n">IStateMachine</span> <span class="n">_machine</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">base</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">_agent</span><span class="p">,</span> <span class="n">_blackboard</span><span class="p">,</span> <span class="n">_machine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">blackboard</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">blackboard</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">_machine</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 初始化状态列表 &amp;&amp; 初始化状态名</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">info</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">().</span><span class="n">GetFields</span><span class="p">(</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">NonPublic</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">ReflectedType</span><span class="p">.</span><span class="n">IsSubclassOf</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">StateMachine</span><span class="p">.</span><span class="n">Base</span><span class="p">.</span><span class="n">StateBase</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">"[FSM runtime] duplicate state "</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">IState</span> <span class="n">state</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">GetValue</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(</span><span class="n">state</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// current state is null before start</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Name2State</span><span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">]</span> <span class="p">=</span> <span class="n">state</span> <span class="k">as</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">state</span><span class="p">.</span><span class="n">Init</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">blackboard</span><span class="p">,</span> <span class="k">this</span> <span class="k">as</span> <span class="n">IStateMachine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">(</span><span class="n">state</span> <span class="k">as</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">).</span><span class="n">Set</span><span class="p">(</span><span class="s">"_StateName"</span><span class="p">,</span> <span class="n">info</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 初始化转换边列表</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">info</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="n">GetType</span><span class="p">().</span><span class="n">GetMethods</span><span class="p">(</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">NonPublic</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">GetCustomAttribute</span><span class="p">&lt;</span><span class="n">Transition</span><span class="p">&gt;()</span> <span class="k">is</span> <span class="n">Transition</span> <span class="n">transition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">)</span> <span class="p">||</span> <span class="p">!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="n">to</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span><span class="p">(!</span><span class="n">TransitionMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">TransitionMap</span><span class="p">[</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Array</span><span class="p">&lt;</span><span class="n">AssertTo</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">TransitionMap</span><span class="p">[</span><span class="n">transition</span><span class="p">.</span><span class="k">from</span><span class="p">].</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">AssertTo</span><span class="p">((</span><span class="n">Condition</span><span class="p">)</span><span class="n">Delegate</span><span class="p">.</span><span class="n">CreateDelegate</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">Condition</span><span class="p">),</span> <span class="k">this</span><span class="p">,</span> <span class="n">info</span><span class="p">),</span> <span class="n">transition</span><span class="p">.</span><span class="n">to</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cp">#region life cycle</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Start</span><span class="p">(</span><span class="s">"entry"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span><span class="p">.</span><span class="n">Update</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span><span class="p">.</span><span class="n">PhysicsUpdate</span><span class="p">(</span><span class="n">delta</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Exit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">machine</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CurrentState</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">base</span><span class="p">.</span><span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// API</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Transition</span><span class="p">(</span><span class="kt">string</span> <span class="n">current</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">CurrentState</span> <span class="k">is</span> <span class="n">ExitState</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnExit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(!</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">TransitionMap</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(!</span><span class="n">TransitionMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="n">AssertTo</span> <span class="n">edge</span> <span class="k">in</span> <span class="n">TransitionMap</span><span class="p">[</span><span class="n">current</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">edge</span><span class="p">.</span><span class="n">condition</span><span class="p">.</span><span class="n">Invoke</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 添加信号</span>
+</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnExit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span> <span class="p">=</span> <span class="n">Name2State</span><span class="p">[</span><span class="n">edge</span><span class="p">.</span><span class="n">nextState</span><span class="p">]</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnEnter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">Start</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">Name2State</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span> <span class="p">=</span> <span class="n">Name2State</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">as</span> <span class="n">IState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CurrentState</span><span class="p">.</span><span class="n">OnEnter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="demo">Demo</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 状态定义</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Idle</span> <span class="p">:</span> <span class="n">StateBase</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">PlayAnimation</span><span class="p">(</span><span class="s">"Idle"</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">InputCache</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">Exit</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Run</span> <span class="p">:</span> <span class="n">StateBase</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">PlayAnimation</span><span class="p">(</span><span class="s">"Run"</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Position</span> <span class="p">+=</span> <span class="n">velocity</span> <span class="p">*</span> <span class="n">delta</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">PlayerStateMachine</span> <span class="p">:</span> <span class="n">StateMachineBase</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 绑定状态名和状态类型</span>
-</span></span><span class="line"><span class="cl">    <span class="n">EntryState</span> <span class="n">entry</span> <span class="p">=</span> <span class="k">new</span> <span class="n">EntryState</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Run</span> <span class="n">run</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Run</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Idle</span> <span class="n">idle</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Idle</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">ExitState</span> <span class="n">exit</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExitState</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 定义转换 </span>
-</span></span><span class="line"><span class="cl"><span class="na">    [Transition("entry", "idle")]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_1</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="na">
-</span></span></span><span class="line"><span class="cl"><span class="na">    [Transition("idle", "run")]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_2</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">horizontalInput</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="na">
-</span></span></span><span class="line"><span class="cl"><span class="na">    [Transition("run", "idle")]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_3</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">agent</span><span class="p">.</span><span class="n">IsOnGround</span><span class="p">()</span> <span class="p">&amp;&amp;</span> <span class="n">velocity</span> <span class="p">==</span> <span class="n">agent</span><span class="p">.</span><span class="n">GetGroundVelocity</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 状态定义</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Idle</span> <span class="p">:</span> <span class="n">StateBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PlayAnimation</span><span class="p">(</span><span class="s">"Idle"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">InputCache</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Exit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Run</span> <span class="p">:</span> <span class="n">StateBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PlayAnimation</span><span class="p">(</span><span class="s">"Run"</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Position</span> <span class="p">+=</span> <span class="n">velocity</span> <span class="p">*</span> <span class="n">delta</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">PlayerStateMachine</span> <span class="p">:</span> <span class="n">StateMachineBase</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 绑定状态名和状态类型</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EntryState</span> <span class="n">entry</span> <span class="p">=</span> <span class="k">new</span> <span class="n">EntryState</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Run</span> <span class="n">run</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Run</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Idle</span> <span class="n">idle</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Idle</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ExitState</span> <span class="n">exit</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ExitState</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 定义转换 </span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Transition("entry", "idle")]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_1</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [Transition("idle", "run")]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_2</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">horizontalInput</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [Transition("run", "idle")]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">transition_3</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">agent</span><span class="p">.</span><span class="n">IsOnGround</span><span class="p">()</span> <span class="p">&amp;&amp;</span> <span class="n">velocity</span> <span class="p">==</span> <span class="n">agent</span><span class="p">.</span><span class="n">GetGroundVelocity</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样写就把状态 和 状态转移 分离开了，另外还可以实现一些编辑器工具来生成状态机的文件，以及为指定节点绑定状态机以简化操作</p>
-<p>Todo:
+<p>Todo:
 每个状态机绑定的对象类型不固定，但是状态机继承应该与 agent 对象继承具有相似的层级，所以每写一个新的状态机就强制转换agent类型过于繁琐，尝试找到优化方法！</p>
 </div><div class="post-footer" id="post-footer">
 <div class="post-info">
