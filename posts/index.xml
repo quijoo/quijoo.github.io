@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Fri, 24 Mar 2023 14:06:48 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>游戏引擎热更新技术</title>
+    <link>http://blog.xuaii.cc/unity_godot_hot_update/</link>
+    <pubDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/unity_godot_hot_update/</guid>
+    <description><![CDATA[什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热]]></description>
+</item>
+<item>
     <title>[转载]C#垃圾回收机制(GC)</title>
     <link>http://blog.xuaii.cc/csharp-gc/</link>
     <pubDate>Fri, 24 Mar 2023 14:06:48 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
     <description><![CDATA[转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费]]></description>
-</item>
-<item>
-    <title>[转载] p2p 内网穿透技术</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:41:36 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/</guid>
-    <description><![CDATA[原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便]]></description>
 </item>
 </channel>
 </rss>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>游戏引擎热更新技术 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="游戏引擎热更新技术" />
+<meta property="og:description" content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源&#43;代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.xuaii.cc/unity_godot_hot_update/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-08T22:02:49+08:00" />
+<meta property="article:modified_time" content="2023-04-08T22:02:49+08:00" /><meta property="og:site_name" content="我的网站" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
+
+<meta name="twitter:title" content="游戏引擎热更新技术"/>
+<meta name="twitter:description" content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源&#43;代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热"/>
+<meta name="application-name" content="我的网站">
+<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/unity_godot_hot_update/" /><link rel="prev" href="http://blog.xuaii.cc/csharp-gc/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "游戏引擎热更新技术",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/"
+        },"genre": "posts","wordcount":  3388 ,
+        "url": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/","datePublished": "2023-04-08T22:02:49+08:00","dateModified": "2023-04-08T22:02:49+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">游戏引擎热更新技术</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-08">2023-04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3388 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是热更新技术">什么是热更新技术?</a></li>
+    <li><a href="#unity--ilruntime">Unity + ILRuntime</a>
+      <ul>
+        <li><a href="#1-根据字符串找到方法">1. 根据字符串找到方法</a></li>
+        <li><a href="#2-监听主工程的委托">2. 监听主工程的委托</a></li>
+        <li><a href="#3-继承主工程实现主工程接口">3. 继承主工程，实现主工程接口</a></li>
+        <li><a href="#4-clr重定向热补丁">4. CLR重定向/热补丁</a></li>
+        <li><a href="#5-生成clr绑定代码">5. 生成CLR绑定代码</a></li>
+        <li><a href="#6-在热更工程使用协程">6. 在热更工程使用协程</a></li>
+        <li><a href="#7-对主工程的值类型做绑定">7. 对主工程的值类型做绑定</a></li>
+        <li><a href="#热更工程主要用例">热更工程主要用例</a></li>
+        <li><a href="#为什么要写适配器">为什么要写适配器</a></li>
+        <li><a href="#ilruntime-的委托">ILRuntime 的委托</a></li>
+        <li><a href="#ilruntime-继承主工程的类接口">ILRuntime 继承主工程的类接口</a></li>
+        <li><a href="#反射">反射</a></li>
+        <li><a href="#clr-重定向">CLR 重定向</a></li>
+        <li><a href="#clr-绑定">CLR 绑定</a></li>
+      </ul>
+    </li>
+    <li><a href="#unity--huatuo">Unity + Huatuo</a>
+      <ul>
+        <li><a href="#原理">原理</a></li>
+        <li><a href="#优缺点">优缺点</a></li>
+        <li><a href="#实践">实践</a></li>
+      </ul>
+    </li>
+    <li><a href="#godot-热更新">Godot 热更新</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="什么是热更新技术">什么是热更新技术?</h2>
+<p>游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。</p>
+<p>对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热更包里边，在客户端动态的的加载，当然这会带来一系列的限制。</p>
+<p>下面记录一下 Unity 和 Godot 中的热更新方案。</p>
+<h2 id="unity--ilruntime">Unity + ILRuntime</h2>
+<p>转载自 <a href="https://www.cnblogs.com/zhaoqingqing/p/10274176.html" target="_blank" rel="noopener noreffer ">10274176.html</a> <a href="https://www.cnblogs.com/zhaoqingqing/p/10458333.html" target="_blank" rel="noopener noreffer ">10458333.html</a>
+ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL 的程序。</p>
+<p>ILRuntime 项目和 Unity C# 项目运行在两个不同的域中，他们可以通过以下方式交互</p>
+<h3 id="1-根据字符串找到方法">1. 根据字符串找到方法</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="s">&#34;HotFix_Project.InstanceClass&#34;</span><span class="p">,</span> <span class="s">&#34;StaticFunTest&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">//预先获得IMethod，可以减低每次调用查找方法耗用的时间</span>
+</span></span><span class="line"><span class="cl"><span class="n">IType</span> <span class="n">type</span> <span class="p">=</span> <span class="n">appdomain</span><span class="p">.</span><span class="n">LoadedTypes</span><span class="p">[</span><span class="s">&#34;HotFix_Project.InstanceClass&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//根据方法名称和参数个数获取方法</span>
+</span></span><span class="line"><span class="cl"><span class="n">IMethod</span> <span class="n">method</span> <span class="p">=</span> <span class="n">type</span><span class="p">.</span><span class="n">GetMethod</span><span class="p">(</span><span class="s">&#34;StaticFunTest&#34;</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>也可以在主工程中抛出事件，在热更工程中监听，原理和Invoke是一样的</p>
+<h3 id="2-监听主工程的委托">2. 监听主工程的委托</h3>
+<p>在热更工程中监听主工程的事件，由主工程触发。</p>
+<p>如果非Action或Func，则需要在主工程中写适配器，所以建议使用系统自带的Action和Func。</p>
+<h3 id="3-继承主工程实现主工程接口">3. 继承主工程，实现主工程接口</h3>
+<p>Demo中有三个适配器示例，都继承自CrossBindingAdaptor，适配器中有内部类，继承或实现接口的方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MonoBehaviourAdapter</span> <span class="p">:</span> <span class="n">CrossBindingAdaptor</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="n">Type</span> <span class="n">BaseCLRType</span> <span class="p">{</span><span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span><span class="p">(</span><span class="n">MonoBehaviour</span><span class="p">);</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="n">Type</span> <span class="n">AdaptorType</span> <span class="p">{</span><span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span><span class="p">(</span><span class="n">Adaptor</span><span class="p">);</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="kt">object</span> <span class="n">CreateCLRInstance</span><span class="p">(</span><span class="n">ILRuntime</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Enviorment</span><span class="p">.</span><span class="n">AppDomain</span> <span class="n">appdomain</span><span class="p">,</span> <span class="n">ILTypeInstance</span> <span class="n">instance</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Adaptor</span><span class="p">(</span><span class="n">appdomain</span><span class="p">,</span> <span class="n">instance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//为了完整实现MonoBehaviour的所有特性，这个Adapter还得扩展，这里只抛砖引玉，只实现了最常用的Awake, Start和Update</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">Adaptor</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">CrossBindingAdaptorType</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ILTypeInstance</span> <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ILRuntime</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Enviorment</span><span class="p">.</span><span class="n">AppDomain</span> <span class="n">appdomain</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Adaptor</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Adaptor</span><span class="p">(</span><span class="n">ILRuntime</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Enviorment</span><span class="p">.</span><span class="n">AppDomain</span> <span class="n">appdomain</span><span class="p">,</span> <span class="n">ILTypeInstance</span> <span class="n">instance</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">appdomain</span> <span class="p">=</span> <span class="n">appdomain</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="n">instance</span> <span class="p">=</span> <span class="n">instance</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">ILTypeInstance</span> <span class="n">ILInstance</span> <span class="p">{</span> <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span><span class="p">;</span> <span class="p">}</span> <span class="k">set</span> <span class="p">{</span> <span class="n">instance</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">ILRuntime</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Enviorment</span><span class="p">.</span><span class="n">AppDomain</span> <span class="n">AppDomain</span> <span class="p">{</span> <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">appdomain</span><span class="p">;</span> <span class="p">}</span> <span class="k">set</span> <span class="p">{</span> <span class="n">appdomain</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Start</span><span class="p">(){}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">void</span> <span class="n">Update</span><span class="p">(){</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">override</span> <span class="kt">string</span> <span class="n">ToString</span><span class="p">(){</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里我不明白为什么这样写了之后就能继承了？</p>
+<h3 id="4-clr重定向热补丁">4. CLR重定向/热补丁</h3>
+<p>CLRRedirectionDemo，需要在AppDomain中注册 RegisterCLRMethodRedirection</p>
+<p>在热更工程中调用主工程的代码时会重定向新的实现，新手可以从修改CLR生成的绑定代码开始。</p>
+<p>例子是修改Debug.Log方法，在热更中打印的日志也能显示堆栈信息。</p>
+<h3 id="5-生成clr绑定代码">5. 生成CLR绑定代码</h3>
+<p>类似于slua/tolua/xlua一样， 把在热更工程会用到主工程的类添加到列表中，然后生成绑定代码。</p>
+<p>ILRuntime提供一个智能分析在热更工程会访问主工程的代码并生成CLR绑定代码。</p>
+<p>在CLRBindingDemo示例中生成CLR绑定代码之后性能提升10倍</p>
+<p>在生成绑定代码之后，热更中访问主工程中方法是调用的 xxx_Binding.cs，而如果不生成则是通过反射调用。</p>
+<h3 id="6-在热更工程使用协程">6. 在热更工程使用协程</h3>
+<p>官方例子是调用主工程的方法来启动协程，我测试热更工程也可以调用MonoBehaviour的方法开启协程。</p>
+<p>热更工程代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">RunTest</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;热更工程中开启协程&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">CoroutineDemo</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">Coroutine</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">IEnumerator</span> <span class="n">Coroutine</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;开始协程,t=&#34;</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;等待了3秒,t=&#34;</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="7-对主工程的值类型做绑定">7. 对主工程的值类型做绑定</h3>
+<p>那些需要做绑定？Unity的常用值类型，比如：Vector3，Vector2</p>
+<p>这项操作会提升性能，减少额外的CPU开销和GC Alloc。</p>
+<p>方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">AppDomain</span><span class="p">.</span><span class="n">RegisterValueTypeBinder</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">Vector3</span><span class="p">),</span> <span class="k">new</span> <span class="n">Vector3Binder</span><span class="p">());</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Demo 做了十万次向量的运算，添加值类型绑定，不绑定的耗时如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">,</span> <span class="m">100003.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">750</span><span class="n">ms</span>
+</span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">,</span> <span class="m">100003.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">1911</span><span class="n">ms</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(-</span><span class="m">0.4</span><span class="p">,</span> <span class="p">-</span><span class="m">0.8</span><span class="p">,</span> <span class="p">-</span><span class="m">1.7</span><span class="p">,</span> <span class="p">-</span><span class="m">5.1</span><span class="p">),</span><span class="n">dot</span><span class="p">=-</span><span class="m">124.7494</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">604</span><span class="n">ms</span>
+</span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(-</span><span class="m">0.4</span><span class="p">,</span> <span class="p">-</span><span class="m">0.8</span><span class="p">,</span> <span class="p">-</span><span class="m">1.7</span><span class="p">,</span> <span class="p">-</span><span class="m">5.1</span><span class="p">),</span><span class="n">dot</span><span class="p">=-</span><span class="m">124.7494</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">1550</span><span class="n">ms</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">710</span><span class="n">ms</span>
+</span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">1902</span><span class="n">ms</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="热更工程主要用例">热更工程主要用例</h3>
+<p>根据我们以往的项目使用Lua做为热更脚本为例，我们在热更工程做的最多的事情：</p>
+<ul>
+<li>在热更工程中调用主工程的方法，或监听主工程的事件，监听Unity组件触发的事件。</li>
+<li>热更工程调用主工程接口加载资源</li>
+<li>热更工程处理UI代码逻辑</li>
+<li>读取配置，对配置解析</li>
+<li>热更工程中处理网络的回调</li>
+<li>热更工程基本处理所有的业务逻辑</li>
+</ul>
+<h3 id="为什么要写适配器">为什么要写适配器</h3>
+<p>因为ILRuntime可以理解为蓝大写的C#虚拟机，这个虚拟机要在运行时和Unity的脚本进行交互。</p>
+<p>由于IOS的AOT限制，在运行时ILRuntime中是不知道Unity中的类型，所以需要我们在主工程写适配器让ILRuntime知道如何调用在Unity的代码，或当Unity的事件触发时让ILRuntime能够监听到。</p>
+<h3 id="ilruntime-的委托">ILRuntime 的委托</h3>
+<p>ILRuntime 内部使用委托，或者 ILRuntime 使用主工程委托都是 OK 的， 但是需要将委托实例传到 Hotfix 域的外部使用，就需要编写委托适配器（按照官网的 demo 写，Ation、Func 外的委托需要额外实现一个转换器）</p>
+<h3 id="ilruntime-继承主工程的类接口">ILRuntime 继承主工程的类接口</h3>
+<p>适配器类是需要在主工程中实现的，这个适配器的本质就是在调用 Hotfix 域中的方法。</p>
+<p>观察 ILRuntime 的 Demo 可以发现实际上就是在 Adaptor中 执行以下逻辑</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">static</span> <span class="n">CrossBindingMethodInfo</span> <span class="n">mVMethod1_0</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CrossBindingMethodInfo</span><span class="p">(</span><span class="s">&#34;VMethod1&#34;</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">VMethod1</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">mVMethod1_0</span><span class="p">.</span><span class="n">CheckShouldInvokeBase</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">instance</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">base</span><span class="p">.</span><span class="n">VMethod1</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mVMethod1_0</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">instance</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际上就是预留了一个绑定的 位置！
+最后记得注册适配器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">RegisterCrossBindingAdaptor</span><span class="p">(</span><span class="k">new</span> <span class="n">ClassInheritanceAdaptor</span><span class="p">());</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>那么在 Hotfix 工程中如何继承该类呢？ <a href="https://blog.csdn.net/HiggsParticleHYX/article/details/119779888" target="_blank" rel="noopener noreffer ">参考链接</a></p>
+<h3 id="反射">反射</h3>
+<p>参考<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/reflection.html" target="_blank" rel="noopener noreffer ">官方文档</a> 总的来说，Hotfix 访问主工程是容易的，而主工程访问Hotfix 工程是困难的！</p>
+<h3 id="clr-重定向">CLR 重定向</h3>
+<p>这也在官方文档中写得很清楚了，主要就是编写 CLR重定向方法并且注册方法（将这个方法映射到一个CLR方法）</p>
+<h3 id="clr-绑定">CLR 绑定</h3>
+<p>热更代码中访问主工程代码是通过反射调用实现的，这样会不可避免的带来性能开销和 GC，对于经常调用的接口进行绑定可以消除反射带来的 GC Alloc</p>
+<p>CLR 绑定生成的是借助 CLR 重定向实现的，但是手动实现需要精细的控制，所以 ILRuntime 提供了自动生成方法，我看不懂这个地方放 的代码，以后需要使用的时候再学吧！！
+<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/bind.html" target="_blank" rel="noopener noreffer ">文档</a></p>
+<h2 id="unity--huatuo">Unity + Huatuo</h2>
+<h3 id="原理">原理</h3>
+<p><strong>C#运行时结构</strong>
+![v2-f9db604624b4bfbaf111a9d95e040b97_720w](vx_images/338792822230449.webp =500x)</p>
+<p>最后一个概念AOT(Ahead of time)，AOT技术指的是将高级开发语言直接转成传统的编译型编程语言(如C/C++),再编译成机器指令代码在硬件上运行。IL2CPP可以成为AOT技术。</p>
+<p>Unity 打包运行时为：AOT + IL2CPP VM(提供基础服务，如GC)，对于底层运行时而言，是数据运行对象 + 代码机器指令两部分，huatuo 热更新就是扩展了 IL2CPP VM 服务，在使用 <strong>原来数据对象的情况下</strong>， 扩展了<strong>解释执行 IL 代码</strong>的功能，让 IL2CPP 的运行模式变为了 <strong>内存对象 + AOT机器代码指令 + IL指令解释执行</strong> 三个部分，huatuo 热更新时只需要利用 Unity ADF(asmdef, 程序集定义机制)让Unity对某一部分代码单独编译出一个 IL 指令的 DLL 文件。</p>
+<p>热更新时 IL2CPP_huatuo就可以加载 IL 指令， 由 IL2CPP_huatuo 来解释执行。并且huatuo 解释执行时使用了原来的 AOT 数据内存对象，所以 huatuo 方案不需要其他热更方案的<strong>接口导出，跨域调用等一些列问题</strong></p>
+<p>开发者不需要任何特殊处理，内存占用，性能都会更好。</p>
+<p><strong>huatuo的革命性优势</strong>
+huatuo第1个优势是基于AOT(本地机器代码执行)+Interpreter (IL解释执行)使用同一个内存数据对象，没有跨域访问的问题</p>
+<ol>
+<li>
+<p>我们来拿xLua或ILRuntime热更方案来举例，这些方案都有一条原则，<strong>尽量减少与Unity C#层的交互</strong>，但是这种交互又避免不了而且量大，比如我们要在逻辑热更代码里面访问 Unity C#的GameObject对象数据，最终在运行的时候，GameObject 会在AOT模式下的原生内存数据结构对象。</p>
+</li>
+<li>
+<p>由于xLua或ILRuntime有自己的虚拟机，所以不能直接访问原生GameObject数据对象，往往要把访问里面的数据包装成函数，这样性能开销就大大的增加了。而huatuo是在IL2CPP模式下的解释执行，直接可以访问原生的数据对象。</p>
+</li>
+<li>
+<p>相比传统的Lua或ILRuntime热更,他能更新任意部分的代码。不用像Lua或ILRuntime一样，分热更代码+框架代码，框架代码有bug还不能热更。</p>
+</li>
+</ol>
+<h3 id="优缺点">优缺点</h3>
+<p><strong>优点</strong></p>
+<ol>
+<li>热更和非热更开发体验一致</li>
+<li>原生支持 95% 以上的代码热更需求，包括不限于 await/aysnc, 跨域继承， 跨域调用</li>
+<li>第三方插件接入不需要框架层适配！华佗是在 IL2CPP 完成了热更功能！</li>
+<li>额外内存开销比较小</li>
+<li>特性完整（继承，反射，多线程，volatile，ThreadStatic，Task，async），没有代码生成，没有特殊代码，没有特殊限制
+<strong>缺点</strong></li>
+<li>基于 IL2CPP 的底层实现导致无法真机 C# Debug</li>
+<li>AOT 泛型导致的一些限制（完善中）
+<ul>
+<li>在 HybridCLR中应该已经完善了泛型问题，主要使用两个机制 <strong>泛型共享 + 补充元数据</strong></li>
+</ul>
+</li>
+<li>无法真机的 C# Debug，但是可以断点跟踪 huatuo 指令集执行过程，在editor 可以直接使用 mono 的调试方式</li>
+</ol>
+<p><strong>平台支持</strong></p>
+<ol>
+<li>PC（稳定）</li>
+<li>Android（跑通几个了）</li>
+<li>IOS （比较少的APP跑通了）</li>
+</ol>
+<h3 id="实践">实践</h3>
+<p><a href="https://www.bilibili.com/video/BV1SW4y1a7dr" target="_blank" rel="noopener noreffer ">bilibili</a></p>
+<h2 id="godot-热更新">Godot 热更新</h2>
+<p>godot 打包时可以选择需要的 DLC 资源得到 PCK</p>
+<p>也可以直接打包为 EXE （静态的一些资源</p>
+<p>然后将 PCK 放到服务器设置好目录</p>
+<p>最后在 Godot 端实现 PCK 的下载和加载</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-04-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/unity_godot_hot_update/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/unity_godot_hot_update/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/csharp-gc/" class="prev" rel="prev" title="[转载]C#垃圾回收机制(GC)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[转载]C#垃圾回收机制(GC)</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
