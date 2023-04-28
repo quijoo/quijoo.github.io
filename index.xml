@@ -1,91 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title>Quijo's blog</title>
-<link>http://blog.xuaii.cc/</link>
-<description>Quijo's blog</description>
-<generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-<webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 08 Apr 2023 22:02:49 +0800</lastBuildDate>
-<atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml"/>
-<item>
-<title>游戏引擎热更新技术</title>
-<link>http://blog.xuaii.cc/unity_godot_hot_update/</link>
-<pubDate>Sat, 08 Apr 2023 22:02:49 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/unity_godot_hot_update/</guid>
-<description>什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热</description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Quijo&#39;s blog</title>
+        <link>http://blog.xuaii.cc/</link>
+        <description>Quijo&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</lastBuildDate>
+            <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>游戏引擎热更新技术</title>
+    <link>http://blog.xuaii.cc/unity_godot_hot_update/</link>
+    <pubDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/unity_godot_hot_update/</guid>
+    <description><![CDATA[什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热]]></description>
 </item>
 <item>
-<title>[转载]C#垃圾回收机制(GC)</title>
-<link>http://blog.xuaii.cc/csharp-gc/</link>
-<pubDate>Fri, 24 Mar 2023 14:06:48 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/csharp-gc/</guid>
-<description>GC的前世与今生 虽然本文是以 .Net 作为目标来讲述 GC，但是 GC 的概念并非才诞生不久。早在1958年，由鼎鼎大名的图林奖得主 John McCarthy 所实现的 Lisp 语言就已经</description>
+    <title>[转载]C#垃圾回收机制(GC)</title>
+    <link>http://blog.xuaii.cc/csharp-gc/</link>
+    <pubDate>Fri, 24 Mar 2023 14:06:48 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/csharp-gc/</guid>
+    <description><![CDATA[GC的前世与今生 虽然本文是以 .Net 作为目标来讲述 GC，但是 GC 的概念并非才诞生不久。早在1958年，由鼎鼎大名的图林奖得主 John McCarthy 所实现的 Lisp 语言就已经]]></description>
 </item>
 <item>
-<title>[转载] 为什么我国中学的哲学教育这么失败?</title>
-<link>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</link>
-<pubDate>Fri, 10 Mar 2023 14:29:11 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</guid>
-<description>作者：海默 链接：https://www.zhihu.com/question/65018524/answer/2330206559 来源：知乎</description>
+    <title>[转载] 为什么我国中学的哲学教育这么失败?</title>
+    <link>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</link>
+    <pubDate>Fri, 10 Mar 2023 14:29:11 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</guid>
+    <description><![CDATA[作者：海默 链接：https://www.zhihu.com/question/65018524/answer/2330206559 来源：知乎]]></description>
 </item>
 <item>
-<title>Lerp 函数与递推缓动</title>
-<link>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</link>
-<pubDate>Tue, 07 Mar 2023 21:34:58 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</guid>
-<description>从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度</description>
+    <title>Lerp 函数与递推缓动</title>
+    <link>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</link>
+    <pubDate>Tue, 07 Mar 2023 21:34:58 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/</guid>
+    <description><![CDATA[从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度]]></description>
 </item>
 <item>
-<title>List of 2D Platformer Controllers [23.2.17]</title>
-<link>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</link>
-<pubDate>Fri, 17 Feb 2023 10:02:41 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</guid>
-<description>在我自己的 2D Platformer 项目中控制器手感非常僵硬，有一部分原因是缺少合适的角色动画，另一部分原因是控制器没有足够灵活。 然而在 Bilibili、Yout</description>
+    <title>List of 2D Platformer Controllers [23.2.17]</title>
+    <link>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</link>
+    <pubDate>Fri, 17 Feb 2023 10:02:41 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/flexible-2d-platform-game-controller/</guid>
+    <description><![CDATA[在我自己的 2D Platformer 项目中控制器手感非常僵硬，有一部分原因是缺少合适的角色动画，另一部分原因是控制器没有足够灵活。 然而在 Bilibili、Yout]]></description>
 </item>
 <item>
-<title>[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE</title>
-<link>http://blog.xuaii.cc/viewport/</link>
-<pubDate>Tue, 14 Feb 2023 10:28:50 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/viewport/</guid>
-<description>官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control</description>
+    <title>[godot4] Viewport &amp;&amp; CanvasLayer &amp;&amp; Camera &amp;&amp; SCREEN_TEXTURE</title>
+    <link>http://blog.xuaii.cc/viewport/</link>
+    <pubDate>Tue, 14 Feb 2023 10:28:50 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/viewport/</guid>
+    <description><![CDATA[官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control]]></description>
 </item>
 <item>
-<title>[Godot4.0] 实用插件搜索计划 第一期</title>
-<link>http://blog.xuaii.cc/godot_useful_plugin/</link>
-<pubDate>Mon, 13 Feb 2023 03:56:46 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
-<description>godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱</description>
+    <title>[Godot4.0] 实用插件搜索计划 第一期</title>
+    <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
+    <pubDate>Mon, 13 Feb 2023 03:56:46 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
+    <description><![CDATA[godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱]]></description>
 </item>
 <item>
-<title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
-<link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
-<pubDate>Fri, 10 Feb 2023 09:17:02 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
-<description>Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo</description>
+    <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
+    <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
+    <pubDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
+    <description><![CDATA[Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo]]></description>
 </item>
 <item>
-<title>[游戏机制] 交换球</title>
-<link>http://blog.xuaii.cc/game-idea-exchange/</link>
-<pubDate>Mon, 16 Jan 2023 06:58:23 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
-<description>灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设</description>
+    <title>[游戏机制] 交换球</title>
+    <link>http://blog.xuaii.cc/game-idea-exchange/</link>
+    <pubDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
+    <description><![CDATA[灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设]]></description>
 </item>
 <item>
-<title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
-<link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
-<pubDate>Tue, 03 Jan 2023 18:42:13 +0800</pubDate>
-<author>_quijo</author>
-<guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
-<description>转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费</description>
+    <title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
+    <link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
+    <pubDate>Tue, 03 Jan 2023 18:42:13 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
+    <description><![CDATA[转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费]]></description>
 </item>
 </channel>
 </rss>
