@@ -19,23 +19,23 @@
 <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/wa-keng-ji-yu-cde-fan-she-he-jiao-ben-xi-tong/" rel="canonical"/><link href="http://blog.xuaii.cc/svm/" rel="prev"/><link href="http://blog.xuaii.cc/xian-xing-mo-xing/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
 <noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[挖坑] 反射和脚本系统",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/wa-keng-ji-yu-cde-fan-she-he-jiao-ben-xi-tong\/"
-        },"genre": "posts","wordcount":  921 ,
-        "url": "http:\/\/blog.xuaii.cc\/wa-keng-ji-yu-cde-fan-she-he-jiao-ben-xi-tong\/","datePublished": "2023-01-03T18:34:12+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[挖坑] 反射和脚本系统",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/wa-keng-ji-yu-cde-fan-she-he-jiao-ben-xi-tong\/"
+        },"genre": "posts","wordcount":  921 ,
+        "url": "http:\/\/blog.xuaii.cc\/wa-keng-ji-yu-cde-fan-she-he-jiao-ben-xi-tong\/","datePublished": "2023-01-03T18:34:12+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
 <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
 <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
@@ -83,8 +83,8 @@
 <i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
 </span>
 </div>
-<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
-                        Cancel
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
 </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
 <i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
@@ -101,7 +101,7 @@
 <div class="toc-content" id="toc-content-auto"></div>
 </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[挖坑] 反射和脚本系统</h1><div class="post-meta">
 <div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
-<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 921 words 
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 921 words 
                 <i aria-hidden="true" class="far fa-clock fa-fw"></i> 2 minutes </div>
 </div><div class="details toc" data-kept="true" id="toc-static">
 <div class="details-summary toc-title">
@@ -124,12 +124,12 @@
 </div><div class="content" id="content"><p>c++ 反射实现起来好像很麻烦，所以就干脆学习和借鉴已有的方案<a href="https://github.com/AustinBrunkHorst/CPP-Reflection" rel="noopener noreffer" target="_blank">CPP-Reflection-code</a></p>
 <h2 id="环境搭建">环境搭建</h2>
 <ol>
-<li>安装 LLVM
+<li>安装 LLVM
 <ul>
 <li>windows 下直接下载 .exe 版本安装即可 <a href="https://releases.llvm.org/download.html" rel="noopener noreffer" target="_blank">LLVM</a></li>
 </ul>
 </li>
-<li>安装 Boost
+<li>安装 Boost
 <ul>
 <li>下载 &amp;&amp; 解压 压缩包 <a href="https://www.boost.org/users/download/" rel="noopener noreffer" target="_blank">Boost</a></li>
 <li>打开 x64 Native Tools Command Prompt for VS2022 切换到解压目录 &amp;&amp; 运行 <code>bootstrap.bat</code></li>
@@ -140,7 +140,7 @@
 <li>按照 <a href="https://github.com/AustinBrunkhorst/CPP-Reflection/README.md" rel="noopener noreffer" target="_blank">README</a> 编译创建 vs 项目(vs2022 生成器参数<code>"Visual Studio 17 2022"</code>) 并且编译</li>
 <li>打开 Examples 项目，选择一个测试项目作为启动项，并且运行测试！</li>
 </ol>
-<p><em>tips 1</em>:更换<code>CPP-REFLECTION</code> 项目的中 <code>json11.cpp</code> 和 <code>json11.hpp</code> <a href="https://gitee.com/ClickHouse-Build/json11/blob/master/json11.cpp" rel="noopener noreffer" target="_blank">json11</a>， 不明白有代码有bug为什么能跑起来？
+<p><em>tips 1</em>:更换<code>CPP-REFLECTION</code> 项目的中 <code>json11.cpp</code> 和 <code>json11.hpp</code> <a href="https://gitee.com/ClickHouse-Build/json11/blob/master/json11.cpp" rel="noopener noreffer" target="_blank">json11</a>， 不明白有代码有bug为什么能跑起来？
 <em>tips2</em>:使用 Runtime 需要将 <code>Source\Runtime\Common</code> 和 <code>Source\Common\Lib</code> 目录添加到<strong>附加包含目录</strong>, 需要添加到 <code>Runtime</code> 的引用</p>
 <h2 id="cpp-reflection-目录结构">CPP-REFLECTION 目录结构</h2>
 <h3 id="parser">Parser</h3>
@@ -148,7 +148,7 @@
 <li>各种语言元素类型（类，构造函数，枚举，External？，字段Field，函数，Global，Invokeable， Method），这是用于 <strong>解释AST节点</strong> 和  <strong>构造代码渲染数据</strong> 类型。</li>
 <li>模块 Module（是一个代码集合，其中包含 classes ， globals， globalfuncs，enums</li>
 <li>一个词法分析器？意义不明</li>
-<li>lang-c前端语法树模型
+<li>lang-c前端语法树模型
 <ol>
 <li>CursorType AST语法节点类型（例如 定义 声明 表达式 等</li>
 <li>MetaDataConfig 配置文件</li>
@@ -170,60 +170,60 @@
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">SliderType</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Horizontal</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Vertical</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Slider</span> <span class="o">:</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="o">::</span><span class="n">MetaProperty</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">META_OBJECT</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">SliderType</span> <span class="n">type</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">Slider</span><span class="p">(</span><span class="n">SliderType</span> <span class="n">type</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">type</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Range</span> <span class="o">:</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="o">::</span><span class="n">MetaProperty</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">META_OBJECT</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="n">max</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">Range</span><span class="p">(</span><span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="kt">float</span> <span class="n">max</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">,</span> <span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">SliderType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Horizontal</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vertical</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Slider</span> <span class="o">:</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="o">::</span><span class="n">MetaProperty</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">META_OBJECT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">SliderType</span> <span class="n">type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Slider</span><span class="p">(</span><span class="n">SliderType</span> <span class="n">type</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">type</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Range</span> <span class="o">:</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="o">::</span><span class="n">MetaProperty</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">META_OBJECT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Range</span><span class="p">(</span><span class="kt">float</span> <span class="n">min</span><span class="p">,</span> <span class="kt">float</span> <span class="n">max</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">,</span> <span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="2">
@@ -231,102 +231,102 @@
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#pragma once
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Meta.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestProperties.h"</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Array.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="k">enum</span> <span class="nc">TestEnum</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">One</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Two</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Three</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Four</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Five</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Eighty</span> <span class="o">=</span> <span class="mi">80</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">SoundEffect</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Meta</span><span class="p">(</span><span class="n">Range</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">100.0f</span><span class="p">),</span> <span class="n">Slider</span><span class="p">(</span><span class="n">SliderType</span><span class="o">::</span><span class="n">Horizontal</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">volume</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">Load</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">filename</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Loaded sound effect </span><span class="se">\"</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\"</span><span class="s">."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ComplexType</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">stringValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">intValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">floatValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">doubleValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="n">SoundEffect</span> <span class="n">soundEffect</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">ursine</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arrayValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">TestEnum</span> <span class="n">enumValue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">ComplexType</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#pragma once
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Meta.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestProperties.h"</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Array.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">enum</span> <span class="nc">TestEnum</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">One</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Two</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Three</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Four</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Five</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Eighty</span> <span class="o">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">SoundEffect</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Meta</span><span class="p">(</span><span class="n">Range</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="mf">100.0f</span><span class="p">),</span> <span class="n">Slider</span><span class="p">(</span><span class="n">SliderType</span><span class="o">::</span><span class="n">Horizontal</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">volume</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">Load</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">filename</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Loaded sound effect </span><span class="se">\"</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="n">filename</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\"</span><span class="s">."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">ComplexType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">stringValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">intValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">floatValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">doubleValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">SoundEffect</span> <span class="n">soundEffect</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ursine</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">arrayValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">TestEnum</span> <span class="n">enumValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ComplexType</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">Meta</span><span class="p">(</span><span class="n">Enable</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="3">
@@ -334,78 +334,78 @@
 </ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestReflectionModule.h"</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestTypes.h"</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestProperties.h"</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TypeCreator.h"</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">MetaInitialize</span><span class="p">(</span> <span class="n">UsingModule</span><span class="p">(</span> <span class="n">TestModule</span> <span class="p">)</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">Type</span> <span class="n">soundEffectType</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span> <span class="n">SoundEffect</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Field</span> <span class="n">volumeField</span> <span class="o">=</span> <span class="n">soundEffectType</span><span class="p">.</span><span class="n">GetField</span><span class="p">(</span> <span class="s">"volume"</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// the runtime supports overloading, but by default returns the first overload
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Method</span> <span class="n">loadMethod</span> <span class="o">=</span> <span class="n">soundEffectType</span><span class="p">.</span><span class="n">GetMethod</span><span class="p">(</span> <span class="s">"Load"</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// creates an instance of a sound effect
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Variant</span> <span class="n">effect</span> <span class="o">=</span> <span class="n">TypeCreator</span><span class="o">::</span><span class="n">Create</span><span class="p">(</span> <span class="n">soundEffectType</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// effect.volume is now 85
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">volumeField</span><span class="p">.</span><span class="n">SetValue</span><span class="p">(</span> <span class="n">effect</span><span class="p">,</span> <span class="mf">85.0f</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 85 -- can also use GetValue&lt;float&gt;( )
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">volumeValue</span> <span class="o">=</span> <span class="n">volumeField</span><span class="p">.</span><span class="n">GetValue</span><span class="p">(</span> <span class="n">effect</span> <span class="p">).</span><span class="n">ToFloat</span><span class="p">(</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"SoundEffect.volume: "</span> <span class="o">&lt;&lt;</span> <span class="n">volumeValue</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// effect.Load is called
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">loadMethod</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span> <span class="n">effect</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="p">{</span> <span class="s">"Explosion.wav"</span> <span class="p">}</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestReflectionModule.h"</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestTypes.h"</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TestProperties.h"</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">"TypeCreator.h"</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">ursine</span><span class="o">::</span><span class="n">meta</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MetaInitialize</span><span class="p">(</span> <span class="n">UsingModule</span><span class="p">(</span> <span class="n">TestModule</span> <span class="p">)</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Type</span> <span class="n">soundEffectType</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span> <span class="n">SoundEffect</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Field</span> <span class="n">volumeField</span> <span class="o">=</span> <span class="n">soundEffectType</span><span class="p">.</span><span class="n">GetField</span><span class="p">(</span> <span class="s">"volume"</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// the runtime supports overloading, but by default returns the first overload
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Method</span> <span class="n">loadMethod</span> <span class="o">=</span> <span class="n">soundEffectType</span><span class="p">.</span><span class="n">GetMethod</span><span class="p">(</span> <span class="s">"Load"</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// creates an instance of a sound effect
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Variant</span> <span class="n">effect</span> <span class="o">=</span> <span class="n">TypeCreator</span><span class="o">::</span><span class="n">Create</span><span class="p">(</span> <span class="n">soundEffectType</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// effect.volume is now 85
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">volumeField</span><span class="p">.</span><span class="n">SetValue</span><span class="p">(</span> <span class="n">effect</span><span class="p">,</span> <span class="mf">85.0f</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 85 -- can also use GetValue&lt;float&gt;( )
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">volumeValue</span> <span class="o">=</span> <span class="n">volumeField</span><span class="p">.</span><span class="n">GetValue</span><span class="p">(</span> <span class="n">effect</span> <span class="p">).</span><span class="n">ToFloat</span><span class="p">(</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"SoundEffect.volume: "</span> <span class="o">&lt;&lt;</span> <span class="n">volumeValue</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// effect.Load is called
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">loadMethod</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span> <span class="n">effect</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="p">{</span> <span class="s">"Explosion.wav"</span> <span class="p">}</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="reference">Reference</h2>

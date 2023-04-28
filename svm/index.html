@@ -1,150 +1,148 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>支持向量机 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="支持向量机" />
-<meta property="og:description" content="svm.html 线性核SVM 和 高斯核SVM SMO 算法解析 最优化目标 $$\max_{\alpha} =\sum_{i=1}^{m}\alpha_i - \sum_{i=1}^{m} \sum_{j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j \tag{1}$$ $$\text{ s.t. } \qquad \alpha_i \ge 0,\quad \sum_{i=1}^{N}\alpha_iy_i = 1 \tag{2}$$ 约束条件 $$ $$ 算法原理 我们可以先确定 两个$\alpha_i," />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/svm/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:32:59+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="支持向量机"/>
-<meta name="twitter:description" content="svm.html 线性核SVM 和 高斯核SVM SMO 算法解析 最优化目标 $$\max_{\alpha} =\sum_{i=1}^{m}\alpha_i - \sum_{i=1}^{m} \sum_{j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j \tag{1}$$ $$\text{ s.t. } \qquad \alpha_i \ge 0,\quad \sum_{i=1}^{N}\alpha_iy_i = 1 \tag{2}$$ 约束条件 $$ $$ 算法原理 我们可以先确定 两个$\alpha_i,"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/svm/" /><link rel="prev" href="http://blog.xuaii.cc/suan-fa-xue-xi-lie-biao/" /><link rel="next" href="http://blog.xuaii.cc/xian-xing-mo-xing/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "支持向量机",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/svm\/"
-        },"genre": "posts","wordcount":  4469 ,
-        "url": "http:\/\/blog.xuaii.cc\/svm\/","datePublished": "2023-01-03T18:32:59+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>支持向量机 - Quijo's blog</title><meta content="" name="Description"/><meta content="支持向量机" property="og:title"/>
+<meta content="svm.html 线性核SVM 和 高斯核SVM SMO 算法解析 最优化目标 $$\max_{\alpha} =\sum_{i=1}^{m}\alpha_i - \sum_{i=1}^{m} \sum_{j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j \tag{1}$$ $$\text{ s.t. } \qquad \alpha_i \ge 0,\quad \sum_{i=1}^{N}\alpha_iy_i = 1 \tag{2}$$ 约束条件 $$ $$ 算法原理 我们可以先确定 两个$\alpha_i," property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/svm/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:32:59+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="支持向量机" name="twitter:title"/>
+<meta content="svm.html 线性核SVM 和 高斯核SVM SMO 算法解析 最优化目标 $$\max_{\alpha} =\sum_{i=1}^{m}\alpha_i - \sum_{i=1}^{m} \sum_{j=1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j \tag{1}$$ $$\text{ s.t. } \qquad \alpha_i \ge 0,\quad \sum_{i=1}^{N}\alpha_iy_i = 1 \tag{2}$$ 约束条件 $$ $$ 算法原理 我们可以先确定 两个$\alpha_i," name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/svm/" rel="canonical"/><link href="http://blog.xuaii.cc/suan-fa-xue-xi-lie-biao/" rel="prev"/><link href="http://blog.xuaii.cc/xian-xing-mo-xing/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "支持向量机",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/svm\/"
+        },"genre": "posts","wordcount":  4469 ,
+        "url": "http:\/\/blog.xuaii.cc\/svm\/","datePublished": "2023-01-03T18:32:59+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">支持向量机</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4469 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#最优化目标">最优化目标</a></li>
-            <li><a href="#约束条件">约束条件</a></li>
-            <li><a href="#算法原理">算法原理</a></li>
-            <li><a href="#原始解的修剪">原始解的修剪</a></li>
-            <li><a href="#3启发式选择变量">3.启发式选择变量</a>
-              <ul>
-                <li><a href="#第一个变量的选择">第一个变量的选择</a></li>
-                <li><a href="#第二个变量的选择">第二个变量的选择</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#定义训练集">定义训练集</a></li>
-      </ul>
-    </li>
-    <li><a href="#多种核函数">多种核函数</a>
-      <ul>
-        <li><a href="#生成同心圆数据">生成同心圆数据</a></li>
-        <li><a href="#参照第一个smo推导笔记需要实现以下功能">参照第一个SMO推导笔记需要实现以下功能：</a></li>
-        <li><a href="#导入数据">导入数据</a></li>
-        <li><a href="#使用高斯核的svm">使用高斯核的SVM</a></li>
-        <li><a href="#使用线性核的svm">使用线性核的SVM</a></li>
-        <li><a href="#调用之前写过的决策树c45">调用之前写过的决策树C4.5</a></li>
-        <li><a href="#分析">分析</a></li>
-      </ul>
-    </li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">支持向量机</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 4469 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 9 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#最优化目标">最优化目标</a></li>
+<li><a href="#约束条件">约束条件</a></li>
+<li><a href="#算法原理">算法原理</a></li>
+<li><a href="#原始解的修剪">原始解的修剪</a></li>
+<li><a href="#3启发式选择变量">3.启发式选择变量</a>
+<ul>
+<li><a href="#第一个变量的选择">第一个变量的选择</a></li>
+<li><a href="#第二个变量的选择">第二个变量的选择</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#定义训练集">定义训练集</a></li>
+</ul>
+</li>
+<li><a href="#多种核函数">多种核函数</a>
+<ul>
+<li><a href="#生成同心圆数据">生成同心圆数据</a></li>
+<li><a href="#参照第一个smo推导笔记需要实现以下功能">参照第一个SMO推导笔记需要实现以下功能：</a></li>
+<li><a href="#导入数据">导入数据</a></li>
+<li><a href="#使用高斯核的svm">使用高斯核的SVM</a></li>
+<li><a href="#使用线性核的svm">使用线性核的SVM</a></li>
+<li><a href="#调用之前写过的决策树c45">调用之前写过的决策树C4.5</a></li>
+<li><a href="#分析">分析</a></li>
+</ul>
+</li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="http://xuaii.github.io/svm.html" target="_blank" rel="noopener noreffer ">svm.html</a></p>
+</div><div class="content" id="content"><p><a href="http://xuaii.github.io/svm.html" rel="noopener noreffer" target="_blank">svm.html</a></p>
 <h1 id="线性核svm-和-高斯核svm">线性核SVM 和 高斯核SVM</h1>
 <h1 id="smo-算法解析">SMO 算法解析</h1>
 <h4 id="最优化目标">最优化目标</h4>
@@ -167,7 +165,7 @@ $$v_1 = \sum^{N}<em>{i=3}\alpha_iy_iK</em>{i,1}, \quad v_2 = \sum^{N}<em>{i=3}\a
 $$ W(\alpha_2) = - \frac{1}{2}K_{1,1}(\eta - \alpha_2y_2)^2 - \frac{1}{2}K_{2,2}\alpha_2^2 - K_{1,2}y_2\alpha_2(\eta - \alpha_2y_2) - v_1(\eta - \alpha_2y_2) - v_2y_2\alpha_2 + \alpha_1 + \alpha_2 + C \tag{6}$$</p>
 <p><code>由于需要更新</code>$\alpha_2$<code>所以令</code>$\frac{dW}{d\alpha} = 0$
 $$\frac{\partial W(\alpha_2)}{\partial \alpha_2} = -\alpha_2(K_{1,1} + K_{2,2} - 2K_{1,2}) + K_{1,1}\eta y_2 - K_{1,2}\eta y_2 + v_1y_2 - v_2y_2 - y_1y_2 + y_2^2 = 0 \tag{7}$$</p>
-<hr>
+<hr/>
 <p><code>对(7)式变形，使得</code>$\alpha_2^new$<code>能被</code>$\alpha_2^old$<code>表示(而不是用不方便的\eta)：</code>
 <code>SVM预测值如下(该式子不需要保留所有的x，因为很多无关的x的alpha都为0，因此alpha需要初始化为0)：</code>
 $$f(x) = \sum_{i=1}^{N}\alpha_iy_iK(x_i,x) + b \tag{8}$$</p>
@@ -180,7 +178,7 @@ $$\alpha_1= (\eta - \alpha_2y_2)y_2$$
 $$v_1 - v_2 = f(x_1) - f(x_2) - K_{1,1}\eta + K_{1,2}\eta + \alpha_2y_2(K_{1,1}+K_{2,2}-2K_{1,2}) \tag{9}$$
 <code>将(9)带入(7):</code>
 $$\frac{\partial W(\alpha_2)}{\partial \alpha_2} = -(K_{1,1} + K_{2,2} - 2K_{1,2})\alpha_2^{new} + (K_{1,1} + K_{2,2}- 2K_{1,2})\alpha_2^{old} + y_2(y_2 - y_1 + f(x_1) - f(x_2))$$</p>
-<hr>
+<hr/>
 <p><code>记误差项</code>$E_i = f(x_i) - y_i$</p>
 <p><code>令</code>$\theta = K_{1,1,}+K_{2,2}-2K_{1,2}$
 <code>可以得到最终表达式：</code>
@@ -215,12 +213,12 @@ $$\alpha_1^{old}y_1 + \alpha_2^{old}y_2 = \alpha_1^{new}y_1 + \alpha_2^{new}y_2 
     接着依据相关规则选择第二个变量(见下面分析),对这两个变量采用上述方法进行优化。
     当遍历完整个样本集后，遍历非边界样本$(0&lt;α_i&lt;C)$中违反KKT的$\alpha_i$作为第一个变量，同样依据相关规则选择第二个变量，对此两个变量进行优化。当遍历完非边界样本集后，再次回到遍历整个样本集中寻找，即在整个样本集与非边界样本集上来回切换，寻找违反KKT条件的αiαi作为第一个变量。直到遍历整个样本集后，没有违反KKT条件$\alpha_i$，然后退出。
     边界上的样本对应的$\alpha_i = 0$或者$\alpha_i = C$，在优化过程中很难变化，然而非边界样本$0&lt;α_i&lt;C$会随着对其他变量的优化会有大的变化。</p>
-<hr>
+<hr/>
 <center>KTT条件</center>
 <p>$$\alpha_i = 0 \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b)\ge1 $$
 $$\alpha_i = C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b)\le 1 $$
 $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
-<hr>
+<hr/>
 <h5 id="第二个变量的选择">第二个变量的选择</h5>
 <p>    SMO称第二个变量的选择过程为内循环，假设在外循环中找个第一个变量记为$\alpha_1$，第二个变量的选择希望能使$\alpha_2$有较大的变化，由于$\alpha_2$是依赖于$|E1−E2|$,当$E1$为正时，那么选择最小的$Ei$作为$E2$,如果$E1$为负，选择最大$Ei$作为$E2$，通常为每个样本的$Ei$保存在一个列表中，选择最大的$|E1−E2|$来近似最大化步长。
     有时按照上述的启发式选择第二个变量，不能够使得函数值有足够的下降，这时按下述步骤:</p>
@@ -229,19 +227,19 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 3.如果整个样本集依然不存在，则重新选择第一个变量。
 </code></pre>
 <p><strong>参考</strong></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29212107" target="_blank" rel="noopener noreffer ">机器学习算法实践-SVM中的SMO算法</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/29212107" rel="noopener noreffer" target="_blank">机器学习算法实践-SVM中的SMO算法</a></p>
 <p><em>详细推导的SMO更新参数和修剪结果的公式， 优化算法效率：例如只需最后计算b。。。。</em></p>
-<p><a href="https://zhuanlan.zhihu.com/p/26514613" target="_blank" rel="noopener noreffer ">浅谈最优化问题的KKT条件</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/26514613" rel="noopener noreffer" target="_blank">浅谈最优化问题的KKT条件</a></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">copy</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">roc_auc_score</span>
@@ -254,14 +252,14 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 <p>$$label \in {-1,1},二分类问题$$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><h2 id="多种核函数">多种核函数</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -334,76 +332,76 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">71
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">LinearKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_i is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_i is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_j is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_j is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_i</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x_j</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">GaussKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">sigmoid</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_i is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_i is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_j is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_j is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">sigmoid</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;sigmoid must be a positive number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"sigmoid must be a positive number"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigmoid</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">PolyKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_i is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_i is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_j is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_j is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;d must be a Semi-positive number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"d must be a Semi-positive number"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">LinearKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">)</span><span class="o">**</span><span class="n">d</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">LaplaceKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_i is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_i is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_j is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_j is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;sigmoid must be a positive number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"sigmoid must be a positive number"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="c1"># print(np.exp(-np.sqrt(np.dot((x_i - x_j).T, (x_i - x_j))) / sigmoid))</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">)))</span> <span class="o">/</span> <span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">SigmoidKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_i is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_i is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">x_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;x_j is wrong shape!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"x_j is wrong shape!"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">theta</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;theta must be a negetive number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"theta must be a negetive number"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">beta</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;theta must be a positive number&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"theta must be a positive number"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">LinearKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">)</span> <span class="o">+</span> <span class="n">theta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">K</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">&#34;linear&#34;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">K</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">"linear"</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="c1"># print(x_i.shape, x_j.shape)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">'linear'</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">LinearKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;gauss&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">'gauss'</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">GaussKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;poly&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">'poly'</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">PolyKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;laplace&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">'laplace'</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">LaplaceKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s1">'sigmoid'</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">SigmoidKernel</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;An exception happened: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s1">'An exception happened: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="n">x_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">x_j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">x_j</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">1</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span><span class="n">x_j</span><span class="p">,</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&#34;Laplace&#34;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">K</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span><span class="n">x_j</span><span class="p">,</span><span class="n">kernel</span><span class="o">=</span><span class="s2">"Laplace"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    
 </span></span></code></pre></td></tr></table>
 </div>
@@ -413,7 +411,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 <h3 id="生成同心圆数据">生成同心圆数据</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -440,8 +438,8 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&#34;circle&#34;</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"circle"</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -462,7 +460,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">label_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">label_test</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="n">x_train</span><span class="p">,</span> <span class="n">label_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">label_test</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">label_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">label_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
@@ -491,7 +489,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 <p><strong>以上函数与SMO算法紧密相关，为了方便参数，数据集，的传输将他们放到一个SMO类中实现</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+<pre class="chroma" tabindex="0"><code><span class="lnt">  1
 </span><span class="lnt">  2
 </span><span class="lnt">  3
 </span><span class="lnt">  4
@@ -655,8 +653,8 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">162
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SMO</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">&#34;Laplace&#34;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SMO</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">"Laplace"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -687,7 +685,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span></span><span class="line"><span class="cl">            <span class="n">L</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">old_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">old_1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">            <span class="n">H</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">+</span> <span class="n">old_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">old_1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="c1"># print(&#34;----------&#34; , self.C, old_2[0], self.C + old_2[0],&#39;-------------&#39;)</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># print("----------" , self.C, old_2[0], self.C + old_2[0],'-------------')</span>
 </span></span><span class="line"><span class="cl">            <span class="n">L</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">old_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">old_1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">            <span class="n">H</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">old_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">old_1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">        
@@ -777,7 +775,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span></span><span class="line"><span class="cl">            <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.001</span>
 </span></span><span class="line"><span class="cl">            
 </span></span><span class="line"><span class="cl">        <span class="n">dE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">index_1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">E</span><span class="p">[</span><span class="n">index_2</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># print(&#34;in update_a2 theta:{}, dE:{}, y2:{}&#34;.format(theta, dE, self.y[index_2]))</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># print("in update_a2 theta:{}, dE:{}, y2:{}".format(theta, dE, self.y[index_2]))</span>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">alpha2_old</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">index_2</span><span class="p">]</span> <span class="o">*</span> <span class="n">dE</span><span class="p">)</span> <span class="o">/</span> <span class="n">theta</span> 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">update_a1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha1_old</span><span class="p">,</span> <span class="n">alpha2_old</span><span class="p">,</span> <span class="n">alpha2_new</span><span class="p">,</span> <span class="n">index_1</span><span class="p">,</span> <span class="n">index_2</span><span class="p">):</span>
@@ -786,7 +784,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">SMO</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxtimes</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxtimes</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;this is </span><span class="si">{}</span><span class="s2">th loop.&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">print</span><span class="p">(</span><span class="s2">"this is </span><span class="si">{}</span><span class="s2">th loop."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="p">():</span>
 </span></span><span class="line"><span class="cl">                <span class="n">temp</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_a2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
@@ -821,7 +819,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -848,36 +846,36 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">y_t</span><span class="p">,</span> <span class="n">y_p</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="n">y_test</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">y_t</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">y_p</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The roc_auc_score is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>    
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">"The roc_auc_score is </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>    
 </span></span><span class="line"><span class="cl">    <span class="n">tpr</span><span class="p">,</span><span class="n">fpr</span><span class="p">,</span><span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;ROC curve for diabetes classifier&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate (1 - Specificity)&#39;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate (Sensitivity)&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'ROC curve for diabetes classifier'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'False Positive Rate (1 - Specificity)'</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'True Positive Rate (Sensitivity)'</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1"># mean = np.sum(y_pred)/y_pred.shape[0]</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span><span class="p">[(</span><span class="n">y_pred</span> <span class="o">&lt;</span>  <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y_pred</span><span class="p">[(</span><span class="n">y_pred</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span>  <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">    <span class="c1"># plt.scatter(x_test[0, :], x_test[1, :], c = y_pred[:, 0])</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The accuracy is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">"The accuracy is </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])))</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="c1"># 计算召回， 查全率， 查准率 。。。。</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;class0&#39;</span><span class="p">,</span><span class="s1">&#39;class1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'class0'</span><span class="p">,</span><span class="s1">'class1'</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">,</span><span class="n">target_names</span> <span class="o">=</span> <span class="n">target_names</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -896,7 +894,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">draw_svm</span><span class="p">(</span><span class="n">smo</span><span class="p">):</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">draw_svm</span><span class="p">(</span><span class="n">smo</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="n">zz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">):</span>
@@ -921,11 +919,11 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># plt.scatter(x_train[0, :], x_train[1, :], c = y_train[:, 0])</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -938,7 +936,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -946,7 +944,7 @@ $$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) =1 $$</p>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">smo</span> <span class="o">=</span> <span class="n">SMO</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">&#34;gauss&#34;</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">smo</span> <span class="o">=</span> <span class="n">SMO</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">"gauss"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">smo</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">smo</span><span class="o">.</span><span class="n">SMO</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">smo</span><span class="o">.</span><span class="n">predictAll</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
@@ -977,24 +975,17 @@ The accuracy is 0.89
    macro avg       0.90      0.90      0.89       100
 weighted avg       0.91      0.89      0.89       100
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/183918/output_20_1.png"
-        data-srcset="C:/Users/herrn/Downloads/183918/output_20_1.png, C:/Users/herrn/Downloads/183918/output_20_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_20_1.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/183918/output_20_1.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/183918/output_20_1.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/183918/output_20_1.png" data-srcset="C:/Users/herrn/Downloads/183918/output_20_1.png, C:/Users/herrn/Downloads/183918/output_20_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_20_1.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><h3 id="使用线性核的svm">使用线性核的SVM</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1002,7 +993,7 @@ weighted avg       0.91      0.89      0.89       100
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">smo</span> <span class="o">=</span> <span class="n">SMO</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">&#34;linear&#34;</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">smo</span> <span class="o">=</span> <span class="n">SMO</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="s2">"linear"</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">smo</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">smo</span><span class="o">.</span><span class="n">SMO</span><span class="p">(</span><span class="mi">110</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">y_pred</span> <span class="o">=</span> <span class="n">smo</span><span class="o">.</span><span class="n">predictAll</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
@@ -1033,28 +1024,21 @@ The accuracy is 0.48
    macro avg       0.48      0.48      0.48       100
 weighted avg       0.49      0.48      0.48       100
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/183918/output_23_1.png"
-        data-srcset="C:/Users/herrn/Downloads/183918/output_23_1.png, C:/Users/herrn/Downloads/183918/output_23_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_23_1.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/183918/output_23_1.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/183918/output_23_1.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/183918/output_23_1.png" data-srcset="C:/Users/herrn/Downloads/183918/output_23_1.png, C:/Users/herrn/Downloads/183918/output_23_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_23_1.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <h3 id="调用之前写过的决策树c45">调用之前写过的决策树C4.5</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">dt</span> <span class="kn">import</span> <span class="n">buildTree</span><span class="p">,</span> <span class="n">Node</span><span class="p">,</span> <span class="n">predictAll</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">draw_tree</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">dt</span> <span class="kn">import</span> <span class="n">buildTree</span><span class="p">,</span> <span class="n">Node</span><span class="p">,</span> <span class="n">predictAll</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">draw_tree</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -1062,36 +1046,36 @@ weighted avg       0.49      0.48      0.48       100
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;x&#34;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s2">&#34;label&#34;</span><span class="p">])</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"x"</span><span class="p">,</span><span class="s1">'y'</span><span class="p">,</span><span class="s2">"label"</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl"><span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;x&#34;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s2">&#34;label&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"x"</span><span class="p">,</span><span class="s1">'y'</span><span class="p">,</span><span class="s2">"label"</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Dataset</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">attrList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">root</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Dataset</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">attrList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'x'</span><span class="p">,</span><span class="s1">'y'</span><span class="p">])</span>
 </span></span><span class="line"><span class="cl"><span class="n">root</span> <span class="o">=</span> <span class="n">buildTree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Y_pred</span> <span class="o">=</span> <span class="n">predictAll</span><span class="p">(</span><span class="n">root</span> <span class="p">,</span><span class="n">X_test</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Y_pred</span> <span class="o">=</span> <span class="n">predictAll</span><span class="p">(</span><span class="n">root</span> <span class="p">,</span><span class="n">X_test</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">evaluate</span><span class="p">(</span><span class="n">Y_test</span><span class="p">,</span> <span class="n">Y_pred</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">draw_tree</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="s2">&#34;x&#34;</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">&#34;y&#34;</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="s2">"x"</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">"y"</span><span class="p">],</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">X_train</span><span class="p">[</span><span class="s2">"label"</span><span class="p">])</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>The roc_auc_score is 0.7105263157894737
@@ -1105,24 +1089,10 @@ The accuracy is 0.67
    macro avg       0.78      0.71      0.66       100
 weighted avg       0.81      0.67      0.65       100
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/183918/output_28_1.png"
-        data-srcset="C:/Users/herrn/Downloads/183918/output_28_1.png, C:/Users/herrn/Downloads/183918/output_28_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_28_1.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/183918/output_28_1.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/183918/output_28_1.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/183918/output_28_1.png" data-srcset="C:/Users/herrn/Downloads/183918/output_28_1.png, C:/Users/herrn/Downloads/183918/output_28_1.png 1.5x, C:/Users/herrn/Downloads/183918/output_28_1.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <pre><code>&lt;matplotlib.collections.PathCollection at 0x7f523e323310&gt;
 </code></pre>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="C:/Users/herrn/Downloads/183918/output_28_3.png"
-        data-srcset="C:/Users/herrn/Downloads/183918/output_28_3.png, C:/Users/herrn/Downloads/183918/output_28_3.png 1.5x, C:/Users/herrn/Downloads/183918/output_28_3.png 2x"
-        data-sizes="auto"
-        alt="C:/Users/herrn/Downloads/183918/output_28_3.png"
-        title="png" /></p>
+<p><img alt="C:/Users/herrn/Downloads/183918/output_28_3.png" class="lazyload" data-sizes="auto" data-src="C:/Users/herrn/Downloads/183918/output_28_3.png" data-srcset="C:/Users/herrn/Downloads/183918/output_28_3.png, C:/Users/herrn/Downloads/183918/output_28_3.png 1.5x, C:/Users/herrn/Downloads/183918/output_28_3.png 2x" src="/svg/loading.min.svg" title="png"/></p>
 <h3 id="分析">分析</h3>
 <ul>
 <li>对于同心圆这种线性不可分的数据，使用linear kernel只能得到约50/100的准确度</li>
@@ -1132,75 +1102,72 @@ weighted avg       0.81      0.67      0.65       100
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorflow</span><span class="o">==</span><span class="mf">2.0.0</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorflow</span><span class="o">==</span><span class="mf">2.0.0</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>Cannot run import tensorflow because of system compatibility. AI Studio prepared an entire environment based on PaddlePaddle already. Please use PaddlePaddle to build your own model or application.
 </code></pre>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code></code></pre></td>
+<pre class="chroma" tabindex="0"><code></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"></code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/svm/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/svm/" data-title="支持向量机"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/svm/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/svm/" data-title="支持向量机"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/svm/" data-title="支持向量机"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/svm/" data-title="支持向量机" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/suan-fa-xue-xi-lie-biao/" class="prev" rel="prev" title="算法学习列表"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>算法学习列表</a>
-            <a href="/xian-xing-mo-xing/" class="next" rel="next" title="线性模型">线性模型<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/svm/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="支持向量机" data-url="http://blog.xuaii.cc/svm/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/svm/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="支持向量机" data-url="http://blog.xuaii.cc/svm/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="支持向量机" data-url="http://blog.xuaii.cc/svm/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="支持向量机" data-url="http://blog.xuaii.cc/svm/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/suan-fa-xue-xi-lie-biao/" rel="prev" title="算法学习列表"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>算法学习列表</a>
+<a class="next" href="/xian-xing-mo-xing/" rel="next" title="线性模型">线性模型<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

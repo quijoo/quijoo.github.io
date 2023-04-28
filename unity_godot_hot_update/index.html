@@ -1,167 +1,165 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>游戏引擎热更新技术 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="游戏引擎热更新技术" />
-<meta property="og:description" content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源&#43;代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/unity_godot_hot_update/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-04-08T22:02:49+08:00" />
-<meta property="article:modified_time" content="2023-04-08T22:02:49+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="游戏引擎热更新技术"/>
-<meta name="twitter:description" content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源&#43;代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/unity_godot_hot_update/" /><link rel="prev" href="http://blog.xuaii.cc/csharp-gc/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "游戏引擎热更新技术",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/"
-        },"genre": "posts","wordcount":  3388 ,
-        "url": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/","datePublished": "2023-04-08T22:02:49+08:00","dateModified": "2023-04-08T22:02:49+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>游戏引擎热更新技术 - Quijo's blog</title><meta content="" name="Description"/><meta content="游戏引擎热更新技术" property="og:title"/>
+<meta content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/unity_godot_hot_update/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-04-08T22:02:49+08:00" property="article:published_time"/>
+<meta content="2023-04-08T22:02:49+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="游戏引擎热更新技术" name="twitter:title"/>
+<meta content="什么是热更新技术? 游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。 对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/unity_godot_hot_update/" rel="canonical"/><link href="http://blog.xuaii.cc/csharp-gc/" rel="prev"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "游戏引擎热更新技术",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/"
+        },"genre": "posts","wordcount":  3388 ,
+        "url": "http:\/\/blog.xuaii.cc\/unity_godot_hot_update\/","datePublished": "2023-04-08T22:02:49+08:00","dateModified": "2023-04-08T22:02:49+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">游戏引擎热更新技术</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-08">2023-04-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3388 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#什么是热更新技术">什么是热更新技术?</a></li>
-    <li><a href="#unity--ilruntime">Unity + ILRuntime</a>
-      <ul>
-        <li><a href="#1-根据字符串找到方法">1. 根据字符串找到方法</a></li>
-        <li><a href="#2-监听主工程的委托">2. 监听主工程的委托</a></li>
-        <li><a href="#3-继承主工程实现主工程接口">3. 继承主工程，实现主工程接口</a></li>
-        <li><a href="#4-clr重定向热补丁">4. CLR重定向/热补丁</a></li>
-        <li><a href="#5-生成clr绑定代码">5. 生成CLR绑定代码</a></li>
-        <li><a href="#6-在热更工程使用协程">6. 在热更工程使用协程</a></li>
-        <li><a href="#7-对主工程的值类型做绑定">7. 对主工程的值类型做绑定</a></li>
-        <li><a href="#热更工程主要用例">热更工程主要用例</a></li>
-        <li><a href="#为什么要写适配器">为什么要写适配器</a></li>
-        <li><a href="#ilruntime-的委托">ILRuntime 的委托</a></li>
-        <li><a href="#ilruntime-继承主工程的类接口">ILRuntime 继承主工程的类接口</a></li>
-        <li><a href="#反射">反射</a></li>
-        <li><a href="#clr-重定向">CLR 重定向</a></li>
-        <li><a href="#clr-绑定">CLR 绑定</a></li>
-      </ul>
-    </li>
-    <li><a href="#unity--huatuo">Unity + Huatuo</a>
-      <ul>
-        <li><a href="#原理">原理</a></li>
-        <li><a href="#优缺点">优缺点</a></li>
-        <li><a href="#实践">实践</a></li>
-      </ul>
-    </li>
-    <li><a href="#godot-热更新">Godot 热更新</a></li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">游戏引擎热更新技术</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-04-08">2023-04-08</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 3388 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 7 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#什么是热更新技术">什么是热更新技术?</a></li>
+<li><a href="#unity--ilruntime">Unity + ILRuntime</a>
+<ul>
+<li><a href="#1-根据字符串找到方法">1. 根据字符串找到方法</a></li>
+<li><a href="#2-监听主工程的委托">2. 监听主工程的委托</a></li>
+<li><a href="#3-继承主工程实现主工程接口">3. 继承主工程，实现主工程接口</a></li>
+<li><a href="#4-clr重定向热补丁">4. CLR重定向/热补丁</a></li>
+<li><a href="#5-生成clr绑定代码">5. 生成CLR绑定代码</a></li>
+<li><a href="#6-在热更工程使用协程">6. 在热更工程使用协程</a></li>
+<li><a href="#7-对主工程的值类型做绑定">7. 对主工程的值类型做绑定</a></li>
+<li><a href="#热更工程主要用例">热更工程主要用例</a></li>
+<li><a href="#为什么要写适配器">为什么要写适配器</a></li>
+<li><a href="#ilruntime-的委托">ILRuntime 的委托</a></li>
+<li><a href="#ilruntime-继承主工程的类接口">ILRuntime 继承主工程的类接口</a></li>
+<li><a href="#反射">反射</a></li>
+<li><a href="#clr-重定向">CLR 重定向</a></li>
+<li><a href="#clr-绑定">CLR 绑定</a></li>
+</ul>
+</li>
+<li><a href="#unity--huatuo">Unity + Huatuo</a>
+<ul>
+<li><a href="#原理">原理</a></li>
+<li><a href="#优缺点">优缺点</a></li>
+<li><a href="#实践">实践</a></li>
+</ul>
+</li>
+<li><a href="#godot-热更新">Godot 热更新</a></li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="什么是热更新技术">什么是热更新技术?</h2>
+</div><div class="content" id="content"><h2 id="什么是热更新技术">什么是热更新技术?</h2>
 <p>游戏上线后可能会定期的更新资源(美术资源+代码)，需要一种可靠的方案来更新代码。</p>
 <p>对于 C# 来说就是将代码编译为 .dll 文件，放入 AssetBundle 热更包里边，在客户端动态的的加载，当然这会带来一系列的限制。</p>
 <p>下面记录一下 Unity 和 Godot 中的热更新方案。</p>
 <h2 id="unity--ilruntime">Unity + ILRuntime</h2>
-<p>转载自 <a href="https://www.cnblogs.com/zhaoqingqing/p/10274176.html" target="_blank" rel="noopener noreffer ">10274176.html</a> <a href="https://www.cnblogs.com/zhaoqingqing/p/10458333.html" target="_blank" rel="noopener noreffer ">10458333.html</a>
+<p>转载自 <a href="https://www.cnblogs.com/zhaoqingqing/p/10274176.html" rel="noopener noreffer" target="_blank">10274176.html</a> <a href="https://www.cnblogs.com/zhaoqingqing/p/10458333.html" rel="noopener noreffer" target="_blank">10458333.html</a>
 ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL 的程序。</p>
 <p>ILRuntime 项目和 Unity C# 项目运行在两个不同的域中，他们可以通过以下方式交互</p>
 <h3 id="1-根据字符串找到方法">1. 根据字符串找到方法</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="s">&#34;HotFix_Project.InstanceClass&#34;</span><span class="p">,</span> <span class="s">&#34;StaticFunTest&#34;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="s">"HotFix_Project.InstanceClass"</span><span class="p">,</span> <span class="s">"StaticFunTest"</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>或者</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -169,10 +167,10 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">//预先获得IMethod，可以减低每次调用查找方法耗用的时间</span>
-</span></span><span class="line"><span class="cl"><span class="n">IType</span> <span class="n">type</span> <span class="p">=</span> <span class="n">appdomain</span><span class="p">.</span><span class="n">LoadedTypes</span><span class="p">[</span><span class="s">&#34;HotFix_Project.InstanceClass&#34;</span><span class="p">];</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">//预先获得IMethod，可以减低每次调用查找方法耗用的时间</span>
+</span></span><span class="line"><span class="cl"><span class="n">IType</span> <span class="n">type</span> <span class="p">=</span> <span class="n">appdomain</span><span class="p">.</span><span class="n">LoadedTypes</span><span class="p">[</span><span class="s">"HotFix_Project.InstanceClass"</span><span class="p">];</span>
 </span></span><span class="line"><span class="cl"><span class="c1">//根据方法名称和参数个数获取方法</span>
-</span></span><span class="line"><span class="cl"><span class="n">IMethod</span> <span class="n">method</span> <span class="p">=</span> <span class="n">type</span><span class="p">.</span><span class="n">GetMethod</span><span class="p">(</span><span class="s">&#34;StaticFunTest&#34;</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">IMethod</span> <span class="n">method</span> <span class="p">=</span> <span class="n">type</span><span class="p">.</span><span class="n">GetMethod</span><span class="p">(</span><span class="s">"StaticFunTest"</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
@@ -185,7 +183,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 <p>Demo中有三个适配器示例，都继承自CrossBindingAdaptor，适配器中有内部类，继承或实现接口的方法。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -218,7 +216,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 </span><span class="lnt">31
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MonoBehaviourAdapter</span> <span class="p">:</span> <span class="n">CrossBindingAdaptor</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MonoBehaviourAdapter</span> <span class="p">:</span> <span class="n">CrossBindingAdaptor</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="n">Type</span> <span class="n">BaseCLRType</span> <span class="p">{</span><span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span><span class="p">(</span><span class="n">MonoBehaviour</span><span class="p">);</span> <span class="p">}</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
@@ -266,7 +264,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 <p>热更工程代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -280,17 +278,17 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">RunTest</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">RunTest</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;热更工程中开启协程&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"热更工程中开启协程"</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="n">CoroutineDemo</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">Coroutine</span><span class="p">());</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">IEnumerator</span> <span class="n">Coroutine</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;开始协程,t=&#34;</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"开始协程,t="</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">3</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;等待了3秒,t=&#34;</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"等待了3秒,t="</span> <span class="p">+</span> <span class="n">Time</span><span class="p">.</span><span class="n">time</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -300,16 +298,16 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 <p>方法：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">AppDomain</span><span class="p">.</span><span class="n">RegisterValueTypeBinder</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">Vector3</span><span class="p">),</span> <span class="k">new</span> <span class="n">Vector3Binder</span><span class="p">());</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">AppDomain</span><span class="p">.</span><span class="n">RegisterValueTypeBinder</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">Vector3</span><span class="p">),</span> <span class="k">new</span> <span class="n">Vector3Binder</span><span class="p">());</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Demo 做了十万次向量的运算，添加值类型绑定，不绑定的耗时如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -319,7 +317,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">,</span> <span class="m">100003.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">750</span><span class="n">ms</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">,</span> <span class="m">100003.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">750</span><span class="n">ms</span>
 </span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(</span><span class="m">100001.0</span><span class="p">,</span> <span class="m">100002.0</span><span class="p">,</span> <span class="m">100003.0</span><span class="p">),</span><span class="n">dot</span><span class="p">=</span><span class="m">0</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">1911</span><span class="n">ms</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">Value</span><span class="p">:</span> <span class="n">a</span><span class="p">=(-</span><span class="m">0.4</span><span class="p">,</span> <span class="p">-</span><span class="m">0.8</span><span class="p">,</span> <span class="p">-</span><span class="m">1.7</span><span class="p">,</span> <span class="p">-</span><span class="m">5.1</span><span class="p">),</span><span class="n">dot</span><span class="p">=-</span><span class="m">124.7494</span><span class="p">,</span> <span class="n">time</span> <span class="p">=</span> <span class="m">604</span><span class="n">ms</span>
@@ -349,7 +347,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 <p>观察 ILRuntime 的 Demo 可以发现实际上就是在 Adaptor中 执行以下逻辑</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -359,7 +357,7 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">static</span> <span class="n">CrossBindingMethodInfo</span> <span class="n">mVMethod1_0</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CrossBindingMethodInfo</span><span class="p">(</span><span class="s">&#34;VMethod1&#34;</span><span class="p">);</span> 
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">static</span> <span class="n">CrossBindingMethodInfo</span> <span class="n">mVMethod1_0</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CrossBindingMethodInfo</span><span class="p">(</span><span class="s">"VMethod1"</span><span class="p">);</span> 
 </span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">VMethod1</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">mVMethod1_0</span><span class="p">.</span><span class="n">CheckShouldInvokeBase</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">instance</span><span class="p">))</span>
@@ -373,21 +371,21 @@ ILRuntime 相当于在客户端运行了一个能动态加载C# 字节码 DLL �
 最后记得注册适配器</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">RegisterCrossBindingAdaptor</span><span class="p">(</span><span class="k">new</span> <span class="n">ClassInheritanceAdaptor</span><span class="p">());</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">appdomain</span><span class="p">.</span><span class="n">RegisterCrossBindingAdaptor</span><span class="p">(</span><span class="k">new</span> <span class="n">ClassInheritanceAdaptor</span><span class="p">());</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>那么在 Hotfix 工程中如何继承该类呢？ <a href="https://blog.csdn.net/HiggsParticleHYX/article/details/119779888" target="_blank" rel="noopener noreffer ">参考链接</a></p>
+</div><p>那么在 Hotfix 工程中如何继承该类呢？ <a href="https://blog.csdn.net/HiggsParticleHYX/article/details/119779888" rel="noopener noreffer" target="_blank">参考链接</a></p>
 <h3 id="反射">反射</h3>
-<p>参考<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/reflection.html" target="_blank" rel="noopener noreffer ">官方文档</a> 总的来说，Hotfix 访问主工程是容易的，而主工程访问Hotfix 工程是困难的！</p>
+<p>参考<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/reflection.html" rel="noopener noreffer" target="_blank">官方文档</a> 总的来说，Hotfix 访问主工程是容易的，而主工程访问Hotfix 工程是困难的！</p>
 <h3 id="clr-重定向">CLR 重定向</h3>
 <p>这也在官方文档中写得很清楚了，主要就是编写 CLR重定向方法并且注册方法（将这个方法映射到一个CLR方法）</p>
 <h3 id="clr-绑定">CLR 绑定</h3>
 <p>热更代码中访问主工程代码是通过反射调用实现的，这样会不可避免的带来性能开销和 GC，对于经常调用的接口进行绑定可以消除反射带来的 GC Alloc</p>
 <p>CLR 绑定生成的是借助 CLR 重定向实现的，但是手动实现需要精细的控制，所以 ILRuntime 提供了自动生成方法，我看不懂这个地方放 的代码，以后需要使用的时候再学吧！！
-<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/bind.html" target="_blank" rel="noopener noreffer ">文档</a></p>
+<a href="https://ourpalm.github.io/ILRuntime/public/v1/guide/bind.html" rel="noopener noreffer" target="_blank">文档</a></p>
 <h2 id="unity--huatuo">Unity + Huatuo</h2>
 <h3 id="原理">原理</h3>
 <p><strong>C#运行时结构</strong>
@@ -433,48 +431,45 @@ huatuo第1个优势是基于AOT(本地机器代码执行)+Interpreter (IL解释�
 <li>IOS （比较少的APP跑通了）</li>
 </ol>
 <h3 id="实践">实践</h3>
-<p><a href="https://www.bilibili.com/video/BV1SW4y1a7dr" target="_blank" rel="noopener noreffer ">bilibili</a></p>
+<p><a href="https://www.bilibili.com/video/BV1SW4y1a7dr" rel="noopener noreffer" target="_blank">bilibili</a></p>
 <h2 id="godot-热更新">Godot 热更新</h2>
 <p>godot 打包时可以选择需要的 DLC 资源得到 PCK</p>
 <p>也可以直接打包为 EXE （静态的一些资源</p>
 <p>然后将 PCK 放到服务器设置好目录</p>
 <p>最后在 Godot 端实现 PCK 的下载和加载</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-04-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/unity_godot_hot_update/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/unity_godot_hot_update/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" data-title="游戏引擎热更新技术" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/csharp-gc/" class="prev" rel="prev" title="[转载]C#垃圾回收机制(GC)"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[转载]C#垃圾回收机制(GC)</a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-04-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/unity_godot_hot_update/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="游戏引擎热更新技术" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="游戏引擎热更新技术" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="游戏引擎热更新技术" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="游戏引擎热更新技术" data-url="http://blog.xuaii.cc/unity_godot_hot_update/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/csharp-gc/" rel="prev" title="[转载]C#垃圾回收机制(GC)"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[转载]C#垃圾回收机制(GC)</a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

@@ -1,153 +1,151 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>[转载] p2p 内网穿透技术 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="[转载] p2p 内网穿透技术" />
-<meta property="og:description" content="原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:41:36+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="[转载] p2p 内网穿透技术"/>
-<meta name="twitter:description" content="原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" /><link rel="prev" href="http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/" /><link rel="next" href="http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[转载] p2p 内网穿透技术",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu\/"
-        },"genre": "posts","wordcount":  6115 ,
-        "url": "http:\/\/blog.xuaii.cc\/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu\/","datePublished": "2023-01-03T18:41:36+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[转载] p2p 内网穿透技术 - Quijo's blog</title><meta content="" name="Description"/><meta content="[转载] p2p 内网穿透技术" property="og:title"/>
+<meta content="原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:41:36+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[转载] p2p 内网穿透技术" name="twitter:title"/>
+<meta content="原文 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" rel="canonical"/><link href="http://blog.xuaii.cc/zhuan-zai-cduo-xian-cheng-diao-yong-python/" rel="prev"/><link href="http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[转载] p2p 内网穿透技术",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu\/"
+        },"genre": "posts","wordcount":  6115 ,
+        "url": "http:\/\/blog.xuaii.cc\/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu\/","datePublished": "2023-01-03T18:41:36+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[转载] p2p 内网穿透技术</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;6115 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;13 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#一些术语">一些术语</a>
-      <ul>
-        <li><a href="#防火墙firewall">防火墙(Firewall)</a></li>
-        <li><a href="#网络地址转换器nat">网络地址转换器(NAT)</a></li>
-        <li><a href="#基本natbasic-nat">基本NAT(Basic NAT)</a></li>
-        <li><a href="#网络地址-端口转换器napt">网络地址-端口转换器(NAPT)</a></li>
-        <li><a href="#锥形natcone-nat">锥形NAT(Cone NAT)</a>
-          <ul>
-            <li><a href="#1-全锥形natfull-cone-nat">1. 全锥形NAT(Full Cone NAT)</a></li>
-            <li><a href="#2-受限锥形natrestricted-cone-nat">2. 受限锥形NAT(Restricted Cone NAT)</a></li>
-            <li><a href="#3-端口受限锥形natport-restricted-cone-nat">3. 端口受限锥形NAT(Port-Restricted Cone NAT)</a></li>
-            <li><a href="#4-对称natsymmetric-nat">4. 对称NAT(Symmetric NAT)</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#p2p通信技术">P2P通信技术</a>
-      <ul>
-        <li><a href="#中继relaying">中继（Relaying）</a></li>
-        <li><a href="#逆向链接connection-reversal">逆向链接（Connection reversal）</a></li>
-        <li><a href="#udp打洞udp-hole-punching">UDP打洞（UDP hole punching）</a>
-          <ul>
-            <li><a href="#端点在不同的nat之后">端点在不同的NAT之后</a></li>
-            <li><a href="#端点在相同的nat之后">端点在相同的NAT之后</a></li>
-            <li><a href="#端点在多级nat之后">端点在多级NAT之后</a></li>
-          </ul>
-        </li>
-        <li><a href="#固定端口绑定">固定端口绑定</a></li>
-      </ul>
-    </li>
-    <li><a href="#具体实现">具体实现</a></li>
-    <li><a href="#tcp打洞tcp-hole-punching">TCP打洞(TCP Hole Punching)</a></li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[转载] p2p 内网穿透技术</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 6115 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 13 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#一些术语">一些术语</a>
+<ul>
+<li><a href="#防火墙firewall">防火墙(Firewall)</a></li>
+<li><a href="#网络地址转换器nat">网络地址转换器(NAT)</a></li>
+<li><a href="#基本natbasic-nat">基本NAT(Basic NAT)</a></li>
+<li><a href="#网络地址-端口转换器napt">网络地址-端口转换器(NAPT)</a></li>
+<li><a href="#锥形natcone-nat">锥形NAT(Cone NAT)</a>
+<ul>
+<li><a href="#1-全锥形natfull-cone-nat">1. 全锥形NAT(Full Cone NAT)</a></li>
+<li><a href="#2-受限锥形natrestricted-cone-nat">2. 受限锥形NAT(Restricted Cone NAT)</a></li>
+<li><a href="#3-端口受限锥形natport-restricted-cone-nat">3. 端口受限锥形NAT(Port-Restricted Cone NAT)</a></li>
+<li><a href="#4-对称natsymmetric-nat">4. 对称NAT(Symmetric NAT)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#p2p通信技术">P2P通信技术</a>
+<ul>
+<li><a href="#中继relaying">中继（Relaying）</a></li>
+<li><a href="#逆向链接connection-reversal">逆向链接（Connection reversal）</a></li>
+<li><a href="#udp打洞udp-hole-punching">UDP打洞（UDP hole punching）</a>
+<ul>
+<li><a href="#端点在不同的nat之后">端点在不同的NAT之后</a></li>
+<li><a href="#端点在相同的nat之后">端点在相同的NAT之后</a></li>
+<li><a href="#端点在多级nat之后">端点在多级NAT之后</a></li>
+</ul>
+</li>
+<li><a href="#固定端口绑定">固定端口绑定</a></li>
+</ul>
+</li>
+<li><a href="#具体实现">具体实现</a></li>
+<li><a href="#tcp打洞tcp-hole-punching">TCP打洞(TCP Hole Punching)</a></li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="https://evilpan.com/2015/10/31/p2p-over-middle-box/" target="_blank" rel="noopener noreffer ">原文</a>
+</div><div class="content" id="content"><p><a href="https://evilpan.com/2015/10/31/p2p-over-middle-box/" rel="noopener noreffer" target="_blank">原文</a>
 当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便是到了IPV6时代也会存在,因为即使不需要NAT,但还有其他中间件如防火墙阻挡了链接的建立. 目前部署的中间件多都是在C/S架构上设计的,其中相对隐匿的客户机主动向周知的服务端(拥有静态IP地址和DNS名称)发起链接请求. 大多数中间件实现了一种非对称的通讯模型,即内网中的主机可以初始化对外的链接,而外网的主机却不能初始化对内网的链接, 除非经过中间件管理员特殊配置.</p>
 <h2 id="前言">前言</h2>
 <p>在中间件为常见的NAPT的情况下（也是本文主要讨论的）,内网中的客户端没有单独的公网IP地址, 而是通过NAPT转换,和其他同一内网用户共享一个公网IP. 这种内网主机隐藏在中间件后的不可访问性对于一些客户端软件如浏览器来说 并不是一个问题,因为其只需要初始化对外的链接,从某方面来看反而还对隐私保护有好处. 然而在P2P应用中, 内网主机（客户端）需要对另外的终端（Peer）直接建立链接,但是发起者和响应者可能在不同的中间件后面, 两者都没有公网IP地址. 而外部对NAT公网IP和端口主动的链接或数据都会因内网未请求被丢弃掉. 本文讨论的就是如何跨越NAT实现内网主机直接通讯的问题.</p>
@@ -164,7 +162,7 @@
 <p>在建立了一对（公网IP,公网端口）和（内网IP,内网端口）二元组的绑定之后,只要还有一个会话还是激活的,Cone NAT会重用这组绑定用于接下来该应用程序的所有会话（同一内网IP和端口）. 例如,假设客户端A建立了两个连续的对外会话,从相同的内部端点（10.0.0.1:1234）到两个不同的外部服务端S1和S2. Cone NAT只为两个会话映射了一个公网端点（155.99.25.11:62000）, 确保客户端端口的“身份”在地址转换的时候保持不变. 由于基本NAT和防火墙都不改变数据包的端口号,因此这些类型的中间件也可以看作是退化的Cone NAT.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -185,7 +183,7 @@
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    Server S1                                     Server S2
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    Server S1                                     Server S2
 </span></span><span class="line"><span class="cl">18.181.0.31:1235                              138.76.29.7:1235
 </span></span><span class="line"><span class="cl">       |                                             |
 </span></span><span class="line"><span class="cl">       |                                             |
@@ -217,7 +215,7 @@
 <p>对称NAT正好相反,不在所有公网-内网对的会话中维持一个固定的端口绑定. 其为每个新的会话开辟一个新的端口. 如下图所示：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -238,7 +236,7 @@
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">   <span class="n">Server</span> <span class="n">S1</span>                                     <span class="n">Server</span> <span class="n">S2</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">   <span class="n">Server</span> <span class="n">S1</span>                                     <span class="n">Server</span> <span class="n">S2</span>
 </span></span><span class="line"><span class="cl"><span class="mf">18.181.0.31</span><span class="o">:</span><span class="mi">1235</span>                              <span class="mf">138.76.29.7</span><span class="o">:</span><span class="mi">1235</span>
 </span></span><span class="line"><span class="cl">       <span class="o">|</span>                                             <span class="o">|</span>
 </span></span><span class="line"><span class="cl">       <span class="o">|</span>                                             <span class="o">|</span>
@@ -265,7 +263,7 @@
 <p>这是最可靠但也是最低效的一种P2P通信实现. 其原理是通过一个有公网IP的服务器中间人对两个内网客户端的通信数据进行中继和转发. 如下图所示：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -276,7 +274,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                       <span class="n">Server</span> <span class="n">S</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                       <span class="n">Server</span> <span class="n">S</span>
 </span></span><span class="line"><span class="cl">                          <span class="o">|</span>
 </span></span><span class="line"><span class="cl">                          <span class="o">|</span>
 </span></span><span class="line"><span class="cl">   <span class="o">+----------------------+----------------------+</span>
@@ -292,7 +290,7 @@
 <p>第二种方法在当两个端点中有一个不存在中间件的时候有效. 例如,客户端A在NAT之后而客户端B拥有全局IP地址,如下图：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -307,7 +305,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                            <span class="n">Server</span> <span class="n">S</span>
 </span></span><span class="line"><span class="cl">                        <span class="mf">18.181.0.31</span><span class="o">:</span><span class="mi">1235</span>
 </span></span><span class="line"><span class="cl">                               <span class="o">|</span>
@@ -331,7 +329,7 @@
 <p>假设客户端A和客户端B的地址都是内网地址,且在不同的NAT后面. A、B上运行的P2P应用程序和服务器S都使用了UDP端口1234,A和B分别初始化了 与Server的UDP通信,地址映射如图所示:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -345,7 +343,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                            <span class="n">Server</span> <span class="n">S</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                            <span class="n">Server</span> <span class="n">S</span>
 </span></span><span class="line"><span class="cl">                        <span class="mf">18.181.0.31</span><span class="o">:</span><span class="mi">1234</span>
 </span></span><span class="line"><span class="cl">                               <span class="o">|</span>
 </span></span><span class="line"><span class="cl">                               <span class="o">|</span>
@@ -366,7 +364,7 @@
 <p>现在考虑这样一种情景,两个客户端A和B正好在同一个NAT之后（而且可能他们自己并不知道）,因此在同一个内网网段之内. 客户端A和服务器S建立了一个UDP会话,NAT为此分配了公网端口62000,B同样和S建立会话,分配到了端口62001,如下图：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -380,7 +378,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                          <span class="n">Server</span> <span class="n">S</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                          <span class="n">Server</span> <span class="n">S</span>
 </span></span><span class="line"><span class="cl">                      <span class="mf">18.181.0.31</span><span class="o">:</span><span class="mi">1234</span>
 </span></span><span class="line"><span class="cl">                             <span class="o">|</span>
 </span></span><span class="line"><span class="cl">                             <span class="o">|</span>
@@ -394,13 +392,13 @@
 </span></span><span class="line"><span class="cl"><span class="mf">10.0.0.1</span><span class="o">:</span><span class="mi">1234</span>                                 <span class="mf">10.1.1.3</span><span class="o">:</span><span class="mi">1234</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>假设A和B使用了上节介绍的UDP打洞技术来建立P2P通路,那么会发生什么呢？首先A和B会得到由S观测到的对方的公网IP和端口号,然后给对方的地址发送信息. 两个客户端只有在NAT允许内网主机对内网其他主机发起UDP会话的时候才能正常通信,我们把这种情况称之为&quot;回环传输“(loopback transmission),因为从内部 到达NAT的数据会被“回送”到内网中而不是转发到外网. 例如,当A发送一个UDP数据包给B的公网地址时,数据包最初有源IP地址和端口地址10.0.0.1:1234和 目的地址155.99.25.11:62001,NAT收到包后,将其转换为源155.99.25.11:62000（A的公网地址）和目的10.1.1.3:1234,然后再转发给B. 即便NAT支持 回环传输,这种转换和转发在此情况下也是没必要的,且有可能会增加A与B的对话延时和加重NAT的负担.</p>
+</div><p>假设A和B使用了上节介绍的UDP打洞技术来建立P2P通路,那么会发生什么呢？首先A和B会得到由S观测到的对方的公网IP和端口号,然后给对方的地址发送信息. 两个客户端只有在NAT允许内网主机对内网其他主机发起UDP会话的时候才能正常通信,我们把这种情况称之为"回环传输“(loopback transmission),因为从内部 到达NAT的数据会被“回送”到内网中而不是转发到外网. 例如,当A发送一个UDP数据包给B的公网地址时,数据包最初有源IP地址和端口地址10.0.0.1:1234和 目的地址155.99.25.11:62001,NAT收到包后,将其转换为源155.99.25.11:62000（A的公网地址）和目的10.1.1.3:1234,然后再转发给B. 即便NAT支持 回环传输,这种转换和转发在此情况下也是没必要的,且有可能会增加A与B的对话延时和加重NAT的负担.</p>
 <p>对于这个情况,优化方案是很直观的. 当A和B最初通过S交换地址信息时,他们应该包含自身的IP地址和端口号（从自己看）,同时也包含从服务器看的自己的 地址和端口号. 然后客户端同时开始从对方已知的两个的地址中同时开始互相发送数据,并使用第一个成功通信的地址作为对方地址. 如果两个客户端在同一个 NAT后,发送到对方内网地址的数据最有可能先到达,从而可以建立一条不经过NAT的通信链路；如果两个客户端在不同的NAT之后,发送给对方内网地址的数据包 根本就到达不了对方,但仍然可以通过公网地址来建立通路. 值得一提的是,虽然这些数据包通过某种方式验证,但是在不同NAT的情况下完全有可能会导致A往B 发送的信息发送到其他A内网网段中无关的结点上去的.</p>
 <h4 id="端点在多级nat之后">端点在多级NAT之后</h4>
 <p>在一些拓朴结构中,可能会存在多级NAT设备,在这种情况下,如果没有关于拓朴的具体信息, 两个Peer要建立“最优”的P2P链接是不可能的,下面来说为什么. 以下图为例：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -419,7 +417,7 @@
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                            <span class="n">Server</span> <span class="n">S</span>
+<pre class="chroma" tabindex="0"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl">                            <span class="n">Server</span> <span class="n">S</span>
 </span></span><span class="line"><span class="cl">                        <span class="mf">18.181.0.31</span><span class="o">:</span><span class="mi">1234</span>
 </span></span><span class="line"><span class="cl">                               <span class="o">|</span>
 </span></span><span class="line"><span class="cl">                               <span class="o">|</span>
@@ -455,42 +453,39 @@ B 发送 SYN 到 A, 创建NAT B的一组映射
 至此,TCP的打洞成功,获得一个不依赖于服务器的链接
 由于TCP连接是由操作系统控制的, 而不是由应用控制的, 而且TCP包的序列号是随机生成, 所以TCP打洞的成功率就相对较低. 因此如果NAT对接收到的包进行TCP序列号检测时若没有现有的连接可以对应, 该TCP包很可能会被NAT丢弃掉.</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" data-title="[转载] p2p 内网穿透技术"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" data-title="[转载] p2p 内网穿透技术"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" data-title="[转载] p2p 内网穿透技术"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" data-title="[转载] p2p 内网穿透技术" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/zhuan-zai-cduo-xian-cheng-diao-yong-python/" class="prev" rel="prev" title="[转载] c 多线程调用 python"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[转载] c 多线程调用 python</a>
-            <a href="/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/" class="next" rel="next" title="[转载] VR 扯掉了中国科技圈的遮羞布">[转载] VR 扯掉了中国科技圈的遮羞布<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[转载] p2p 内网穿透技术" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[转载] p2p 内网穿透技术" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[转载] p2p 内网穿透技术" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[转载] p2p 内网穿透技术" data-url="http://blog.xuaii.cc/zhuan-zai-p2p-nei-wang-chuan-tou-ji-zhu/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/zhuan-zai-cduo-xian-cheng-diao-yong-python/" rel="prev" title="[转载] c 多线程调用 python"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[转载] c 多线程调用 python</a>
+<a class="next" href="/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/" rel="next" title="[转载] VR 扯掉了中国科技圈的遮羞布">[转载] VR 扯掉了中国科技圈的遮羞布<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

@@ -1,160 +1,158 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" />
-<meta property="og:description" content="Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/godot_dialogue_plugin/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-02-10T09:17:02+08:00" />
-<meta property="article:modified_time" content="2023-02-10T09:17:02+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic"/>
-<meta name="twitter:description" content="Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/godot_dialogue_plugin/" /><link rel="prev" href="http://blog.xuaii.cc/game-idea-exchange/" /><link rel="next" href="http://blog.xuaii.cc/godot_useful_plugin/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[Godot-Plugin] Dialogue Manager \u0026\u0026 Dialogic",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/godot_dialogue_plugin\/"
-        },"genre": "posts","wordcount":  1975 ,
-        "url": "http:\/\/blog.xuaii.cc\/godot_dialogue_plugin\/","datePublished": "2023-02-10T09:17:02+08:00","dateModified": "2023-02-10T09:17:02+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic - Quijo's blog</title><meta content="" name="Description"/><meta content="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" property="og:title"/>
+<meta content="Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/godot_dialogue_plugin/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-02-10T09:17:02+08:00" property="article:published_time"/>
+<meta content="2023-02-10T09:17:02+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" name="twitter:title"/>
+<meta content="Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/godot_dialogue_plugin/" rel="canonical"/><link href="http://blog.xuaii.cc/game-idea-exchange/" rel="prev"/><link href="http://blog.xuaii.cc/godot_useful_plugin/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[Godot-Plugin] Dialogue Manager \u0026\u0026 Dialogic",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/godot_dialogue_plugin\/"
+        },"genre": "posts","wordcount":  1975 ,
+        "url": "http:\/\/blog.xuaii.cc\/godot_dialogue_plugin\/","datePublished": "2023-02-10T09:17:02+08:00","dateModified": "2023-02-10T09:17:02+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot-Plugin] Dialogue Manager && Dialogic</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-02-10">2023-02-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1975 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#writting-dialogue">Writting Dialogue</a>
-      <ul>
-        <li><a href="#nodes">Nodes</a></li>
-        <li><a href="#dialogue">Dialogue</a></li>
-        <li><a href="#随机选择">随机选择</a></li>
-        <li><a href="#变量">变量</a></li>
-        <li><a href="#bbcode">bbcode</a></li>
-        <li><a href="#随机对话">随机对话</a></li>
-        <li><a href="#跳转">跳转</a></li>
-        <li><a href="#回答选项">回答(选项)</a></li>
-        <li><a href="#条件">条件</a></li>
-        <li><a href="#mutations">Mutations</a></li>
-        <li><a href="#error-checking">Error checking</a></li>
-        <li><a href="#测试场景">测试场景</a></li>
-        <li><a href="#自定义测试场景">自定义测试场景</a></li>
-        <li><a href="#翻译">翻译</a></li>
-      </ul>
-    </li>
-    <li><a href="#设置">设置</a>
-      <ul>
-        <li><a href="#编辑器">编辑器</a></li>
-        <li><a href="#运行时">运行时</a></li>
-        <li><a href="#全局变量">全局变量</a></li>
-      </ul>
-    </li>
-    <li><a href="#在游戏中使用对话">在游戏中使用对话</a>
-      <ul>
-        <li><a href="#获取一行对话">获取一行对话</a></li>
-        <li><a href="#dialoguelabel-节点">DialogueLabel 节点</a></li>
-        <li><a href="#运行时生成-dialogue-resource">运行时生成 Dialogue Resource</a></li>
-      </ul>
-    </li>
-    <li><a href="#c-wrapper">C# wrapper</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><p>Godot 有两个主流的 Dialog插件</p>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-02-10">2023-02-10</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 1975 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 4 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
 <ul>
-<li><a href="https://github.com/nathanhoad/godot_dialogue_manager" target="_blank" rel="noopener noreffer ">Dialogue Manager</a></li>
-<li><a href="https://github.com/coppolaemilio/dialogic" target="_blank" rel="noopener noreffer ">Dialogic</a></li>
+<li><a href="#writting-dialogue">Writting Dialogue</a>
+<ul>
+<li><a href="#nodes">Nodes</a></li>
+<li><a href="#dialogue">Dialogue</a></li>
+<li><a href="#随机选择">随机选择</a></li>
+<li><a href="#变量">变量</a></li>
+<li><a href="#bbcode">bbcode</a></li>
+<li><a href="#随机对话">随机对话</a></li>
+<li><a href="#跳转">跳转</a></li>
+<li><a href="#回答选项">回答(选项)</a></li>
+<li><a href="#条件">条件</a></li>
+<li><a href="#mutations">Mutations</a></li>
+<li><a href="#error-checking">Error checking</a></li>
+<li><a href="#测试场景">测试场景</a></li>
+<li><a href="#自定义测试场景">自定义测试场景</a></li>
+<li><a href="#翻译">翻译</a></li>
+</ul>
+</li>
+<li><a href="#设置">设置</a>
+<ul>
+<li><a href="#编辑器">编辑器</a></li>
+<li><a href="#运行时">运行时</a></li>
+<li><a href="#全局变量">全局变量</a></li>
+</ul>
+</li>
+<li><a href="#在游戏中使用对话">在游戏中使用对话</a>
+<ul>
+<li><a href="#获取一行对话">获取一行对话</a></li>
+<li><a href="#dialoguelabel-节点">DialogueLabel 节点</a></li>
+<li><a href="#运行时生成-dialogue-resource">运行时生成 Dialogue Resource</a></li>
+</ul>
+</li>
+<li><a href="#c-wrapper">C# wrapper</a></li>
+</ul>
+</nav></div>
+</div><div class="content" id="content"><p>Godot 有两个主流的 Dialog插件</p>
+<ul>
+<li><a href="https://github.com/nathanhoad/godot_dialogue_manager" rel="noopener noreffer" target="_blank">Dialogue Manager</a></li>
+<li><a href="https://github.com/coppolaemilio/dialogic" rel="noopener noreffer" target="_blank">Dialogic</a></li>
 </ul>
 <p>Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码
 DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自定义功能较简单， 并且能再运行时编辑 Dialog</p>
-<p>本文仅根据<a href="https://github.com/nathanhoad/godot_dialogue_manager/blob/main/docs/Writing_Dialogue.md" target="_blank" rel="noopener noreffer ">官方文档</a>介绍 Dialogue Manager 使用方式</p>
+<p>本文仅根据<a href="https://github.com/nathanhoad/godot_dialogue_manager/blob/main/docs/Writing_Dialogue.md" rel="noopener noreffer" target="_blank">官方文档</a>介绍 Dialogue Manager 使用方式</p>
 <h2 id="writting-dialogue">Writting Dialogue</h2>
 <h3 id="nodes">Nodes</h3>
 <p>Dialogue Manager 将<strong>对话</strong>抽象为 dialogue 节点，dialogue 节点是以行为单位的传闻本结构，使用 <code>~ &lt;dialog_title&gt;</code> 标记一个名为 &lt;dialog_title&gt; 的节点的开始</p>
@@ -178,13 +176,13 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 等概率随机对话</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: I will say this.
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: I will say this.
 </span></span><span class="line"><span class="cl">% Nathan: And then I might say this
 </span></span><span class="line"><span class="cl">% Nathan: Or maybe this
 </span></span><span class="line"><span class="cl">% Nathan: Or even this?
@@ -193,11 +191,11 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 </div><p>带权重的随机对话</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%3 Nathan: This line as a 60% chance of being picked
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">%3 Nathan: This line as a 60% chance of being picked
 </span></span><span class="line"><span class="cl">%2 Nathan: This line has an 40% chance of being picked
 </span></span></code></pre></td></tr></table>
 </div>
@@ -205,41 +203,41 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>从一段对话跳转到另一段对话(类似 goto)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=&gt; another_title
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=&gt; another_title
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>从一段对话跳转到另一段对话后返回下一句(类似过程调用)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=&gt;&lt; another_title
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=&gt;&lt; another_title
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以跨文件导入对话(文件头部)</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import &#34;res://snippets.dialogue&#34; as snippets
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import "res://snippets.dialogue" as snippets
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>导入后使用  <code>=&gt; snippets/talk_to_nathan</code> 来跳转对话</p>
 <h3 id="回答选项">回答(选项)</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
 </span></span><span class="line"><span class="cl">- This one
 </span></span><span class="line"><span class="cl">- No, this one
 </span></span><span class="line"><span class="cl">- Nothing
@@ -249,14 +247,14 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>默认是按照dialogue 的列表顺序进行，但是可以使用 <code>=&gt;</code> 根据不同的选项跳转,其中 <code>END</code> 表示结束对话</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
 </span></span><span class="line"><span class="cl">- This one
 </span></span><span class="line"><span class="cl">    Nathan: Ah, so you want this one?
 </span></span><span class="line"><span class="cl">- Another one =&gt; another_title
@@ -266,38 +264,38 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 </div><p>如果一个选项中包含了以 <code>&lt;name&gt;:</code> 开始的对话，玩家选中后会被当作一个对话进行？（没太懂）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Someone: Here is a thing you can do.
-</span></span><span class="line"><span class="cl">- That&#39;s good to hear!
-</span></span><span class="line"><span class="cl">    Nathan: That&#39;s good to hear!
-</span></span><span class="line"><span class="cl">- That&#39;s definitely news
-</span></span><span class="line"><span class="cl">    Nathan: That&#39;s definitely news
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Someone: Here is a thing you can do.
+</span></span><span class="line"><span class="cl">- That's good to hear!
+</span></span><span class="line"><span class="cl">    Nathan: That's good to hear!
+</span></span><span class="line"><span class="cl">- That's definitely news
+</span></span><span class="line"><span class="cl">    Nathan: That's definitely news
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>等价于</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Someone: Here is a thing you can do
-</span></span><span class="line"><span class="cl">- Nathan: That&#39;s good to hear!
-</span></span><span class="line"><span class="cl">- Nathan: That&#39;s definitely news
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Someone: Here is a thing you can do
+</span></span><span class="line"><span class="cl">- Nathan: That's good to hear!
+</span></span><span class="line"><span class="cl">- Nathan: That's definitely news
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="条件">条件</h3>
 <p>dialogue 中的条件</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -305,25 +303,25 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">if SomeGlobal.some_property &gt;= 10
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">if SomeGlobal.some_property &gt;= 10
 </span></span><span class="line"><span class="cl">    Nathan: That property is greather than or equal to 10
-</span></span><span class="line"><span class="cl">elif SomeGlobal.some_other_property == &#34;some value&#34;
+</span></span><span class="line"><span class="cl">elif SomeGlobal.some_other_property == "some value"
 </span></span><span class="line"><span class="cl">    Nathan: Or we might be in here.
 </span></span><span class="line"><span class="cl">else
-</span></span><span class="line"><span class="cl">    Nathan: If neither are true I&#39;ll say this.
+</span></span><span class="line"><span class="cl">    Nathan: If neither are true I'll say this.
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>response 中的条件使用 &lsquo;[&rsquo; 和 &lsquo;]&rsquo; 包起来</p>
+</div><p>response 中的条件使用 ‘[’ 和 ‘]’ 包起来</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: What would you like?
 </span></span><span class="line"><span class="cl">- This one [if SomeGlobal.some_property == 0 or SomeGlobal.some_other_property == false]
 </span></span><span class="line"><span class="cl">    Nathan: Ah, so you want this one?
 </span></span><span class="line"><span class="cl">- Another one [if SomeGlobal.some_method()] =&gt; another_title
@@ -334,7 +332,7 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>使用 <code>set</code> / <code>do</code> 来修改变量和调用方法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -342,9 +340,9 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">if has_met_nathan == false
-</span></span><span class="line"><span class="cl">    do SomeGlobal.animate(&#34;Nathan&#34;, &#34;Wave&#34;)
-</span></span><span class="line"><span class="cl">    Nathan: Hi, I&#39;m Nathan.
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">if has_met_nathan == false
+</span></span><span class="line"><span class="cl">    do SomeGlobal.animate("Nathan", "Wave")
+</span></span><span class="line"><span class="cl">    Nathan: Hi, I'm Nathan.
 </span></span><span class="line"><span class="cl">    set has_met_nathan = true
 </span></span><span class="line"><span class="cl">Nathan: What can I do for you?
 </span></span><span class="line"><span class="cl">- Tell me more about this dialogue editor
@@ -360,12 +358,12 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>Mutations 可以在 dialogue 行内被调用，并且是在文本打印到行内 mutations 位置时调用</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: I&#39;m not sure we&#39;ve met before [do wave()]I&#39;m Nathan.
-</span></span><span class="line"><span class="cl">Nathan: I can also emit signals[do emit(&#34;some_signal&#34;)] inline.
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Nathan: I'm not sure we've met before [do wave()]I'm Nathan.
+</span></span><span class="line"><span class="cl">Nathan: I can also emit signals[do emit("some_signal")] inline.
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>tips: inline mutations 中的 await 是无效的， 即 inline mutations 方法必须是同步的</p>
@@ -376,14 +374,14 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>测试场景必须继承 <code>BaseDialogueTestScene</code>,  并且提供一个 dialogue resource 和 起始标题</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">extends BaseDialogueTestScene
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">extends BaseDialogueTestScene
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">func _ready() -&gt; void:
 </span></span><span class="line"><span class="cl">    # Change this to open your custom balloon
@@ -402,7 +400,7 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <p>插件的运行时本身是无状态的，这意味着需要自行提供变量和方法来运行，manager 首先在当前场景中查询然后在全局作用域中查询</p>
 <p>如果不想使用 <code>GameState.some_variable</code> 可以在 Autoload 中 达赖GameState.gd 然后直接引用 <code>some_variable</code></p>
 <h2 id="在游戏中使用对话">在游戏中使用对话</h2>
-<p>你可以自行决定dialogue 的表现方式和输入控制，也可以参考<a href="https://github.com/nathanhoad/godot_dialogue_manager/blob/main/docs/Example_Balloons.md" target="_blank" rel="noopener noreffer ">a few example balloons</a></p>
+<p>你可以自行决定dialogue 的表现方式和输入控制，也可以参考<a href="https://github.com/nathanhoad/godot_dialogue_manager/blob/main/docs/Example_Balloons.md" rel="noopener noreffer" target="_blank">a few example balloons</a></p>
 <p>可以调用 <code>DialogueManager.show_example_dialogue_balloon(resource, title)</code> 来调用使用内置的样例(render/Inputs)</p>
 <p>当开始自己构建对话时，需要获得一行对话和使用 dialogue lable node</p>
 <h3 id="获取一行对话">获取一行对话</h3>
@@ -412,18 +410,18 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 回答：行内的 Mutations 交给 DialogueLabel 处理， Manager 会在调用 get_next_dialogue_line 时自行出里行间的 Mutations</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var resource = load(&#34;res://some_dialogue.dialogue&#34;)
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var resource = load("res://some_dialogue.dialogue")
 </span></span><span class="line"><span class="cl"># then
-</span></span><span class="line"><span class="cl">var dialogue_line = await DialogueManager.get_next_dialogue_line(resource, &#34;start&#34;)
+</span></span><span class="line"><span class="cl">var dialogue_line = await DialogueManager.get_next_dialogue_line(resource, "start")
 </span></span><span class="line"><span class="cl"># or
-</span></span><span class="line"><span class="cl">var dialogue_line = await resource.get_next_dialogue_line(&#34;start&#34;)
+</span></span><span class="line"><span class="cl">var dialogue_line = await resource.get_next_dialogue_line("start")
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里的 <code>dialogue_line</code> 是一个 <code>RefCounted</code> 类型</p>
@@ -436,10 +434,10 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <h3 id="运行时生成-dialogue-resource">运行时生成 Dialogue Resource</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var resource = DialogueManager.create_resource_from_text(&#34;~ title\nCharacter: Hello!&#34;)
+<pre class="chroma" tabindex="0"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var resource = DialogueManager.create_resource_from_text("~ title\nCharacter: Hello!")
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>文本首先被传到分析器，如果存在符号错误该方法会失败（失败是什么意思？
@@ -448,7 +446,7 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 <h2 id="c-wrapper">C# wrapper</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -457,53 +455,50 @@ DialogManager 简单, 提供一种纯文本的方式编辑 Dialog， 添加自�
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">DialogueManagerRuntime</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">dialogue</span> <span class="p">=</span> <span class="n">DG</span><span class="p">.</span><span class="n">Load</span><span class="p">&lt;</span><span class="n">Resource</span><span class="p">&gt;(</span><span class="s">&#34;res://example.dialogue&#34;</span><span class="p">);</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">DialogueManagerRuntime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">dialogue</span> <span class="p">=</span> <span class="n">DG</span><span class="p">.</span><span class="n">Load</span><span class="p">&lt;</span><span class="n">Resource</span><span class="p">&gt;(</span><span class="s">"res://example.dialogue"</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl"><span class="n">DialogueManager</span><span class="p">.</span><span class="n">ShowExampleDialogueBalloon</span><span class="p">(</span><span class="n">dialogue</span><span class="p">,</span> <span class="s">&#34;start&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DialogueManager</span><span class="p">.</span><span class="n">ShowExampleDialogueBalloon</span><span class="p">(</span><span class="n">dialogue</span><span class="p">,</span> <span class="s">"start"</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="n">or</span>
-</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">line</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DialogueManager</span><span class="p">.</span><span class="n">GetNextDialogueLine</span><span class="p">(</span><span class="n">dialogue</span><span class="p">,</span> <span class="s">&#34;start&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">line</span> <span class="p">=</span> <span class="k">await</span> <span class="n">DialogueManager</span><span class="p">.</span><span class="n">GetNextDialogueLine</span><span class="p">(</span><span class="n">dialogue</span><span class="p">,</span> <span class="s">"start"</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>tips: 这个 RefCounted  对象和 gd 版本有相同的 property ，但是需要手动的使用 .Get(&lt;property_name&gt;) 来访问？？ 可以在<code>GetNextDialogueLine</code> 方法内做一个类型转换呀？</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-02-10</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/godot_dialogue_plugin/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/game-idea-exchange/" class="prev" rel="prev" title="[游戏机制] 交换球"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[游戏机制] 交换球</a>
-            <a href="/godot_useful_plugin/" class="next" rel="next" title="[Godot4.0] 实用插件搜索计划 第一期">[Godot4.0] 实用插件搜索计划 第一期<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-02-10</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/godot_dialogue_plugin/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic" data-url="http://blog.xuaii.cc/godot_dialogue_plugin/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/game-idea-exchange/" rel="prev" title="[游戏机制] 交换球"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[游戏机制] 交换球</a>
+<a class="next" href="/godot_useful_plugin/" rel="next" title="[Godot4.0] 实用插件搜索计划 第一期">[Godot4.0] 实用插件搜索计划 第一期<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

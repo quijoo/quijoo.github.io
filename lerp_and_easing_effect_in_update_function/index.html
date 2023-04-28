@@ -1,155 +1,153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Lerp 函数与递推缓动 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="Lerp 函数与递推缓动" />
-<meta property="og:description" content="从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-07T21:34:58+08:00" />
-<meta property="article:modified_time" content="2023-03-07T21:34:58+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="Lerp 函数与递推缓动"/>
-<meta name="twitter:description" content="从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" /><link rel="prev" href="http://blog.xuaii.cc/flexible-2d-platform-game-controller/" /><link rel="next" href="http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Lerp 函数与递推缓动",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/lerp_and_easing_effect_in_update_function\/"
-        },"genre": "posts","wordcount":  2632 ,
-        "url": "http:\/\/blog.xuaii.cc\/lerp_and_easing_effect_in_update_function\/","datePublished": "2023-03-07T21:34:58+08:00","dateModified": "2023-03-07T21:34:58+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>Lerp 函数与递推缓动 - Quijo's blog</title><meta content="" name="Description"/><meta content="Lerp 函数与递推缓动" property="og:title"/>
+<meta content="从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-03-07T21:34:58+08:00" property="article:published_time"/>
+<meta content="2023-03-07T21:34:58+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="Lerp 函数与递推缓动" name="twitter:title"/>
+<meta content="从问题出发 当我在实现 2D 平台游戏中 WallJump 时遇到了麻烦，角色的水平移动是关于输入的函数，即: 1 2 3 4 5 void Update() { Velocity.X = input_map(HorizontalInput); MoveAndSlide(); } 而 WallJump 需要赋予玩家一个 斜向初速度" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" rel="canonical"/><link href="http://blog.xuaii.cc/flexible-2d-platform-game-controller/" rel="prev"/><link href="http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Lerp 函数与递推缓动",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/lerp_and_easing_effect_in_update_function\/"
+        },"genre": "posts","wordcount":  2632 ,
+        "url": "http:\/\/blog.xuaii.cc\/lerp_and_easing_effect_in_update_function\/","datePublished": "2023-03-07T21:34:58+08:00","dateModified": "2023-03-07T21:34:58+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lerp 函数与递推缓动</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-03-07">2023-03-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2632 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#从问题出发">从问题出发</a></li>
-    <li><a href="#该问题引发的思考">该问题引发的思考</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#分析一-自定义缓动曲线方法">分析一: 自定义缓动曲线方法</a></li>
-            <li><a href="#分析二-递推的-lerp-方法">分析二: 递推的 Lerp 方法</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#无状态递推缓动函数">无状态递推缓动函数</a>
-      <ul>
-        <li><a href="#曲线分析">曲线分析</a>
-          <ul>
-            <li><a href="#当前值c-的稳定性">当前值(c) 的稳定性</a></li>
-            <li><a href="#当前值c-的变化速率">当前值(c) 的变化速率</a></li>
-            <li><a href="#p-与-triangle-t-的约束">$p$ 与 $\triangle t$ 的约束</a></li>
-            <li><a href="#代码测试">代码测试</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#更进一步的思考">更进一步的思考</a></li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Lerp 函数与递推缓动</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-03-07">2023-03-07</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 2632 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 6 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#从问题出发">从问题出发</a></li>
+<li><a href="#该问题引发的思考">该问题引发的思考</a>
+<ul>
+<li>
+<ul>
+<li><a href="#分析一-自定义缓动曲线方法">分析一: 自定义缓动曲线方法</a></li>
+<li><a href="#分析二-递推的-lerp-方法">分析二: 递推的 Lerp 方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#无状态递推缓动函数">无状态递推缓动函数</a>
+<ul>
+<li><a href="#曲线分析">曲线分析</a>
+<ul>
+<li><a href="#当前值c-的稳定性">当前值(c) 的稳定性</a></li>
+<li><a href="#当前值c-的变化速率">当前值(c) 的变化速率</a></li>
+<li><a href="#p-与-triangle-t-的约束">$p$ 与 $\triangle t$ 的约束</a></li>
+<li><a href="#代码测试">代码测试</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#更进一步的思考">更进一步的思考</a></li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="从问题出发">从问题出发</h2>
+</div><div class="content" id="content"><h2 id="从问题出发">从问题出发</h2>
 <p>当我在实现 2D 平台游戏中 <strong>WallJump</strong> 时遇到了麻烦，角色的水平移动是关于输入的函数，即:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Velocity</span><span class="p">.</span><span class="n">X</span> <span class="p">=</span> <span class="n">input_map</span><span class="p">(</span><span class="n">HorizontalInput</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">MoveAndSlide</span><span class="p">();</span>
@@ -159,7 +157,7 @@
 </div><p>而 <strong>WallJump</strong> 需要赋予玩家一个 <strong>斜向初速度</strong>，此时的水平速度会被 <strong>HorizontalInput</strong> 覆盖</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -167,7 +165,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Export]</span> <span class="kt">float</span> <span class="n">WallJumpVelocity</span><span class="p">;</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Export]</span> <span class="kt">float</span> <span class="n">WallJumpVelocity</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">WallJump</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">direction</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Velocity</span> <span class="p">=</span> <span class="n">dir</span> <span class="p">*</span> <span class="n">WallJumpVelocity</span><span class="p">.</span><span class="n">X</span> <span class="p">+</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">Up</span> <span class="p">*</span> <span class="n">WallJumpVelocity</span><span class="p">.</span><span class="n">Y</span><span class="p">;</span>
@@ -181,14 +179,12 @@
 </blockquote>
 <p>于是我采用 <strong>缓动</strong> 的方式改变使 <strong>HorizontalInput</strong> 延迟作用到 <strong>Velocity</strong></p>
 <p>这个视频作者的思路和我大致相同，但并非使用自定义的缓动曲线，而是使用时常出现 Unity 教程中的方法:</p>
-
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="https://www.youtube-nocookie.com/embed/2S3g8CgBG1g" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+<iframe allowfullscreen="" src="https://www.youtube-nocookie.com/embed/2S3g8CgBG1g" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube Video"></iframe>
 </div>
-
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -197,7 +193,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="c1">// horizontal move</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">targetVelocity</span> <span class="p">=</span> <span class="n">input_map</span><span class="p">(</span><span class="n">HorizontalInput</span><span class="p">);</span>
@@ -213,7 +209,7 @@
 <p>通常自定义的曲线需要确定 <strong>起始值(s)</strong>、<strong>终点值(f)</strong>、<strong>插值变量(p)</strong> 从而在每帧插值出当前需要的值并更新。例如:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -231,7 +227,7 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Vector2</span> <span class="n">cachedVelocity</span><span class="p">;</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Vector2</span> <span class="n">cachedVelocity</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">float</span> <span class="n">p</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
@@ -259,14 +255,14 @@
 <p>而递推的 Lerp 的方法是利用 <strong>当前值(c)</strong> 代替 <strong>起始值(s)</strong>, 用户输入作为 <strong>目标值(f)</strong>， 这样不论如何 速度都会平滑的改变：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">upadte</span><span class="p">()</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">upadte</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">targetVelocity</span> <span class="p">=</span> <span class="n">input_map</span><span class="p">(</span><span class="n">HorizontalInput</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Velocity</span> <span class="p">=</span> <span class="n">Lerp</span><span class="p">(</span><span class="n">Velocity</span><span class="p">,</span> <span class="n">targetVelocity</span><span class="p">,</span> <span class="m">0.1f</span><span class="p">);</span> <span class="c1">// 注意这里 p 固定为 0.1, 后面会讨论</span>
@@ -285,7 +281,7 @@
 我们只考虑 <code>float</code> 插值的情况，其他多维变量大同小异</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -293,7 +289,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">float</span> <span class="n">Lerp</span><span class="p">(</span><span class="kt">float</span> <span class="n">s</span><span class="p">,</span> <span class="kt">float</span> <span class="n">f</span><span class="p">,</span> <span class="kt">float</span> <span class="n">p</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">float</span> <span class="n">Lerp</span><span class="p">(</span><span class="kt">float</span> <span class="n">s</span><span class="p">,</span> <span class="kt">float</span> <span class="n">f</span><span class="p">,</span> <span class="kt">float</span> <span class="n">p</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">f</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">s</span><span class="p">;</span>
@@ -309,7 +305,7 @@ $$</p>
 $$
 x_{n}   - f = (1-p)\cdot (x_{n-1}     - f) \\
 x_{n-1} - f = (1-p)\cdot (x_{n-2} - f)\\
-&hellip;\\
+…\\
 x_{1} - f = (1-p)\cdot (x_{0} - f)\\
 $$</p>
 <p>累乘可得 $x_n = (1-p)^n \cdot (x_0 - f) + f$</p>
@@ -317,9 +313,9 @@ $$</p>
 <p>从而: $g(t) = x_{\frac{t}{\triangle t}} = (1-p)^{\frac{t}{\triangle t}} \cdot (x_0 - f) + f$</p>
 <p>至此我们得到了 <strong>递推式</strong> $x_{n} = (1 - p) \cdot x_{n-1} + p \cdot f$ 的 <strong>函数式</strong> $g(t) = x_{\frac{t}{\triangle t}} = (1-p)^{\frac{t}{\triangle t}} \cdot (s - f) + f$</p>
 <p>当 <code>s = 0, f = 1, p=[0.01 -&gt; 0.08]</code> 时该函数图像如下图（p 越大 曲线弯曲程度越大）</p>
-<iframe src="https://www.desmos.com/calculator/vo8dsr0q1k?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+<iframe frameborder="0" height="500" src="https://www.desmos.com/calculator/vo8dsr0q1k?embed" style="border: 1px solid #ccc" width="500"></iframe>
 <p>当 <code>s=0, f =[1.0 -&gt; 1,4], p = 0.05</code> 时 该函数曲线如下 （f 越大曲线渐进线越高）</p>
-<iframe src="https://www.desmos.com/calculator/nvw2xzpxs6?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+<iframe frameborder="0" height="500" src="https://www.desmos.com/calculator/nvw2xzpxs6?embed" style="border: 1px solid #ccc" width="500"></iframe>
 <h3 id="曲线分析">曲线分析</h3>
 <h4 id="当前值c-的稳定性">当前值(c) 的稳定性</h4>
 <p>对于我们的需求，最佳的曲线是，当 <strong>终点值(f)</strong> 发生变化时 <strong>当前值(c)</strong> 不发生改变。但是遗憾的是这样的曲线并不存在。证明很简单，略。</p>
@@ -333,7 +329,7 @@ $$
 <p>由于 $g(t)$ 是一个以 $y=f$ 为渐近线的渐进曲线。所以 我们可以计算 $\delta = |g(t) - f| = (1-p)^{\frac{t}{\triangle t} \cdot (f -s)}$ 来表示值得接近程度,</p>
 <p>$(1-p)^{\frac{t}{\triangle t}}$ 表示,随着越来越接近 <strong>终点值(f)</strong> 变化将越来越缓慢, 所以该曲线影响 渐进速度的量是 $(1-p)^{\frac{t}{\triangle t}}$ 项</p>
 <p>当 <code>s = 0, f = 1, p = 0.83, dt = [0.1 -&gt; 0.7]</code> 是如下图：（$\triangle t$ 越大曲线弯曲程度越小）</p>
-<iframe src="https://www.desmos.com/calculator/nslvhpefyz?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+<iframe frameborder="0" height="500" src="https://www.desmos.com/calculator/nslvhpefyz?embed" style="border: 1px solid #ccc" width="500"></iframe>
 <p>可见 $p$ 和 $\triangle t$ 都会影响曲线的<strong>弯曲程度(渐进时间)</strong>, 并且 影响的方向相反(一个变平滑一个变弯曲)</p>
 <p>可见 $(1-p)$ 和 $\triangle t$ 是影响响应时间的主要部分(通过分析偏导数可以得到), 在游戏引擎中 $\triangle t$ 在物理帧中通常是常数, 所以只能通过调整 $p$ 的值来调整曲线的响应时间</p>
 <p>这里产生了一个新问题：为了使 120fps($\triangle t = \frac{1}{120}s$) 的游戏和 60fps($\triangle t = \frac{1}{60}s$) 的游戏中的缓动具有相同的响应时间, 所以需要约束 $p$ 与 $\triangle t$ 的关系。</p>
@@ -361,7 +357,7 @@ $$</p>
 <li>在 <code>Update</code> 调用中使用方便
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -371,7 +367,7 @@ $$</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">targetVelocity</span> <span class="p">=</span> <span class="n">input_map</span><span class="p">(</span><span class="n">HorizontalInput</span><span class="p">);</span> <span class="c1">// 获得期望速度</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">tMax</span> <span class="p">=</span> <span class="m">0.5f</span><span class="p">;</span> <span class="c1">// 响应时间</span>
@@ -386,7 +382,7 @@ $$</p>
 <h4 id="代码测试">代码测试</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -423,7 +419,7 @@ $$</p>
 </span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<pre class="chroma" tabindex="0"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">copy</span>
 </span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">math</span>
@@ -447,27 +443,20 @@ $$</p>
 </span></span><span class="line"><span class="cl"><span class="c1"># g(t) = (1-p) ^ (t/dt) * (s-f) + f =  epsolon ^ (t/t_max) * (s-f) + f</span>
 </span></span><span class="line"><span class="cl"><span class="n">y1</span> <span class="o">=</span> <span class="n">epsolon</span> <span class="o">**</span> <span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="n">t_max</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">f</span><span class="p">)</span> <span class="o">+</span> <span class="n">f</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># simulation game engine&#39;s update </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># simulation game engine's update </span>
 </span></span><span class="line"><span class="cl"><span class="n">y</span><span class="p">,</span> <span class="n">tmp</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
 </span></span><span class="line"><span class="cl">    <span class="n">tmp</span> <span class="o">=</span>  <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">p</span> <span class="o">*</span> <span class="n">f</span>
 </span></span><span class="line"><span class="cl">    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># draw call</span>
-</span></span><span class="line"><span class="cl"><span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&#34;green&#34;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;y=h(x)&#34;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&#34;blue&#34;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;y=lerp&#34;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">"green"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y=h(x)"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'-.'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y=lerp"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">axes</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="/images/python_curve.png"
-        data-srcset="/images/python_curve.png, /images/python_curve.png 1.5x, /images/python_curve.png 2x"
-        data-sizes="auto"
-        alt="/images/python_curve.png"
-        title="/images/python_curve.png" /></p>
+</div><p><img alt="/images/python_curve.png" class="lazyload" data-sizes="auto" data-src="/images/python_curve.png" data-srcset="/images/python_curve.png, /images/python_curve.png 1.5x, /images/python_curve.png 2x" src="/svg/loading.min.svg" title="/images/python_curve.png"/></p>
 <h2 id="更进一步的思考">更进一步的思考</h2>
 <p>使用 Lerp 插值的缓动函数过于单一，如果我们需要使用更加灵活多样的缓动函数，并且要将他们改变为 无状态 递推的方法应该要怎么做呢？</p>
 <p>例如 我们的目标缓动函数是 $func(t) = t^2$</p>
@@ -481,7 +470,7 @@ $$</p>
 <p>带入原式 $h(k) = func(func^{-1}(k)+\triangle t) = (\sqrt{k} + \triangle t)^2$, 所以只要 $func$ 的反函数存在就一定能计算得到 $h(k)$</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -492,7 +481,7 @@ $$</p>
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">float</span> <span class="n">h</span><span class="p">(</span><span class="kt">float</span> <span class="n">k</span><span class="p">)</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="kt">float</span> <span class="n">h</span><span class="p">(</span><span class="kt">float</span> <span class="n">k</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">g</span><span class="p">(</span><span class="n">g_inverse</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -506,42 +495,39 @@ $$</p>
 </div><p>然后如果要限制响应时间，变化程度的话，参考前文的方法吧！本来还想做一个统一的参数化方法的，但是累了！</p>
 <p>问题就解决啦，我真是个小天才，卧槽。</p>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-03-07</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/lerp_and_easing_effect_in_update_function/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" data-title="Lerp 函数与递推缓动"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" data-title="Lerp 函数与递推缓动"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" data-title="Lerp 函数与递推缓动"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" data-title="Lerp 函数与递推缓动" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/flexible-2d-platform-game-controller/" class="prev" rel="prev" title="List of 2D Platformer Controllers [23.2.17]"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>List of 2D Platformer Controllers [23.2.17]</a>
-            <a href="/zhongguo-zhexuejiaoyu/" class="next" rel="next" title="[转载] 为什么我国中学的哲学教育这么失败?">[转载] 为什么我国中学的哲学教育这么失败?<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-03-07</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/lerp_and_easing_effect_in_update_function/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="Lerp 函数与递推缓动" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="Lerp 函数与递推缓动" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="Lerp 函数与递推缓动" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="Lerp 函数与递推缓动" data-url="http://blog.xuaii.cc/lerp_and_easing_effect_in_update_function/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/flexible-2d-platform-game-controller/" rel="prev" title="List of 2D Platformer Controllers [23.2.17]"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>List of 2D Platformer Controllers [23.2.17]</a>
+<a class="next" href="/zhongguo-zhexuejiaoyu/" rel="next" title="[转载] 为什么我国中学的哲学教育这么失败?">[转载] 为什么我国中学的哲学教育这么失败?<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>

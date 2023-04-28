@@ -1,143 +1,134 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>[游戏机制] 里世界-优化 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="[游戏机制] 里世界-优化" />
-<meta property="og:description" content="在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-01-03T18:37:43+08:00" />
-<meta property="article:modified_time" content="2023-01-08T07:03:59+08:00" /><meta property="og:site_name" content="我的网站" />
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
-
-<meta name="twitter:title" content="[游戏机制] 里世界-优化"/>
-<meta name="twitter:description" content="在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有"/>
-<meta name="application-name" content="我的网站">
-<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" /><link rel="prev" href="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" /><link rel="next" href="http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "[游戏机制] 里世界-优化",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua\/"
-        },"genre": "posts","wordcount":  2763 ,
-        "url": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua\/","datePublished": "2023-01-03T18:37:43+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "_quijo"
-            },"description": ""
-    }
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noodp" name="robots"/>
+<title>[游戏机制] 里世界-优化 - Quijo's blog</title><meta content="" name="Description"/><meta content="[游戏机制] 里世界-优化" property="og:title"/>
+<meta content="在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 “透镜” 来观察里世界的物体，这样的设计有" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" property="og:url"/><meta content="http://blog.xuaii.cc/logo.png" property="og:image"/><meta content="posts" property="article:section"/>
+<meta content="2023-01-03T18:37:43+08:00" property="article:published_time"/>
+<meta content="2023-01-08T07:03:59+08:00" property="article:modified_time"/><meta content="我的网站" property="og:site_name"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="http://blog.xuaii.cc/logo.png" name="twitter:image"/>
+<meta content="[游戏机制] 里世界-优化" name="twitter:title"/>
+<meta content="在之前的文章里提到过 里世界机制 游戏机制，但是最初的版本是需要手动用右摇杆移动 “透镜” 来观察里世界的物体，这样的设计有" name="twitter:description"/>
+<meta content="我的网站" name="application-name"/>
+<meta content="我的网站" name="apple-mobile-web-app-title"/><meta content="#ffffff" name="theme-color"/><meta content="#da532c" name="msapplication-TileColor"/><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/><link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/><link href="/site.webmanifest" rel="manifest"/><link href="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" rel="canonical"/><link href="http://blog.xuaii.cc/you-xi-ji-zhi-chuang-ti-hu-dong/" rel="prev"/><link href="http://blog.xuaii.cc/you-xi-wai-gua-ai-zi-miao/" rel="next"/><link href="/css/style.min.css" rel="stylesheet"/><link as="style" href="/lib/fontawesome-free/all.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/fontawesome-free/all.min.css" rel="stylesheet"/></noscript><link as="style" href="/lib/animate/animate.min.css" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="/lib/animate/animate.min.css" rel="stylesheet"/></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[游戏机制] 里世界-优化",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua\/"
+        },"genre": "posts","wordcount":  2763 ,
+        "url": "http:\/\/blog.xuaii.cc\/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua\/","datePublished": "2023-01-03T18:37:43+08:00","dateModified": "2023-01-08T07:03:59+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
     </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
+<body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+<div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu">
+<div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+<input id="search-input-desktop" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-desktop" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-desktop" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-desktop">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</div>
 </header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        Cancel
+<div class="header-container">
+<div class="header-wrapper">
+<div class="header-title">
+<a href="/" title="Quijo's blog">Quijolient</a>
+</div>
+<div class="menu-toggle" id="menu-toggle-mobile">
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class="menu" id="menu-mobile"><div class="search-wrapper">
+<div class="search mobile" id="search-mobile">
+<input id="search-input-mobile" placeholder="Search titles or contents..." type="text"/>
+<a class="search-button search-toggle" href="javascript:void(0);" id="search-toggle-mobile" title="Search">
+<i aria-hidden="true" class="fas fa-search fa-fw"></i>
+</a>
+<a class="search-button search-clear" href="javascript:void(0);" id="search-clear-mobile" title="Clear">
+<i aria-hidden="true" class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id="search-loading-mobile">
+<i aria-hidden="true" class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a class="search-cancel" href="javascript:void(0);" id="search-cancel-mobile">
+                        Cancel
                     </a>
-                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
+</div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item theme-switch" href="javascript:void(0);" title="Switch Theme">
+<i aria-hidden="true" class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
 </header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 里世界-优化</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-03">2023-01-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2763 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="true">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#光照剔除">光照剔除</a></li>
-        <li><a href="#动态碰撞体">动态碰撞体</a></li>
-        <li><a href="#推箱子">推箱子</a></li>
-        <li><a href="#美化---添加进出口特效">美化 - 添加进出口特效</a></li>
-        <li><a href="#一些思考核问题">一些思考核问题</a></li>
-      </ul>
-    </li>
-  </ul>
+<div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+<div id="search-dropdown-mobile"></div>
+</div><main class="main">
+<div class="container"><div class="toc" id="toc-auto">
+<h2 class="toc-title">Contents</h2>
+<div class="toc-content" id="toc-content-auto"></div>
+</div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[游戏机制] 里世界-优化</h1><div class="post-meta">
+<div class="post-meta-line"><span class="post-author"><a class="author" href="blog.xuii.cc" rel="author" title="Author"><i aria-hidden="true" class="fas fa-user-circle fa-fw"></i>_quijo</a></span></div>
+<div class="post-meta-line"><i aria-hidden="true" class="far fa-calendar-alt fa-fw"></i> <time datetime="2023-01-03">2023-01-03</time> <i aria-hidden="true" class="fas fa-pencil-alt fa-fw"></i> 2763 words 
+                <i aria-hidden="true" class="far fa-clock fa-fw"></i> 6 minutes </div>
+</div><div class="details toc" data-kept="true" id="toc-static">
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i aria-hidden="true" class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#光照剔除">光照剔除</a></li>
+<li><a href="#动态碰撞体">动态碰撞体</a></li>
+<li><a href="#推箱子">推箱子</a></li>
+<li><a href="#美化---添加进出口特效">美化 - 添加进出口特效</a></li>
+<li><a href="#一些思考核问题">一些思考核问题</a></li>
+</ul>
+</li>
+</ul>
 </nav></div>
-            </div><div class="content" id="content"><p>在之前的文章里提到过 <a href="https://www.bilibili.com/video/BV1Er4y1t7NK?spm_id_from=333.999.0.0&amp;vd_source=f793394b2f7b2b82cc3f09ecd0d4cd91" target="_blank" rel="noopener noreffer ">里世界机制</a> 游戏机制，但是最初的版本是需要手动用右摇杆移动 &ldquo;透镜&rdquo; 来观察里世界的物体，这样的设计有以下几个<strong>缺陷</strong>：</p>
+</div><div class="content" id="content"><p>在之前的文章里提到过 <a href="https://www.bilibili.com/video/BV1Er4y1t7NK?spm_id_from=333.999.0.0&amp;vd_source=f793394b2f7b2b82cc3f09ecd0d4cd91" rel="noopener noreffer" target="_blank">里世界机制</a> 游戏机制，但是最初的版本是需要手动用右摇杆移动 “透镜” 来观察里世界的物体，这样的设计有以下几个<strong>缺陷</strong>：</p>
 <ol>
-<li>需要控制左右摇杆和跳跃键来控制人物和移动 &ldquo;透镜&rdquo;</li>
+<li>需要控制左右摇杆和跳跃键来控制人物和移动 “透镜”</li>
 <li>透镜 <strong>自由度过高</strong>，限制了关卡设计的可能性</li>
 <li>仅仅实现了遮挡 / 显示 物体，并没有修改物体的<strong>碰撞体积</strong></li>
 </ol>
-<p>后来玩到 <a href="https://zelda.fandom.com/zh/wiki/%E5%A1%9E%E5%B0%94%E8%BE%BE%E4%BC%A0%E8%AF%B4%EF%BC%9A%E4%BC%97%E7%A5%9E%E7%9A%84%E4%B8%89%E8%A7%92%E5%8A%9B%E9%87%8F2" target="_blank" rel="noopener noreffer ">《塞尔达传说三角力量 2》</a> ，其中林克化身壁画在墙壁游走的能力给了我很大的启发：&ldquo;壁画林克只能在一条水平线上移动，而作者利用地形的高低差设计了很多意想不到的关卡&rdquo;, 这背后的思考是 &ldquo;通过限制玩家的能力，来增加关卡设计的可能性&rdquo;，回到里世界机制上，我们可以通过限制&quot;透镜&quot;的移动和玩家进入的方式来增加关卡设计的可能性：
-<img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="https://xuaii.github.io/post-images/1662048022127.gif"
-        data-srcset="https://xuaii.github.io/post-images/1662048022127.gif, https://xuaii.github.io/post-images/1662048022127.gif 1.5x, https://xuaii.github.io/post-images/1662048022127.gif 2x"
-        data-sizes="auto"
-        alt="https://xuaii.github.io/post-images/1662048022127.gif"
-        title="https://xuaii.github.io/post-images/1662048022127.gif" />
+<p>后来玩到 <a href="https://zelda.fandom.com/zh/wiki/%E5%A1%9E%E5%B0%94%E8%BE%BE%E4%BC%A0%E8%AF%B4%EF%BC%9A%E4%BC%97%E7%A5%9E%E7%9A%84%E4%B8%89%E8%A7%92%E5%8A%9B%E9%87%8F2" rel="noopener noreffer" target="_blank">《塞尔达传说三角力量 2》</a> ，其中林克化身壁画在墙壁游走的能力给了我很大的启发：“壁画林克只能在一条水平线上移动，而作者利用地形的高低差设计了很多意想不到的关卡”, 这背后的思考是 “通过限制玩家的能力，来增加关卡设计的可能性”，回到里世界机制上，我们可以通过限制"透镜"的移动和玩家进入的方式来增加关卡设计的可能性：
+<img alt="https://xuaii.github.io/post-images/1662048022127.gif" class="lazyload" data-sizes="auto" data-src="https://xuaii.github.io/post-images/1662048022127.gif" data-srcset="https://xuaii.github.io/post-images/1662048022127.gif, https://xuaii.github.io/post-images/1662048022127.gif 1.5x, https://xuaii.github.io/post-images/1662048022127.gif 2x" src="/svg/loading.min.svg" title="https://xuaii.github.io/post-images/1662048022127.gif"/>
 于是，我对机制进行如下修正:</p>
 <ol>
 <li>通过<strong>推箱子</strong>的形式移动透镜，而不是用<strong>右摇杆</strong></li>
@@ -146,8 +137,8 @@
 <p>这样的修正可以以某种方式设计关卡，让玩家思考以何种顺序移动各个箱子能到达想要去的目标，它的本质是<strong>推箱子</strong>， 只是换上了一层 <strong>里世界</strong> 的皮</p>
 <p>下面来构思整个机制的实现：</p>
 <ol>
-<li>实现 &ldquo;透镜&rdquo; 内的物体不显示, 之外的物体显示 -&gt; 使用光照剔除</li>
-<li>实现 &ldquo;透镜&rdquo; 内的物体与玩家碰撞，之外的物体不碰撞 -&gt; 使用 PolygenShape动态修改</li>
+<li>实现 “透镜” 内的物体不显示, 之外的物体显示 -&gt; 使用光照剔除</li>
+<li>实现 “透镜” 内的物体与玩家碰撞，之外的物体不碰撞 -&gt; 使用 PolygenShape动态修改</li>
 <li>实现 推箱子 机制 -&gt; 箱子内和箱子都能推动（避免死锁）</li>
 </ol>
 <h3 id="光照剔除">光照剔除</h3>
@@ -163,7 +154,7 @@
 <p>动态碰撞体很简单，只需要每帧取碰撞体矩形 DefaultRect 透镜碰撞体矩形 LensRect，计算两个 Rect2 的 ∩ 即可</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -201,7 +192,7 @@
 </span><span class="lnt">36
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">LensRect</span> <span class="p">:</span> <span class="n">Area2D</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">LensRect</span> <span class="p">:</span> <span class="n">Area2D</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;</span> <span class="n">NearbyLens</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Godot</span><span class="p">.</span><span class="n">Object</span><span class="p">&gt;();</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">extent</span><span class="p">;</span>
@@ -212,7 +203,7 @@
 </span></span><span class="line"><span class="cl">        <span class="n">extent</span> <span class="p">=</span> <span class="p">(</span><span class="n">shape</span><span class="p">.</span><span class="n">Shape</span> <span class="k">as</span> <span class="n">RectangleShape2D</span><span class="p">).</span><span class="n">Extents</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// Called every frame. &#39;delta&#39; is the elapsed time since the previous frame.</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Called every frame. 'delta' is the elapsed time since the previous frame.</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_PhysicsProcess</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">foreach</span><span class="p">(</span><span class="n">DynamicPolygon</span> <span class="n">polygon</span> <span class="k">in</span> <span class="n">NearbyLens</span><span class="p">.</span><span class="n">Values</span><span class="p">)</span>
@@ -243,7 +234,7 @@
 <p>对于每一个里世界物体， 只需实现 Clips 方法， 并保证碰撞体附近没有 Lens 时，碰撞体保持休眠状态</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -285,7 +276,7 @@
 </span><span class="lnt">40
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">DynamicPolygon</span> <span class="p">:</span> <span class="n">KinematicBody2D</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">DynamicPolygon</span> <span class="p">:</span> <span class="n">KinematicBody2D</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="k">private</span> <span class="n">CollisionPolygon2D</span> <span class="n">shape</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="k">private</span> <span class="n">Rect2</span> <span class="n">rect</span><span class="p">;</span>
@@ -295,7 +286,7 @@
 </span></span><span class="line"><span class="cl">		<span class="n">shape</span> <span class="p">=</span> <span class="n">GetNode</span><span class="p">&lt;</span><span class="n">CollisionPolygon2D</span><span class="p">&gt;(</span><span class="n">nameof</span><span class="p">(</span><span class="n">CollisionPolygon2D</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">		<span class="n">rect</span> <span class="p">=</span> <span class="n">sprite</span><span class="p">.</span><span class="n">GetRect</span><span class="p">();</span> <span class="p">;</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="c1">// Called every frame. &#39;delta&#39; is the elapsed time since the previous frame.</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Called every frame. 'delta' is the elapsed time since the previous frame.</span>
 </span></span><span class="line"><span class="cl">	<span class="k">public</span> <span class="k">void</span> <span class="n">Clips</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">p1</span><span class="p">,</span> <span class="n">Vector2</span> <span class="n">p2</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="n">Rect2</span> <span class="n">_rect</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rect2</span><span class="p">(</span><span class="n">ToLocal</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">ToLocal</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span> <span class="p">-</span> <span class="n">ToLocal</span><span class="p">(</span><span class="n">p1</span><span class="p">));</span>
@@ -314,14 +305,14 @@
 </span></span><span class="line"><span class="cl">	<span class="p">{</span>
 </span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="p">(</span><span class="n">area</span> <span class="k">is</span> <span class="n">LensRect</span> <span class="n">magic</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">		<span class="p">{</span>
-</span></span><span class="line"><span class="cl">			<span class="n">shape</span><span class="p">.</span><span class="n">SetDeferred</span><span class="p">(</span><span class="s">&#34;disabled&#34;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">			<span class="n">shape</span><span class="p">.</span><span class="n">SetDeferred</span><span class="p">(</span><span class="s">"disabled"</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">_on_Area2D_area_exited</span><span class="p">(</span><span class="n">Area2D</span> <span class="n">area</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">area</span> <span class="k">is</span> <span class="n">LensRect</span> <span class="n">magic</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">shape</span><span class="p">.</span><span class="n">SetDeferred</span><span class="p">(</span><span class="s">&#34;disabled&#34;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">shape</span><span class="p">.</span><span class="n">SetDeferred</span><span class="p">(</span><span class="s">"disabled"</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -346,7 +337,7 @@
 <p>首先实现<strong>箱子类</strong>，他是一个可推动接口，实现 Push 和Stop方法, 受到重力影响</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -371,7 +362,7 @@
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IPushable</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IPushable</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Push</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">direction</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Stop</span><span class="p">();</span>
@@ -399,7 +390,7 @@
 </div><p>其次是 玩家/怪物的Push状态, 这里在每一帧计算<strong>正在推动的物体列表</strong>， 然后每帧调用IPushable.Push() 方法，每帧开始时和退出状态时需要将所有正在推动的物体停下来（否则将做匀速直线运动）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -459,7 +450,7 @@
 </span><span class="lnt">58
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="cm">/*
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">    状态有四个生命周期, 进入, 更新， 物理更新， 退出
 </span></span></span><span class="line"><span class="cl"><span class="cm">    有 Init 接口函数用于初始化，有 Exit() 方法用于退出当前状态
 </span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
@@ -471,7 +462,7 @@
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">OnEnter</span><span class="p">()</span> 
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">target</span> <span class="p">=</span> <span class="n">agent</span> <span class="k">as</span> <span class="n">Player</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">&#34;Enter &#34;</span><span class="p">,</span> <span class="n">StateName</span><span class="p">);</span>    
+</span></span><span class="line"><span class="cl">        <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">"Enter "</span><span class="p">,</span> <span class="n">StateName</span><span class="p">);</span>    
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Update</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">PhysicsUpdate</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> 
@@ -500,7 +491,7 @@
 </span></span><span class="line"><span class="cl">            <span class="p">}</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((!</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionPressed</span><span class="p">(</span><span class="s">&#34;ui_left&#34;</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionPressed</span><span class="p">(</span><span class="s">&#34;ui_right&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((!</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionPressed</span><span class="p">(</span><span class="s">"ui_left"</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">Input</span><span class="p">.</span><span class="n">IsActionPressed</span><span class="p">(</span><span class="s">"ui_right"</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl">            <span class="p">||</span> <span class="n">target</span><span class="p">.</span><span class="n">JumpRequest</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">            <span class="p">||</span> <span class="p">!</span><span class="n">target</span><span class="p">.</span><span class="n">IsOnFloor</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">            <span class="p">)</span>
@@ -514,7 +505,7 @@
 </span></span><span class="line"><span class="cl">        <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">cube</span><span class="p">.</span><span class="n">Stop</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">&#34;Exit &#34;</span><span class="p">,</span> <span class="n">StateName</span><span class="p">);</span>    
+</span></span><span class="line"><span class="cl">        <span class="n">GD</span><span class="p">.</span><span class="n">Print</span><span class="p">(</span><span class="s">"Exit "</span><span class="p">,</span> <span class="n">StateName</span><span class="p">);</span>    
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -525,13 +516,13 @@
 <p><strong>激光实现</strong></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
+<pre class="chroma" tabindex="0"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="p">-</span> <span class="n">RayCast2D</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="p">-</span> <span class="n">RayCast2D</span>
 </span></span><span class="line"><span class="cl">    <span class="p">-</span> <span class="n">Position2D</span>
 </span></span><span class="line"><span class="cl">        <span class="p">-</span> <span class="n">Sprite</span>
 </span></span><span class="line"><span class="cl">    <span class="p">-</span> <span class="n">CPUParticals2D</span>
@@ -539,7 +530,7 @@
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+<pre class="chroma" tabindex="0"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -587,7 +578,7 @@
 </span><span class="lnt">46
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Tool]</span>
+<pre class="chroma" tabindex="0"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Tool]</span>
 </span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Laser</span> <span class="p">:</span> <span class="n">RayCast2D</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Sprite</span> <span class="n">sprite</span><span class="p">;</span>
@@ -600,10 +591,10 @@
 </span></span><span class="line"><span class="cl">        <span class="n">anchor</span> <span class="p">=</span> <span class="n">GetNode</span><span class="p">&lt;</span><span class="n">Position2D</span><span class="p">&gt;(</span><span class="n">nameof</span><span class="p">(</span><span class="n">Position2D</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">        <span class="n">sprite</span> <span class="p">=</span> <span class="n">anchor</span><span class="p">.</span><span class="n">GetNode</span><span class="p">&lt;</span><span class="n">Sprite</span><span class="p">&gt;(</span><span class="n">nameof</span><span class="p">(</span><span class="n">Sprite</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">articles</span> <span class="p">=</span> <span class="n">GetNode</span><span class="p">&lt;</span><span class="n">CPUParticles2D</span><span class="p">&gt;(</span><span class="s">&#34;LaserPartical&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">articles</span> <span class="p">=</span> <span class="n">GetNode</span><span class="p">&lt;</span><span class="n">CPUParticles2D</span><span class="p">&gt;(</span><span class="s">"LaserPartical"</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Scale</span> <span class="p">=</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">One</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">//  // Called every frame. &#39;delta&#39; is the elapsed time since the previous frame.</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//  // Called every frame. 'delta' is the elapsed time since the previous frame.</span>
 </span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="n">_PhysicsProcess</span><span class="p">(</span><span class="kt">float</span> <span class="n">delta</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="n">anchor</span><span class="p">.</span><span class="n">Rotation</span> <span class="p">=</span> <span class="n">anchor</span><span class="p">.</span><span class="n">Position</span><span class="p">.</span><span class="n">AngleToPoint</span><span class="p">(</span><span class="n">CastTo</span><span class="p">)</span> <span class="p">+</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Pi</span><span class="p">;</span>
@@ -635,7 +626,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>激光使用了<a href="https://godotshaders.com/shader/energy-beams/" target="_blank" rel="noopener noreffer ">Energy Beams - Godot Shaders</a> 的实现， 使用一个 Texture 表示一个激光，这种做法可以使用Shader 计算扰动，但是对于本题这种点到点激光，并且可能发生转动的情况下，还是很不方便，在计算<strong>起始/结束点</strong>和激光 Sprite 的Scale 的关系时不太好计算（主要是 Sprite 只能通过 Scale 调整大小而不便指定 Rect 的 Size， 好像也可以,emmm）， 激光命中的粒子就随便弄一弄就好了。</p>
+</div><p>激光使用了<a href="https://godotshaders.com/shader/energy-beams/" rel="noopener noreffer" target="_blank">Energy Beams - Godot Shaders</a> 的实现， 使用一个 Texture 表示一个激光，这种做法可以使用Shader 计算扰动，但是对于本题这种点到点激光，并且可能发生转动的情况下，还是很不方便，在计算<strong>起始/结束点</strong>和激光 Sprite 的Scale 的关系时不太好计算（主要是 Sprite 只能通过 Scale 调整大小而不便指定 Rect 的 Size， 好像也可以,emmm）， 激光命中的粒子就随便弄一弄就好了。</p>
 <h3 id="一些思考核问题">一些思考核问题</h3>
 <p>在实现过程中遇到很多问题：</p>
 <ol>
@@ -651,42 +642,39 @@
 <li>是否应该区分Lens 的可推动部分和不可推动部分？（应该，有利于复杂关卡设计）</li>
 </ol>
 </div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 2023-01-08</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/index.md" target="_blank">Read Markdown</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" data-title="[游戏机制] 里世界-优化"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" data-title="[游戏机制] 里世界-优化"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" data-title="[游戏机制] 里世界-优化"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" data-title="[游戏机制] 里世界-优化" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/you-xi-ji-zhi-chuang-ti-hu-dong/" class="prev" rel="prev" title="[游戏机制] 窗体互动"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[游戏机制] 窗体互动</a>
-            <a href="/you-xi-wai-gua-ai-zi-miao/" class="next" rel="next" title="[游戏外挂] 辅助瞄准系统">[游戏外挂] 辅助瞄准系统<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+<div class="post-info">
+<div class="post-info-line">
+<div class="post-info-mod">
+<span>Updated on 2023-01-08</span>
+</div></div>
+<div class="post-info-line">
+<div class="post-info-md"><span>
+<a class="link-to-markdown" href="/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/index.md" target="_blank">Read Markdown</a>
+</span></div>
+<div class="post-info-share">
+<span><a data-sharer="twitter" data-title="[游戏机制] 里世界-优化" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" href="javascript:void(0);" title="Share on Twitter"><i aria-hidden="true" class="fab fa-twitter fa-fw"></i></a><a data-sharer="facebook" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" href="javascript:void(0);" title="Share on Facebook"><i aria-hidden="true" class="fab fa-facebook-square fa-fw"></i></a><a data-sharer="hackernews" data-title="[游戏机制] 里世界-优化" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" href="javascript:void(0);" title="Share on Hacker News"><i aria-hidden="true" class="fab fa-hacker-news fa-fw"></i></a><a data-sharer="line" data-title="[游戏机制] 里世界-优化" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" href="javascript:void(0);" title="Share on Line"><i aria-hidden="true" data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a data-ralateuid="5661205446" data-sharer="weibo" data-title="[游戏机制] 里世界-优化" data-url="http://blog.xuaii.cc/you-xi-ji-zhi-li-shi-jie-ji-zhi-you-hua/" href="javascript:void(0);" title="Share on 微博"><i aria-hidden="true" class="fab fa-weibo fa-fw"></i></a></span>
+</div>
+</div>
+</div>
+<div class="post-info-more">
+<section class="post-tags"></section>
+<section>
+<span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span> | <span><a href="/">Home</a></span>
+</section>
+</div>
+<div class="post-nav"><a class="prev" href="/you-xi-ji-zhi-chuang-ti-hu-dong/" rel="prev" title="[游戏机制] 窗体互动"><i aria-hidden="true" class="fas fa-angle-left fa-fw"></i>[游戏机制] 窗体互动</a>
+<a class="next" href="/you-xi-wai-gua-ai-zi-miao/" rel="next" title="[游戏外挂] 辅助瞄准系统">[游戏外挂] 辅助瞄准系统<i aria-hidden="true" class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</main><footer class="footer">
+<div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" rel="noopener noreffer" target="_blank" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" rel="noopener noreffer" target="_blank" title="LoveIt 0.2.11"><i aria-hidden="true" class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+</div><div class="footer-line" itemscope="" itemtype="http://schema.org/CreativeWork"><i aria-hidden="true" class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder"> <a href="blog.xuii.cc" target="_blank">_quijo</a></span> | <span class="license"><a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="license external nofollow noopener noreffer" target="_blank">CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id="fixed-buttons"><a class="fixed-button" href="#" id="back-to-top" title="Back to Top">
+<i aria-hidden="true" class="fas fa-arrow-up fa-fw"></i>
+</a><a class="fixed-button" href="#" id="view-comments" title="View Comments">
+<i aria-hidden="true" class="fas fa-comment fa-fw"></i>
+</a>
+</div><link href="/lib/katex/katex.min.css" rel="stylesheet"/><link href="/lib/cookieconsent/cookieconsent.min.css" rel="stylesheet"/><script src="/lib/autocomplete/autocomplete.min.js" type="text/javascript"></script><script src="/lib/lunr/lunr.min.js" type="text/javascript"></script><script src="/lib/lazysizes/lazysizes.min.js" type="text/javascript"></script><script src="/lib/clipboard/clipboard.min.js" type="text/javascript"></script><script src="/lib/sharer/sharer.min.js" type="text/javascript"></script><script src="/lib/katex/katex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/auto-render.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/copy-tex.min.js" type="text/javascript"></script><script src="/lib/katex/contrib/mhchem.min.js" type="text/javascript"></script><script src="/lib/cookieconsent/cookieconsent.min.js" type="text/javascript"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script src="/js/theme.min.js" type="text/javascript"></script></body>
 </html>
