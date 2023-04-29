@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 29 Apr 2023 13:29:39 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[玩具 Idea] 影子格斗</title>
+    <link>http://blog.xuaii.cc/game_play_idea_20230429/</link>
+    <pubDate>Sat, 29 Apr 2023 13:29:39 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/game_play_idea_20230429/</guid>
+    <description><![CDATA[今天看小宁子介绍 &lsquo;拓麻歌子&rsquo; 宠物蛋时想到了一个游戏机的玩法！大致思路是，在房间中心扫描某一面墙，获取深度信息，将墙上]]></description>
+</item>
+<item>
     <title>游戏引擎热更新技术</title>
     <link>http://blog.xuaii.cc/unity_godot_hot_update/</link>
     <pubDate>Sat, 08 Apr 2023 22:02:49 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
     <description><![CDATA[灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设]]></description>
-</item>
-<item>
-    <title>[转载] VR 扯掉了中国科技圈的遮羞布</title>
-    <link>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</link>
-    <pubDate>Tue, 03 Jan 2023 18:42:13 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/zhuan-zai-vr-che-diao-liao-zhong-guo-ke-ji-quan-de-zhe-xiu-bu/</guid>
-    <description><![CDATA[转自知乎 Oculus应该卖给谁？好大的一个问题啊。 卖给谁都可以，但就是不该卖给Facebook！ 卖给Apple多合适，那里有全世界最好的消费]]></description>
 </item>
 </channel>
 </rss>
