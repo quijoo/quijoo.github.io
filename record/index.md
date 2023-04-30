@@ -89,7 +89,6 @@
 
 卡马克在计算机图形学方面做出了很多突出贡献，他是一个黑客，梦想家，信念坚定的理想主义者 💕💕💕💕！！
 
-或许共产主义会在开源社区中实现！
 
 ## 2022.10.19
 
@@ -143,13 +142,20 @@
 
 “最后一个问题。罗素勋爵，假定这段录像将被我们的后人看到，如同死海古卷一般，在一千年后被人看见，你觉得有什么该对他们那一代人说的？有关您的一生？以及一生的感悟”
 
-"I should like to say two things, one intellectual and one moral.
+{{< admonition type=abstract title="节选" open=true >}}
+I should like to say two things, one **intellectual** and one **moral**.
 
-The intellectual thing I should want to say is this: When you are studying any matter, or considering any philosophy, ask yourself only what are the facts and what is the truth that the facts bear out. Never let yourself be diverted either by what you wish to believe, or by what you think would have beneficent social effects if it were believed. But look only, and solely, at what are the facts. That is the intellectual thing that I should wish to say.
+The **intellectual** thing I should want to say is this:
 
-The moral thing I should wish to say…I should say love is wise, hatred is foolish. In this world which is getting more closely and closely interconnected we have to learn to tolerate each other, we have to learn to put up with the fact that some people say things that we don't like. We can only live together in that way and if we are to live together and not die together we must learn a kind of charity and a kind of tolerance which is absolutely vital to the continuation of human life on this planet."
+When you are studying any matter, or considering any philosophy, ask yourself only **what are the facts** and **what is the truth that the facts bear out**. Never let yourself be diverted either by what you wish to believe, or by what you think would have beneficent social effects if it were believed. But look only, and solely, at what are the facts. That is the intellectual thing that I should wish to say.
 
-Bertrand Russell.
+The **moral** thing I should wish to say…I should say：
+
+ **love is wise, hatred is foolish**. In this world which is getting more closely and closely interconnected we have to learn to tolerate each other, we have to learn to put up with the fact that some people say things that we don't like. We can only live together in that way and if we are to live together and not die together we must learn a kind of charity and a kind of tolerance which is absolutely vital to the continuation of human life on this planet."
+                            ---- Bertrand Russell.
+{{< /admonition >}}
+
+
 
 
 ## 2022.11.2
@@ -249,29 +255,30 @@ Bertrand Russell.
 这个时代以及此前此后的时代, 共产主义是人类最美好的理想。
 
 ## 2023.2.2
-
 As I Began to Love Myself
 卓别林
+{{< admonition type=abstract title="节选" open=true >}}
+As I began to love myself I found that anguish and emotional suffering are only warning signs that I was living against my own truth. Today, I know, this is **AUTHENTICITY**.  
 
-As I began to love myself I found that anguish and emotional suffering are only warning signs that I was living against my own truth. Today, I know, this is AUTHENTICITY.
+As I began to love myself I understood how much it can offend somebody as I try to force my desires on this person, even though I knew the time was not right and the person was not ready for it, and even though this person was me. Today I call it **RESPECT**.  
 
-As I began to love myself I understood how much it can offend somebody as I try to force my desires on this person, even though I knew the time was not right and the person was not ready for it, and even though this person was me. Today I call it RESPECT.
+As I began to love myself I stopped craving for a different life, and I could see that everything that surrounded me was inviting me to grow. Today I call it **MATURITY**.  
 
-As I began to love myself I stopped craving for a different life, and I could see that everything that surrounded me was inviting me to grow. Today I call it MATURITY.
+As I began to love myself I understood that at any circumstance, I am in the right place at the right time, and everything happens at the exactly right moment, so I could be calm. Today I call it **SELF-CONFIDENCE**.  
 
-As I began to love myself I understood that at any circumstance, I am in the right place at the right time, and everything happens at the exactly right moment, so I could be calm. Today I call it SELF-CONFIDENCE.
+As I began to love myself I quit stealing my own time, and I stopped designing huge projects for the future. Today, I only do what brings me joy and happiness, things I love to do and that make my heart cheer, and I do them in my own way and in my own rhythm. Today I call it **SIMPLICITY**.  
 
-As I began to love myself I quit stealing my own time, and I stopped designing huge projects for the future. Today, I only do what brings me joy and happiness, things I love to do and that make my heart cheer, and I do them in my own way and in my own rhythm. Today I call it SIMPLICITY.
+As I began to love myself I freed myself of anything that is no good for my health – food, people, things, situations, and everything that drew me down and away from myself. At first I called this attitude a healthy egoism. Today I know it is **LOVE OF ONESELF**.  
 
-As I began to love myself I freed myself of anything that is no good for my health – food, people, things, situations, and everything that drew me down and away from myself. At first I called this attitude a healthy egoism. Today I know it is LOVE OF ONESELF.
+As I began to love myself I quit trying to always be right, and ever since I was wrong less of the time. Today I discovered that is **MODESTY**.  
 
-As I began to love myself I quit trying to always be right, and ever since I was wrong less of the time. Today I discovered that is MODESTY.
+As I began to love myself I refused to go on living in the past and worry about the future. Now, I only live for the moment, where EVERYTHING is happening. Today I live each day, day by day, and I call it **FULFILLMENT**.  
 
-As I began to love myself I refused to go on living in the past and worry about the future. Now, I only live for the moment, where EVERYTHING is happening. Today I live each day, day by day, and I call it FULFILLMENT.
+As I began to love myself I recognized that my mind can disturb me and it can make me sick. 
 
-As I began to love myself I recognized that my mind can disturb me and it can make me sick. But As I connected it to my heart, my mind became a valuable ally. Today I call this connection WISDOM OF THE HEART.
+But As I connected it to my heart, my mind became a valuable ally. Today I call this connection **WISDOM OF THE HEART**.  We no longer need to fear arguments, confrontations or any kind of problems with ourselves or others. Even stars collide, and out of their crashing new worlds are born. Today I know **THAT IS LIFE**!
+{{< /admonition >}}
 
-We no longer need to fear arguments, confrontations or any kind of problems with ourselves or others. Even stars collide, and out of their crashing new worlds are born. Today I know THAT IS LIFE!
 
 ## 2023.2.4
 路人
@@ -426,12 +433,12 @@ quijotesco, 西班牙语词汇, 意思是 "像堂吉诃德一样热情有远见�
 
 "我们走后，他们会给你们修学校和医院，会提高你们的工资，这不是因为他们良心发现，也不是因为他们变成了好人，而是因为我们来过"
 
-![](https://upload.wikimedia.org/wikipedia/commons/c/c1/Che_Guevara_June_2%2C_1959.jpg)
+![](/images/che_guevara.jpg)
 
 ## 2023.3.7
 “我也头圆顶天，足方履地，一般有九窍四肢，五脏六腑，何以比人不同？”（吴承恩《西游记》第二回）
 
-{{ bilibili BV1mr4y1b79R }}
+{{<bilibili BV1mr4y1b79R>}}
 
 ## 2023.3.7
 愿中国青年都能摆脱冷气，只是向上走，
