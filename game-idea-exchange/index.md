@@ -1,7 +1,7 @@
 # [游戏机制] 交换球
 
 
-<!-- {{< bilibili BV1Sv411M7LP >}} -->
+{{< bilibili BV1Sv411M7LP >}}
 
 ## 灵感来源
 

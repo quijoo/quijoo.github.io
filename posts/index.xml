@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sun, 30 Apr 2023 11:47:53 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Focus</title>
+    <link>http://blog.xuaii.cc/focus/</link>
+    <pubDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/focus/</guid>
+    <description><![CDATA[wiki 塞尔达传说 wiki 电子游戏简史 塞尔达传说 旷野之息 地图 灰机wiki 宝可梦百科全书 马里奥 cheats wiki 各个游戏的结构体 hacking 百科全书 博客 john-wigg godot 特效 unity 跳跃优化 第一个关]]></description>
+</item>
+<item>
     <title>[学习记录] git 分布式版本管理系统</title>
     <link>http://blog.xuaii.cc/git-note/</link>
     <pubDate>Sun, 30 Apr 2023 11:47:53 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
     <description><![CDATA[godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱]]></description>
-</item>
-<item>
-    <title>[Godot-Plugin] Dialogue Manager &amp;&amp; Dialogic</title>
-    <link>http://blog.xuaii.cc/godot_dialogue_plugin/</link>
-    <pubDate>Fri, 10 Feb 2023 09:17:02 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
-    <description><![CDATA[Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo]]></description>
 </item>
 </channel>
 </rss>

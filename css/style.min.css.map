@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "C:/Users/xuaii/Desktop/Workspace/xuaiiblog",
+	"sourceRoot": "C:/Users/xuaii/Workspace/xuaiiblog",
 	"sources": [
 		"themes/LoveIt/assets/css/style.scss",
 		"themes/LoveIt/assets/lib/normalize/normalize.css",
