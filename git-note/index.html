@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>[学习记录] git 分布式版本管理系统 - Quijo&#39;s blog</title><meta name="Description" content=""><meta property="og:title" content="[学习记录] git 分布式版本管理系统" />
+<meta property="og:description" content="常用命令速查 git-cheat-sheet 基础 git status 查看信息 git diff 查看差异 git log 查看commit 历史，由近到远 提交的版本号是一个哈希值 使用 &ndash;pretty-oneline 将一个commit打印到一行 版本库" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.xuaii.cc/git-note/" /><meta property="og:image" content="http://blog.xuaii.cc/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-30T11:47:53+08:00" />
+<meta property="article:modified_time" content="2023-04-30T11:47:53+08:00" /><meta property="og:site_name" content="我的网站" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://blog.xuaii.cc/logo.png"/>
+
+<meta name="twitter:title" content="[学习记录] git 分布式版本管理系统"/>
+<meta name="twitter:description" content="常用命令速查 git-cheat-sheet 基础 git status 查看信息 git diff 查看差异 git log 查看commit 历史，由近到远 提交的版本号是一个哈希值 使用 &ndash;pretty-oneline 将一个commit打印到一行 版本库"/>
+<meta name="application-name" content="我的网站">
+<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/git-note/" /><link rel="prev" href="http://blog.xuaii.cc/game_play_idea_20230429/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "[学习记录] git 分布式版本管理系统",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/blog.xuaii.cc\/git-note\/"
+        },"genre": "posts","wordcount":  1997 ,
+        "url": "http:\/\/blog.xuaii.cc\/git-note\/","datePublished": "2023-04-30T11:47:53+08:00","dateModified": "2023-04-30T11:47:53+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "_quijo"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Quijo&#39;s blog">Quijolient</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/record/"> 记录 </a><a class="menu-item" href="/about/"> 关于 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Quijo&#39;s blog">Quijolient</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/record/" title="">记录</a><a class="menu-item" href="/about/" title="">关于</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[学习记录] git 分布式版本管理系统</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-30">2023-04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1997 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础">基础</a></li>
+    <li><a href="#版本库--工作区">版本库 &amp; 工作区</a></li>
+    <li><a href="#远程仓库">远程仓库</a></li>
+    <li><a href="#远程仓库-1">远程仓库</a></li>
+    <li><a href="#分支">分支</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#解决冲突">解决冲突</a></li>
+    <li><a href="#分支管理策略">分支管理策略</a></li>
+    <li><a href="#分支管理的基本原则">分支管理的基本原则</a></li>
+    <li><a href="#stash">stash</a></li>
+    <li><a href="#多人协作模式">多人协作模式</a></li>
+    <li><a href="#rebase-变基">rebase 变基</a></li>
+    <li><a href="#tag">tag</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>常用命令速查 <a href="/git-cheat-sheet.pdf" rel="">git-cheat-sheet</a></p>
+<h2 id="基础">基础</h2>
+<p>git status 查看信息
+git diff   查看差异
+git log    查看commit 历史，由近到远  提交的版本号是一个哈希值
+使用 &ndash;pretty-oneline 将一个commit打印到一行</p>
+<h2 id="版本库--工作区">版本库 &amp; 工作区</h2>
+<p>git reset &ndash;hard HEAD^ 是回退到上一个版本，</p>
+<p>在reset回退版本时，版本链会断掉，使用 git log 看不到之前的提交记录了， 可以找窗口之前的记录，得到某个commit的Id 并且使用 git reset &ndash;hard 1094a 回退， 这里的1094a 是id的前几位！！</p>
+<p>如果窗口被关闭了还可以使用 git reflog查看每一次命令， 所以在 git中有一个很重要的是一定要为 commit 添加注释！！</p>
+<p>HEAD 指针指向当前版本！</p>
+<p>Git会追踪被add过的文件的所有改变，没有被add的文件只会被标记为untrack</p>
+<p>git diff HEAD &ndash; readme.txt可以查看变动！这里的变动是 commit 与 工作区 的差异！</p>
+<p>git checkout &ndash; file 重新检出，丢弃工作区的修改 checkout 要么回到暂存区，要么回到版本库，总之回到最近的修改 这里的&ndash;指定文件！如果不加就是切换分支的命令！！</p>
+<p>git reset HEAD <file> 可以撤销掉暂存区的修改</p>
+<p>删除文件 git rm git commit
+如果是误删，就git checkout &ndash; file 来撤销工作区的修改 checkout 的本质是用版本库替换工作区！</p>
+<h2 id="远程仓库">远程仓库</h2>
+<p>git remote add origin 地址  的含义是将当前仓库和远程仓库建立连接，其中 origin是远程仓库名字？？？<br>
+第一次推送代码时，使用 git push -u origin master， origin是指定了远程仓库名字 这里的 master 是本地的master分支！！-u 初次使用时添加，意思是将他们关联起来！<br>
+git ls-files [&ndash;cached &ndash;delete &ndash;modified &ndash;other &ndash;stage]
+git push [-f 强制推送，可能覆盖] git push -u origin [branch] 创建新分支时使用，这会创建一个与本地分支 branch 对应的上游分支
+git push -all 这会 push 所有分支
+git push &ndash;tag 发布尚未在远程仓库中的标签（不懂是什么意思<br>
+git branch (-m | -M) [<oldbranch>] <newbranch> 重命名分支，reflog 会做相应的重命名，并且创建条目记录该行为<br>
+git remote add origin <url> 添加远程仓库
+git remote -v 查看远程仓库信息
+git remote rm origin 删除远程仓库</p>
+<h2 id="远程仓库-1">远程仓库</h2>
+<p>git clone <a href="mailto:git@github.com" rel="">git@github.com</a>:xxx cd xxx  git 支持多种协议但是 ssh 协议是最快的，
+https 协议是慢的  git 的分支切换功能非常快，其他的项目管理软件非常慢 （1s内）<br>
+git 中的无数 commit 组成一条时间线，一般项目的分支叫做 master，  HEAD 用于指向当前分支，而当前分支会指向指向 commit 链表</p>
+<h2 id="分支">分支</h2>
+<p>git branch -b dev 创建并切换分支（等价于以下两个命令）
+git branch dev 创建分支
+git checkout dev 切换分支<br>
+git branch 查看分支</p>
+<h1 id="git-版本管理结构">git 版本管理结构</h1>
+<pre><code>git 所管理的本质就是一个个用链表串联起来的 commit 	
+通过分支指向链表的某个末端 	
+再用 HEAD 指向当前分支 	 
+</code></pre>
+<p>git merge <branch> 将指定分支合并到当前分支（这里没有说怎么处理冲突！快进模式是非常快的，通常某个分支没有发生改变，就改改指针）<br>
+git branch -d <branch> 删除分支，合并完成后删除</p>
+<p>使用 checkout 来切换分支和撤销修改，不太科学，实际上切换分支应该用</p>
+<pre><code>switch git switch -c dev 创建并切换到新分支 
+git switch master 切换到 master 分支
+</code></pre>
+<h2 id="解决冲突">解决冲突</h2>
+<p>当两个分支不在一个单链表上时（而是出现了分叉，像树枝一样），此时合并分支不再时快速模式，而是有可能出现冲突。</p>
+<p>git merge feature  或报错，提示分支冲突</p>
+<p>可以使用 git status 查看哪些文件冲突了！
+直接查看冲突文件，会出现</p>
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 
+xxxxxxxxxx 
+======== 
+yyyyyyyyyy 
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature 
+</code></pre>
+<p>解决冲突后再 add commit 再 merge 即可！<br>
+git log &ndash;graph &ndash;pretty=oneline &ndash;abbrev-comit 可以查看分支合并情况！</p>
+<h2 id="分支管理策略">分支管理策略</h2>
+<ol>
+<li>合并时如果能用 FastForward 就会直接用，但是删除分支后会丢失信息</li>
+<li>强制禁用 FastForward 模式 git 在 merge 时就会生成一个新的 commit 就可以从历史上看书分支信息</li>
+</ol>
+<p>这种强制的方法: git merge &ndash;no-ff</p>
+<h2 id="分支管理的基本原则">分支管理的基本原则</h2>
+<ol>
+<li>保证 master 分支的稳定性（仅用于发布版本，不在上边干活）</li>
+<li>dev 分支是不稳定的，在 dev 上干活</li>
+</ol>
+<h2 id="stash">stash</h2>
+<p><strong>紧急 bug 修复</strong>
+情景：当我正在 dv 上开发功能，开发到一半不能提交，但是此时收到一个紧急bug
+解决: 将当前的工作暂存，创建一个新的分支用于解决 bug，当处理完bug恢复之前未完成的工作区代码
+git stash
+git stash apply
+git stash pop</p>
+<p>使用 git cherry-pick <commit> 处理 bug 时可以拷贝分支</p>
+<h2 id="多人协作模式">多人协作模式</h2>
+<p>多人协作的工作模式通常是这样：<br>
+首先，git push origin <branch-name>推送自己的修改；<br>
+如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；<br>
+如果合并有冲突，则解决冲突，并在本地提交；<br>
+没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！<br>
+如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建， 用命令git branch &ndash;set-upstream-to <branch-name> origin/<branch-name>。</p>
+<h2 id="rebase-变基">rebase 变基</h2>
+<p>主要功能是整理分支，通常如果push有冲突的话我们会先pull这时会在本地产生一个分支，并合并。
+再推送到远程 分支树就会很乱，所以应该在本地git rebase将本地修改移动到最近一次pull的版本后，这样分支就只有一个了！再提交就变得很优雅！</p>
+<h2 id="tag">tag</h2>
+<p>tag就是一个指向版本的指针，本来用id可以访问版本的，但是id不好看，所以可以用tag</p>
+<p><strong>使用方法</strong></p>
+<p>git tag v1.0 就在当前指向的commit打上标签了！
+git tag  可以查看所有标签
+git tag <tag> <commit> 给历史提交打标签</p>
+<p>标签是字母顺序而不是时间顺序</p>
+<p>git show <tag> 可以查看标签信息</p>
+<p>创建标签时 可以用</p>
+<pre><code>-a 指定标签名 
+-m 添加说明 
+</code></pre>
+<p>git tag -d 删除本地标签，</p>
+<p>git push origin <tag> 将标签推送到远程
+git push origin &ndash;tags 推送所有标签</p>
+<p><strong>删除远程标签</strong></p>
+<ol>
+<li>删除本地标签 -d</li>
+<li>
+<ol start="2">
+<li>git push origin :refs/tags/<tag></li>
+</ol>
+</li>
+</ol>
+<p>删标签只记住这种方法就好了，其他方法存在误删分支的风险！ 冒号的原理是将 冒号前的推送到冒号后的， 这里冒号前是空的，就是将空的东西推送到远程分支！！！</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-04-30</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/git-note/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://blog.xuaii.cc/git-note/" data-title="[学习记录] git 分布式版本管理系统"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://blog.xuaii.cc/git-note/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://blog.xuaii.cc/git-note/" data-title="[学习记录] git 分布式版本管理系统"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://blog.xuaii.cc/git-note/" data-title="[学习记录] git 分布式版本管理系统"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://blog.xuaii.cc/git-note/" data-title="[学习记录] git 分布式版本管理系统" data-ralateuid="5661205446"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/game_play_idea_20230429/" class="prev" rel="prev" title="[玩具 Idea] 影子格斗"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>[玩具 Idea] 影子格斗</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.109.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="blog.xuii.cc" target="_blank">_quijo</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

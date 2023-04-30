@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sat, 29 Apr 2023 13:29:39 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sun, 30 Apr 2023 11:47:53 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[学习记录] git 分布式版本管理系统</title>
+    <link>http://blog.xuaii.cc/git-note/</link>
+    <pubDate>Sun, 30 Apr 2023 11:47:53 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/git-note/</guid>
+    <description><![CDATA[常用命令速查 git-cheat-sheet 基础 git status 查看信息 git diff 查看差异 git log 查看commit 历史，由近到远 提交的版本号是一个哈希值 使用 &ndash;pretty-oneline 将一个commit打印到一行 版本库]]></description>
+</item>
+<item>
     <title>[玩具 Idea] 影子格斗</title>
     <link>http://blog.xuaii.cc/game_play_idea_20230429/</link>
     <pubDate>Sat, 29 Apr 2023 13:29:39 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/godot_dialogue_plugin/</guid>
     <description><![CDATA[Godot 有两个主流的 Dialog插件 Dialogue Manager Dialogic Dialogic 复杂庞大并且有丰富的图形化界面, 但是自定功能需要阅读很多源码 DialogManager 简单, 提供一种纯文本的方式编辑 Dialo]]></description>
-</item>
-<item>
-    <title>[游戏机制] 交换球</title>
-    <link>http://blog.xuaii.cc/game-idea-exchange/</link>
-    <pubDate>Mon, 16 Jan 2023 06:58:23 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/game-idea-exchange/</guid>
-    <description><![CDATA[灵感来源 前段时间玩了 传送门2, 想到一个新的游戏机制 玩家A可以发射一个交换球，交换球碰撞到特定的可交换物体 B后交换 A 和 B 的位置 该机制可以用来设]]></description>
 </item>
 </channel>
 </rss>

@@ -18,7 +18,7 @@
 <meta name="application-name" content="我的网站">
 <meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/game_play_idea_20230429/" /><link rel="prev" href="http://blog.xuaii.cc/unity_godot_hot_update/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://blog.xuaii.cc/game_play_idea_20230429/" /><link rel="prev" href="http://blog.xuaii.cc/unity_godot_hot_update/" /><link rel="next" href="http://blog.xuaii.cc/git-note/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/blog.xuaii.cc\/game_play_idea_20230429\/"
-        },"genre": "posts","wordcount":  221 ,
+        },"genre": "posts","wordcount":  494 ,
         "url": "http:\/\/blog.xuaii.cc\/game_play_idea_20230429\/","datePublished": "2023-04-29T13:29:39+08:00","dateModified": "2023-04-29T13:29:39+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -103,7 +103,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">[玩具 Idea] 影子格斗</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="blog.xuii.cc" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>_quijo</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-29">2023-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;221 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-29">2023-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;494 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
@@ -119,6 +119,15 @@
 <p>难点是深度摄像头和激光投影仪的<strong>对齐问题</strong>， 还有成本问题！</p>
 <p>好想要做一个这样的东西，一定非常有趣！！</p>
 <p>这就像小时候玩过的手影，还会和小伙伴用手影战斗！！！非常有意思。</p>
+<p>深度摄像头其实已经很便宜了，不管是 iphone 还是kinect 都可以，主要是激光投影仪太贵了，而且不是家中常有的东西。并且一般的投影仪并不能在图像透明通道不发光，如果是全发光的话效果并不好。</p>
+<p>等到深度传感器技术和激光投影技术成本更低廉的时候再来实现这个想法！！</p>
+<p>可以考虑 <strong>便携式迷你投影仪</strong></p>
+<ol>
+<li>AAXA P2-B - 130 Lumen Mini Projector (这个非常适合s)</li>
+<li>Kodak 柯达超小型便携式投影仪
+对于深度摄像机也完全没有必要这么严格，只需要<strong>普通相机</strong>，对画面进行<strong>边缘检测</strong>即可！</li>
+</ol>
+<p>暂时不用投影仪来做，可以先实现一个简单功能，就是 在白纸上画一些平台和障碍物，或者贴纸。用相机拍下来，然后游戏自动生成这个场景，然后就能玩了！</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -142,7 +151,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/unity_godot_hot_update/" class="prev" rel="prev" title="游戏引擎热更新技术"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>游戏引擎热更新技术</a></div>
+    <div class="post-nav"><a href="/unity_godot_hot_update/" class="prev" rel="prev" title="游戏引擎热更新技术"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>游戏引擎热更新技术</a>
+            <a href="/git-note/" class="next" rel="next" title="[学习记录] git 分布式版本管理系统">[学习记录] git 分布式版本管理系统<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">
