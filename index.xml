@@ -4,17 +4,9 @@
         <link>http://blog.xuaii.cc/</link>
         <description>Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Tue, 02 May 2023 02:16:37 &#43;0800</lastBuildDate>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</lastBuildDate>
             <atom:link href="http://blog.xuaii.cc/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>[godot] 学习3D交互水</title>
-    <link>http://blog.xuaii.cc/ta_godot_interactive_water/</link>
-    <pubDate>Tue, 02 May 2023 02:16:37 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/ta_godot_interactive_water/</guid>
-    <description><![CDATA[学习大佬的实现 john-wigg/DynamicWaterDemo, 做个记录！ 如何描述水波？]]></description>
-</item>
-<item>
     <title>Focus</title>
     <link>http://blog.xuaii.cc/focus/</link>
     <pubDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</pubDate>
@@ -85,6 +77,14 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/viewport/</guid>
     <description><![CDATA[官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control]]></description>
+</item>
+<item>
+    <title>[Godot4.0] 实用插件搜索计划</title>
+    <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
+    <pubDate>Mon, 13 Feb 2023 03:56:46 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
+    <description><![CDATA[godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱]]></description>
 </item>
 </channel>
 </rss>
