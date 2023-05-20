@@ -97,6 +97,10 @@
 
 [忧郁的弟弟](https://www.ttloli.com/)
 
+[heatleybros 音乐包](https://heatleybros.com/)
+
+[opengameart 美术资源](https://opengameart.org/)
+
 ## 文档
 [godot doc](https://docs.godotengine.org/)
 
