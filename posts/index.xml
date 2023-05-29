@@ -4,7 +4,15 @@
         <link>http://blog.xuaii.cc/posts/</link>
         <description>All Posts | Quijo&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>herrn.xu@outlook.com (_quijo)</managingEditor>
-            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>herrn.xu@outlook.com (_quijo)</webMaster><lastBuildDate>Mon, 29 May 2023 00:20:08 &#43;0800</lastBuildDate><atom:link href="http://blog.xuaii.cc/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>[周末小项目] 内网穿透技术 实践</title>
+    <link>http://blog.xuaii.cc/intranet_techolo/</link>
+    <pubDate>Mon, 29 May 2023 00:20:08 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/intranet_techolo/</guid>
+    <description><![CDATA[前言 以前了解过 内网穿透技术 是什么， 但是没有实践应用。 起因 这周末玩 apex 时发现即使是在 cpu端跑推理引擎还是会导致帧率下降和突然卡顿问题，经过测试]]></description>
+</item>
+<item>
     <title>Focus</title>
     <link>http://blog.xuaii.cc/focus/</link>
     <pubDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</pubDate>
@@ -75,14 +83,6 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/viewport/</guid>
     <description><![CDATA[官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control]]></description>
-</item>
-<item>
-    <title>[Godot4.0] 实用插件搜索计划</title>
-    <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
-    <pubDate>Mon, 13 Feb 2023 03:56:46 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
-    <description><![CDATA[godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱]]></description>
 </item>
 </channel>
 </rss>

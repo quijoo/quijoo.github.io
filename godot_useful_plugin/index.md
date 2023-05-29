@@ -205,3 +205,96 @@ graph TB
 luban 框架的性能非常强，非常复杂的项目仅在 1s 内完成，并且使用缓存来优化数据表的生成！
 
 虽然 luban 对 Unity、UE 的支持远大于 Godot（甚至没有编辑器插件。。）
+
+
+## [phantom-camera](https://github.com/ramokz/phantom-camera)
+一个类似 Unity Cinemachine 的相机插件，很好用
+
+并且有文档和教程
+
+## [Improved resource picker](https://github.com/MakovWait/improved_resource_picker)
+
+一个 Resource 选择器，不用像以前那样在很长的列表中选择想要的资源。
+
+
+## [HyperLog](https://github.com/GuyUnger/HyperLog)
+
+一个 gdscript 的日志插件，本来应该是集成到 语言中的功能，无语。。
+
+
+## [BulletUpHell](https://github.com/Dark-Peace/BulletUpHell)
+
+一个用于制作弹幕游戏的插件。发射各种形式的字典。
+
+## [godot-ply](https://github.com/jarneson/godot-ply)
+
+一个编辑器内灰盒原型建模工具
+
+
+## [Godot-DialogPlugin](https://github.com/AnidemDex/Godot-DialogPlugin)
+一个对话系统引擎，与 DialogManager 不同，该插件仅提供对话框 UI 实现，所以应该能结合 DialogManager 形成完整的对话引擎。
+
+有丰富的文档和教程。
+
+## [librerama](https://codeberg.org/Librerama/librerama)
+一个小游戏集合项目，更新得很勤！！
+
+## [SmartShape2D](https://github.com/SirRamEsq/SmartShape2D)
+
+智能形状
+
+## [gd-YAFSM](https://github.com/imjp94/gd-YAFSM)
+
+一个状态机插件，看起来很好用，如果bug很少的话
+
+## [inspector-gadget](https://github.com/Shfty/inspector-gadget)
+
+检查器 UI 插件
+
+
+## [godot_2d_global_illumination](https://github.com/samuelbigos/godot_2d_global_illumination)
+
+2D 全局光照
+
+## [material-maker](https://github.com/RodZill4/material-maker)
+
+一个类似 substance 的材质工具，有点牛逼了
+
+## [Godot-Volumetrics-Plugin](https://github.com/SIsilicon/Godot-Volumetrics-Plugin)
+
+体积烟雾
+
+## [gdUnit4](https://github.com/MikeSchulze/gdUnit4)
+
+一个单元测试框架
+
+## [Godot-Trail-System](https://github.com/OBKF/Godot-Trail-System)
+trail 插件，用于方便的创建 trail
+
+## [Pixelorama](https://github.com/Orama-Interactive/Pixelorama)
+Pixelorama 像素艺术编辑器
+
+## [entity_spell_system](https://github.com/Relintai/entity_spell_system)
+实体组件系统，基于c++
+
+## [godot-anl](https://github.com/Xrayez/godot-anl)
+c++噪声库，有可视化节点
+
+## [godot-python](https://github.com/touilleMan/godot-python)
+
+godot 调用python，有点牛（基于c++）
+
+## [godot_voxel](https://github.com/Zylann/godot_voxel)
+c++ based 将场景体素化（好像是，类似 minecraft）
+
+## [texture_packer](https://github.com/Relintai/texture_packer)
+纹理打包
+
+## [voxelman](https://github.com/Relintai/voxelman)
+体素引擎
+
+## [imgui-godot](https://github.com/pkdawson/imgui-godot)
+ImGUI 插件
+
+## [terrain-tool-godot4](https://github.com/sboron/terrain-tool-godot4)
+地形插件
