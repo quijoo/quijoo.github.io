@@ -13,14 +13,6 @@
     <description><![CDATA[前言 以前了解过 内网穿透技术 是什么， 但是没有实践应用。 起因 这周末玩 apex 时发现即使是在 cpu端跑推理引擎还是会导致帧率下降和突然卡顿问题，经过测试]]></description>
 </item>
 <item>
-    <title>Focus</title>
-    <link>http://blog.xuaii.cc/focus/</link>
-    <pubDate>Sun, 30 Apr 2023 16:02:32 &#43;0800</pubDate>
-    <author>_quijo</author>
-    <guid>http://blog.xuaii.cc/focus/</guid>
-    <description><![CDATA[wiki 塞尔达传说 wiki 电子游戏简史 塞尔达传说 旷野之息 地图 灰机wiki 宝可梦百科全书 马里奥 cheats wiki 各个游戏的结构体 hacking 百科全书 博客 john-wigg godot 特效 unity 跳跃优化 第一个关]]></description>
-</item>
-<item>
     <title>[学习记录] git 分布式版本管理系统</title>
     <link>http://blog.xuaii.cc/git-note/</link>
     <pubDate>Sun, 30 Apr 2023 11:47:53 &#43;0800</pubDate>
@@ -83,6 +75,14 @@
     <author>_quijo</author>
     <guid>http://blog.xuaii.cc/viewport/</guid>
     <description><![CDATA[官方文档中，Viewport 、 CanvasLayer、Camera 是比较基本的概念，但是文档中解释得并不清楚（可能是翻译导致的 CanvasItem 所有的 Node 和 Control]]></description>
+</item>
+<item>
+    <title>[Godot4.0] 实用插件搜索计划</title>
+    <link>http://blog.xuaii.cc/godot_useful_plugin/</link>
+    <pubDate>Mon, 13 Feb 2023 03:56:46 &#43;0800</pubDate>
+    <author>_quijo</author>
+    <guid>http://blog.xuaii.cc/godot_useful_plugin/</guid>
+    <description><![CDATA[godot4.0 rc 版本发布后，新插件如雨后春笋的涌现 很多插件我还没有尝试，但是很多感兴趣的插件，列表如下 Panku Console - A in-game console 特性如下： 漂亮灵活的多窗口系统 简单开箱]]></description>
 </item>
 </channel>
 </rss>

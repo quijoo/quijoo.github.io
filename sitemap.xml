@@ -2,12 +2,11 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://blog.xuaii.cc/intranet_techolo/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://blog.xuaii.cc/posts/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://blog.xuaii.cc/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://blog.xuaii.cc/focus/</loc><lastmod>2023-04-30T16:02:32&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>http://blog.xuaii.cc/git-note/</loc><lastmod>2023-04-30T11:47:53&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
-            <loc>http://blog.xuaii.cc/game_play_idea_20230429/</loc><lastmod>2023-04-29T13:29:39&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url><url>
+            <loc>http://blog.xuaii.cc/intranet_techolo/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://blog.xuaii.cc/posts/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://blog.xuaii.cc/</loc><lastmod>2023-05-29T00:20:08&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://blog.xuaii.cc/git-note/</loc><lastmod>2023-04-30T11:47:53&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://blog.xuaii.cc/game_play_idea_20230429/</loc><lastmod>2023-04-29T13:29:39&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://blog.xuaii.cc/unity_godot_hot_update/</loc><lastmod>2023-04-08T22:02:49&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://blog.xuaii.cc/csharp-gc/</loc><lastmod>2023-03-24T14:06:48&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://blog.xuaii.cc/zhongguo-zhexuejiaoyu/</loc><lastmod>2023-03-10T14:29:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
