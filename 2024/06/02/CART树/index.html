@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      CART树 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">CART树</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><a target="_blank" rel="noopener" href="http://xuaii.github.io/%E5%86%B3%E7%AD%96%E6%A0%91.html">决策树.html</a></p>
+<h3 id="导入相关库"><a href="#导入相关库" class="headerlink" title="导入相关库"></a>导入相关库</h3><h6 id="pandas：决策树的构建涉及到数据集的一些操作，利用pandas的DataFrame数据结构可以很好方便的完成"><a href="#pandas：决策树的构建涉及到数据集的一些操作，利用pandas的DataFrame数据结构可以很好方便的完成" class="headerlink" title="pandas：决策树的构建涉及到数据集的一些操作，利用pandas的DataFrame数据结构可以很好方便的完成"></a><code>pandas</code>：决策树的构建涉及到数据集的一些操作，利用<code>pandas的DataFrame</code>数据结构可以很好方便的完成</h6><h6 id="copy-在递归时浅拷贝会导致问题-使用copy-deepcopy-进行深拷贝"><a href="#copy-在递归时浅拷贝会导致问题-使用copy-deepcopy-进行深拷贝" class="headerlink" title="copy :在递归时浅拷贝会导致问题,使用copy.deepcopy()进行深拷贝"></a><code>copy</code> :在递归时浅拷贝会导致问题,使用<code>copy.deepcopy()</code>进行深拷贝</h6><h6 id="matplot-pyplot-绘制决策树的划分图像"><a href="#matplot-pyplot-绘制决策树的划分图像" class="headerlink" title="matplot.pyplot:绘制决策树的划分图像"></a><code>matplot.pyplot</code>:绘制决策树的划分图像</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> fabs</span><br></pre></td></tr></table></figure>
+
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">input</span> = [[<span class="number">0.697</span>, <span class="number">0.460</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.774</span>, <span class="number">0.376</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.634</span>, <span class="number">0.264</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.608</span>, <span class="number">0.318</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.556</span>, <span class="number">0.215</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.403</span>, <span class="number">0.237</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.481</span>, <span class="number">0.149</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.437</span>, <span class="number">0.211</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">0.666</span>, <span class="number">0.091</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.243</span>, <span class="number">0.267</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.245</span>, <span class="number">0.057</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.343</span>, <span class="number">0.099</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.639</span>, <span class="number">0.161</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.657</span>, <span class="number">0.198</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.360</span>, <span class="number">0.370</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.593</span>, <span class="number">0.042</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0.719</span>, <span class="number">0.103</span>, <span class="number">0</span>]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义回归树的节点类Node"><a href="#定义回归树的节点类Node" class="headerlink" title="定义回归树的节点类Node"></a>定义回归树的节点类Node</h3><h6 id="attrList-节点剩下的属性列表"><a href="#attrList-节点剩下的属性列表" class="headerlink" title="attrList      节点剩下的属性列表"></a><code>attrList      节点剩下的属性列表</code></h6><h6 id="Dataset-节点划分到的数据集"><a href="#Dataset-节点划分到的数据集" class="headerlink" title="Dataset       节点划分到的数据集"></a><code>Dataset       节点划分到的数据集</code></h6><h6 id="left-right-左右子树"><a href="#left-right-左右子树" class="headerlink" title="left/right    左右子树"></a><code>left/right    左右子树</code></h6><h6 id="c-叶节点的预测值"><a href="#c-叶节点的预测值" class="headerlink" title="c             叶节点的预测值"></a><code>c             叶节点的预测值</code></h6><h6 id="description-该节点的描述（可选）"><a href="#description-该节点的描述（可选）" class="headerlink" title="description   该节点的描述（可选）"></a><code>description   该节点的描述（可选）</code></h6><h6 id="attr-该节点划分属性"><a href="#attr-该节点划分属性" class="headerlink" title="attr          该节点划分属性"></a><code>attr          该节点划分属性</code></h6><h6 id="s-划分属性的值"><a href="#s-划分属性的值" class="headerlink" title="s             划分属性的值"></a><code>s             划分属性的值</code></h6><p><strong>考虑到使用非二叉树，在每次寻找最优化分的时候算法复杂度太高，所以此时使用二叉树就OK</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, description=<span class="string">&quot;&quot;</span>, c = -<span class="number">1</span>, Dataset=pd.DataFrame(<span class="params"></span>), attrList=[]</span>):</span><br><span class="line">        <span class="variable language_">self</span>.attrList = attrList</span><br><span class="line">        <span class="variable language_">self</span>.Dataset = Dataset</span><br><span class="line">        <span class="variable language_">self</span>.left = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.right = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.c = c</span><br><span class="line">        <span class="variable language_">self</span>.attr = <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="variable language_">self</span>.s = -<span class="number">1</span></span><br><span class="line">        <span class="variable language_">self</span>.desciption = description</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="计算损失"><a href="#计算损失" class="headerlink" title="计算损失"></a>计算损失</h3><p>$$\ell &#x3D; \sum_{x_i \in R_1(j,s)}(y_i-c_1)^2+\sum_{x_i \in R_2(j,s)}(y_i-c_2)^2$$ </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">loss</span>(<span class="params">attr, s, data</span>):</span><br><span class="line">    D1 = data[data[attr] &lt;= s]</span><br><span class="line">    D1_mean = D1[<span class="string">&#x27;label&#x27;</span>].std() * D1.size</span><br><span class="line">    D2 = data[data[attr] &gt; s]</span><br><span class="line">    D2_mean = D2[<span class="string">&#x27;label&#x27;</span>].std() * D2.size</span><br><span class="line">    <span class="keyword">return</span> D1_mean + D2_mean</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="最小化损失"><a href="#最小化损失" class="headerlink" title="最小化损失"></a>最小化损失</h3><p>$$ \min_{j,s} ( \min_{c_1} \sum_{x_i \in R_1(j,s)}(y_i-c_1)^2 + \min_{c_2} \sum_{x_i \in R_2(j,s)}(y_i-c_2)^2   ) $$</p>
+<p><strong>此处数据集不大 且 为了实现起来简单就是用了遍历所有属性的值找到最小的损失，应该还有一些方法可以优化找到最小值的过程</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">findOptDiv</span>(<span class="params">root</span>):</span><br><span class="line">    losses = []</span><br><span class="line">    <span class="keyword">for</span> attr <span class="keyword">in</span> root.attrList:</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> root.Dataset[attr]:</span><br><span class="line">            losses.append((loss(attr, s, root.Dataset), attr, s))</span><br><span class="line">    minLoss = <span class="built_in">min</span>(losses)</span><br><span class="line">    <span class="keyword">return</span> minLoss</span><br></pre></td></tr></table></figure>
+
+<h3 id="二叉树的构建"><a href="#二叉树的构建" class="headerlink" title="二叉树的构建"></a>二叉树的构建</h3><p><strong>在以下情况返回IF</strong></p>
+<p><code>len(attrList) == 0</code>：此时所有属性已经划分完毕， 就以该集合所有样本的<code>label</code>的均值作预测值<br><code>Dataset.size == 1</code>：此时该节点的样本仅有一个 就 以该样本的<code>label</code>值做预测值</p>
+<p><strong>ELSE</strong><br><em>将样本按最优划分划分为两个集合D1，D2，并分别构建<code>subTree</code></em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">buildTree</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="comment"># if root.Dataset.size() &lt;= 1:</span></span><br><span class="line">    <span class="comment">#     description = &quot;leaf node&quot;</span></span><br><span class="line">    <span class="comment">#     c_p = root.Dataset[&#x27;label&#x27;].mean()</span></span><br><span class="line">    <span class="comment">#     leaf = Node(description=description, c = c_p) </span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 如果样本集合中只有一个样本那么该节点为叶节点，该叶节点的预测值是该唯一样本的label</span></span><br><span class="line">    <span class="keyword">if</span> root.Dataset.size == <span class="number">1</span>:</span><br><span class="line">        root.c = root.Dataset[<span class="string">&#x27;label&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 如果已经将属性分完了，那么该节点为叶节点，剩下的样本集中label的期望为该叶节点的预测值</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">len</span>(root.attrList) == <span class="number">0</span>:</span><br><span class="line">        root.description = <span class="string">&quot;leaf node&quot;</span></span><br><span class="line">        root.c = root.Dataset[<span class="string">&#x27;label&#x27;</span>].mean()</span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 找到最优化分</span></span><br><span class="line">        (_, attr, s) = findOptDiv(root)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 将节点的划分属性设为找到的attr</span></span><br><span class="line">        root.attr = copy.deepcopy(attr)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 将按属性attr划分该节点值划分值s设为最优的s</span></span><br><span class="line">        root.s  = copy.deepcopy(s)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 将样本集合按照找到的最优化分划分为D1， D2</span></span><br><span class="line">        D1 = copy.deepcopy(root.Dataset[root.Dataset[attr] &lt;= s])</span><br><span class="line">        D2 = copy.deepcopy(root.Dataset[root.Dataset[attr] &gt; s])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 将划分该节点属性从属性集合中删除</span></span><br><span class="line">        list_notremoved = copy.deepcopy(root.attrList)</span><br><span class="line">        root.attrList.remove(attr)</span><br><span class="line">        list_removed =  copy.deepcopy(root.attrList)</span><br><span class="line">        root.attrList = copy.deepcopy(list_notremoved)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建左子树和右子树</span></span><br><span class="line">        root.left = Node(Dataset = D1, attrList=copy.deepcopy(list_removed))</span><br><span class="line">        root.right = Node(Dataset = D2, attrList=copy.deepcopy(list_removed))</span><br><span class="line">        buildTree(root.left)</span><br><span class="line">        buildTree(root.right)</span><br><span class="line">    <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+
+<h3 id="预测函数"><a href="#预测函数" class="headerlink" title="预测函数"></a>预测函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">x, root</span>):</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">len</span>(root.attrList) != <span class="number">0</span>):</span><br><span class="line">        <span class="keyword">if</span> x[root.attr] &lt; root.s:</span><br><span class="line">            root = root.left</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            root = root.right</span><br><span class="line">    <span class="keyword">return</span> root.c</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h3 id="评估函数"><a href="#评估函数" class="headerlink" title="评估函数"></a>评估函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate</span>(<span class="params">data_test, root</span>):</span><br><span class="line">    accuracy = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data_test)):</span><br><span class="line">        res = predict(data_test.loc[i], root)</span><br><span class="line">        <span class="comment"># 将回归问题转为分类问题</span></span><br><span class="line">        res = <span class="number">.5</span> <span class="keyword">if</span> res &gt; <span class="number">.5</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        accuracy += fabs(res - data_test.loc[i][<span class="string">&quot;label&quot;</span>])</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> - accuracy / <span class="built_in">len</span>(data_test)</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data = pd.DataFrame(<span class="built_in">input</span>, columns=[<span class="string">&#x27;密度&#x27;</span>,<span class="string">&#x27;含糖率&#x27;</span>,<span class="string">&quot;label&quot;</span>])</span><br><span class="line">root = Node(Dataset=data, attrList = [<span class="string">&#x27;密度&#x27;</span>,<span class="string">&#x27;含糖率&#x27;</span>])</span><br><span class="line">root = buildTree(root)</span><br></pre></td></tr></table></figure>
+
+<h3 id="可以大致看出决策过程"><a href="#可以大致看出决策过程" class="headerlink" title="可以大致看出决策过程"></a>可以大致看出决策过程</h3><ul>
+<li>先看含糖率：<ul>
+<li>小于.13<ul>
+<li>小于.666 坏瓜</li>
+<li>大于.666 好瓜</li>
+</ul>
+</li>
+<li>大于.13<ul>
+<li>小于.697 0.6的概率是好瓜</li>
+<li>大于.697 1的概率是好瓜</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(root.attr,root.s)</span><br><span class="line"><span class="built_in">print</span>(root.left.attr,root.left.s,root.left.left.c,root.left.right.c)</span><br><span class="line"><span class="built_in">print</span>(root.right.attr,root.right.s,root.right.left.c,root.right.right.c)</span><br></pre></td></tr></table></figure>
+
+<pre><code>含糖率 0.103
+密度 0.666 0.0 0.0
+密度 0.697 0.6363636363636364 1.0
+</code></pre>
+<h2 id="可视化和评估模型表现"><a href="#可视化和评估模型表现" class="headerlink" title="可视化和评估模型表现"></a>可视化和评估模型表现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">s1 = root.s</span><br><span class="line">s21 = root.left.s</span><br><span class="line">s22 = root.right.s</span><br><span class="line">plt.plot([<span class="number">.2</span>,<span class="number">.8</span>],[s1,s1],<span class="string">&#x27;r-&#x27;</span>)</span><br><span class="line">plt.plot([s21,s21],[<span class="number">0</span>,s1],<span class="string">&#x27;r-&#x27;</span>)</span><br><span class="line">plt.plot([s22,s22],[s1,<span class="number">.5</span>],<span class="string">&#x27;r-&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> plot <span class="keyword">in</span> <span class="built_in">input</span>:</span><br><span class="line">    <span class="keyword">if</span> plot[<span class="number">2</span>] == <span class="number">0</span>:</span><br><span class="line">        c = <span class="string">&#x27;red&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        c = <span class="string">&#x27;green&#x27;</span>    </span><br><span class="line">    plt.scatter(plot[<span class="number">0</span>],plot[<span class="number">1</span>],c=c)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;THE ACCURACY OF REGRESSION TREE IS &#123;&#125;&quot;</span>.<span class="built_in">format</span>(evaluate(data, root)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>THE ACCURACY OF REGRESSION TREE IS 0.6176470588235294
+</code></pre>
+<p><img src="C:/Users/herrn/Downloads/1185491/output_23_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E8%BE%85%E5%8A%A9%E7%9E%84%E5%87%86/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/CSharp-GC/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E7%9B%B8%E5%85%B3%E5%BA%93"><span class="toc-text">导入相关库</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#pandas%EF%BC%9A%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E6%9E%84%E5%BB%BA%E6%B6%89%E5%8F%8A%E5%88%B0%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C%EF%BC%8C%E5%88%A9%E7%94%A8pandas%E7%9A%84DataFrame%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%AF%E4%BB%A5%E5%BE%88%E5%A5%BD%E6%96%B9%E4%BE%BF%E7%9A%84%E5%AE%8C%E6%88%90"><span class="toc-text">pandas：决策树的构建涉及到数据集的一些操作，利用pandas的DataFrame数据结构可以很好方便的完成</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#copy-%E5%9C%A8%E9%80%92%E5%BD%92%E6%97%B6%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%BC%9A%E5%AF%BC%E8%87%B4%E9%97%AE%E9%A2%98-%E4%BD%BF%E7%94%A8copy-deepcopy-%E8%BF%9B%E8%A1%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="toc-text">copy :在递归时浅拷贝会导致问题,使用copy.deepcopy()进行深拷贝</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#matplot-pyplot-%E7%BB%98%E5%88%B6%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E5%88%92%E5%88%86%E5%9B%BE%E5%83%8F"><span class="toc-text">matplot.pyplot:绘制决策树的划分图像</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">导入数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E5%9B%9E%E5%BD%92%E6%A0%91%E7%9A%84%E8%8A%82%E7%82%B9%E7%B1%BBNode"><span class="toc-text">定义回归树的节点类Node</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#attrList-%E8%8A%82%E7%82%B9%E5%89%A9%E4%B8%8B%E7%9A%84%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8"><span class="toc-text">attrList      节点剩下的属性列表</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Dataset-%E8%8A%82%E7%82%B9%E5%88%92%E5%88%86%E5%88%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">Dataset       节点划分到的数据集</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#left-right-%E5%B7%A6%E5%8F%B3%E5%AD%90%E6%A0%91"><span class="toc-text">left&#x2F;right    左右子树</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#c-%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E9%A2%84%E6%B5%8B%E5%80%BC"><span class="toc-text">c             叶节点的预测值</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#description-%E8%AF%A5%E8%8A%82%E7%82%B9%E7%9A%84%E6%8F%8F%E8%BF%B0%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">description   该节点的描述（可选）</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#attr-%E8%AF%A5%E8%8A%82%E7%82%B9%E5%88%92%E5%88%86%E5%B1%9E%E6%80%A7"><span class="toc-text">attr          该节点划分属性</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#s-%E5%88%92%E5%88%86%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC"><span class="toc-text">s             划分属性的值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%8D%9F%E5%A4%B1"><span class="toc-text">计算损失</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E5%8C%96%E6%8D%9F%E5%A4%B1"><span class="toc-text">最小化损失</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9E%84%E5%BB%BA"><span class="toc-text">二叉树的构建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E6%B5%8B%E5%87%BD%E6%95%B0"><span class="toc-text">预测函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E5%87%BD%E6%95%B0"><span class="toc-text">评估函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E4%BB%A5%E5%A4%A7%E8%87%B4%E7%9C%8B%E5%87%BA%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B"><span class="toc-text">可以大致看出决策过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E5%92%8C%E8%AF%84%E4%BC%B0%E6%A8%A1%E5%9E%8B%E8%A1%A8%E7%8E%B0"><span class="toc-text">可视化和评估模型表现</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + CART%E6%A0%91 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2FCART%25E6%25A0%2591%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/CART%E6%A0%91/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

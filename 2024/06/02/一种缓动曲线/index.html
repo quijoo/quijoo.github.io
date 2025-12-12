@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      一种缓动曲线 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">一种缓动曲线</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="从问题出发"><a href="#从问题出发" class="headerlink" title="从问题出发"></a>从问题出发</h2><p>当我在实现 2D 平台游戏中 <strong>WallJump</strong> 时遇到了麻烦，角色的水平移动是关于输入的函数，即:</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    Velocity.X = input_map(HorizontalInput);</span><br><span class="line">    MoveAndSlide();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而 <strong>WallJump</strong> 需要赋予玩家一个 <strong>斜向初速度</strong>，此时的水平速度会被 <strong>HorizontalInput</strong> 覆盖</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Export</span>] <span class="built_in">float</span> WallJumpVelocity;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WallJump</span>(<span class="params">Vector2 direction</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Velocity = dir * WallJumpVelocity.X + Vector2.Up * WallJumpVelocity.Y;</span><br><span class="line">    MoveAndSlide();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终的效果就是玩家只会产生向上的移动。S有一个简单的技巧可以回避这个问题，在 <strong>WallJump</strong> 发生的一瞬间启动一个 <strong>计时器</strong> 计时结束前屏蔽玩家输入。这能解决问题，但是不够优雅和一致，这是在回避问题而不是解决问题, 这个问题的根源是: </p>
+<blockquote>
+<p><strong>当我们输入时是否应该立即作用于角色</strong></p>
+</blockquote>
+<p>于是我采用 <strong>缓动</strong> 的方式改变使 <strong>HorizontalInput</strong> 延迟作用到 <strong>Velocity</strong></p>
+<p>这个视频作者的思路和我大致相同，但并非使用自定义的缓动曲线，而是使用时常出现 Unity 教程中的方法:</p>
+<p><strong>youtube 2S3g8CgBG1g</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// horizontal move</span></span><br><span class="line">    <span class="keyword">var</span> targetVelocity = input_map(HorizontalInput);</span><br><span class="line">    Velocity = Lerp(Velocity, targetVelocity, k);</span><br><span class="line">    MoveAndSlide();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个 <strong>幂函数($y&#x3D;a^x$)</strong> 缓动曲线, 初学者通常误以为是线性插值而对 Lerp 函数产生误解, 我后面会解释原因。</p>
+<h2 id="该问题引发的思考"><a href="#该问题引发的思考" class="headerlink" title="该问题引发的思考"></a>该问题引发的思考</h2><p>为什么使用 Lerp 插值能解决问题呢？采用自定义缓动的曲线为什么不行呢？</p>
+<h4 id="分析一-自定义缓动曲线方法"><a href="#分析一-自定义缓动曲线方法" class="headerlink" title="分析一: 自定义缓动曲线方法"></a>分析一: 自定义缓动曲线方法</h4><p>通常自定义的曲线需要确定 <strong>起始值(s)</strong>、<strong>终点值(f)</strong>、<strong>插值变量(p)</strong> 从而在每帧插值出当前需要的值并更新。例如:</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Vector2 cachedVelocity;</span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> p;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> targetVelocity = input_map(HorizontalInput); <span class="comment">// 获取预期的水平速度</span></span><br><span class="line">    Velocity = Lerp(cachedVelocity, targetVelocity, p);</span><br><span class="line">    MoveAndSlide();</span><br><span class="line"></span><br><span class="line">    p = Mathf.Clamp(t + delta, <span class="number">0f</span>, <span class="number">1f</span>); <span class="comment">// 更新插值变量(t)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    cachedVelocity = <span class="keyword">this</span>.Velocity;</span><br><span class="line">    p = <span class="number">0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种方法中 <strong>当前值(c)</strong> 不参与计算，而是 <strong>插值变量(p)</strong> 在控制插值过程，这会导致一个问题： </p>
+<blockquote>
+<p><strong>当前值(c)</strong> 和 <strong>终点值(f)</strong> 并非固定, 例如 <strong>WallJump</strong> 触发时会直接修改 <code>Velocity.X</code>, <code>HorizontalInput</code> 也随着输入改变而改变。</p>
+<p><strong>终点值(f)</strong> 发生连续变化时, <strong>插值变量(p)</strong> 不变时, 插值结果可能会产生巨大突变。（因为自定义曲线的斜率是无法预知的）</p>
+<p><strong>当前值(c)</strong> 发生突变时, 需要重新启动一个插值过程 即：重置插值的 <strong>插值变量(p &#x3D; 0)</strong> 和 <strong>起始值(s &#x3D; c)</strong></p>
+</blockquote>
+<h4 id="分析二-递推的-Lerp-方法"><a href="#分析二-递推的-Lerp-方法" class="headerlink" title="分析二: 递推的 Lerp 方法"></a>分析二: 递推的 Lerp 方法</h4><p>而递推的 Lerp 的方法是利用 <strong>当前值(c)</strong> 代替 <strong>起始值(s)</strong>, 用户输入作为 <strong>目标值(f)</strong>， 这样不论如何 速度都会平滑的改变：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">upadte</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> targetVelocity = input_map(HorizontalInput);</span><br><span class="line">    Velocity = Lerp(Velocity, targetVelocity, <span class="number">0.1f</span>); <span class="comment">// 注意这里 p 固定为 0.1, 后面会讨论</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>终点值(f)</strong> 发生连续变化时, 插值结果是通过 Lerp 函数以 <strong>起始值(s)</strong> 为起点插值的, 所以一定是连续的。</p>
+<p><strong>当前值(c)</strong> 发生突变时, 插值仍然是从 <strong>起始值(s)</strong> 开始的, 所以仍然是连续的。</p>
+<p>上述两种情况保证了 Velocity 的 <strong>连续性</strong></p>
+</blockquote>
+<p>这种不依赖 <strong>插值变量(t)</strong> 的 <strong>无状态迭代方法</strong> 很有意思。于是我跳脱出这个问题，开始思考该方法更加一般的应用。</p>
+<h2 id="无状态递推缓动函数"><a href="#无状态递推缓动函数" class="headerlink" title="无状态递推缓动函数"></a>无状态递推缓动函数</h2><p>首先我们思考 $c_{n+1} &#x3D; lerp(c_n, f, 0.1)$ 的本来面貌！</p>
+<p><strong>Lerp 函数定义</strong><br>我们只考虑 <code>float</code> 插值的情况，其他多维变量大同小异</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">float</span> <span class="title">Lerp</span>(<span class="params"><span class="built_in">float</span> s, <span class="built_in">float</span> f, <span class="built_in">float</span> p</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(p &gt; <span class="number">1</span>) <span class="keyword">return</span> f;</span><br><span class="line">    <span class="keyword">if</span>(p &lt; <span class="number">0</span>) <span class="keyword">return</span> s;</span><br><span class="line">    <span class="keyword">return</span> (<span class="number">1</span> - p) * s + p * f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显然这是一个线性插值， 但是将其应用于缓动时， <strong>起始值(s)</strong> 传入的是<strong>当前值(c)</strong>，所以这个过程是 <strong>递推的</strong> 用数列来表达缓动过程就是：</p>
+<p>$$<br>x_{n} &#x3D; (1 - p) \cdot x_{n-1} + p \cdot f<br>$$</p>
+<p>求解 $x_{n}$ 通项公式是一个简单的高中数列问题：<br>$$<br>x_{n}   - f &#x3D; (1-p)\cdot (x_{n-1}     - f) \<br>x_{n-1} - f &#x3D; (1-p)\cdot (x_{n-2} - f)\<br>…\<br>x_{1} - f &#x3D; (1-p)\cdot (x_{0} - f)\<br>$$</p>
+<p>累乘可得 $x_n &#x3D; (1-p)^n \cdot (x_0 - f) + f$</p>
+<p>这里的变量的含义是累计迭代的次数 $n \in (1, +\infty)$ 而缓动函数的变量是 $t \in (0, 1)$, 我们假设每帧的更新时间是 $\triangle t$, 可以得到 $n &#x3D; \frac{t}{\triangle t}$</p>
+<p>从而: $g(t) &#x3D; x_{\frac{t}{\triangle t}} &#x3D; (1-p)^{\frac{t}{\triangle t}} \cdot (x_0 - f) + f$</p>
+<p>至此我们得到了 <strong>递推式</strong> $x_{n} &#x3D; (1 - p) \cdot x_{n-1} + p \cdot f$ 的 <strong>函数式</strong> $g(t) &#x3D; x_{\frac{t}{\triangle t}} &#x3D; (1-p)^{\frac{t}{\triangle t}} \cdot (s - f) + f$</p>
+<p>当 <code>s = 0, f = 1, p=[0.01 -&gt; 0.08]</code> 时该函数图像如下图（p 越大 曲线弯曲程度越大）</p>
+<iframe src="https://www.desmos.com/calculator/vo8dsr0q1k?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+
+<p>当 <code>s=0, f =[1.0 -&gt; 1,4], p = 0.05</code> 时 该函数曲线如下 （f 越大曲线渐进线越高）</p>
+<iframe src="https://www.desmos.com/calculator/nvw2xzpxs6?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+
+<h3 id="曲线分析"><a href="#曲线分析" class="headerlink" title="曲线分析"></a>曲线分析</h3><h4 id="当前值-c-的稳定性"><a href="#当前值-c-的稳定性" class="headerlink" title="当前值(c) 的稳定性"></a>当前值(c) 的稳定性</h4><p>对于我们的需求，最佳的曲线是，当 <strong>终点值(f)</strong> 发生变化时 <strong>当前值(c)</strong> 不发生改变。但是遗憾的是这样的曲线并不存在。证明很简单，略。</p>
+<p>既然 <strong>c</strong> 不可能不发生变化，那么在 <strong>f</strong> 变化时保证 <strong>c</strong> 平滑变化也是可以接受的。</p>
+<p>计算 $g(t, f)$ 对 $f$ 的偏导数:<br>$$<br>\frac{\partial g}{\partial f} &#x3D; 1 - (1 - p)^{\frac{t}{\triangle t}}<br>$$<br>其中 $p, \triangle t$ 几乎是不变的, 所以对于某时刻 $t$, <strong>当前值(c)</strong> 随 <strong>终点值(f)</strong> 的变化而平滑变化</p>
+<h4 id="当前值-c-的变化速率"><a href="#当前值-c-的变化速率" class="headerlink" title="当前值(c) 的变化速率"></a>当前值(c) 的变化速率</h4><p>由于 $g(t)$ 是一个以 $y&#x3D;f$ 为渐近线的渐进曲线。所以 我们可以计算 $\delta &#x3D; |g(t) - f| &#x3D; (1-p)^{\frac{t}{\triangle t} \cdot (f -s)}$ 来表示值得接近程度,</p>
+<p>$(1-p)^{\frac{t}{\triangle t}}$ 表示,随着越来越接近 <strong>终点值(f)</strong> 变化将越来越缓慢, 所以该曲线影响 渐进速度的量是 $(1-p)^{\frac{t}{\triangle t}}$ 项</p>
+<p>当 <code>s = 0, f = 1, p = 0.83, dt = [0.1 -&gt; 0.7]</code> 是如下图：（$\triangle t$ 越大曲线弯曲程度越小）</p>
+<iframe src="https://www.desmos.com/calculator/nslvhpefyz?embed" width="500" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
+
+<p>可见 $p$ 和 $\triangle t$ 都会影响曲线的<strong>弯曲程度(渐进时间)</strong>, 并且 影响的方向相反(一个变平滑一个变弯曲)</p>
+<p>可见 $(1-p)$ 和 $\triangle t$ 是影响响应时间的主要部分(通过分析偏导数可以得到), 在游戏引擎中 $\triangle t$ 在物理帧中通常是常数, 所以只能通过调整 $p$ 的值来调整曲线的响应时间</p>
+<p>这里产生了一个新问题：为了使 120fps($\triangle t &#x3D; \frac{1}{120}s$) 的游戏和 60fps($\triangle t &#x3D; \frac{1}{60}s$) 的游戏中的缓动具有相同的响应时间, 所以需要约束 $p$ 与 $\triangle t$ 的关系。</p>
+<h4 id="p-与-triangle-t-的约束"><a href="#p-与-triangle-t-的约束" class="headerlink" title="$p$ 与 $\triangle t$ 的约束"></a>$p$ 与 $\triangle t$ 的约束</h4><p>为了描述渐进曲线的接近程度, 上述分析中定义了 $\delta &#x3D; |g(t) - f| &#x3D; (1-p)^{\frac{t}{\triangle t}} \cdot (f -s)$ 来描述渐进程度</p>
+<p>我们再定义一个小量 $\epsilon \cdot (f -s)$, 当 $\delta &#x3D; |g(t) - f| &#x3D; (1-p)^{\frac{t}{\triangle t}} \cdot (f -s) &lt; \epsilon \cdot (f -s)$ 表示缓动完成。作以下变形：</p>
+<p>$$<br>(1-p)^{\frac{t}{\triangle t}} &lt; \epsilon \<br>\quad\<br>t &gt; \frac{\triangle t \cdot \ln \epsilon}{\ln(1-p)}<br>$$</p>
+<p>所以当 $t &gt; t_{max}$ 时缓动结束， 可以根据该约束得到 $p$ 与 $\triangle t$ 的约束关系：</p>
+<p>$$<br>p &#x3D; 1 - \epsilon ^{\frac{\triangle t}{t_{max}}}<br>$$</p>
+<p>所以最初的式子演变为：</p>
+<p>$$<br>g(t, t_{max}, \epsilon) &#x3D; (\epsilon ^{\frac{\triangle t}{t_{max}}})^{\frac{t}{\triangle t}} \cdot (s-f) + f &#x3D; \epsilon^{\frac{t}{t_{max}}} \cdot (s - f) + f<br>$$</p>
+<p>该曲线有以下特性:</p>
+<ol>
+<li>曲线的响应速度与 $\triangle t$ 无关</li>
+<li>通过控制参数 $t_{max}$ 控制响应速度</li>
+<li>通过设置 $\epsilon$ 改变 $t &#x3D; t_{max}$ 的渐进程度</li>
+<li>在 <code>Update</code> 调用中使用方便 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> targetVelocity = input_map(HorizontalInput); <span class="comment">// 获得期望速度</span></span><br><span class="line">    <span class="built_in">float</span> tMax = <span class="number">0.5f</span>; <span class="comment">// 响应时间</span></span><br><span class="line">    <span class="built_in">float</span> p = <span class="number">1</span> - Mathf.Pow(Mathf.Epsilon, delta / tMax); <span class="comment">// 计算上述的 p 值</span></span><br><span class="line">    Velocity = Lerp(Velocity, targetVelocity, p);   <span class="comment">// 线性插值</span></span><br><span class="line">    MoveAndSlide();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="comment"># params</span></span><br><span class="line">f = <span class="number">1</span></span><br><span class="line">s = <span class="number">0</span></span><br><span class="line">epsolon = <span class="number">0.001</span></span><br><span class="line">dt = <span class="number">0.01</span></span><br><span class="line">t_max = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># figure setting</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line">axes = fig.add_axes([<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.8</span>, <span class="number">0.8</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># generate x sequence</span></span><br><span class="line">t = np.linspace(<span class="number">0</span>, <span class="number">1</span>, <span class="built_in">int</span>(<span class="number">1</span>/dt))</span><br><span class="line"></span><br><span class="line"><span class="comment"># pre-compute `p`</span></span><br><span class="line">p = <span class="number">1</span> - math.<span class="built_in">pow</span>(epsolon, dt / t_max)</span><br><span class="line"></span><br><span class="line"><span class="comment"># g(t) = (1-p) ^ (t/dt) * (s-f) + f =  epsolon ^ (t/t_max) * (s-f) + f</span></span><br><span class="line">y1 = epsolon ** (t / t_max) * (s - f) + f</span><br><span class="line"></span><br><span class="line"><span class="comment"># simulation game engine&#x27;s update </span></span><br><span class="line">y, tmp = [], copy.deepcopy(s)</span><br><span class="line"><span class="keyword">for</span> ti <span class="keyword">in</span> t:</span><br><span class="line">    tmp =  (<span class="number">1</span> - p) * tmp + p * f</span><br><span class="line">    y.append(tmp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># draw call</span></span><br><span class="line">axes.plot(t, np.array(y), c=<span class="string">&quot;green&quot;</span>, label=<span class="string">&quot;y=h(x)&quot;</span>, ls=<span class="string">&#x27;-.&#x27;</span>, alpha = <span class="number">1</span>, lw=<span class="number">2</span>, zorder=<span class="number">1</span>)</span><br><span class="line">axes.plot(t, y1, c=<span class="string">&quot;blue&quot;</span>, label=<span class="string">&quot;y=lerp&quot;</span>, ls=<span class="string">&#x27;:&#x27;</span>, alpha = <span class="number">0.5</span>, lw=<span class="number">2</span>, zorder=<span class="number">1</span>)</span><br><span class="line">axes.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/python_curve.png"></p>
+<h2 id="更进一步的思考"><a href="#更进一步的思考" class="headerlink" title="更进一步的思考"></a>更进一步的思考</h2><p>使用 Lerp 插值的缓动函数过于单一，如果我们需要使用更加灵活多样的缓动函数，并且要将他们改变为 无状态 递推的方法应该要怎么做呢？</p>
+<p>例如 我们的目标缓动函数是 $func(t) &#x3D; t^2$</p>
+<p><strong>第一步</strong></p>
+<p>$func(t + \triangle t) &#x3D; (t + \triangle t) ^ 2$</p>
+<p><strong>第二步</strong></p>
+<p>假设存在一个迭代函数 $h(\cdot)$, 并且满足 $func(t + \triangle t) &#x3D; h[func(t)]$</p>
+<p>这里的 $h(\cdot)$ 相当于原方法里的 Lerp </p>
+<p><strong>第三步</strong><br>为了得到 $h$ 的解析形式 令 $k&#x3D;func(t), \quad t&#x3D;func^{-1}(k)$</p>
+<p>带入原式 $h(k) &#x3D; func(func^{-1}(k)+\triangle t) &#x3D; (\sqrt{k} + \triangle t)^2$, 所以只要 $func$ 的反函数存在就一定能计算得到 $h(k)$</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">float</span> <span class="title">h</span>(<span class="params"><span class="built_in">float</span> k</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> g(g_inverse(k) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    position = h(position);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后如果要限制响应时间，变化程度的话，参考前文的方法吧！本来还想做一个统一的参数化方法的，但是累了！</p>
+<p>问题就解决啦，我真是个小天才，卧槽。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E9%97%AE%E9%A2%98%E5%87%BA%E5%8F%91"><span class="toc-text">从问题出发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A5%E9%97%AE%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83"><span class="toc-text">该问题引发的思考</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%93%E5%8A%A8%E6%9B%B2%E7%BA%BF%E6%96%B9%E6%B3%95"><span class="toc-text">分析一: 自定义缓动曲线方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%BA%8C-%E9%80%92%E6%8E%A8%E7%9A%84-Lerp-%E6%96%B9%E6%B3%95"><span class="toc-text">分析二: 递推的 Lerp 方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%8A%B6%E6%80%81%E9%80%92%E6%8E%A8%E7%BC%93%E5%8A%A8%E5%87%BD%E6%95%B0"><span class="toc-text">无状态递推缓动函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B2%E7%BA%BF%E5%88%86%E6%9E%90"><span class="toc-text">曲线分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E5%80%BC-c-%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-text">当前值(c) 的稳定性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E5%80%BC-c-%E7%9A%84%E5%8F%98%E5%8C%96%E9%80%9F%E7%8E%87"><span class="toc-text">当前值(c) 的变化速率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#p-%E4%B8%8E-triangle-t-%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="toc-text">$p$ 与 $\triangle t$ 的约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95"><span class="toc-text">代码测试</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5%E7%9A%84%E6%80%9D%E8%80%83"><span class="toc-text">更进一步的思考</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E4%B8%80%E7%A7%8D%E7%BC%93%E5%8A%A8%E6%9B%B2%E7%BA%BF + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E4%25B8%2580%25E7%25A7%258D%25E7%25BC%2593%25E5%258A%25A8%25E6%259B%25B2%25E7%25BA%25BF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E4%B8%80%E7%A7%8D%E7%BC%93%E5%8A%A8%E6%9B%B2%E7%BA%BF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

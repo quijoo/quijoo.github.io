@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      游戏中的Attribute系统 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">游戏中的Attribute系统</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="游戏属性系统"><a href="#游戏属性系统" class="headerlink" title="游戏属性系统"></a>游戏属性系统</h1><h2 id="设计意图"><a href="#设计意图" class="headerlink" title="设计意图"></a>设计意图</h2><p>游戏中有很多角色属性, 他们之间存在依赖关系，组成一个复杂的树形结构（非网状），并且需要在编辑器中编辑结构和叶节点的初始值。</p>
+<p>并且，当角色实例化后应该拷贝该角色的属性树，并且所有修改都只在实例中生效。所以以<strong>节点树</strong>的形式保存属性树，它们将会随着 PackedScene 的实例化而复制。</p>
+<p>但是，有的属性是全局的，他需要被实例化的节点树引用和修改，所以应该用 Resource 表示全局的属性。由此<strong>节点树</strong>和<strong>资源树</strong>构成了编辑器时和运行时的两个并行树结构，而它们之间通过 ReferenceNode 单向引用。</p>
+<h2 id="系统结构"><a href="#系统结构" class="headerlink" title="系统结构"></a>系统结构</h2><p>节点:<br>	1. ValueNode 值节点基类<br>	2. IntNode： int 值节点<br>	3. FloatNode： float 值节点<br>	4. ReferenceNode： 引用节点（用于引用 VauleResource）<br>	5. FormulaNode： 公式节点（用表表示多个值组成的表达式）</p>
+<p>资源：<br>	1. ValueResource 值资源<br>	2. IntResource int 值资源（编辑器内创建和编辑）<br>	3. FloatResource float 值资源（编辑器内创建和编辑）<br>	4. FormulaResource 公式资源（用于表示多个值资源组成的表达式）<br>	<br>值资源在编辑器中组成一颗属性树, 这个树用于表示与实例无关的游戏属性值，例如：</p>
+<ol>
+<li>角色血量，角色经历，角色金钱，角色库存 (单例相关)</li>
+<li>当前关卡难度，当前世界风力，当前重力 （世界属性）</li>
+<li>…<br>使用资源表示这些变量能 定义默认值、各个实例方便引用、各个实例修改能立即生效并通知</li>
+</ol>
+<h2 id="值的变化"><a href="#值的变化" class="headerlink" title="值的变化"></a>值的变化</h2><p>当某个叶（资源&#x2F;值）的值发生变化时, 会发出变化信号, 该信号会沿着树向各个根节点传播，这使得树上任何一个值的修改都会被通知，包括公式节点（公式变量发生变化时重新计算公式，公式结果发生变化后发出信号）</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><ol>
+<li>在那些需要在 HUD 中显示的值可以用值资源显示，分别由实例节点和UI节点引用</li>
+<li>全局进度存档，有许多实例引用同一个进度资源</li>
+<li>数值难度调整全局生效，并且经由多个公式节点传播到各个实例</li>
+<li>可以很方便的实现属性存档功能</li>
+</ol>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>使用 Node 节点是完全没必要的, 因为资源 Resource 可以 LocalToScene, 并且同一个 PackedScene 中的不同资源在实例化LocalToScene 时会保留他们之间的引用（这就是期望节点完成的功能！！！），太完美了妈妈咪呀。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO:"></a>TODO:</h2><ol>
+<li>需要检查循环引用</li>
+</ol>
+<h2 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h2><p><strong>值节点</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ValueNode</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">ValueNode</span> : <span class="title">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="built_in">bool</span> _CanSetValue =&gt; <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">virtual</span> Variant InternalValue &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> Variant PrevValue &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> Variant Value</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; InternalValue;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_CanSetValue)</span><br><span class="line">                InternalSetValue(<span class="keyword">value</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="comment">//GD.PrintErr($&quot;&#123;this.GetType().Name&#125;._CanSetValue is false&quot;);</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">InternalSetValue</span>(<span class="params">Variant <span class="keyword">value</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Engine.IsEditorHint()) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> cacheValue = InternalValue;</span><br><span class="line">        InternalValue = <span class="keyword">value</span>; <span class="comment">// reference 会先发送资源变动, 再发送自身变动</span></span><br><span class="line">        <span class="keyword">if</span> (!InternalValue.Equals(cacheValue))</span><br><span class="line">        &#123;</span><br><span class="line">            PrevValue = cacheValue;</span><br><span class="line">            EmitChanged();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// extension</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">As</span>&lt;[<span class="title">MustBeVariant</span>] <span class="title">T</span>&gt;()</span> =&gt; Value.As&lt;T&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">PrevAs</span>&lt;[<span class="title">MustBeVariant</span>] <span class="title">T</span>&gt;()</span> =&gt; PrevValue.As&lt;T&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// signals</span></span><br><span class="line">    [<span class="meta">Signal</span>] <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">ValueChangedEventHandler</span>()</span>;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">EmitChanged</span>()</span> =&gt; EmitSignal(SignalName.ValueChanged);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// FloatNode</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">FloatNode</span> : <span class="title">ValueNode</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="built_in">float</span> FloatValue;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> Variant InternalValue</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; FloatValue;</span><br><span class="line">        <span class="keyword">set</span> =&gt; <span class="keyword">this</span>.FloatValue = <span class="keyword">value</span>.As&lt;<span class="built_in">float</span>&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公式节点</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">FormulaNode</span> : <span class="title">ValueNode</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="built_in">bool</span> _CanSetValue =&gt; <span class="literal">false</span>;</span><br><span class="line">    Godot.Collections.Array&lt;ValueNode&gt; m_Bindables = <span class="literal">null</span>;</span><br><span class="line">    [<span class="meta">Export</span>]</span><br><span class="line">    Godot.Collections.Array&lt;ValueNode&gt; Bindables</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; m_Bindables;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_Bindables = <span class="keyword">value</span>;</span><br><span class="line">            TryInitExpression();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">string</span> m_Expression = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    [<span class="meta">Export(PropertyHint.Expression)</span>]</span><br><span class="line">    <span class="built_in">string</span> Expression</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; m_Expression;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_Expression = <span class="keyword">value</span>;</span><br><span class="line">            TryInitExpression();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> Godot.Expression expression;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">TryInitExpression</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Engine.IsEditorHint() || m_Bindables == <span class="literal">null</span> || <span class="built_in">string</span>.IsNullOrWhiteSpace(m_Expression))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        GD.Print(<span class="string">$&quot;初始化表达式: <span class="subst">&#123;m_Expression&#125;</span>&quot;</span>);</span><br><span class="line">        <span class="built_in">int</span> index = <span class="number">0</span>;</span><br><span class="line">        expression = <span class="keyword">new</span>();</span><br><span class="line">        expression.Parse(Expression, m_Bindables.Select(x =&gt; <span class="string">$&quot;p<span class="subst">&#123;index++&#125;</span>&quot;</span>).ToArray());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 连接子属性信号</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> child <span class="keyword">in</span> m_Bindables)</span><br><span class="line">        &#123;</span><br><span class="line">            child?.Connect(ValueNode.SignalName.ValueChanged, Callable.From(() =&gt; &#123;</span><br><span class="line">                <span class="keyword">var</span> <span class="keyword">value</span> = expression.Execute(<span class="keyword">new</span> Godot.Collections.Array(m_Bindables.Select(x =&gt; x.Value)));</span><br><span class="line">                InternalSetValue(<span class="keyword">value</span>);</span><br><span class="line">            &#125;));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 初始化 Value</span></span><br><span class="line">        <span class="keyword">var</span> <span class="keyword">value</span> = expression.Execute(<span class="keyword">new</span> Godot.Collections.Array(m_Bindables.Select(x =&gt; x != <span class="literal">null</span> ? x.Value : <span class="literal">default</span>)));</span><br><span class="line">        InternalSetValue(<span class="keyword">value</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用节点</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">ReferenceNode</span> : <span class="title">ValueNode</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="built_in">bool</span> modifyReference = <span class="literal">false</span>;</span><br><span class="line">    ValueResource m_Reference;</span><br><span class="line">    [<span class="meta">Export</span>]</span><br><span class="line">    ValueResource Reference</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; m_Reference;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!Engine.IsEditorHint())</span><br><span class="line">            &#123;</span><br><span class="line">                m_Reference?.Disconnect(Resource.SignalName.Changed, Callable.From(EmitChanged)); <span class="comment">// 仅转发即可</span></span><br><span class="line">                <span class="keyword">value</span>?.Connect(Resource.SignalName.Changed, Callable.From(EmitChanged));</span><br><span class="line">            &#125;</span><br><span class="line">            m_Reference = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> Variant InternalValue</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; Reference != <span class="literal">null</span> ? Reference.Value : <span class="literal">default</span>;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Reference != <span class="literal">null</span>)</span><br><span class="line">                Reference.Value = <span class="keyword">value</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="built_in">bool</span> _CanSetValue =&gt; modifyReference;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>值资源</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值资源</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">ValueResource</span> : <span class="title">Resource</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="built_in">bool</span> _CanSetValue =&gt; <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">virtual</span> Variant InternalValue &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125; <span class="comment">// 用于在编辑器内获取各个类型的值的方法!</span></span><br><span class="line">    <span class="keyword">public</span> Variant PrevValue &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> Variant Value</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; InternalValue;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_CanSetValue)</span><br><span class="line">                InternalSetValue(<span class="keyword">value</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                GD.PrintErr(<span class="string">$&quot;<span class="subst">&#123;<span class="keyword">this</span>.GetType().Name&#125;</span>._CanSetValue is false&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">InternalSetValue</span>(<span class="params">Variant <span class="keyword">value</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Engine.IsEditorHint()) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> cacheValue = InternalValue;</span><br><span class="line">        InternalValue = <span class="keyword">value</span>;</span><br><span class="line">        <span class="keyword">if</span> (!InternalValue.Equals(cacheValue))</span><br><span class="line">        &#123;</span><br><span class="line">            PrevValue = cacheValue;</span><br><span class="line">            <span class="keyword">if</span> (!Engine.IsEditorHint())</span><br><span class="line">                EmitChanged();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// extension</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">As</span>&lt;[<span class="title">MustBeVariant</span>] <span class="title">T</span>&gt;()</span> =&gt; Value.As&lt;T&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">PrevAs</span>&lt;[<span class="title">MustBeVariant</span>] <span class="title">T</span>&gt;()</span> =&gt; PrevValue.As&lt;T&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _ValidateProperty(Dictionary property)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (property[<span class="string">&quot;name&quot;</span>].AsStringName() == PropertyName.ResourceLocalToScene)</span><br><span class="line">            property.SetPropertyVisible(<span class="literal">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (property[<span class="string">&quot;name&quot;</span>].AsStringName() == PropertyName.ResourceName)</span><br><span class="line">            property.SetPropertyVisible(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Float 值资源</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">FloatResource</span> : <span class="title">ValueResource</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="built_in">float</span> FloatValue;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="built_in">bool</span> SaveToFile = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> Variant InternalValue</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Engine.IsEditorHint() || !SaveToFile)</span><br><span class="line">                <span class="keyword">return</span> FloatValue;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> uid = ResourceLoader.GetResourceUid(<span class="keyword">this</span>.ResourcePath);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> uid == ResourceUid.InvalidId</span><br><span class="line">                ? FloatValue</span><br><span class="line">                : SS.Get(ResourceUid.IdToText(uid), <span class="string">&quot;value&quot;</span>, FloatValue);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Engine.IsEditorHint() || !SaveToFile)</span><br><span class="line">            &#123;</span><br><span class="line">                FloatValue = <span class="keyword">value</span>.As&lt;<span class="built_in">float</span>&gt;();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> uid = ResourceLoader.GetResourceUid(<span class="keyword">this</span>.ResourcePath);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (uid == ResourceUid.InvalidId)</span><br><span class="line">                FloatValue = <span class="keyword">value</span>.As&lt;<span class="built_in">float</span>&gt;();</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                SS.Set(ResourceUid.IdToText(uid), <span class="string">&quot;value&quot;</span>, <span class="keyword">value</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 公式资源</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">FormulaResource</span> : <span class="title">ValueResource</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="built_in">bool</span> _CanSetValue =&gt; <span class="literal">false</span>;</span><br><span class="line">    Godot.Collections.Array&lt;ValueNode&gt; m_Bindables = <span class="literal">null</span>;</span><br><span class="line">    [<span class="meta">Export</span>]</span><br><span class="line">    Godot.Collections.Array&lt;ValueNode&gt; Bindables</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; m_Bindables;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_Bindables = <span class="keyword">value</span>;</span><br><span class="line">            TryInitExpression();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">string</span> m_Expression = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    [<span class="meta">Export(PropertyHint.Expression)</span>]</span><br><span class="line">    <span class="built_in">string</span> Expression</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> =&gt; m_Expression;</span><br><span class="line">        <span class="keyword">set</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_Expression = <span class="keyword">value</span>;</span><br><span class="line">            TryInitExpression();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> Godot.Expression expression;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">TryInitExpression</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (Engine.IsEditorHint() || m_Bindables == <span class="literal">null</span> || <span class="built_in">string</span>.IsNullOrWhiteSpace(m_Expression))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        GD.Print(<span class="string">$&quot;初始化表达式: <span class="subst">&#123;m_Expression&#125;</span>&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">int</span> index = <span class="number">0</span>;</span><br><span class="line">        expression = <span class="keyword">new</span>();</span><br><span class="line">        expression.Parse(Expression, m_Bindables.Select(x =&gt; <span class="string">$&quot;p<span class="subst">&#123;index++&#125;</span>&quot;</span>).ToArray());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 连接子属性信号</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> child <span class="keyword">in</span> m_Bindables)</span><br><span class="line">        &#123;</span><br><span class="line">            child?.Connect(Resource.SignalName.Changed, Callable.From(() =&gt; &#123;</span><br><span class="line">                <span class="keyword">var</span> newValue = expression.Execute(<span class="keyword">new</span> Godot.Collections.Array(m_Bindables.Select(x =&gt; x.Value)));</span><br><span class="line">                InternalSetValue(newValue);</span><br><span class="line">            &#125;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化 Value</span></span><br><span class="line">        <span class="keyword">var</span> newValue = expression.Execute(<span class="keyword">new</span> Godot.Collections.Array(m_Bindables.Select(x =&gt; x.Value)));</span><br><span class="line">        InternalSetValue(newValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/07/12/%E4%BC%A0%E9%80%81%E9%97%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/08/11/%E7%94%B5%E8%BD%A6%E9%9A%BE%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E5%B1%9E%E6%80%A7%E7%B3%BB%E7%BB%9F"><span class="toc-text">游戏属性系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%84%8F%E5%9B%BE"><span class="toc-text">设计意图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="toc-text">系统结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-text">值的变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-text">优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-text">TODO:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%E4%BB%B6"><span class="toc-text">附件</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84Attribute%E7%B3%BB%E7%BB%9F + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F07%2F29%2F%25E6%25B8%25B8%25E6%2588%258F%25E4%25B8%25AD%25E7%259A%2584Attribute%25E7%25B3%25BB%25E7%25BB%259F%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/07/29/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84Attribute%E7%B3%BB%E7%BB%9F/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

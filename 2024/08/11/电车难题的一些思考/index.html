@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      电车难题的一些思考 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">电车难题的一些思考</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>电车难题的一般描述是: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">一个疯子把五个无辜的人绑在电车轨道上。一辆失控的电车朝他们驶来，并且片刻后就要碾压到他们。</span><br><span class="line">幸运的是，你可以拉一个拉杆，让电车开到另一条轨道上。</span><br><span class="line">然而问题在于，那个疯子在另一个电车轨道上也绑了一个人。</span><br><span class="line"></span><br><span class="line">考虑以上状况，你是否应拉拉杆？</span><br></pre></td></tr></table></figure>
+
+<p>还有很多与之相似的变题, 最初是本科英语课上的讨论题，后来在网易公开课《公正该如何是好？》上借此引入 功利主义和道德主义。</p>
+<p>再后来 B 站的罗翔也讲过，但是还是在功利主义和道德主义的选择之间将这个问题悬置。</p>
+<h2 id="预设的暴力"><a href="#预设的暴力" class="headerlink" title="预设的暴力"></a>预设的暴力</h2><p>提问者预设了一个静态的世界，它将这个现实问题抽象的限制在两种选择上，<strong>变轨</strong> 或 <strong>不变轨</strong>。然而现实是复杂而绵密的，它有无限的复杂性和无限的可能性。</p>
+<p>这意味者，电车问题的提出是一种权力的隐喻，提问者掌握了绝对的权力，回答者只能选择预设的道路。这存在有趣现象，即 <strong>在现实中问出电车难题</strong> 与 <strong>问题中的歹徒</strong> 处在相同的位置上，它们希望通过一种预设的暴力即 <strong>单方面的提出问题</strong> 和 <strong>将人绑到轨道上</strong> 来拷问人的道德。</p>
+<p>我们要跳出这个形而上的预设，要知道 <strong>没有一个上帝能保证, 在这个问题面前只有变轨和不变轨两种选择</strong>，所以面对这个问题我们也可以无限的丰富这个预设（现实是无限复杂绵密的），例如 这件事情发生在未来，列车有自动紧急制动，所以一个人都不会死。  又或者，列车上其实没有人，只有一些货物，为了救人列车师傅决定牺牲自己，将列车脱轨，所以牺牲了司机一个人，救了六个人。 诸如此类，能发现如果接受提问题的人能添加预设，这个问题就消失了。</p>
+<p>所以面对道德问题，首先要质疑预设，挣脱预设</p>
+<h2 id="是谁在杀人？"><a href="#是谁在杀人？" class="headerlink" title="是谁在杀人？"></a>是谁在杀人？</h2><p>无论选择变轨还是不变轨，罪恶都在歹徒那里，列车司机不应有任何的道德负担。 但是实际上无论做何种选择司机都会觉得是自己杀了人，然而构成 <strong>司机认为是自己杀了人</strong> 的现象的原因是什么呢？它是由怎样的社会道德的要求产生的呢？</p>
+<p>我们会注意到，事实上的社会伦理会责难做出选择的司机（不是显示的责难，而是司机自己责难自己，其本质是社会意识在责难自己），这样的社会伦理产生机制不是更值得思考么？ 所以这个问题中有两个邪恶的实体：</p>
+<ol>
+<li>歹徒</li>
+<li>社会伦理</li>
+</ol>
+<h2 id="为什么这个问题是困难的？"><a href="#为什么这个问题是困难的？" class="headerlink" title="为什么这个问题是困难的？"></a>为什么这个问题是困难的？</h2><p>这个问题的困难，是提问者刻意构造的。我们会注意到 5人和1人的数量，是我们赋予了自身一个社会性身份，即 <strong>为社会谋取最大收益</strong>。 我们会注意到其中的每一个人都是生命不能用数字衡量，是因为我们会对故事中的每个人产生共情。歹徒险恶的察觉到人是作为社会的人和作为个体的人，他将两种人的冲突揉在一起试问 <strong>你是谁？</strong></p>
+<p>然而, 试图回答这个问题的人就会陷入一种分裂，这恰恰中了提问者的计谋。唯有将人的社会性和个体性分裂，才能将 <strong>自由</strong> 这个概念引入。 所以我认为电车难题是自由主义的诡计。</p>
+<p>然而, 每一个人都不能仅仅如此简单的分裂为社会人和个体人，符号上的分类学必然遮蔽与切断其内在的复杂的联系。这种切割是邪恶的，会威胁到现代社会的存在。</p>
+<p>社会要维持自身一致性就应该尽最大努力避免将任何一个人放置到这种边界线上。 做个比喻： 如果社会性是将所有人集中在一起划定了一个红圈，社会自身就划定了自身的范围，就不能允许将任何一个人放置到红线的边界上，那会导致社会性失去其自身的可定义性（因为一旦有人站在红圈上，这个红圈就不存在了）</p>
+<p>也就是说，我们的社会应该通过法律和规范使得列车司机免责，并且需要通过文化和教育使得无论哪种抉择内疚和自责都不会落到列车司机心里。这应是社会共识。</p>
+<h2 id="应该怎么做呢？"><a href="#应该怎么做呢？" class="headerlink" title="应该怎么做呢？"></a>应该怎么做呢？</h2><p>怎么做并不重要，怎么做都可以，重要的是如何逮住那个歹徒，如何使决策人免于自我和他人的谴责。这将原本的二选一问题转化为：</p>
+<ul>
+<li><strong>逮住歹徒</strong> 等于 识破提问者的险恶用心，并且加入预设与歹徒博弈</li>
+<li><strong>免于自我谴责</strong> 等于 使得全人类意识到无论如何，故事中的人是提问者杀死的，与司机毫无关系。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>陷入各种选择之中，并且划定自身是功利主义的还是道德主义，或者陷入纠结之中的行为都是无比愚蠢的，这无疑就是歹徒乐意看到，它们以此享乐。</p>
+<p>我们应该以现实践的姿态把握它, 去面对去处理现实中绵密复杂的机制，从中试图找到人性的可能性。 而不是像个奴隶的姿态，跪在地上，从 “上帝”扔下来几种腌臜事中选择一个不那么糟糕的。要去与歹徒博弈，去揭露邪恶，在一次次或失败中或成功的实践中，捍卫人性的边界。</p>
+<p>去妄想成为一个所谓 <strong>理性人</strong>，对现实做出各种选择的行为，不过是在选择中不断的对自我形象的重复性自恋罢了。 愚蠢至极。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/07/29/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84Attribute%E7%B3%BB%E7%BB%9F/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/08/12/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3%E7%9A%84%E5%AE%9E%E7%94%A8%E7%BD%91%E7%AB%99%E5%B7%A5%E5%85%B7%E4%B9%A6%E7%B1%8D/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0"><span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%AE%BE%E7%9A%84%E6%9A%B4%E5%8A%9B"><span class="toc-text">预设的暴力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E8%B0%81%E5%9C%A8%E6%9D%80%E4%BA%BA%EF%BC%9F"><span class="toc-text">是谁在杀人？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98%E6%98%AF%E5%9B%B0%E9%9A%BE%E7%9A%84%EF%BC%9F"><span class="toc-text">为什么这个问题是困难的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E5%81%9A%E5%91%A2%EF%BC%9F"><span class="toc-text">应该怎么做呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%94%B5%E8%BD%A6%E9%9A%BE%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F08%2F11%2F%25E7%2594%25B5%25E8%25BD%25A6%25E9%259A%25BE%25E9%25A2%2598%25E7%259A%2584%25E4%25B8%2580%25E4%25BA%259B%25E6%2580%259D%25E8%2580%2583%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/08/11/%E7%94%B5%E8%BD%A6%E9%9A%BE%E9%A2%98%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      传送门渲染机制 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">传送门渲染机制</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="基本机制"><a href="#基本机制" class="headerlink" title="基本机制"></a>基本机制</h3><p>《传送门2》 中 Player 从 A门 可以看到 B门的东西，这是通过生成辅助相机 C1， 使得 A.ToLocal(Player) &#x3D;&#x3D; B.ToLocal(C1)。</p>
+<h3 id="辅助相机"><a href="#辅助相机" class="headerlink" title="辅助相机"></a>辅助相机</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class_name Portal : Node2D</span><br><span class="line">...</span><br><span class="line">func get_help_camera_transform(current:Transform3D) -&gt; Transform3D:</span><br><span class="line">	var trans = other.global_transform.inverse() * current</span><br><span class="line">	holder.transform = trans.rotated(Vector3.UP, PI)</span><br><span class="line">	return holder.global_transform</span><br></pre></td></tr></table></figure>
+
+<p>由此指定一个观测位置 current, 并且指定一个传送门 portal，  都可以计算到当前观测位置的辅助相机位置。</p>
+<p>多次递归的计算辅助相机位置可以得到多层递归的相机摆放位置。</p>
+<p>记当前玩家相机 camera_player 中传送门占据的屏幕区域为多边形 poly， 此时在 辅助相机位置放置相机拍摄到的屏幕图像中的 poly 区域即住屏幕区域中传送门所占区域的图像。</p>
+<h3 id="可见性树"><a href="#可见性树" class="headerlink" title="可见性树"></a>可见性树</h3><p>对于两个传送门来说，只用实现相互可见即可，但是多人联机的情形下，需要有多组传送门，它们能相互看见，这意味着所有辅助相机的渲染目标纹理应该可以被所有传送门访问。</p>
+<p>单独看一个门时，递归次数较多，同时看多个门时由于角度问题，能看到较少的递归次数，为了能使用相对较少的相机实现效果，可以层次递归的建立可见性树。</p>
+<p><strong>定义</strong>： 可见性树的子节点表示，通过当前节点所表示的传送门，能看到的其余传送门。</p>
+<p>例如场景中有将可见性树发送到着色器，着色器渲染某个门时，借助可见性树查询渲染哪个辅助相机的 Texture。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">func process_visible_tree():</span><br><span class="line">	# INFO: 下一个相机指针</span><br><span class="line">	var camera_index = 1</span><br><span class="line">	# INFO: 树结构</span><br><span class="line">	var visible_tree:Array[Vector4i] = []</span><br><span class="line">	# INFO: 层序相机队列</span><br><span class="line">	var camera_queue : Array[int] = [0]</span><br><span class="line">	# INFO: 层序屏幕可见区域队列</span><br><span class="line">	var visible_polygon_queue = [SCREEN_POLYGON, ]</span><br><span class="line">	</span><br><span class="line">	while camera_index &lt; cameras.size():</span><br><span class="line">		if camera_queue.size() == 0:</span><br><span class="line">			break</span><br><span class="line">			</span><br><span class="line">		# INFO: 处理每个节点的临时区域</span><br><span class="line">		var current_camera_index = camera_queue.pop_back()</span><br><span class="line">		var current_visible_polygon = visible_polygon_queue.pop_back()</span><br><span class="line">		var current_camera: Camera3D = cameras[current_camera_index]</span><br><span class="line">		var portal_visiable: Vector4i = Vector4i(-1, -1, -1, -1)</span><br><span class="line">	</span><br><span class="line">		for i in range(portals.size()):</span><br><span class="line">			var portal = portals[i]	</span><br><span class="line">			var screen_poly = is_portal_visible(current_visible_polygon, current_camera, portal)</span><br><span class="line">			if screen_poly.size() &gt; 0:</span><br><span class="line">				# INFO: 设置辅助相机</span><br><span class="line">				var portal_camera = cameras[camera_index]</span><br><span class="line">				portal_camera.global_transform = portal.other.get_help_camera_transform(current_camera.global_transform)</span><br><span class="line">				portal_camera.cull_mask = 0xFFFFF &amp; (~(1 &lt;&lt; portal.other.portal_id)) &amp; (~(1 &lt;&lt; 11))</span><br><span class="line">				portal_camera.name = &quot;%s_%s&quot;%[current_camera.name, portal.portal_id]</span><br><span class="line">				</span><br><span class="line">				# INFO: 层序遍历, 记录当前辅助相机和屏幕可见区域</span><br><span class="line">				camera_queue.push_front(camera_index)</span><br><span class="line">				visible_polygon_queue.push_front(screen_poly)</span><br><span class="line">				</span><br><span class="line">				# INFO: 移动指针到下一个可用相机</span><br><span class="line">				portal_visiable[i] = camera_index</span><br><span class="line">				camera_index += 1</span><br><span class="line">				if camera_index &gt;= cameras.size():</span><br><span class="line">					break</span><br><span class="line">		visible_tree.append(portal_visiable)</span><br><span class="line">	</span><br><span class="line">	for i in range(cameras.size()):</span><br><span class="line">		if i &lt; visible_tree.size():</span><br><span class="line">			RenderingServer.global_shader_parameter_set(&quot;visible_tree_%s&quot;%i, visible_tree[i])</span><br><span class="line">		else:</span><br><span class="line">			RenderingServer.global_shader_parameter_set(&quot;visible_tree_%s&quot;%i, Vector4i(-1, -1, -1, -1))</span><br></pre></td></tr></table></figure>
+<p><strong>每个传送门的着色器</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">shader_type spatial;</span><br><span class="line">render_mode unshaded, cull_disabled;</span><br><span class="line">#include &quot;portal_utility.gdshaderinc&quot;</span><br><span class="line">uniform int portal_id;</span><br><span class="line"></span><br><span class="line">void fragment() &#123;</span><br><span class="line">	// cull mask 11 标记相机</span><br><span class="line">	// 对于辅助相机，需要将 id 编码到颜色中</span><br><span class="line">	if((CAMERA_VISIBLE_LAYERS &amp; uint(1 &lt;&lt; 11)) == uint(0))</span><br><span class="line">	&#123;</span><br><span class="line">		ALBEDO = encode(portal_id);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		// 对于主相机而言，需要将颜色解码为 id， 并在可见树中搜索</span><br><span class="line">		ALBEDO = get_color(portal_id, SCREEN_UV);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 get_color 是通过可见性树计算当前 portal_id 的颜色的方法。具体实现在  portal_utility.gdshaderinc 中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// Godot 不支持 sampler2D 数组</span><br><span class="line">global uniform sampler2D texture_1: source_color;</span><br><span class="line">global uniform sampler2D texture_2: source_color;</span><br><span class="line">global uniform sampler2D texture_3: source_color;</span><br><span class="line">global uniform sampler2D texture_4: source_color;</span><br><span class="line">global uniform sampler2D texture_5: source_color;</span><br><span class="line">global uniform sampler2D texture_6: source_color;</span><br><span class="line">global uniform sampler2D texture_7: source_color;</span><br><span class="line">global uniform sampler2D texture_8: source_color;</span><br><span class="line">global uniform sampler2D texture_9: source_color;</span><br><span class="line">global uniform sampler2D texture_10: source_color;</span><br><span class="line">global uniform sampler2D texture_11: source_color;</span><br><span class="line">global uniform sampler2D texture_12: source_color;</span><br><span class="line">global uniform sampler2D texture_13: source_color;</span><br><span class="line">global uniform sampler2D texture_14: source_color;</span><br><span class="line">global uniform sampler2D texture_15: source_color;</span><br><span class="line">global uniform sampler2D texture_16: source_color;</span><br><span class="line">global uniform sampler2D texture_17: source_color;</span><br><span class="line">global uniform sampler2D texture_18: source_color;</span><br><span class="line">global uniform sampler2D texture_19: source_color;</span><br><span class="line">global uniform sampler2D texture_20: source_color;</span><br><span class="line">// Godot 不支持 int 数组作为全局变量</span><br><span class="line">global uniform ivec4 visible_tree_0;</span><br><span class="line">global uniform ivec4 visible_tree_1;</span><br><span class="line">global uniform ivec4 visible_tree_2;</span><br><span class="line">global uniform ivec4 visible_tree_3;</span><br><span class="line">global uniform ivec4 visible_tree_4;</span><br><span class="line">global uniform ivec4 visible_tree_5;</span><br><span class="line">global uniform ivec4 visible_tree_6;</span><br><span class="line">global uniform ivec4 visible_tree_7;</span><br><span class="line">global uniform ivec4 visible_tree_8;</span><br><span class="line">global uniform ivec4 visible_tree_9;</span><br><span class="line">global uniform ivec4 visible_tree_10;</span><br><span class="line">global uniform ivec4 visible_tree_11;</span><br><span class="line">global uniform ivec4 visible_tree_12;</span><br><span class="line">global uniform ivec4 visible_tree_13;</span><br><span class="line">global uniform ivec4 visible_tree_14;</span><br><span class="line">global uniform ivec4 visible_tree_15;</span><br><span class="line">global uniform ivec4 visible_tree_16;</span><br><span class="line">global uniform ivec4 visible_tree_17;</span><br><span class="line">global uniform ivec4 visible_tree_18;</span><br><span class="line">global uniform ivec4 visible_tree_19;</span><br><span class="line">global uniform ivec4 visible_tree_20;</span><br><span class="line"></span><br><span class="line">// 去获取 visible_tree 节点</span><br><span class="line">ivec4 get_node(int index) </span><br><span class="line">&#123;</span><br><span class="line">	switch(index)</span><br><span class="line">	&#123;</span><br><span class="line">		... 略</span><br><span class="line">		default: return ivec4(-1, -1, -1, -1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取全局纹理坐标</span><br><span class="line">vec4 get_texture_color(int index, vec2 uv)</span><br><span class="line">&#123;</span><br><span class="line">	switch(index)</span><br><span class="line">	&#123;</span><br><span class="line">		... 略</span><br><span class="line">		default: return vec4(0, 0, 0, 0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// godot 无法自定义屏幕缓冲区来实现 portal_id 标记， 所以用颜色编码</span><br><span class="line">int decode(vec3 color)</span><br><span class="line">&#123;</span><br><span class="line">	if(color == vec3(1, 0, 0))</span><br><span class="line">	&#123;</span><br><span class="line">		return 6;</span><br><span class="line">	&#125;</span><br><span class="line">	else if(color == vec3(1, 1, 0))</span><br><span class="line">	&#123;</span><br><span class="line">		return 7;</span><br><span class="line">	&#125;</span><br><span class="line">	else if(color == vec3(0, 0, 1))</span><br><span class="line">	&#123;</span><br><span class="line">		return 8;</span><br><span class="line">	&#125;</span><br><span class="line">	else if(color == vec3(0, 1, 1))</span><br><span class="line">	&#123;</span><br><span class="line">		return 9;</span><br><span class="line">	&#125;</span><br><span class="line">	else </span><br><span class="line">		return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// godot 无法自定义屏幕缓冲区来实现 portal_id 标记， 所以用颜色编码</span><br><span class="line">// 根据 portal_id 标记上色（之后替换为写入自定义缓冲区）</span><br><span class="line">vec3 encode(int portal_id)</span><br><span class="line">&#123;</span><br><span class="line">	if(portal_id == 6)</span><br><span class="line">	&#123;</span><br><span class="line">		return vec3(1, 0, 0);</span><br><span class="line">	&#125;</span><br><span class="line">	if(portal_id == 7)</span><br><span class="line">	&#123;</span><br><span class="line">		return vec3(1, 1, 0);</span><br><span class="line">	&#125;</span><br><span class="line">	if(portal_id == 8)</span><br><span class="line">	&#123;</span><br><span class="line">		return vec3(0, 0, 1);</span><br><span class="line">	&#125;</span><br><span class="line">	if(portal_id == 9)</span><br><span class="line">	&#123;</span><br><span class="line">		return vec3(0, 1, 1);</span><br><span class="line">	&#125;</span><br><span class="line">	return vec3(0, 0, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 递归的根据 visible_tree 获取像素真实颜色</span><br><span class="line">vec3 get_color(int portal_id, vec2 uv)</span><br><span class="line">&#123;</span><br><span class="line">	int index = get_node(0)[portal_id - 6];</span><br><span class="line">	vec3 color = get_texture_color(index, uv).rgb;</span><br><span class="line">	while(index != -1)</span><br><span class="line">	&#123;</span><br><span class="line">		</span><br><span class="line">		ivec4 node = get_node(index);</span><br><span class="line">		index = decode(color);</span><br><span class="line">		if(index != -1)</span><br><span class="line">		&#123;</span><br><span class="line">			index = node[index - 6];</span><br><span class="line">			color = get_texture_color(index, uv).rgb;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="平滑优化"><a href="#平滑优化" class="headerlink" title="平滑优化"></a>平滑优化</h3><p>在玩家被传送时会出现闪屏，经过调查发现，原因：</p>
+<ol>
+<li>传送门是一个 Plane，穿过传送门时主相机近平面被传送门平面切割导致屏幕闪烁（并看见门背后的场景）</li>
+<li>传送门是一个 Cube，穿过传送门时主相机近平面进入 Cube 内部导致黑屏</li>
+</ol>
+<p>优化方式：</p>
+<p>使用 Cube 现实传送门的 RenderTarget， 并且开启 Cube 内部渲染，这样就有一个空间使相机无论如何都能看到传送门的显示内容！！！！</p>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><p>相机管理器代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">class_name CameraTextureManager extends Node3D</span><br><span class="line"></span><br><span class="line">@export var max_camera_count:int = 20;</span><br><span class="line">@export var textureArray: Texture;</span><br><span class="line"># 主相机以及辅助相机列表</span><br><span class="line">var cameras = []</span><br><span class="line">var player_camera: Camera3D = null</span><br><span class="line">var enable_camera_index = 0</span><br><span class="line">static var portals: Array[Portal] = []</span><br><span class="line">static var ins: CameraTextureManager = null</span><br><span class="line"></span><br><span class="line">static var SCREEN_SIZE = Vector2(1152, 648)</span><br><span class="line">static var SCREEN_POLYGON: Array[Vector2]</span><br><span class="line"></span><br><span class="line">func _init():</span><br><span class="line">	SCREEN_POLYGON = [Vector2(0, 0), Vector2(SCREEN_SIZE.x, 0), SCREEN_SIZE, Vector2(0, SCREEN_SIZE.y)]</span><br><span class="line">	ins = self</span><br><span class="line">	</span><br><span class="line">func _ready():</span><br><span class="line">	# INFO: 相机与纹理是错位的， 相机列表需要将 player 相机加入列表</span><br><span class="line">	player_camera = Player.ins.camera</span><br><span class="line">	cameras.append(player_camera)</span><br><span class="line">	for i in range(max_camera_count):</span><br><span class="line">		var viewport = SubViewport.new()</span><br><span class="line">		var camera = Camera3D.new()</span><br><span class="line">		viewport.add_child(camera)</span><br><span class="line">		setup_viewport(viewport)</span><br><span class="line">		add_child(viewport)</span><br><span class="line">		cameras.append(camera)</span><br><span class="line">		RenderingServer.global_shader_parameter_set(&quot;texture_%s&quot;%(i + 1), viewport.get_texture())</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">func setup_viewport(viewport:SubViewport):</span><br><span class="line">	viewport.size = SCREEN_SIZE</span><br><span class="line">	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS</span><br><span class="line">	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE</span><br><span class="line"></span><br><span class="line">func update_toggle_viewport():</span><br><span class="line">	var camera_count = cameras.size()</span><br><span class="line">	var next = clamp(enable_camera_index, 0, camera_count - 1)</span><br><span class="line">	for i in range(camera_count):</span><br><span class="line">		var camera = cameras[i] as Camera3D</span><br><span class="line">		var viewport = camera.get_parent() as SubViewport</span><br><span class="line">		camera.visible = i == next</span><br><span class="line">	</span><br><span class="line">func _process(delta):</span><br><span class="line">	update_toggle_viewport()</span><br><span class="line">	process_visible_tree()</span><br><span class="line">	</span><br><span class="line">func process_visible_tree():</span><br><span class="line">	# INFO: 下一个相机指针</span><br><span class="line">	var camera_index = 1</span><br><span class="line">	# INFO: 树结构</span><br><span class="line">	var visible_tree:Array[Vector4i] = []</span><br><span class="line">	# INFO: 层序相机队列</span><br><span class="line">	var camera_queue : Array[int] = [0]</span><br><span class="line">	# INFO: 层序屏幕可见区域队列</span><br><span class="line">	var visible_polygon_queue = [SCREEN_POLYGON, ]</span><br><span class="line">	</span><br><span class="line">	while camera_index &lt; cameras.size():</span><br><span class="line">		if camera_queue.size() == 0:</span><br><span class="line">			break</span><br><span class="line">			</span><br><span class="line">		# INFO: 处理每个节点的临时区域</span><br><span class="line">		var current_camera_index = camera_queue.pop_back()</span><br><span class="line">		var current_visible_polygon = visible_polygon_queue.pop_back()</span><br><span class="line">		var current_camera: Camera3D = cameras[current_camera_index]</span><br><span class="line">		var portal_visiable: Vector4i = Vector4i(-1, -1, -1, -1)</span><br><span class="line">	</span><br><span class="line">		for i in range(portals.size()):</span><br><span class="line">			var portal = portals[i]	</span><br><span class="line">			var screen_poly = is_portal_visible(current_visible_polygon, current_camera, portal)</span><br><span class="line">			if screen_poly.size() &gt; 0:</span><br><span class="line">				# INFO: 设置辅助相机</span><br><span class="line">				var portal_camera = cameras[camera_index]</span><br><span class="line">				portal_camera.global_transform = portal.other.get_help_camera_transform(current_camera.global_transform)</span><br><span class="line">				portal_camera.cull_mask = 0xFFFFF &amp; (~(1 &lt;&lt; portal.other.portal_id)) &amp; (~(1 &lt;&lt; 11))</span><br><span class="line">				portal_camera.name = &quot;%s_%s&quot;%[current_camera.name, portal.portal_id]</span><br><span class="line">				</span><br><span class="line">				# INFO: 层序遍历, 记录当前辅助相机和屏幕可见区域</span><br><span class="line">				camera_queue.push_front(camera_index)</span><br><span class="line">				visible_polygon_queue.push_front(screen_poly)</span><br><span class="line">				</span><br><span class="line">				# INFO: 移动指针到下一个可用相机</span><br><span class="line">				portal_visiable[i] = camera_index</span><br><span class="line">				camera_index += 1</span><br><span class="line">				if camera_index &gt;= cameras.size():</span><br><span class="line">					break</span><br><span class="line">		visible_tree.append(portal_visiable)</span><br><span class="line">	</span><br><span class="line">	for i in range(cameras.size()):</span><br><span class="line">		if i &lt; visible_tree.size():</span><br><span class="line">			RenderingServer.global_shader_parameter_set(&quot;visible_tree_%s&quot;%i, visible_tree[i])</span><br><span class="line">		else:</span><br><span class="line">			RenderingServer.global_shader_parameter_set(&quot;visible_tree_%s&quot;%i, Vector4i(-1, -1, -1, -1))</span><br><span class="line"></span><br><span class="line">func is_portal_visible(parent_visible_polygon, camera:Camera3D, portal:Portal) -&gt; Array:</span><br><span class="line">	var polygon = portal.get_rect_polygon()</span><br><span class="line">	</span><br><span class="line">	for plane in camera.get_frustum():</span><br><span class="line">		polygon = Geometry3D.clip_polygon(polygon, plane)</span><br><span class="line">	</span><br><span class="line">	var can_see = func(p:Vector3):</span><br><span class="line">		return p.direction_to(camera.global_position).dot(portal.global_transform.basis.z) &gt; 0</span><br><span class="line">		</span><br><span class="line">	# INFO: 将多边形投影到屏幕空间</span><br><span class="line">	var screen_polygon = []</span><br><span class="line">	for p in polygon:</span><br><span class="line">		screen_polygon.append(camera.unproject_position(p))</span><br><span class="line">	</span><br><span class="line">	# INFO: 将多边形向外扩充 20 像素 (在 4.3 beta 3 中会带来性能开销, 帧率从 165fps 降至 7fps)</span><br><span class="line">	#screen_polygon = Geometry2D.offset_polygon(screen_polygon, 20, Geometry2D.JOIN_ROUND)</span><br><span class="line">	#if screen_polygon.size() &gt; 0:</span><br><span class="line">		#screen_polygon = screen_polygon[0]</span><br><span class="line">	</span><br><span class="line">	# INFO: 计算当前传送门的可见区域是否在父级可见区域中</span><br><span class="line">	# INFO: 凸集的凸集也是凸集，所以返回的 screen_poly.size() 只能是 1 或 0</span><br><span class="line">	screen_polygon = Geometry2D.intersect_polygons(Geometry2D.convex_hull(screen_polygon), Geometry2D.convex_hull(parent_visible_polygon))</span><br><span class="line">	</span><br><span class="line">	# INFO: 当前区域在父窗口中可见 &amp;&amp; 存在一个顶点是传送门的正面</span><br><span class="line">	if screen_polygon.size() &gt; 0 and screen_polygon[0].size() &gt; 0 and Array(polygon).any(can_see):</span><br><span class="line">		return screen_polygon[0]</span><br><span class="line">	else:</span><br><span class="line">		return []</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E6%89%AF%E6%8E%89%E4%BA%86%E4%B8%AD%E5%9B%BD%E7%A7%91%E6%8A%80%E5%9C%88%E7%9A%84%E9%81%AE%E7%BE%9E%E5%B8%83/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/07/29/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%9A%84Attribute%E7%B3%BB%E7%BB%9F/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9C%BA%E5%88%B6"><span class="toc-text">基本机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E7%9B%B8%E6%9C%BA"><span class="toc-text">辅助相机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7%E6%A0%91"><span class="toc-text">可见性树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E6%BB%91%E4%BC%98%E5%8C%96"><span class="toc-text">平滑优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84%E4%BB%B6"><span class="toc-text">附件</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E4%BC%A0%E9%80%81%E9%97%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F07%2F12%2F%25E4%25BC%25A0%25E9%2580%2581%25E9%2597%25A8%25E6%25B8%25B2%25E6%259F%2593%25E6%259C%25BA%25E5%2588%25B6%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/07/12/%E4%BC%A0%E9%80%81%E9%97%A8%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

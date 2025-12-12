@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      二阶曲线 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">二阶曲线</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="情景引入"><a href="#情景引入" class="headerlink" title="情景引入"></a>情景引入</h2><p>考虑以下情形，采集用户水平输入 <code>float HorizontalInput</code> 来控制 player 的水平位移</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    velocity.x = HorizontalInput * WalkSpeed * delta;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样写有两个缺点：</p>
+<ol>
+<li>当影响水平速度的因素不只是水平输入时，不同因素的叠加不方便。不应该是 <code>=</code> 而应该是 <code>+=</code>;</li>
+<li>移动完全与输入一直，看起来很僵硬；</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>所以需要有这么一个函数(缓动函数)，它对输入的响应由可控的延迟，但最终会与输入保持一致<br>&#x2F;&#x2F; 添加示例函数1.1</p>
+<p>为了使缓动曲线更好的模拟现实世界中由于力产生加速度的运动，这里使用一个二阶系统来描述：<br>$$<br>y + k_1\cdot y^{‘} + k_2\cdot y^{‘’} &#x3D; x + k_3 \cdot x^{‘}<br>$$</p>
+<p>等价的写法：<br>$$<br>y + k_1\cdot \frac{\mathrm{d} y}{\mathrm{d} t} + k_2\cdot \frac{\mathrm{d} ^2 y}{\mathrm{d}^2 t} &#x3D; x + k_3 \cdot \frac{\mathrm{d} x}{\mathrm{d} t}<br>$$</p>
+<p>通过调整 $k_1, k_2,k_3$ 可以改变图像的形状，<br>&#x2F;&#x2F; 插入示例图像1.2<br>现在添加三个变量：<br>$$<br>f &#x3D; \frac{1}{2\pi \sqrt{k_2}}, \quad<br>\theta &#x3D; \frac{k_1}{2\sqrt{k_2}}, \quad<br>r &#x3D; \frac{2k_3}{k_1}<br>$$<br>解方程组可得：<br>$$<br>k_1 &#x3D; \frac{\theta}{\pi f}, \quad k_2 &#x3D; \frac{1}{(2\pi f)^2}, \quad k_3 &#x3D; \frac{r \theta}{2\pi f}<br>$$</p>
+<p>原二阶系统的微分方程变为：<br>$$<br>y +\frac{\theta}{\pi f} \cdot y^{‘} + \frac{1}{(2\pi f)^2} \cdot y^{‘’} &#x3D; x + \frac{r \theta}{2\pi f} \cdot x^{‘}<br>$$<br> 这里 $f, \theta, r$ 都具有现实意义了</p>
+<ul>
+<li>$f$ 以 $hz$ 为单位，代表系统<strong>固有频率</strong>，它描述系统对输入变化的响应速度</li>
+<li>$\theta$ 代表系统的<strong>阻尼系数</strong>，描述了系统如何最终趋于稳定</li>
+<li>$r$ 控制系统的<strong>初始响应</strong><br>当 $r &#x3D; 0$ 时系统需要花费一点时间才能从禁止开始加速<br>当 $r &gt; 0$ 时系统立刻对变化做出反应<br>当 $r &gt; 1$ 时系统变化将冲过目标<br>当 $r &lt; 0$ 时系统会有抬手运动（先反向运动）<br>一般为机械链接设置 $r &#x3D; 2$</li>
+</ul>
+<p>现在只剩下最后一个问题了，如何解二阶系统？</p>
+<h2 id="二阶微分方程数值解"><a href="#二阶微分方程数值解" class="headerlink" title="二阶微分方程数值解"></a>二阶微分方程数值解</h2><h3 id="1-半隐式欧拉法"><a href="#1-半隐式欧拉法" class="headerlink" title="1. 半隐式欧拉法"></a>1. 半隐式欧拉法</h3><p>该方法在该问题下与复杂的 <strong>Verlet 积分法</strong> 有着相同的精度，<br>首先计算 x 变化率<br>$$<br>x^{‘}<em>{n+1} &#x3D; \frac{x</em>{n+1} - x_n}{T} \<br>$$<br>然后计算 y 的变化<br>$$<br>\begin{cases}<br>y_{n + 1} &#x3D; y_{n} + Ty^{‘}<em>{n} \<br>\quad\<br>y^{‘}</em>{n+1} &#x3D; y^{‘}<em>{n} + Ty^{‘’} \<br> \end{cases}<br>$$<br>由于:<br>$$<br>y^{‘’} &#x3D; \frac{x + k_3 x^{‘} - y - k_1y^{‘}}{k_2}<br>$$<br>所以：<br>$$<br>y^{‘}</em>{n+1} &#x3D; y^{‘}<em>{n} + T\cdot  \frac{x</em>{n+1} + k_3 x^{‘}<em>{n+1} - y</em>{n+1} - k_1y^{‘}_{n}}{k_2}<br>$$</p>
+<p>这存在一个问题，如果频率 $f$ 远大于帧率，系统将变得不稳定，会产生无穷大的值：</p>
+<ol>
+<li>可以简单地设置 f 的取值范围</li>
+<li>通过数学方法确保不发生极端情况</li>
+</ol>
+<p>为了提供更多的鲁棒性，采用方案二<br><strong>分析</strong><br>不稳定产生的原因，该系统的本质是<strong>反馈系统</strong>，他的迭代输出将被反馈到后续的迭代用于计算，当<strong>帧间时间步长</strong>和<strong>参数</strong>相比太大时，随着时间增加，误差将逐渐累积，当超过某个<strong>临界值</strong>时，误差会开始滚雪球，迅速导致灾难性后果，为了计算该临界值，引入线性代数方法：<br>$$<br>\begin{cases}<br>y_{n + 1} &#x3D; y_{n} + Ty^{‘}<em>{n} \<br>\quad \<br>y^{‘}</em>{n+1} &#x3D; y^{‘}<em>{n} + T\cdot  \frac{x</em>{n+1} + k_3 x^{‘}<em>{n+1} -(y</em>{n} + Ty^{‘}<em>{n}) - k_1y^{‘}</em>{n}}{k_2}<br> \end{cases}<br>$$<br>展开合并同类项：</p>
+<p>$$<br>\begin{cases}<br>y_{n + 1} &#x3D; y_{n} + Ty^{‘}<em>{n} \<br>\quad \<br>y^{‘}</em>{n+1} &#x3D; \frac{-T}{k_2} y_n + \frac{k_2 - T^2 - Tk_1}{k_2}y^{‘}<em>{n} + \frac{T}{k_2}x</em>{n+1} + \frac{Tk_3}{k_2}x^{‘}_{n+1}\<br> \end{cases}<br>$$</p>
+<p>矩阵表示如下：<br>$$<br>\begin{bmatrix}<br>y\<br>y^{‘}<br>\end{bmatrix}_{n+1} </p>
+<p>&#x3D; </p>
+<p>\begin{bmatrix}<br>1 &amp; T\<br>-\frac{T}{k_2} &amp; \frac{k_2 - T^2 - Tk_1}{k_2}<br>\end{bmatrix} </p>
+<p>\cdot </p>
+<p>\begin{bmatrix}<br>y\<br>y^{‘}<br>\end{bmatrix}_{n}</p>
+<p>+ </p>
+<p>\begin{bmatrix}<br>0 &amp; 0\<br>\frac{T}{k_2} &amp; \frac{Tk_3}{k_2}<br>\end{bmatrix} </p>
+<p>\cdot</p>
+<p>\begin{bmatrix}<br>x\<br>x^{‘}<br>\end{bmatrix}<em>{n+1}<br>$$<br>简写如下<br>$$<br>Y</em>{n+1} &#x3D; A\cdot Y_n + B\cdot X_{n+1}<br>$$<br>分析：<br>$A$ 称为状态转移矩阵，他表示迭代是如何影响状态变量的，直观来说如果 $A$ 矩阵不导致状态变量 $Y$ 的增长，那该反馈是稳定的；考虑$A$ 作为值而非变量，利用特征值理论，记 $A$ 的特征值$\lambda$<br>如果 $\lambda_i &lt; 1$, Y 将逐渐减小趋于稳定<br>如果 $\lambda_i &gt; 1$, Y 迅速增大，很快变得无法控制</p>
+<p>计算特征值如下：<br>$$<br>det(A - \lambda I) &#x3D; 0<br>$$<br>展开后<br>$$<br>k_2 \lambda^2 + (T^2 + Tk_1 - 2k_2)\lambda (k_2-Tk_1) &#x3D; 0<br>$$<br>解关于 $\lambda$ 的二次方程<br>$$<br>\lambda &#x3D; \frac{ -b \pm \sqrt{b^2-4ac}}{2a}<br>$$</p>
+<p>令 $|\lambda| &lt; 1$:<br>得:<br>$$<br>T &lt; \sqrt{4k_2 + k_1^2} - k_1<br>$$<br> 这里 如果时间步长大于临界值, 将拆分为多个了迭代来计算<br> <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> classs SecondOrderDynamics</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">float</span> T_crit; <span class="comment">// critical stable time step</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SecondOrderDynamics</span>(<span class="params"><span class="built_in">float</span> f, floatz, <span class="built_in">float</span> r, Vector x0</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// update compute constants</span></span><br><span class="line">        k1 = z / (PI * f);</span><br><span class="line">        k2 = <span class="number">1</span> / ((<span class="number">2</span> * PI * f) * (<span class="number">2</span> * PI * f));</span><br><span class="line">        k3 = r * z / (<span class="number">2</span> * PI * f);</span><br><span class="line">        T_crit = <span class="number">0.8f</span> * (sqtr(<span class="number">4</span> * k2 + k1 * k1));</span><br><span class="line">        xp = x0;</span><br><span class="line">        y = x0;</span><br><span class="line">        yd = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Vector <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta, Vector x, Vector xd = <span class="literal">null</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(xd == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            xd = (x - xp) / delta;</span><br><span class="line">            xp = x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">int</span> interations = (<span class="built_in">int</span>)Ceil(delta / T_crit); <span class="comment">// take extra iterations if delta &gt; T_crit</span></span><br><span class="line">        delta = delta / iterations;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; iterations; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            y = y + delta * yd;</span><br><span class="line">            yd = yd + delta * (x + k3 * xd - y - k1*yd) / k2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br> 此外，如果想避免迭代次数过多，可以限制 $k_2$ 的值（减缓运动）<br> $$<br> k_2 &gt; \frac{T^2}{4} + \frac{Tk_1}{2}<br> $$<br> <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> k2_stable = Max(k2, <span class="number">1.1f</span> * (T*T/<span class="number">4</span> + T*k1/<span class="number">2</span>));</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-零极点匹配法（高精度）没懂"><a href="#2-零极点匹配法（高精度）没懂" class="headerlink" title="2.零极点匹配法（高精度）没懂"></a>2.零极点匹配法（高精度）没懂</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> classs SecondOrderDynamics</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> Vector xp;</span><br><span class="line">    <span class="keyword">private</span> Vector y, yd;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">float</span> _w, _z, _d, k1, k2, k3;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SecondOrderDynamics</span>(<span class="params"><span class="built_in">float</span> f, <span class="built_in">float</span> z, <span class="built_in">float</span> r, Vetor x0</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _w = <span class="number">2</span> * PI * f;</span><br><span class="line">        _z = z;</span><br><span class="line">        _d = _w * sqrt(Abs(z*<span class="number">2</span><span class="number">-1</span>));</span><br><span class="line">        k1 = z / (PI * f);</span><br><span class="line">        k2 = <span class="number">1</span> / (_w * _w);</span><br><span class="line">        k3 = r * z / _w;</span><br><span class="line">        xp = x0;</span><br><span class="line">        y = x0;</span><br><span class="line">        yd = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Vector <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta, Vector x, Vector xd = <span class="literal">null</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(xd == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">float</span> k1_stable, k2_stable;</span><br><span class="line">            <span class="keyword">if</span>(_w * T &lt; _z)</span><br><span class="line">            &#123;</span><br><span class="line">                k1_stable = k1;</span><br><span class="line">                k2_stable = Max(k2, T * T / <span class="number">2</span>+ T * k1 / <span class="number">2</span>, T*k1);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">float</span> t1 = Exp(-_z * _w * T);</span><br><span class="line">                <span class="built_in">float</span> alpha = <span class="number">2</span> * t1 * (_z &lt;= <span class="number">1</span> ? cos(T * _d) : cosh(T * _d));</span><br><span class="line">                <span class="built_in">float</span> beta = t1 * t1;</span><br><span class="line">                <span class="built_in">float</span> t2 = T / (<span class="number">1</span> + beta -alpha);</span><br><span class="line">                k1_stable = (<span class="number">1</span> - beta) * t2;</span><br><span class="line">                k2_stable = T * t2;</span><br><span class="line">            &#125;</span><br><span class="line">            y = y + T * yd;</span><br><span class="line">            yd = yd + T * (x + k3*xd -y - k1*yd) / k2_stable;</span><br><span class="line">            <span class="keyword">return</span> y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-其他数值解方法（略）"><a href="#3-其他数值解方法（略）" class="headerlink" title="3. 其他数值解方法（略）"></a>3. 其他数值解方法（略）</h3><p>参考:<br>t3ssel8r:<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KPoeNZZ6H4s">Giving Personality to Procedural Animations using Math</a></p>
+<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>Tween 节点可以用于创建补间动画，但是由于只能指定固定缓动函数，并且不能使用 value &#x3D; f(time) 的形式计算值，所以需要设计一个新的缓动函数类，并实现对应的<code>Inspector插件</code></p>
+<p>通常的缓动曲线都是选用 三角函数，或者使用贝塞尔曲线绘制的自定义曲线，为了逼近现实的运动感，这里实现一种自动控制系统里常用的<a href="../you-xi-dong-hua-zhong-de-huan-dong-han-shu/">二阶曲线</a></p>
+<h3 id="SecondOrderCurves-设计"><a href="#SecondOrderCurves-设计" class="headerlink" title="SecondOrderCurves 设计"></a><code>SecondOrderCurves</code> 设计</h3><p> 首先时二阶系统需要的三个参数，在 Godot 中使用 <code>Vector3</code> 表示， 以及运算过程的中间变量<br> <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 使用插件修复 Godot 不识别自定义类型的 Bug</span></span><br><span class="line">[<span class="meta">RegisteredTypeAttribute(nameof(SecondOrderCurves), <span class="string">&quot;&quot;</span>, nameof(Godot.Object))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SecondOrderCurves</span> : <span class="title">Godot.Object</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="keyword">public</span> Vector3 Parameters = Vector3.One;</span><br><span class="line">    <span class="keyword">private</span> Vector2 xp;</span><br><span class="line">    <span class="keyword">private</span> Vector2 y, yd;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">float</span> k1, k2, k3;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">float</span> T_crit; <span class="comment">// 用于处理单时间片无法完成的模拟</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br> 二阶系统的参数只有三个变量，但是我们需要一个输入函数 <code>X(y)</code>, 和得到一个响应函数<code>Y(y)</code>，其中输入函数是必须的，它决定以某一时刻系统的输入, 而响应函数可以在游戏运行时实时模拟。</p>
+ <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入函数由一些点组成，是折线函数</span></span><br><span class="line">[<span class="meta">Export</span>] <span class="keyword">public</span> Array&lt;Rect2&gt; points = <span class="keyword">new</span> Array&lt;Rect2&gt;()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">new</span> Rect2(<span class="keyword">new</span> Vector2(<span class="number">0</span>, <span class="number">300</span>), <span class="keyword">new</span> Vector2(<span class="number">10</span>, <span class="number">10</span>)),</span><br><span class="line">    <span class="keyword">new</span> Rect2(<span class="keyword">new</span> Vector2(<span class="number">200</span>, <span class="number">300</span>), <span class="keyword">new</span> Vector2(<span class="number">10</span>, <span class="number">10</span>)),</span><br><span class="line"></span><br><span class="line">    <span class="keyword">new</span> Rect2(<span class="keyword">new</span> Vector2(<span class="number">200</span>, <span class="number">150</span>), <span class="keyword">new</span> Vector2(<span class="number">10</span>, <span class="number">10</span>)),</span><br><span class="line">    <span class="keyword">new</span> Rect2(<span class="keyword">new</span> Vector2(<span class="number">400</span>, <span class="number">150</span>), <span class="keyword">new</span> Vector2(<span class="number">10</span>, <span class="number">10</span>)),</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<img src="https://cdn.staticaly.com/gh/xuaii/xuaii.github.io/1.4/static_easing_curve/x_t_curve.png" alt="" title="x(t)">
+点集是 `X(t)` 的离散表示，对于连续值得输入，需要在两个点之间进行插值，这里简单的采用线性插值
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Vector2 <span class="title">Interpolate</span>(<span class="params"><span class="built_in">float</span> x</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; points.Count - <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(points[i].GetCenter().x &lt;= x &amp;&amp; x &lt;= points[i+<span class="number">1</span>].GetCenter().x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">float</span> y1 = points[i].GetCenter().y;</span><br><span class="line">            <span class="built_in">float</span> y2 = points[i+<span class="number">1</span>].GetCenter().y;</span><br><span class="line">            <span class="built_in">float</span> x1 = points[i].GetCenter().x;</span><br><span class="line">            <span class="built_in">float</span> x2 = points[i+<span class="number">1</span>].GetCenter().x;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Vector2(x, (y1 - y2) / (x1 - x2) * (x - x2) + y2);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span> * Vector2.One;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于某时刻 <code>t</code> 一个 <code>X(t)</code> 对应一个X(t); 为了计算 <code>Y(t)</code>，这里采用逐帧计算，</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入 X(t), 和 delta， 得到当前t时刻的Y(t)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Vector2 <span class="title">Interpolate</span>(<span class="params">Vector2 x, <span class="built_in">float</span> delta</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Vector2 xd = (x - xp) / delta;</span><br><span class="line">    xp = x;</span><br><span class="line">    <span class="built_in">int</span> iterations = Mathf.CeilToInt(delta / T_crit); <span class="comment">// take extra iterations if delta &gt; T_crit</span></span><br><span class="line">    delta = delta / iterations;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; iterations; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        y = y + delta * yd;</span><br><span class="line">        yd = yd + delta * (x + k3 * xd - y - k1*yd) / k2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="编辑器插件设计"><a href="#编辑器插件设计" class="headerlink" title="编辑器插件设计"></a>编辑器插件设计</h3><p>可以参考 <code>Godot.Curve</code> 的实现，但是没有开放 <code>gdscript/c#</code> 接口，只能使用c++拓展，比较繁琐，就自行实现显示和交互逻辑。</p>
+<h4 id="编辑器绘图"><a href="#编辑器绘图" class="headerlink" title="编辑器绘图"></a>编辑器绘图</h4><p>为了能在编辑器中看到效果，需要在编辑器环境中预览响应函数 <code>Y(t)</code> 的形状。所以使用 <code>point_set</code> 存储曲线值， 表现效果如下图所示：<br><img src="https://cdn.staticaly.com/gh/xuaii/xuaii.github.io/1.4/static_easing_curve/y_t_curve_1.png" alt="" title="y(t)_1"><br><img src="https://cdn.staticaly.com/gh/xuaii/xuaii.github.io/1.4/static_easing_curve/y_t_curve_2.png" alt="" title="y(t)_2"></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  只有标记为 Tool 的脚本才会在编辑器环境被加载</span></span><br><span class="line">[<span class="meta">Tool</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurveCanvas</span> : <span class="title">Control</span></span><br><span class="line">&#123;</span><br><span class="line">    Array&lt;Vector2&gt; point_set = <span class="keyword">new</span> Array&lt;Vector2&gt;();</span><br><span class="line">    Vector2 point_size = Vector2.One * <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>模拟每帧的<code>Y(t)</code> 计算：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ReDraw</span>(<span class="params">SecondOrderCurves curve = <span class="literal">null</span></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 缓存 cached</span></span><br><span class="line">    <span class="keyword">if</span>(curve != <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cachedCurve = curve;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    point_set.Clear();</span><br><span class="line">    Vector2 start = Transform(cachedCurve.StartPoint);</span><br><span class="line">    Vector2 end = Transform(cachedCurve.EndPoint);</span><br><span class="line">    <span class="keyword">if</span>(start.x == <span class="number">-1</span> || end.x == <span class="number">-1</span> || cachedCurve == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// points.Sort(new PointComp()); // Godot.Collection.Array 不支持排序，需要实现一下</span></span><br><span class="line">    cachedCurve.Init(start);</span><br><span class="line">    <span class="built_in">int</span> iter = <span class="number">200</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; iter; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Vector2 x = Transform(cachedCurve.Interpolate(cachedCurve.StartPoint.x + i* (cachedCurve.EndPoint.x - cachedCurve.StartPoint.x) / iter));</span><br><span class="line">        Vector2 point = cachedCurve.Interpolate(<span class="keyword">new</span> Vector2(x.y, x.y), <span class="number">0.01f</span>);</span><br><span class="line">        point_set.Add(<span class="keyword">new</span> Vector2(x.x * RectSize.x, (<span class="number">1</span> - point.x) * RectSize.y));</span><br><span class="line">    &#125;</span><br><span class="line">    Update();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于 Godot 是以右下为正，所以需要对坐标进行转换</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Vector2 <span class="title">Transform</span>(<span class="params">Vector2 point</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Vector2(point.x / RectSize.x, (RectSize.y - point.y) / RectSize.y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 Godot 的绘图函数</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Draw()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 具体就不展示了，是一些繁琐的代码</span></span><br><span class="line">    DrawMesh();</span><br><span class="line">    DrawPoints();</span><br><span class="line">    DrawCurve();</span><br><span class="line">    DrawInteractive();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="编辑器交互"><a href="#编辑器交互" class="headerlink" title="编辑器交互"></a>编辑器交互</h4><p>为了能够添加&#x2F;移动&#x2F;删除图像上的点， 需要实现以下功能：</p>
+<ol>
+<li>单击鼠标左键添加点</li>
+<li>长按鼠标左键移动点</li>
+<li>单机鼠标右键删除点</li>
+</ol>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Process(<span class="built_in">float</span> delta)</span><br><span class="line">&#123;</span><br><span class="line">    cover_index = cachedCurve.FindPoint(GetLocalMousePosition());</span><br><span class="line">    SafeDragingArray = <span class="keyword">new</span> Rect2(GetRect().Position, GetRect().Size - Vector2.One * <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// 退出拖动的调节</span></span><br><span class="line">    <span class="keyword">if</span>(Dragging &amp;&amp; IsMouseIn &amp;&amp; <span class="number">0</span> &lt;=  DraggingIndex&amp;&amp; DraggingIndex &lt; cachedCurve.points.Count &amp;&amp; SafeDragingArray.HasPoint(GetLocalMousePosition()))</span><br><span class="line">    &#123;</span><br><span class="line">        (cachedCurve.points[DraggingIndex]) = <span class="keyword">new</span> Rect2(GetLocalMousePosition(), point_size);</span><br><span class="line">    &#125;</span><br><span class="line">    Update();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>监听鼠标输入，在Godot 中连接 CurveCanvas 的鼠标信号</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _on_CurveCanvas_gui_input(InputEvent @event)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!IsMouseIn)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(@event <span class="keyword">is</span> InputEventMouseButton mouse)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(mouse.ButtonIndex == (<span class="built_in">int</span>)ButtonList.Left)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 1. 创建节点</span></span><br><span class="line">            <span class="keyword">if</span>(cover_index == <span class="number">-1</span> &amp;&amp; !mouse.Pressed &amp;&amp; !Dragging)</span><br><span class="line">            &#123;</span><br><span class="line">                cachedCurve.points.Add(<span class="keyword">new</span> Rect2(GetLocalMousePosition(), point_size));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 2. 开始拖动</span></span><br><span class="line">            <span class="keyword">if</span>(cover_index != <span class="number">-1</span> &amp;&amp; mouse.Pressed)</span><br><span class="line">            &#123;</span><br><span class="line">                Dragging = <span class="literal">true</span>;</span><br><span class="line">                DraggingIndex = cover_index;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 3. 结束拖动</span></span><br><span class="line">            <span class="keyword">if</span>(!mouse.Pressed)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(Dragging) ReDraw();</span><br><span class="line">                Dragging = <span class="literal">false</span>;</span><br><span class="line">                DraggingIndex = <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            ReDraw();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(mouse.ButtonIndex == (<span class="built_in">int</span>)ButtonList.Right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 删除当前 cover 的节点</span></span><br><span class="line">            <span class="keyword">if</span>(cover_index != <span class="number">-1</span> &amp;&amp; !mouse.Pressed)</span><br><span class="line">            &#123;</span><br><span class="line">                cachedCurve.points.RemoveAt(cover_index);</span><br><span class="line">            &#125;</span><br><span class="line">            ReDraw();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="编辑器插件（踩坑）"><a href="#编辑器插件（踩坑）" class="headerlink" title="编辑器插件（踩坑）"></a>编辑器插件（踩坑）</h4><p>Godot 的编辑器插件功能非常多，可以添加Dock，Inspector，主屏幕，等插件。几乎可以实现编辑器阶段的的所有拓展；这里我们主要使用 Inspector 插件来编辑 <code>SecondOrderCurves.parameters</code>.</p>
+<h5 id="plugin-cs"><a href="#plugin-cs" class="headerlink" title="plugin.cs"></a><code>plugin.cs</code></h5><p>首先在 <code>plugin.cs</code> 中添加加载&#x2F;删除 <code>CurveEditorInspector</code> 的代码<br>tips: 千万不能忘记添加<code>[Tool]</code>，第一次 Build 时会报错，然后再Build一次就Ok了，原因是 C# 是需要编译的而gdscript可以热更新，所以干儿子者不如亲儿子。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> TOOLS</span></span><br><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line">[<span class="meta">Tool</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">plugin</span> : <span class="title">EditorPlugin</span></span><br><span class="line">&#123;</span><br><span class="line">    CurveEditorInspector inspector;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _EnterTree()</span><br><span class="line">    &#123;</span><br><span class="line">        inspector = GD.Load&lt;CSharpScript&gt;(<span class="string">&quot;res://addons/curve_editor/CurveEditorInspector.cs&quot;</span>).New() <span class="keyword">as</span> CurveEditorInspector;</span><br><span class="line">        AddInspectorPlugin(inspector);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _ExitTree()</span><br><span class="line">    &#123;</span><br><span class="line">        RemoveInspectorPlugin(inspector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  </span></span><br></pre></td></tr></table></figure>
+<h5 id="EditorInspectorPlugin-cs"><a href="#EditorInspectorPlugin-cs" class="headerlink" title="EditorInspectorPlugin.cs"></a><code>EditorInspectorPlugin.cs</code></h5><p>EditorInspectorPlugin 是一个大坑，它有两种主要的运行模式：</p>
+<ol>
+<li>修改单属性</li>
+<li>修改多属性</li>
+</ol>
+<p>起初我不明白 <code>AddPropertyEditor</code> 和 <code>AddPropertyEditorForMultipleProperties</code> 有什么区别，他们似乎具有相似的行为。后来理解了，在 <code>AddPropertyEditorForMultipleProperties</code> 中指定的<strong>属性名列表</strong>和在<code>AddPropertyEditor</code> 中指定属性名，这样Godot就会知道需要序列化哪些字段，并且在来回切换窗口或者充气Godot后，已经被编辑的属性能够不被重置。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> TOOLS</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurveEditorInspector</span> : <span class="title">EditorInspectorPlugin</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">bool</span> <span class="title">CanHandle</span>(<span class="params">Godot.Object @<span class="built_in">object</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(@object <span class="keyword">is</span> SecondOrderCurves)</span><br><span class="line">        &#123;</span><br><span class="line">            AddPropertyEditorForMultipleProperties(<span class="string">&quot;&quot;</span>, <span class="keyword">new</span> <span class="built_in">string</span> [] &#123;<span class="string">&quot;F&quot;</span>, <span class="string">&quot;Z&quot;</span>, <span class="string">&quot;R&quot;</span>&#125;, <span class="keyword">new</span> CurveEditorProperty());</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">bool</span> <span class="title">ParseProperty</span>(<span class="params">Godot.Object @<span class="built_in">object</span>, <span class="built_in">int</span> type, <span class="built_in">string</span> path, <span class="built_in">int</span> hint, <span class="built_in">string</span> hintText, <span class="built_in">int</span> usage</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h5 id="CurveEditorProperty-cs"><a href="#CurveEditorProperty-cs" class="headerlink" title="CurveEditorProperty.cs"></a><code>CurveEditorProperty.cs</code></h5><p>这里需要指出的是，Godot规定修改属性值不能直接修改<br>只能通过 <code>EmitChanged(property_name, property value);</code> 来修改，该信号会回调<code>UpdateProperty()</code>方法，这里可以访问到被修改的对象(<code>GetEditedObject()</code>)和被修改对象的属名(<code>GetEditedProperty()</code>);<br>值得注意的是，Godot 会在每一此打开<code>Inspector </code>时调用<code>UpdateProperty()</code>,这之前会重新创建并且加载<code>Inspector</code> 插件对象，所以需要通过被编辑对象来恢复编辑器预览参数，并且使用<code>IsInit</code> 保证仅调用一次;</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> TOOLS</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurveEditorProperty</span> : <span class="title">EditorProperty</span></span><br><span class="line">&#123;</span><br><span class="line">    Control editor;</span><br><span class="line">    SecondOrderCurves CacheCurve = <span class="literal">null</span>;</span><br><span class="line">    <span class="built_in">bool</span> IsInit = <span class="literal">false</span>;</span><br><span class="line">    <span class="comment">// 缓存被编辑对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Ready()</span><br><span class="line">    &#123;</span><br><span class="line">        editor = GD.Load&lt;PackedScene&gt;(<span class="string">&quot;res://addons/curve_editor/CurveEditor.tscn&quot;</span>).Instance&lt;Control&gt;();</span><br><span class="line">        AddChild(editor);</span><br><span class="line">        AddFocusable(editor);</span><br><span class="line">        SetBottomEditor(editor);</span><br><span class="line">        editor.Connect(<span class="string">&quot;PorpertyChanged&quot;</span>, <span class="keyword">this</span>, <span class="string">&quot;OnPorpertyChanged&quot;</span>);</span><br><span class="line">        editor.Call(<span class="string">&quot;Load&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">OnPorpertyChanged</span>(<span class="params">Vector3 _parameters</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        EmitChanged(<span class="string">&quot;parameters&quot;</span>, _parameters);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">UpdateProperty</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!IsInit)</span><br><span class="line">        &#123;</span><br><span class="line">            editor.Call(<span class="string">&quot;Load&quot;</span>, GetEditedObject().Get(<span class="string">&quot;parameters&quot;</span>));</span><br><span class="line">            IsInit = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        editor.Call(<span class="string">&quot;Refresh&quot;</span>, GetEditedObject());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h5 id="CurveEditor-cs"><a href="#CurveEditor-cs" class="headerlink" title="CurveEditor.cs"></a><code>CurveEditor.cs</code></h5><p>该脚本用于总结三个<code>HSlider</code>的变化,并且生成<code>PorpertyChanged</code> 事件</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="comment">// 这里的tool不能缺少</span></span><br><span class="line">[<span class="meta">Tool</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CurveEditor</span> : <span class="title">VBoxContainer</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Signal</span>] <span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">PorpertyChanged</span>(<span class="params">Vector3 _parameters</span>)</span>;</span><br><span class="line">    <span class="comment">// move point</span></span><br><span class="line">    Vector3 parameters;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Load</span>(<span class="params">Vector3 parameters</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        (GetNode(<span class="string">&quot;F/FHSlider&quot;</span>) <span class="keyword">as</span> HSlider).Value = (<span class="built_in">double</span>)parameters.x;</span><br><span class="line">        (GetNode(<span class="string">&quot;Z/ZHSlider&quot;</span>) <span class="keyword">as</span> HSlider).Value = (<span class="built_in">double</span>)parameters.y;</span><br><span class="line">        (GetNode(<span class="string">&quot;R/RHSlider&quot;</span>) <span class="keyword">as</span> HSlider).Value = (<span class="built_in">double</span>)parameters.z;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Refresh</span>(<span class="params">SecondOrderCurves curve</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        CurveCanvas canvas = GetNode&lt;CurveCanvas&gt;(<span class="string">&quot;CurveCanvas&quot;</span>);</span><br><span class="line">        canvas.ReDraw(curve);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> _on_FHSlider_value_changed(<span class="built_in">float</span> <span class="keyword">value</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        parameters.x = <span class="keyword">value</span>;</span><br><span class="line">        EmitSignal(<span class="string">&quot;PorpertyChanged&quot;</span>, parameters);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> _on_ZHSlider_value_changed(<span class="built_in">float</span> <span class="keyword">value</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        parameters.y = <span class="keyword">value</span>;</span><br><span class="line">        EmitSignal(<span class="string">&quot;PorpertyChanged&quot;</span>, parameters);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> _on_RHSlider_value_changed(<span class="built_in">float</span> <span class="keyword">value</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        parameters.z = <span class="keyword">value</span>;</span><br><span class="line">        EmitSignal(<span class="string">&quot;PorpertyChanged&quot;</span>, parameters);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Show-Show-Way"><a href="#Show-Show-Way" class="headerlink" title="Show Show Way"></a>Show Show Way</h3><p>最后展示一下运行效果</p>
+<img src="https://cdn.staticaly.com/gh/xuaii/xuaii.github.io/1.4/static_easing_curve/usage_demo.gif" alt="" title="usage demo">
+
+<img src="https://cdn.staticaly.com/gh/xuaii/xuaii.github.io/1.4/static_easing_curve/anima_demo.gif" alt="" title="anima demo">
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/Godot%E5%AF%B9%E8%AF%9D%E6%8F%92%E4%BB%B6/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%8A%80%E6%9C%AF/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%85%E6%99%AF%E5%BC%95%E5%85%A5"><span class="toc-text">情景引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E9%98%B6%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E6%95%B0%E5%80%BC%E8%A7%A3"><span class="toc-text">二阶微分方程数值解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8D%8A%E9%9A%90%E5%BC%8F%E6%AC%A7%E6%8B%89%E6%B3%95"><span class="toc-text">1. 半隐式欧拉法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%9B%B6%E6%9E%81%E7%82%B9%E5%8C%B9%E9%85%8D%E6%B3%95%EF%BC%88%E9%AB%98%E7%B2%BE%E5%BA%A6%EF%BC%89%E6%B2%A1%E6%87%82"><span class="toc-text">2.零极点匹配法（高精度）没懂</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B6%E4%BB%96%E6%95%B0%E5%80%BC%E8%A7%A3%E6%96%B9%E6%B3%95%EF%BC%88%E7%95%A5%EF%BC%89"><span class="toc-text">3. 其他数值解方法（略）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecondOrderCurves-%E8%AE%BE%E8%AE%A1"><span class="toc-text">SecondOrderCurves 设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1"><span class="toc-text">编辑器插件设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E7%BB%98%E5%9B%BE"><span class="toc-text">编辑器绘图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E4%BA%A4%E4%BA%92"><span class="toc-text">编辑器交互</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%99%A8%E6%8F%92%E4%BB%B6%EF%BC%88%E8%B8%A9%E5%9D%91%EF%BC%89"><span class="toc-text">编辑器插件（踩坑）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#plugin-cs"><span class="toc-text">plugin.cs</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#EditorInspectorPlugin-cs"><span class="toc-text">EditorInspectorPlugin.cs</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CurveEditorProperty-cs"><span class="toc-text">CurveEditorProperty.cs</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CurveEditor-cs"><span class="toc-text">CurveEditor.cs</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Show-Show-Way"><span class="toc-text">Show Show Way</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E4%BA%8C%E9%98%B6%E6%9B%B2%E7%BA%BF + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E4%25BA%258C%25E9%2598%25B6%25E6%259B%25B2%25E7%25BA%25BF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E4%BA%8C%E9%98%B6%E6%9B%B2%E7%BA%BF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

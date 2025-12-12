@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      里世界 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">里世界</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Er4y1t7NK?spm_id_from=333.999.0.0&vd_source=f793394b2f7b2b82cc3f09ecd0d4cd91">里世界机制</a><br>机制概念简述：存在两个不同的世界，里世界和表世界</p>
+<ol>
+<li>他们有大致相同的场景整体形状，不同的场景风格（例如，崭新&lt;-&gt;老旧，清洁&lt;-&gt;污染）</li>
+<li>有一个透镜能在表世界看见里世界的物体并且互动</li>
+<li>只有玩家能在里世界和表世界间穿梭，这意味着玩家可以通过切换世界来躲避伤害<br>所有的外部物体（除玩家外），与透镜发生碰撞时可以<ol>
+<li>以一种特效的的方式穿过，暗示对玩家没有伤害</li>
+<li>直接与透镜碰撞然后消失</li>
+</ol>
+</li>
+<li>通过对透镜的形状限制来设计关卡<br><img src="https://xuaii.github.io/post-images/1659399769652.JPG"></li>
+</ol>
+<p><img src="https://xuaii.github.io/post-images/1659399587154.JPG"></p>
+<p>实现：表示世界和里世界将在一个场景节点中表示</p>
+<ol>
+<li>透镜物体是一个Light2D， 通过光照Mask显示&#x2F;剔除里世界的物体的Sprite</li>
+<li>透镜物体是一个Area2D，通过记录进入区域中的里世界物体，并且实时修改里世界物体的碰撞形状，如果是表世界（那么根据简述3来处理）</li>
+</ol>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SuperLens</span> : <span class="title">Area2D</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Dictionary&lt;<span class="built_in">string</span>, InnerObject&gt; data = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, InnerObject&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnObjectExit</span>(<span class="params">Node node</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(node <span class="keyword">is</span> InnerObject innerObject &amp;&amp; data.ContainsKey(innerObject.Name))</span><br><span class="line">        &#123;</span><br><span class="line">            data.<span class="keyword">remove</span>(innerObject.Name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnObjectEnter</span>(<span class="params">Node node</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(node <span class="keyword">is</span> InnerObject innerObject )</span><br><span class="line">        &#123;</span><br><span class="line">            data[innerObject.Name] = innerObject;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(node <span class="keyword">is</span> OuterObject outerObject )</span><br><span class="line">        &#123;</span><br><span class="line">            ProcessOuterObject(outerObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _PhysicsProcess(<span class="built_in">float</span> delta)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">var</span> inner <span class="keyword">in</span> data.Values)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 更改碰撞体积</span></span><br><span class="line">            inner.Rect = inner.DefaultRect.overlap(<span class="keyword">this</span>.Rect);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在之前的文章里提到过 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Er4y1t7NK?spm_id_from=333.999.0.0&vd_source=f793394b2f7b2b82cc3f09ecd0d4cd91">里世界机制</a> 游戏机制，但是最初的版本是需要手动用右摇杆移动 “透镜” 来观察里世界的物体，这样的设计有以下几个<strong>缺陷</strong>：</p>
+<ol>
+<li>需要控制左右摇杆和跳跃键来控制人物和移动 “透镜”</li>
+<li>透镜 <strong>自由度过高</strong>，限制了关卡设计的可能性</li>
+<li>仅仅实现了遮挡 &#x2F; 显示 物体，并没有修改物体的<strong>碰撞体积</strong></li>
+</ol>
+<p>后来玩到 <a target="_blank" rel="noopener" href="https://zelda.fandom.com/zh/wiki/%E5%A1%9E%E5%B0%94%E8%BE%BE%E4%BC%A0%E8%AF%B4%EF%BC%9A%E4%BC%97%E7%A5%9E%E7%9A%84%E4%B8%89%E8%A7%92%E5%8A%9B%E9%87%8F2">《塞尔达传说三角力量 2》</a> ，其中林克化身壁画在墙壁游走的能力给了我很大的启发：”壁画林克只能在一条水平线上移动，而作者利用地形的高低差设计了很多意想不到的关卡”, 这背后的思考是 “通过限制玩家的能力，来增加关卡设计的可能性”，回到里世界机制上，我们可以通过限制”透镜”的移动和玩家进入的方式来增加关卡设计的可能性：<br><img src="https://xuaii.github.io/post-images/1662048022127.gif"><br>于是，我对机制进行如下修正:</p>
+<ol>
+<li>通过<strong>推箱子</strong>的形式移动透镜，而不是用<strong>右摇杆</strong></li>
+<li>限制透镜的<strong>进入点</strong>，而不是<strong>全开放</strong></li>
+</ol>
+<p>这样的修正可以以某种方式设计关卡，让玩家思考以何种顺序移动各个箱子能到达想要去的目标，它的本质是<strong>推箱子</strong>， 只是换上了一层 <strong>里世界</strong> 的皮</p>
+<p>下面来构思整个机制的实现：</p>
+<ol>
+<li>实现 “透镜” 内的物体不显示, 之外的物体显示 -&gt; 使用光照剔除</li>
+<li>实现 “透镜” 内的物体与玩家碰撞，之外的物体不碰撞 -&gt; 使用 PolygenShape动态修改</li>
+<li>实现 推箱子 机制 -&gt; 箱子内和箱子都能推动（避免死锁）</li>
+</ol>
+<h3 id="光照剔除"><a href="#光照剔除" class="headerlink" title="光照剔除"></a>光照剔除</h3><p>在之前的实现里，将里世界的所有物体放入一个单独的 CanvasLayer，再应用一个 CanvasModulate 将不透明度设置为 0， 然后用一一个 Light2D 来为里世界物体添加 透明度，这样实现玩家不能与里世界物体发生物理交互所以采用了很复杂的实现方式。</p>
+<p>Godot Light2D 有一个 Mask 模式专门用于剔除物体，被剔除的物体需要确保</p>
+<ol>
+<li>层号在 (layer_min, layer_max) 之间</li>
+<li>光照层在 Item Cull Mask 之中</li>
+</ol>
+<p>使用一个 Texture 与透镜大小相同的 Light2D 节点， 选择 Add &#x2F; Mix 模式位被剔除的物体赋予颜色，同样需要确保光照层和画布层设置正确</p>
+<p>此外，可以通过 WorldEnviroment 节点为里世界的物体增加荧光，或者设置边缘光 Shader 增加区分度。</p>
+<h3 id="动态碰撞体"><a href="#动态碰撞体" class="headerlink" title="动态碰撞体"></a>动态碰撞体</h3><p>动态碰撞体很简单，只需要每帧取碰撞体矩形 DefaultRect 透镜碰撞体矩形 LensRect，计算两个 Rect2 的 ∩ 即可</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LensRect</span> : <span class="title">Area2D</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Dictionary&lt;<span class="built_in">string</span>, Godot.Object&gt; NearbyLens = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, Godot.Object&gt;();</span><br><span class="line">    Vector2 extent;</span><br><span class="line">    CollisionShape2D shape;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Ready()</span><br><span class="line">    &#123;</span><br><span class="line">        shape = GetNode&lt;CollisionShape2D&gt;(<span class="keyword">nameof</span>(CollisionShape2D));</span><br><span class="line">        extent = (shape.Shape <span class="keyword">as</span> RectangleShape2D).Extents;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Called every frame. &#x27;delta&#x27; is the elapsed time since the previous frame.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _PhysicsProcess(<span class="built_in">float</span> delta)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">foreach</span>(DynamicPolygon polygon <span class="keyword">in</span> NearbyLens.Values)</span><br><span class="line">        &#123;</span><br><span class="line">            polygon.Clips(ToGlobal(shape.Position - extent), ToGlobal(shape.Position + extent));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> _on_LensRect_area_entered(Area2D body)</span><br><span class="line">    &#123;</span><br><span class="line">        Node parent = body.GetParent();</span><br><span class="line">        <span class="keyword">if</span>(parent <span class="keyword">is</span> DynamicPolygon)</span><br><span class="line">        &#123;</span><br><span class="line">            NearbyLens[parent.Name] = parent;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> _on_LensRect_area_exited(Area2D body)</span><br><span class="line">    &#123;</span><br><span class="line">        Node parent = body.GetParent();</span><br><span class="line">        <span class="keyword">if</span>(parent <span class="keyword">is</span> DynamicPolygon)</span><br><span class="line">        &#123;</span><br><span class="line">            NearbyLens.Remove(parent.Name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lens 需要使用一个 Area2D 记录附近可能相交的<strong>里世界物体</strong>，在每一个物理帧调用 <code>polygon.Clips()</code> 更新附近<strong>里世界物体</strong>的多边形点集</p>
+<p>对于每一个里世界物体， 只需实现 Clips 方法， 并保证碰撞体附近没有 Lens 时，碰撞体保持休眠状态</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DynamicPolygon</span> : <span class="title">KinematicBody2D</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">private</span> CollisionPolygon2D shape;</span><br><span class="line">	<span class="keyword">private</span> Rect2 rect;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Ready()</span><br><span class="line">	&#123;</span><br><span class="line">		Sprite sprite = GetNode&lt;Sprite&gt;(<span class="keyword">nameof</span>(Sprite));</span><br><span class="line">		shape = GetNode&lt;CollisionPolygon2D&gt;(<span class="keyword">nameof</span>(CollisionPolygon2D));</span><br><span class="line">		rect = sprite.GetRect(); ;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Called every frame. &#x27;delta&#x27; is the elapsed time since the previous frame.</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Clips</span>(<span class="params">Vector2 p1, Vector2 p2</span>)</span></span><br><span class="line">	&#123;</span><br><span class="line">		Rect2 _rect = <span class="keyword">new</span> Rect2(ToLocal(p1), ToLocal(p2) - ToLocal(p1));</span><br><span class="line">        Rect2 inter = rect.Clip(_rect);</span><br><span class="line"></span><br><span class="line">		Vector2 [] array = <span class="keyword">new</span> Vector2[<span class="number">4</span>];</span><br><span class="line">		Vector2 local = inter.Position;</span><br><span class="line">		</span><br><span class="line">		array[<span class="number">0</span>] = local;</span><br><span class="line">		array[<span class="number">1</span>] = local + Vector2.Right * inter.Size.x;</span><br><span class="line">		array[<span class="number">2</span>] = local + inter.Size;</span><br><span class="line">		array[<span class="number">3</span>] = local + Vector2.Down * inter.Size.y;</span><br><span class="line">		shape.Polygon = array;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">void</span> _on_Area2D_area_entered(Area2D area)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (area <span class="keyword">is</span> LensRect magic)</span><br><span class="line">		&#123;</span><br><span class="line">			shape.SetDeferred(<span class="string">&quot;disabled&quot;</span>, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">void</span> _on_Area2D_area_exited(Area2D area)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (area <span class="keyword">is</span> LensRect magic)</span><br><span class="line">        &#123;</span><br><span class="line">            shape.SetDeferred(<span class="string">&quot;disabled&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个地方有很多可以优化的点（下次一定），例如：</p>
+<ol>
+<li><p>目前仅支持 矩形 Lens 和 矩形里世界物体，可以考虑支持任意多边形</p>
+</li>
+<li><p>可以优化同时对 <strong>多个Lens</strong>， <strong>多个 里世界物体</strong> 更新（例如使用 ECS， 做一个 System 统一更新，效率更高，也可以做一些向量优化，maybe）</p>
+</li>
+<li><p>实现 其他 PhysicsBody 的里世界物体</p>
+</li>
+<li><p>添加 [Tool]编辑器代码，方便 Debug</p>
+</li>
+</ol>
+<h3 id="推箱子"><a href="#推箱子" class="headerlink" title="推箱子"></a>推箱子</h3><p>首先实现<strong>箱子类</strong>，他是一个可推动接口，实现 Push 和Stop方法, 受到重力影响</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IPushable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Push</span>(<span class="params">Vector2 direction</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Stop</span>()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestMovableCube</span> : <span class="title">KinematicBody2D</span>, <span class="title">IPushable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> Vector2 _velocity = Vector2.Zero;</span><br><span class="line">    [<span class="meta">Export</span>] <span class="keyword">private</span> <span class="built_in">float</span> _pushSpeed = <span class="number">100f</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _PhysicsProcess(<span class="built_in">float</span> delta)</span><br><span class="line">    &#123;</span><br><span class="line">        _velocity += Vector2.Down * <span class="number">100f</span>;</span><br><span class="line">        _velocity = MoveAndSlide(_velocity);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Push</span>(<span class="params">Vector2 direction</span>)</span></span><br><span class="line">    &#123; </span><br><span class="line">        _velocity += _pushSpeed * direction;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Stop</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        _velocity = Vector2.Zero;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其次是 玩家&#x2F;怪物的Push状态, 这里在每一帧计算<strong>正在推动的物体列表</strong>， 然后每帧调用IPushable.Push() 方法，每帧开始时和退出状态时需要将所有正在推动的物体停下来（否则将做匀速直线运动）</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    状态有四个生命周期, 进入, 更新， 物理更新， 退出</span></span><br><span class="line"><span class="comment">    有 Init 接口函数用于初始化，有 Exit() 方法用于退出当前状态</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Push</span> : <span class="title">StateBase</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> Player target;</span><br><span class="line">    <span class="keyword">private</span> List&lt;IPushable&gt; cacheCubes = <span class="keyword">new</span> List&lt;IPushable&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnEnter</span>()</span> </span><br><span class="line">    &#123;</span><br><span class="line">        target = agent <span class="keyword">as</span> Player;</span><br><span class="line">        GD.Print(<span class="string">&quot;Enter &quot;</span>, StateName);    </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> &#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> </span><br><span class="line">    &#123;</span><br><span class="line">        target.GravityHandler(target.DefaultGravity.JumpGravity, delta);</span><br><span class="line">        target.GestureHandler();</span><br><span class="line">        target.HorizontalHandler();</span><br><span class="line">        target.SnapHandler();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> cube <span class="keyword">in</span> cacheCubes)</span><br><span class="line">        &#123;</span><br><span class="line">            cube.Stop();</span><br><span class="line">        &#125;</span><br><span class="line">        cacheCubes.Clear();</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; target.GetSlideCount(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// tips: Godot.Collections.Array dont support the c# interface</span></span><br><span class="line">            <span class="keyword">var</span> collision = target.GetSlideCollision(i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (collision.Collider <span class="keyword">is</span> IPushable pushable)</span><br><span class="line">            &#123;</span><br><span class="line">                GD.Print(collision.Normal);</span><br><span class="line"></span><br><span class="line">                cacheCubes.Add(pushable);</span><br><span class="line">                pushable.Push(-collision.Normal);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((!Input.IsActionPressed(<span class="string">&quot;ui_left&quot;</span>) &amp;&amp; !Input.IsActionPressed(<span class="string">&quot;ui_right&quot;</span>))</span><br><span class="line">            || target.JumpRequest()</span><br><span class="line">            || !target.IsOnFloor()</span><br><span class="line">            )</span><br><span class="line">        &#123;</span><br><span class="line">            Exit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnExit</span>()</span> </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> cube <span class="keyword">in</span> cacheCubes)</span><br><span class="line">        &#123;</span><br><span class="line">            cube.Stop();</span><br><span class="line">        &#125;</span><br><span class="line">        GD.Print(<span class="string">&quot;Exit &quot;</span>, StateName);    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Tips: 这里<strong>为什么不让物体自己动</strong>? 而是要推动者维护一个推动列表呢？如果 IPushable 自己动，即使 <strong>Player 紧贴着 IPushable推动</strong>，IPushable仍然<strong>不能在每帧检测到有 Player 正在推它</strong>，这会导致 IPushable 移动时断断续续的（不清楚这是bug还是特性)</p>
+<h3 id="美化-添加进出口特效"><a href="#美化-添加进出口特效" class="headerlink" title="美化 - 添加进出口特效"></a>美化 - 添加进出口特效</h3><p>由于这本来是一个原型项目，所以只实现见简单特效即可（主要是花里胡哨的我也不会），Lens的进出口使用激光门（就是两束激光）</p>
+<p><strong>激光实现</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- RayCast2D</span><br><span class="line">    - Position2D</span><br><span class="line">        - Sprite</span><br><span class="line">    - CPUParticals2D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Tool</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Laser</span> : <span class="title">RayCast2D</span></span><br><span class="line">&#123;</span><br><span class="line">    Sprite sprite;</span><br><span class="line">    Position2D anchor;</span><br><span class="line">    <span class="built_in">float</span> default_length = <span class="number">580f</span>;</span><br><span class="line">    Vector2 target = Vector2.Right*<span class="number">10</span>;</span><br><span class="line">    CPUParticles2D articles;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Ready()</span><br><span class="line">    &#123;</span><br><span class="line">        anchor = GetNode&lt;Position2D&gt;(<span class="keyword">nameof</span>(Position2D));</span><br><span class="line">        sprite = anchor.GetNode&lt;Sprite&gt;(<span class="keyword">nameof</span>(Sprite));</span><br><span class="line">        Enabled = <span class="literal">true</span>;</span><br><span class="line">        articles = GetNode&lt;CPUParticles2D&gt;(<span class="string">&quot;LaserPartical&quot;</span>);</span><br><span class="line">        Scale = Vector2.One;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//  // Called every frame. &#x27;delta&#x27; is the elapsed time since the previous frame.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _PhysicsProcess(<span class="built_in">float</span> delta)</span><br><span class="line">    &#123;</span><br><span class="line">        anchor.Rotation = anchor.Position.AngleToPoint(CastTo) + Mathf.Pi;</span><br><span class="line">        <span class="built_in">float</span> dis;</span><br><span class="line">        <span class="keyword">if</span> (!Engine.EditorHint)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (IsColliding())</span><br><span class="line">            &#123;</span><br><span class="line">                target = GetCollisionPoint();</span><br><span class="line">                articles.GlobalPosition = GetCollisionPoint();</span><br><span class="line">                articles.Direction = GetCollisionNormal();</span><br><span class="line">                articles.Emitting = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123; </span><br><span class="line">                articles.Emitting = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            dis = ToLocal(target).Length();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">             dis = CastTo.Length();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        anchor.Scale = <span class="keyword">new</span> Vector2(dis / default_length, anchor.Scale.y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>激光使用了<a target="_blank" rel="noopener" href="https://godotshaders.com/shader/energy-beams/">Energy Beams - Godot Shaders</a> 的实现， 使用一个 Texture 表示一个激光，这种做法可以使用Shader 计算扰动，但是对于本题这种点到点激光，并且可能发生转动的情况下，还是很不方便，在计算<strong>起始&#x2F;结束点</strong>和激光 Sprite 的Scale 的关系时不太好计算（主要是 Sprite 只能通过 Scale 调整大小而不便指定 Rect 的 Size， 好像也可以,emmm）， 激光命中的粒子就随便弄一弄就好了。</p>
+<h3 id="一些思考核问题"><a href="#一些思考核问题" class="headerlink" title="一些思考核问题"></a>一些思考核问题</h3><p>在实现过程中遇到很多问题：</p>
+<ol>
+<li>被推动的箱子时主动移动还是被动移动?</li>
+<li>箱子使用 KinamicBody 还是RigidBody（能够模拟下落，抛，旋转）?</li>
+<li>箱子应该从内部移动还是外部移动?</li>
+<li>是否需要设计里世界物体Mask？（例如，红箱子只能显示红色物体，绿箱子只能显示绿物体，其实应该有Mask，这样可以增加关卡设计的多样性）</li>
+<li>是否应该设置里世界物体的显示时间？（可以增加该机制）</li>
+<li>Godot.Collections.Array 不能存放 C# 接口，会报错，不知道是 Bug还是什么？</li>
+<li>是否应该有其他多边形状的 Lens 和 里世界物体？ （应该有的）</li>
+<li>Lens 的矩形是否应该有很多个进出口？（为了方便机制设计，应该有，所以一个Lens有很多个 PolyShape）</li>
+<li>是否里世界物体应该高亮（应该的，为了区分里外物体，但是还没想好高亮应该怎么做？边缘发光，荧光，虚线还是整体发光？）</li>
+<li>是否应该区分Lens 的可推动部分和不可推动部分？（应该，有利于复杂关卡设计）</li>
+</ol>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/WindowFrame%E5%AE%9E%E7%8E%B0/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E6%97%A5%E4%B8%B9%E8%AF%BA%E5%A4%AB%E4%B8%BB%E4%B9%89%E7%9A%84%E5%B9%BD%E7%81%B5/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E7%85%A7%E5%89%94%E9%99%A4"><span class="toc-text">光照剔除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%A2%B0%E6%92%9E%E4%BD%93"><span class="toc-text">动态碰撞体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E7%AE%B1%E5%AD%90"><span class="toc-text">推箱子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BE%8E%E5%8C%96-%E6%B7%BB%E5%8A%A0%E8%BF%9B%E5%87%BA%E5%8F%A3%E7%89%B9%E6%95%88"><span class="toc-text">美化 - 添加进出口特效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83%E6%A0%B8%E9%97%AE%E9%A2%98"><span class="toc-text">一些思考核问题</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E9%87%8C%E4%B8%96%E7%95%8C + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E9%2587%258C%25E4%25B8%2596%25E7%2595%258C%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E9%87%8C%E4%B8%96%E7%95%8C/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

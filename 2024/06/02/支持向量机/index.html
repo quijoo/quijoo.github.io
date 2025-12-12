@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      支持向量机 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">支持向量机</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><a target="_blank" rel="noopener" href="http://xuaii.github.io/svm.html">svm.html</a></p>
+<h1 id="线性核SVM-和-高斯核SVM"><a href="#线性核SVM-和-高斯核SVM" class="headerlink" title="线性核SVM 和 高斯核SVM"></a>线性核SVM 和 高斯核SVM</h1><h1 id="SMO-算法解析"><a href="#SMO-算法解析" class="headerlink" title="SMO 算法解析"></a>SMO 算法解析</h1><h4 id="最优化目标"><a href="#最优化目标" class="headerlink" title="最优化目标"></a>最优化目标</h4><p>$$\max_{\alpha} &#x3D;\sum_{i&#x3D;1}^{m}\alpha_i -  \sum_{i&#x3D;1}^{m} \sum_{j&#x3D;1}^{m}\alpha_i\alpha_jy_iy_jx_i^Tx_j \tag{1}$$<br>$$\text{ s.t. } \qquad \alpha_i \ge 0,\quad \sum_{i&#x3D;1}^{N}\alpha_iy_i &#x3D; 1 \tag{2}$$</p>
+<h4 id="约束条件"><a href="#约束条件" class="headerlink" title="约束条件"></a>约束条件</h4><p>$$ $$</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><p><strong>我们可以先确定 两个$\alpha_i,\alpha_j$.</strong><br><strong>在例子中设$i&#x3D;1 , \quad j&#x3D;2$.</strong></p>
+<p><code>此时最大化目标</code>：<br>$$arg\max_{\alpha_1, \alpha_2}W(\alpha_1, \alpha_2) &#x3D; \alpha_1 + \alpha_2 - \frac{1}{2}K_{1,1}y_1^2\alpha_1^2 - \frac{1}{2}K_{2,2}y_2^2\alpha_2^2 - K_{1,2}y_1y_2\alpha_1\alpha_2 - y_1\alpha_1\sum_{i&#x3D;3}^{m}\alpha_iy_iK_{i,1} - y_2\alpha_2\sum_{i&#x3D;3}^{m}\alpha_iy_iK_{i,2} + C \tag{3}$$</p>
+<p><code>根据(2)</code><br>$$\alpha_1y_1 + \alpha_2y_2 &#x3D; -\sum_{i&#x3D;3}^{N}\alpha_iy_i &#x3D; \eta$$</p>
+<p><code>两边同时乘以</code>$y_1,由于y_i^2 &#x3D; 1$<br>$$\alpha_1 &#x3D; \eta y_1 - \alpha_2y_1y_2 \tag{4}$$</p>
+<p><code>令：</code><br>$$v_1 &#x3D; \sum^{N}<em>{i&#x3D;3}\alpha_iy_iK</em>{i,1}, \quad v_2 &#x3D; \sum^{N}<em>{i&#x3D;3}\alpha_iy_iK</em>{i,2} \tag{5}$$<br><code>将 (4), (5) 带入(3)</code><br>$$ W(\alpha_2) &#x3D; - \frac{1}{2}K_{1,1}(\eta - \alpha_2y_2)^2 - \frac{1}{2}K_{2,2}\alpha_2^2 - K_{1,2}y_2\alpha_2(\eta - \alpha_2y_2) - v_1(\eta - \alpha_2y_2) - v_2y_2\alpha_2 + \alpha_1 + \alpha_2 + C \tag{6}$$</p>
+<p><code>由于需要更新</code>$\alpha_2$<code>所以令</code>$\frac{dW}{d\alpha} &#x3D; 0$<br>$$\frac{\partial W(\alpha_2)}{\partial \alpha_2} &#x3D; -\alpha_2(K_{1,1} + K_{2,2} - 2K_{1,2}) + K_{1,1}\eta y_2 - K_{1,2}\eta y_2 + v_1y_2 - v_2y_2 - y_1y_2 + y_2^2 &#x3D; 0 \tag{7}$$</p>
+<hr>
+
+
+<p><code>对(7)式变形，使得</code>$\alpha_2^new$<code>能被</code>$\alpha_2^old$<code>表示(而不是用不方便的\eta)：</code><br><code>SVM预测值如下(该式子不需要保留所有的x，因为很多无关的x的alpha都为0，因此alpha需要初始化为0)：</code><br>$$f(x) &#x3D; \sum_{i&#x3D;1}^{N}\alpha_iy_iK(x_i,x) + b \tag{8}$$</p>
+<p><code>则v可以表示为：</code><br>$$ v_1 &#x3D; \sum^{N}<em>{i&#x3D;3}\alpha_iy_iK</em>{1,i} &#x3D; f(x_1) - \alpha_1y_1K_{1,1} - \alpha_2y_2K_{1,2} - b $$</p>
+<p>$$v_2 &#x3D; \sum^{N}<em>{i&#x3D;3}\alpha_iy_iK</em>{2,i} &#x3D; f(x_2) - \alpha_1y_1K_{1,2} - \alpha_2y_2K_{2,2} - b $$</p>
+<p><code>已知：</code><br>$$\alpha_1&#x3D; (\eta - \alpha_2y_2)y_2$$<br><code>可得到：</code><br>$$v_1 - v_2 &#x3D; f(x_1) - f(x_2) - K_{1,1}\eta + K_{1,2}\eta + \alpha_2y_2(K_{1,1}+K_{2,2}-2K_{1,2}) \tag{9}$$<br><code>将(9)带入(7):</code><br>$$\frac{\partial W(\alpha_2)}{\partial \alpha_2} &#x3D; -(K_{1,1} + K_{2,2} - 2K_{1,2})\alpha_2^{new} + (K_{1,1} + K_{2,2}- 2K_{1,2})\alpha_2^{old} + y_2(y_2 - y_1 + f(x_1) - f(x_2))$$</p>
+<hr>
+
+
+<p><code>记误差项</code>$E_i &#x3D; f(x_i) - y_i$</p>
+<p><code>令</code>$\theta &#x3D; K_{1,1,}+K_{2,2}-2K_{1,2}$<br><code>可以得到最终表达式：</code><br>$$\frac{\partial W(\alpha_2)}{\partial \alpha_2} &#x3D; -\theta\alpha_2^{new}+ \theta\alpha_2^{old}+y2(E_1-E_2) &#x3D; 0$$</p>
+<p><code>得到：</code><br>$$\alpha_2^{new} &#x3D; \alpha_2^{old}  + \frac{y_2(E_1- E_2)}{\theta} \tag{10}$$</p>
+<p><strong>到了这里，如果要更新参数，仅需计算E，和\theta</strong><br><strong>然后计算\alpha2</strong></p>
+<h4 id="原始解的修剪"><a href="#原始解的修剪" class="headerlink" title="原始解的修剪"></a>原始解的修剪</h4><p><strong>现在考虑约束条件</strong><br><strong>上面通过对一元函数求极值的方式更新了参数得到了</strong>$\alpha_2^{new,unclipped}$<br><strong>现在通过对原始解的修正得到</strong>$\alpha_2^{new,cilpped}$</p>
+<p>$$\alpha_2^{new,unclipped} &#x3D; \alpha_2^{old}  + \frac{y_2(E_1- E_2)}{\theta} \tag{10}$$</p>
+<p><code>约束条件（画图分析）：</code></p>
+<p>$if \quad y_1 \ne y_2 :$</p>
+<p>$$ 上界：\qquad L &#x3D; max(0, \quad \alpha_2^{old} - \alpha_1^{old})$$</p>
+<p>$$ 下界：\qquad H &#x3D; max(C, \quad C+\alpha_2^{old} - \alpha_1^{old})$$</p>
+<p>$elif \quad y_1 &#x3D; y_2 :$</p>
+<p>$$ 上界：\qquad L &#x3D; max(0, \quad \alpha_2^{old} + \alpha_1^{old} -C)$$</p>
+<p>$$ 下界：\qquad H &#x3D; max(C, \quad \alpha_2^{old} + \alpha_1^{old})$$</p>
+<p><code>更新参数都可以计算：</code>$\alpha_1^{new}$</p>
+<p><code>由：</code><br>$$\alpha_1^{old}y_1 + \alpha_2^{old}y_2 &#x3D; \alpha_1^{new}y_1 + \alpha_2^{new}y_2 $$</p>
+<p><code>得到：</code></p>
+<p>$$\alpha_1^{new} &#x3D; \alpha_1^{old} + y_1y_2(\alpha_2^{old} - \alpha_2^{new})$$</p>
+<p><code>最后由式(6.17)-&gt;(6.18)可得到：</code></p>
+<p>$$b &#x3D; \frac{1}{m}\sum_{s&#x3D;1}^{m}[1&#x2F;y_s - \sum_{m}^{i&#x3D;1}\alpha_iy_ix_i^Tx_s]$$</p>
+<h4 id="3-启发式选择变量"><a href="#3-启发式选择变量" class="headerlink" title="3.启发式选择变量"></a>3.启发式选择变量</h4><p>&nbsp;&nbsp;&nbsp;&nbsp;上述分析是在从N个变量中已经选出两个变量进行优化的方法，下面分析如何高效地选择两个变量进行优化，使得目标函数下降的最快。</p>
+<h5 id="第一个变量的选择"><a href="#第一个变量的选择" class="headerlink" title="第一个变量的选择"></a>第一个变量的选择</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;第一个变量的选择称为外循环，首先遍历整个样本集，选择违反KKT条件的$\alpha_i$作为第一个变量<br>&nbsp;&nbsp;&nbsp;&nbsp;接着依据相关规则选择第二个变量(见下面分析),对这两个变量采用上述方法进行优化。<br>&nbsp;&nbsp;&nbsp;&nbsp;当遍历完整个样本集后，遍历非边界样本$(0&lt;α_i&lt;C)$中违反KKT的$\alpha_i$作为第一个变量，同样依据相关规则选择第二个变量，对此两个变量进行优化。当遍历完非边界样本集后，再次回到遍历整个样本集中寻找，即在整个样本集与非边界样本集上来回切换，寻找违反KKT条件的αiαi作为第一个变量。直到遍历整个样本集后，没有违反KKT条件$\alpha_i$，然后退出。<br>&nbsp;&nbsp;&nbsp;&nbsp;边界上的样本对应的$\alpha_i &#x3D; 0$或者$\alpha_i &#x3D; C$，在优化过程中很难变化，然而非边界样本$0&lt;α_i&lt;C$会随着对其他变量的优化会有大的变化。</p>
+<hr>
+<center>KTT条件</center>
+
+<p>$$\alpha_i &#x3D; 0 \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b)\ge1 $$<br>$$\alpha_i &#x3D; C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b)\le 1 $$<br>$$0 \lt \alpha_i \lt C \Longleftrightarrow y^{(i)}(w^Tx^{(i)}+b) &#x3D;1 $$</p>
+<hr>
+
+
+<h5 id="第二个变量的选择"><a href="#第二个变量的选择" class="headerlink" title="第二个变量的选择"></a>第二个变量的选择</h5><p>&nbsp;&nbsp;&nbsp;&nbsp;SMO称第二个变量的选择过程为内循环，假设在外循环中找个第一个变量记为$\alpha_1$，第二个变量的选择希望能使$\alpha_2$有较大的变化，由于$\alpha_2$是依赖于$|E1−E2|$,当$E1$为正时，那么选择最小的$Ei$作为$E2$,如果$E1$为负，选择最大$Ei$作为$E2$，通常为每个样本的$Ei$保存在一个列表中，选择最大的$|E1−E2|$来近似最大化步长。<br>&nbsp;&nbsp;&nbsp;&nbsp;有时按照上述的启发式选择第二个变量，不能够使得函数值有足够的下降，这时按下述步骤:</p>
+<pre><code>1.首先在非边界集上选择能够使函数值足够下降的样本作为第二个变量，
+2.如果非边界集上没有，则在整个样本集上选择第二个变量，
+3.如果整个样本集依然不存在，则重新选择第一个变量。
+</code></pre>
+<p><strong>参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29212107">机器学习算法实践-SVM中的SMO算法</a></p>
+<p><em>详细推导的SMO更新参数和修剪结果的公式， 优化算法效率：例如只需最后计算b。。。。</em></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26514613">浅谈最优化问题的KKT条件</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> roc_curve, auc, accuracy_score, confusion_matrix, classification_report, roc_auc_score</span><br><span class="line">np.random.seed(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义训练集"><a href="#定义训练集" class="headerlink" title="定义训练集"></a>定义训练集</h3><p>$$X_{train} \in \R^{n \times m}$$</p>
+<p>$$x_i \in \R^n,即每一个样本有n个特征$$</p>
+<p>$$label \in {-1,1},二分类问题$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="多种核函数"><a href="#多种核函数" class="headerlink" title="多种核函数"></a>多种核函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">LinearKernel</span>(<span class="params">x_i, x_j</span>):</span><br><span class="line">    <span class="keyword">if</span> x_i.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_i is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> x_j.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_j is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> np.dot(x_i.T, x_j)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">GaussKernel</span>(<span class="params">x_i, x_j, sigmoid</span>):</span><br><span class="line">    <span class="keyword">if</span> x_i.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_i is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> x_j.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_j is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> sigmoid &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;sigmoid must be a positive number&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> np.exp(-np.dot((x_i - x_j).T, (x_i - x_j))/(<span class="number">2</span> * sigmoid**<span class="number">2</span>))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">PolyKernel</span>(<span class="params">x_i, x_j, d</span>):</span><br><span class="line">    <span class="keyword">if</span> x_i.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_i is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> x_j.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_j is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;d must be a Semi-positive number&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> LinearKernel(x_i, x_j)**d</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">LaplaceKernel</span>(<span class="params">x_i, x_j, s</span>):</span><br><span class="line">    <span class="keyword">if</span> x_i.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_i is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> x_j.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_j is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> s &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;sigmoid must be a positive number&quot;</span>)</span><br><span class="line">    <span class="comment"># print(np.exp(-np.sqrt(np.dot((x_i - x_j).T, (x_i - x_j))) / sigmoid))</span></span><br><span class="line">    <span class="keyword">return</span> np.exp(-np.sqrt(np.dot((x_i - x_j).T, (x_i - x_j))) / s)[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">SigmoidKernel</span>(<span class="params">x_i, x_j, beta, theta</span>):</span><br><span class="line">    <span class="keyword">if</span> x_i.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_i is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> x_j.shape[<span class="number">1</span>] != <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;x_j is wrong shape!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> theta &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;theta must be a negetive number&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> beta &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&quot;theta must be a positive number&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> np.tanh(beta * LinearKernel(x_i, x_j) + theta)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">K</span>(<span class="params">x_i, x_j, kernel = <span class="string">&quot;linear&quot;</span>, s = <span class="number">.5</span>, beta = <span class="number">1</span>, theta = -<span class="number">1</span>, d = <span class="number">2</span></span>):</span><br><span class="line">    <span class="comment"># print(x_i.shape, x_j.shape)</span></span><br><span class="line">    kernel = kernel.lower()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> kernel == <span class="string">&#x27;linear&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> LinearKernel(x_i, x_j)</span><br><span class="line">        <span class="keyword">elif</span> kernel == <span class="string">&#x27;gauss&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> GaussKernel(x_i, x_j, s)</span><br><span class="line">        <span class="keyword">elif</span> kernel == <span class="string">&#x27;poly&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> PolyKernel(x_i, x_j, d)</span><br><span class="line">        <span class="keyword">elif</span> kernel == <span class="string">&#x27;laplace&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> LaplaceKernel(x_i, x_j, s)</span><br><span class="line">        <span class="keyword">elif</span> kernel == <span class="string">&#x27;sigmoid&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> SigmoidKernel(x_i, x_j, beta, theta)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> err:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;An exception happened: &#x27;</span> + <span class="built_in">str</span>(err))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    x_i = np.ones((<span class="number">10</span>,<span class="number">1</span>))</span><br><span class="line">    x_j = np.random.randn(<span class="number">10</span>,<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(np.exp(-np.sqrt(np.dot((x_i - x_j).T, (x_i - x_j))) / <span class="number">1</span>))</span><br><span class="line">    <span class="built_in">print</span>(K(x_i,x_j,kernel=<span class="string">&quot;Laplace&quot;</span>, s=<span class="number">1</span>))</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<pre><code>[[0.005973]]
+0.005973003723489288
+</code></pre>
+<h3 id="生成同心圆数据"><a href="#生成同心圆数据" class="headerlink" title="生成同心圆数据"></a>生成同心圆数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>(<span class="params"><span class="built_in">type</span> = <span class="string">&quot;circle&quot;</span></span>):</span><br><span class="line">    </span><br><span class="line">    x = np.random.uniform(-<span class="number">1</span>,<span class="number">1</span>,(<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    y = np.random.uniform(-<span class="number">1</span>,<span class="number">1</span>,(<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    x_train = np.c_[x,y].T</span><br><span class="line">    <span class="built_in">print</span>(x_train.shape) </span><br><span class="line">    label_train = np.ones((<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    mask = (x**<span class="number">2</span> + y**<span class="number">2</span> ) &lt; <span class="number">.5</span></span><br><span class="line">    label_train[mask] = -<span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    x1 = np.random.uniform(-<span class="number">1</span>,<span class="number">1</span>,(<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    y1 = np.random.uniform(-<span class="number">1</span>,<span class="number">1</span>,(<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    x_test = np.c_[x1,y1].T</span><br><span class="line">    <span class="built_in">print</span>(x_test.shape) </span><br><span class="line">    label_test = np.ones((<span class="number">100</span>,<span class="number">1</span>))</span><br><span class="line">    mask = (x1**<span class="number">2</span> + y1**<span class="number">2</span> ) &lt; <span class="number">.5</span></span><br><span class="line">    label_test[mask] = -<span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> x_train, label_train, x_test, label_test</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    x_train, label_train, x_test, label_test = load()</span><br><span class="line">    <span class="built_in">print</span>(x_train.shape, label_train.shape, x_test.shape, label_test.shape)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>(2, 100)
+(2, 100)
+(2, 100) (100, 1) (2, 100) (100, 1)
+</code></pre>
+<h3 id="参照第一个SMO推导笔记需要实现以下功能："><a href="#参照第一个SMO推导笔记需要实现以下功能：" class="headerlink" title="参照第一个SMO推导笔记需要实现以下功能："></a>参照第一个SMO推导笔记需要实现以下功能：</h3><ul>
+<li>初始化参数（主要是\alpha）</li>
+<li>由于采用缓存（用一个列表记录）所有的$E_i &#x3D; y_i - f(x_i)$<ul>
+<li>所以每一次更新参数$\alpha$后都需要更新$E_i, E_j$</li>
+</ul>
+</li>
+<li>因为由KKT条件约束，所以需要对最后的结果进行修剪 所以需要实现 clip()</li>
+<li>$f(index_i)用于实现对训练集的某一个特征向量计算预测值$</li>
+<li>$predict(x_i)用于预测任意给定的特征向量x_i$</li>
+<li>select()函数的内循环和外循环用于选择最不满足KKT条件的并且能够使得更新效果最明显的$\alpha_i \quad \alpha_j$</li>
+<li>loss()用于计算E</li>
+<li>update_a2()用于更新$\alpha_2$</li>
+<li>update_a1()使用$\alpha_2$和$\alpha_1^{old}$更新$\alpha_1$</li>
+<li>SMO()是smo算法的主循环</li>
+</ul>
+<p><strong>以上函数与SMO算法紧密相关，为了方便参数，数据集，的传输将他们放到一个SMO类中实现</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SMO</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, x, y, kernel = <span class="string">&quot;Laplace&quot;</span>, C=<span class="number">10</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.x = copy.deepcopy(x)</span><br><span class="line">        <span class="variable language_">self</span>.y = copy.deepcopy(y)</span><br><span class="line">        <span class="variable language_">self</span>.m = x.shape[<span class="number">1</span>]</span><br><span class="line">        <span class="variable language_">self</span>.n = x.shape[<span class="number">0</span>]</span><br><span class="line">        <span class="variable language_">self</span>.kernel = kernel</span><br><span class="line">        <span class="variable language_">self</span>.C = C</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">init</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># self.w = np.random.randn(self.n, 1)</span></span><br><span class="line">        <span class="variable language_">self</span>.b = np.zeros((<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">        <span class="variable language_">self</span>.a = np.zeros((<span class="variable language_">self</span>.m, <span class="number">1</span>))</span><br><span class="line">        E = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="variable language_">self</span>.m):</span><br><span class="line">            E.append(<span class="variable language_">self</span>.loss(i))</span><br><span class="line">        <span class="variable language_">self</span>.E = E</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 每次更新参数后需要更新E</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">updateE</span>(<span class="params">self, i, j</span>):</span><br><span class="line">        <span class="variable language_">self</span>.E[i] = <span class="variable language_">self</span>.loss(i)</span><br><span class="line">        <span class="variable language_">self</span>.E[j] = <span class="variable language_">self</span>.loss(j)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">clip</span>(<span class="params">self, index_1, index_2, old_1, old_2</span>):</span><br><span class="line">        <span class="comment"># get H, L</span></span><br><span class="line">        alpha = <span class="variable language_">self</span>.a[index_2,:][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.y[index_1, :] != <span class="variable language_">self</span>.y[index_2, :]:</span><br><span class="line">            L = <span class="built_in">max</span>(<span class="number">0.0</span>, old_2[<span class="number">0</span>] - old_1[<span class="number">0</span>])</span><br><span class="line">            H = <span class="built_in">max</span>(<span class="variable language_">self</span>.C, <span class="variable language_">self</span>.C + old_2[<span class="number">0</span>] - old_1[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># print(&quot;----------&quot; , self.C, old_2[0], self.C + old_2[0],&#x27;-------------&#x27;)</span></span><br><span class="line">            L = <span class="built_in">max</span>(<span class="number">0.0</span>, old_2[<span class="number">0</span>] + old_1[<span class="number">0</span>] - <span class="variable language_">self</span>.C)</span><br><span class="line">            H = <span class="built_in">max</span>(<span class="variable language_">self</span>.C, old_2[<span class="number">0</span>] + old_1[<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> alpha &lt; L:</span><br><span class="line">            <span class="keyword">return</span> L</span><br><span class="line">        <span class="keyword">elif</span> alpha &gt; H:</span><br><span class="line">            <span class="keyword">return</span> H</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> alpha </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">self, x_index</span>):</span><br><span class="line">        k = np.zeros(<span class="variable language_">self</span>.y.shape)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="variable language_">self</span>.m):</span><br><span class="line">            k[i,:] = copy.deepcopy(K(<span class="variable language_">self</span>.x[:,i].reshape(-<span class="number">1</span>,<span class="number">1</span>), <span class="variable language_">self</span>.x[:,x_index].reshape(-<span class="number">1</span>,<span class="number">1</span>), kernel = <span class="variable language_">self</span>.kernel))</span><br><span class="line">        <span class="keyword">return</span> np.<span class="built_in">sum</span>(<span class="variable language_">self</span>.a * <span class="variable language_">self</span>.y * k)+<span class="variable language_">self</span>.b</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 此处是选择第二个变量，第一个变量仅需要无脑便利就好了</span></span><br><span class="line">    <span class="comment"># 需要传入第一个变量的index以计算E_1</span></span><br><span class="line">    <span class="comment"># 是否可以将select写成一个生成器？</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">select</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="variable language_">self</span>.m):</span><br><span class="line">            <span class="comment"># label用于标志是否违反KKT</span></span><br><span class="line">            label = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">            temp = <span class="variable language_">self</span>.y[i, :] * <span class="variable language_">self</span>.f(i)</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.a[i, :] == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> temp &lt; <span class="number">1</span> :</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">elif</span> <span class="number">0</span> &lt; <span class="variable language_">self</span>.a[i, :] <span class="keyword">and</span> <span class="variable language_">self</span>.a[i, :] &lt; <span class="variable language_">self</span>.C:</span><br><span class="line">                <span class="keyword">if</span> temp &gt; <span class="number">1</span>:</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> temp != <span class="number">1</span>:</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果违反KKT条件，进入内循环选择第二个a</span></span><br><span class="line">            <span class="keyword">if</span> label == <span class="literal">True</span> <span class="keyword">and</span> <span class="variable language_">self</span>.E[i] &lt;= <span class="number">0</span>:</span><br><span class="line">                j = np.argmax(np.array(<span class="variable language_">self</span>.E))</span><br><span class="line">                <span class="keyword">yield</span> i,j</span><br><span class="line">            <span class="keyword">if</span> label == <span class="literal">True</span> <span class="keyword">and</span> <span class="variable language_">self</span>.E[i] &gt;<span class="number">0</span>:</span><br><span class="line">                j = np.argmin(np.array(<span class="variable language_">self</span>.E))</span><br><span class="line">                <span class="keyword">yield</span> i,j</span><br><span class="line">            </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 需要得到边界变量的下标值</span></span><br><span class="line">        boolen = (<span class="variable language_">self</span>.a &gt; <span class="number">0</span>) &amp; (<span class="variable language_">self</span>.a &lt; <span class="variable language_">self</span>.C)</span><br><span class="line">        edgeVar = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(boolen)):</span><br><span class="line">            <span class="keyword">if</span> boolen[i] == <span class="literal">True</span>:</span><br><span class="line">                edgeVar.append(i)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> edgeVar:</span><br><span class="line">            <span class="comment"># label用于标志是否违反KKT</span></span><br><span class="line">            label = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">            temp = <span class="variable language_">self</span>.y[i, :] * <span class="variable language_">self</span>.f(i)</span><br><span class="line">            <span class="keyword">if</span> <span class="variable language_">self</span>.a[i, :] == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> temp &lt; <span class="number">1</span> :</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">elif</span> <span class="number">0</span> &lt; <span class="variable language_">self</span>.a[i, :] <span class="keyword">and</span> <span class="variable language_">self</span>.a[i, :] &lt; <span class="variable language_">self</span>.C:</span><br><span class="line">                <span class="keyword">if</span> temp &gt; <span class="number">1</span>:</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> temp != <span class="number">1</span>:</span><br><span class="line">                    label = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果违反KKT条件，进入内循环选择第二个a</span></span><br><span class="line">            <span class="keyword">if</span> label == <span class="literal">True</span> <span class="keyword">and</span> <span class="variable language_">self</span>.E[i] &lt;= <span class="number">0</span>:</span><br><span class="line">                j = np.argmax(np.array(<span class="variable language_">self</span>.E))</span><br><span class="line">                <span class="keyword">yield</span> i,j</span><br><span class="line">            <span class="keyword">if</span> label == <span class="literal">True</span> <span class="keyword">and</span> <span class="variable language_">self</span>.E[i] &gt;<span class="number">0</span>:</span><br><span class="line">                j = np.argmin(np.array(<span class="variable language_">self</span>.E))</span><br><span class="line">                <span class="keyword">yield</span> i,j</span><br><span class="line">            </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># E_i = f(x_i) - y_i</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">loss</span>(<span class="params">self, index</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.f(index) - <span class="variable language_">self</span>.y[index, :]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">update_a2</span>(<span class="params">self, alpha2_old, index_1, index_2</span>):</span><br><span class="line">        theta = K(<span class="variable language_">self</span>.x[:,index_1].reshape(-<span class="number">1</span>,<span class="number">1</span>), <span class="variable language_">self</span>.x[:,index_1].reshape(-<span class="number">1</span>,<span class="number">1</span>), kernel = <span class="variable language_">self</span>.kernel) + K(<span class="variable language_">self</span>.x[:,index_2].reshape(-<span class="number">1</span>,<span class="number">1</span>), <span class="variable language_">self</span>.x[:,index_2].reshape(-<span class="number">1</span>,<span class="number">1</span>), kernel = <span class="variable language_">self</span>.kernel) - <span class="number">2</span>*K(<span class="variable language_">self</span>.x[:,index_1].reshape(-<span class="number">1</span>,<span class="number">1</span>), <span class="variable language_">self</span>.x[:,index_2].reshape(-<span class="number">1</span>,<span class="number">1</span>), kernel = <span class="variable language_">self</span>.kernel)</span><br><span class="line">        <span class="keyword">if</span> theta &lt; <span class="number">0.001</span> <span class="keyword">and</span>  theta &gt;= <span class="number">0</span>:</span><br><span class="line">             theta = <span class="number">0.001</span></span><br><span class="line">        <span class="keyword">if</span> theta &gt; -<span class="number">0.001</span> <span class="keyword">and</span> theta &lt;<span class="number">0</span>:</span><br><span class="line">            theta = <span class="number">0.001</span></span><br><span class="line">            </span><br><span class="line">        dE = <span class="variable language_">self</span>.E[index_1] - <span class="variable language_">self</span>.E[index_2]</span><br><span class="line">        <span class="comment"># print(&quot;in update_a2 theta:&#123;&#125;, dE:&#123;&#125;, y2:&#123;&#125;&quot;.format(theta, dE, self.y[index_2]))</span></span><br><span class="line">        <span class="keyword">return</span> alpha2_old + (<span class="variable language_">self</span>.y[index_2] * dE) / theta </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">update_a1</span>(<span class="params">self, alpha1_old, alpha2_old, alpha2_new, index_1, index_2</span>):</span><br><span class="line">        <span class="keyword">return</span> alpha1_old + <span class="variable language_">self</span>.y[index_1] * <span class="variable language_">self</span>.y[index_2] * (alpha2_old - alpha2_new)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">SMO</span>(<span class="params">self, maxtimes</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, maxtimes):</span><br><span class="line">            <span class="keyword">if</span> i % <span class="number">10</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;this is &#123;&#125;th loop.&quot;</span>.<span class="built_in">format</span>(i))</span><br><span class="line">            <span class="keyword">for</span> i, j <span class="keyword">in</span> <span class="variable language_">self</span>.select():</span><br><span class="line">                temp = copy.deepcopy(<span class="variable language_">self</span>.a[j])</span><br><span class="line">                <span class="variable language_">self</span>.a[j] = <span class="variable language_">self</span>.update_a2(<span class="variable language_">self</span>.a[j], i, j)</span><br><span class="line"></span><br><span class="line">                <span class="variable language_">self</span>.a[j] = <span class="variable language_">self</span>.clip(i, j, <span class="variable language_">self</span>.a[i], temp)</span><br><span class="line"></span><br><span class="line">                <span class="variable language_">self</span>.a[i] = <span class="variable language_">self</span>.update_a1(<span class="variable language_">self</span>.a[i], temp, <span class="variable language_">self</span>.a[j], i, j)</span><br><span class="line"></span><br><span class="line">                <span class="variable language_">self</span>.updateE(i, j)</span><br><span class="line">        <span class="comment"># 更新b</span></span><br><span class="line">        <span class="variable language_">self</span>.b = np.<span class="built_in">sum</span>(<span class="number">1</span>/<span class="variable language_">self</span>.y)/<span class="variable language_">self</span>.m</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="variable language_">self</span>.m):</span><br><span class="line">            <span class="variable language_">self</span>.b -= (<span class="variable language_">self</span>.f(i)/<span class="variable language_">self</span>.m)</span><br><span class="line">        <span class="built_in">print</span>(<span class="variable language_">self</span>.b)    </span><br><span class="line">            </span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, x</span>):</span><br><span class="line">        k = np.zeros(<span class="variable language_">self</span>.y.shape)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="variable language_">self</span>.m):</span><br><span class="line">            k[i,:] = copy.deepcopy(K(<span class="variable language_">self</span>.x[:,i].reshape(-<span class="number">1</span>,<span class="number">1</span>), x.reshape(-<span class="number">1</span>,<span class="number">1</span>), kernel = <span class="variable language_">self</span>.kernel))</span><br><span class="line">        <span class="comment"># return k</span></span><br><span class="line">        <span class="keyword">return</span> (np.<span class="built_in">sum</span>(<span class="variable language_">self</span>.a * <span class="variable language_">self</span>.y * k) + <span class="variable language_">self</span>.b)</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predictAll</span>(<span class="params">self, x_test</span>):</span><br><span class="line">        <span class="comment"># get prected y</span></span><br><span class="line">        y_pred = np.zeros(y_test.shape)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, x_test.shape[<span class="number">1</span>]):</span><br><span class="line">            y_pred[i, :] = <span class="variable language_">self</span>.predict(x_test[:, i].reshape(<span class="number">2</span>, -<span class="number">1</span>))</span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate</span>(<span class="params">y_t, y_p</span>):</span><br><span class="line">    </span><br><span class="line">    y_test = copy.deepcopy(y_t)</span><br><span class="line">    y_pred = copy.deepcopy(y_p)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The roc_auc_score is &#123;&#125;&quot;</span>.<span class="built_in">format</span>(roc_auc_score(y_test, y_pred)))    </span><br><span class="line">    tpr,fpr,thresholds = roc_curve(y_test,y_pred)</span><br><span class="line">    plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">    plt.plot(fpr, tpr)</span><br><span class="line">    plt.xlim([<span class="number">0.0</span>, <span class="number">1.0</span>])</span><br><span class="line">    plt.ylim([<span class="number">0.0</span>, <span class="number">1.0</span>])</span><br><span class="line">    plt.title(<span class="string">&#x27;ROC curve for diabetes classifier&#x27;</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;False Positive Rate (1 - Specificity)&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;True Positive Rate (Sensitivity)&#x27;</span>)</span><br><span class="line">    plt.grid(<span class="literal">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># mean = np.sum(y_pred)/y_pred.shape[0]</span></span><br><span class="line">    y_pred[(y_pred &lt;  <span class="number">0</span>)] = -<span class="number">1</span></span><br><span class="line">    y_pred[(y_pred &gt;= <span class="number">0</span>)] =  <span class="number">1</span></span><br><span class="line">    <span class="comment"># plt.scatter(x_test[0, :], x_test[1, :], c = y_pred[:, 0])</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;The accuracy is &#123;&#125;&quot;</span>.<span class="built_in">format</span>(accuracy_score(y_test[:,<span class="number">0</span>], y_pred[:,<span class="number">0</span>])))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 计算召回， 查全率， 查准率 。。。。</span></span><br><span class="line">    target_names = [<span class="string">&#x27;class0&#x27;</span>,<span class="string">&#x27;class1&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span>(classification_report(y_test,y_pred,target_names = target_names))</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">draw_svm</span>(<span class="params">smo</span>):</span><br><span class="line">    xx, yy = np.meshgrid(np.arange(-<span class="number">1</span>, <span class="number">1</span>, <span class="number">0.01</span>), np.arange(-<span class="number">1</span>, <span class="number">1</span>, <span class="number">0.01</span>))</span><br><span class="line">    zz = np.zeros((<span class="number">200</span>, <span class="number">200</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">200</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">200</span>):</span><br><span class="line">            temp = np.array([xx[i, j], yy[i, j]]).reshape(<span class="number">2</span>, -<span class="number">1</span>)</span><br><span class="line">            res = smo.predict(temp)</span><br><span class="line">            <span class="comment"># print(res)</span></span><br><span class="line">            zz[i, j] = res</span><br><span class="line">            <span class="comment"># print(zz[i, j])</span></span><br><span class="line">    zz[(zz &lt; <span class="number">0</span>)] = -<span class="number">1</span></span><br><span class="line">    zz[(zz &gt;= <span class="number">0</span>)] = <span class="number">1</span></span><br><span class="line">    plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">    plt.contourf(xx, yy, zz)</span><br><span class="line">    <span class="comment"># # print(x[0,:].shape, x[1,:].shape, y.shape)</span></span><br><span class="line">    plt.scatter(smo.x[<span class="number">0</span>,:].reshape(<span class="number">1</span>, -<span class="number">1</span>), smo.x[<span class="number">1</span>,:].reshape(<span class="number">1</span>, -<span class="number">1</span>), c = <span class="number">0</span> - smo.y.T)</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><ul>
+<li>此处生成同心圆数据，以区别线性核和非线性核之间的区别</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x_train, y_train, x_test, y_test = load()</span><br><span class="line"><span class="comment"># plt.scatter(x_train[0, :], x_train[1, :], c = y_train[:, 0])</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>(2, 100)
+(2, 100)
+</code></pre>
+<h3 id="使用高斯核的SVM"><a href="#使用高斯核的SVM" class="headerlink" title="使用高斯核的SVM"></a>使用高斯核的SVM</h3><ul>
+<li>此处$\sigma &#x3D; 0.5$,取值为1时，准确率就很低了，不知道怎么回事（先补一下核函数更多的技术了，  狗头.jpg）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">smo = SMO(x_train, y_train, C = <span class="number">2</span>, kernel = <span class="string">&quot;gauss&quot;</span>)</span><br><span class="line">smo.init()</span><br><span class="line">smo.SMO(<span class="number">110</span>)</span><br><span class="line">y_pred = smo.predictAll(x_test)</span><br><span class="line">evaluate(y_test, y_pred)</span><br><span class="line">draw_svm(smo)</span><br></pre></td></tr></table></figure>
+
+<pre><code>this is 0th loop.
+this is 10th loop.
+this is 20th loop.
+this is 30th loop.
+this is 40th loop.
+this is 50th loop.
+this is 60th loop.
+this is 70th loop.
+this is 80th loop.
+this is 90th loop.
+this is 100th loop.
+1.0542578147143928
+The roc_auc_score is 0.982048143614851
+The accuracy is 0.89
+              precision    recall  f1-score   support
+
+      class0       0.80      1.00      0.89        43
+      class1       1.00      0.81      0.89        57
+
+    accuracy                           0.89       100
+   macro avg       0.90      0.90      0.89       100
+weighted avg       0.91      0.89      0.89       100
+</code></pre>
+<p><img src="C:/Users/herrn/Downloads/183918/output_20_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用线性核的SVM"><a href="#使用线性核的SVM" class="headerlink" title="使用线性核的SVM"></a>使用线性核的SVM</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">smo = SMO(x_train, y_train, C = <span class="number">2</span>, kernel = <span class="string">&quot;linear&quot;</span>)</span><br><span class="line">smo.init()</span><br><span class="line">smo.SMO(<span class="number">110</span>)</span><br><span class="line">y_pred = smo.predictAll(x_test)</span><br><span class="line">evaluate(y_test, y_pred)</span><br><span class="line">draw_svm(smo)</span><br></pre></td></tr></table></figure>
+
+<pre><code>this is 0th loop.
+this is 10th loop.
+this is 20th loop.
+this is 30th loop.
+this is 40th loop.
+this is 50th loop.
+this is 60th loop.
+this is 70th loop.
+this is 80th loop.
+this is 90th loop.
+this is 100th loop.
+0.27041462716608683
+The roc_auc_score is 0.4618523051815585
+The accuracy is 0.48
+              precision    recall  f1-score   support
+
+      class0       0.41      0.49      0.45        43
+      class1       0.55      0.47      0.51        57
+
+    accuracy                           0.48       100
+   macro avg       0.48      0.48      0.48       100
+weighted avg       0.49      0.48      0.48       100
+</code></pre>
+<p><img src="C:/Users/herrn/Downloads/183918/output_23_1.png" alt="png"></p>
+<h3 id="调用之前写过的决策树C4-5"><a href="#调用之前写过的决策树C4-5" class="headerlink" title="调用之前写过的决策树C4.5"></a>调用之前写过的决策树C4.5</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> dt <span class="keyword">import</span> buildTree, Node, predictAll, predict, draw_tree</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">X_train = np.r_[x_train, y_train.T]</span><br><span class="line">X_train = pd.DataFrame(X_train.T, columns=[<span class="string">&quot;x&quot;</span>,<span class="string">&#x27;y&#x27;</span>,<span class="string">&quot;label&quot;</span>])</span><br><span class="line">X_test = np.r_[x_test, y_test.T]</span><br><span class="line">X_test = pd.DataFrame(X_test.T, columns=[<span class="string">&quot;x&quot;</span>,<span class="string">&#x27;y&#x27;</span>,<span class="string">&quot;label&quot;</span>])</span><br><span class="line"></span><br><span class="line">Y_test = np.array(<span class="built_in">list</span>(X_test[<span class="string">&quot;label&quot;</span>])).reshape(-<span class="number">1</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root = Node(Dataset=X_train, attrList = [<span class="string">&#x27;x&#x27;</span>,<span class="string">&#x27;y&#x27;</span>])</span><br><span class="line">root = buildTree(root)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Y_pred = predictAll(root ,X_test)</span><br><span class="line">evaluate(Y_test, Y_pred)</span><br><span class="line">draw_tree(root)</span><br><span class="line">plt.scatter(X_train[<span class="string">&quot;x&quot;</span>], X_train[<span class="string">&quot;y&quot;</span>], c = <span class="number">0</span> - X_train[<span class="string">&quot;label&quot;</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>The roc_auc_score is 0.7105263157894737
+The accuracy is 0.67
+              precision    recall  f1-score   support
+
+      class0       0.57      1.00      0.72        43
+      class1       1.00      0.42      0.59        57
+
+    accuracy                           0.67       100
+   macro avg       0.78      0.71      0.66       100
+weighted avg       0.81      0.67      0.65       100
+</code></pre>
+<p><img src="C:/Users/herrn/Downloads/183918/output_28_1.png" alt="png"></p>
+<pre><code>&lt;matplotlib.collections.PathCollection at 0x7f523e323310&gt;
+</code></pre>
+<p><img src="C:/Users/herrn/Downloads/183918/output_28_3.png" alt="png"></p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
+<li>对于同心圆这种线性不可分的数据，使用linear kernel只能得到约50&#x2F;100的准确度</li>
+<li>使用决策树，这里由于决策变量只有x，y所以，这里的决策树虽多两层，对于特征向量较小的数据集不友好</li>
+<li>使用拉普拉斯核（测试时用的拉普拉斯核，准确率略高于高斯核）   或者     高斯核在该种线性不可分的数据集中起到了很好的升维作用</li>
+<li>使用神经网络可以得到很好的效果（在神经网络实现的时候，测试过该数据集，随着层数的增加，能达到99&#x2F;100的准确率）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow==<span class="number">2.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>Cannot run import tensorflow because of system compatibility. AI Studio prepared an entire environment based on PaddlePaddle already. Please use PaddlePaddle to build your own model or application.
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/Godot%E4%BA%A4%E4%BA%92%E6%B0%B4/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E6%A0%B8SVM-%E5%92%8C-%E9%AB%98%E6%96%AF%E6%A0%B8SVM"><span class="toc-text">线性核SVM 和 高斯核SVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SMO-%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="toc-text">SMO 算法解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="toc-text">最优化目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E6%9D%A1%E4%BB%B6"><span class="toc-text">约束条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86"><span class="toc-text">算法原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%A7%8B%E8%A7%A3%E7%9A%84%E4%BF%AE%E5%89%AA"><span class="toc-text">原始解的修剪</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%90%AF%E5%8F%91%E5%BC%8F%E9%80%89%E6%8B%A9%E5%8F%98%E9%87%8F"><span class="toc-text">3.启发式选择变量</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">第一个变量的选择</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%8F%98%E9%87%8F%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">第二个变量的选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E9%9B%86"><span class="toc-text">定义训练集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%A7%8D%E6%A0%B8%E5%87%BD%E6%95%B0"><span class="toc-text">多种核函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%90%8C%E5%BF%83%E5%9C%86%E6%95%B0%E6%8D%AE"><span class="toc-text">生成同心圆数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E7%85%A7%E7%AC%AC%E4%B8%80%E4%B8%AASMO%E6%8E%A8%E5%AF%BC%E7%AC%94%E8%AE%B0%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%E4%BB%A5%E4%B8%8B%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="toc-text">参照第一个SMO推导笔记需要实现以下功能：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">导入数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%A0%B8%E7%9A%84SVM"><span class="toc-text">使用高斯核的SVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%BA%BF%E6%80%A7%E6%A0%B8%E7%9A%84SVM"><span class="toc-text">使用线性核的SVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E4%B9%8B%E5%89%8D%E5%86%99%E8%BF%87%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91C4-5"><span class="toc-text">调用之前写过的决策树C4.5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

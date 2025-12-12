@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      红蓝眼睛问题的谬误.md 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">红蓝眼睛问题的谬误.md</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="红蓝眼睛问题的谬误"><a href="#红蓝眼睛问题的谬误" class="headerlink" title="红蓝眼睛问题的谬误"></a>红蓝眼睛问题的谬误</h1><p>华人数学家陶哲轩曾经设计了这么一个有趣的思维实验：</p>
+<ul>
+<li>一个村子里有 100 聪明人；</li>
+<li>100 人中，有 5 人眼睛是红色的，其余 95 人的眼睛是蓝色的；</li>
+<li>村子里禁止讨论「眼睛颜色」这个话题；</li>
+<li>通过任何方式知道自己眼睛颜色的人，第二天必须在村子中心的广场上公开自杀。<br>现在有一个路过的外乡人看到村子之后，公开说了这么一句话：「村子里存在红眼睛的人」。然后，5 天后，村子里红眼睛的人就在村子中心的广场上集体自杀了。</li>
+</ul>
+<p>这篇文章讨论这个有趣的思维实验。</p>
+<h2 id="自杀原因-广为流传的版本"><a href="#自杀原因-广为流传的版本" class="headerlink" title="自杀原因(广为流传的版本)"></a>自杀原因(广为流传的版本)</h2><h5 id="只有-1-只红眼睛"><a href="#只有-1-只红眼睛" class="headerlink" title="只有 1 只红眼睛"></a>只有 1 只红眼睛</h5><p>首先我们假设，村子里有 99 人眼睛是蓝色的，只有 1 人眼睛是红色的。我们记他为 A。在这种情况下，外乡人公开宣布「村子里存在红眼睛的人」。于是：</p>
+<ul>
+<li>在外乡人离开的当天，A 发现村子里其他人的眼睛都不是红色的，那么自己的眼睛肯定是红色的。因此，</li>
+<li>在外乡人离开后的第 1 天，A 自杀了。</li>
+</ul>
+<h5 id="只有-2-只红眼睛"><a href="#只有-2-只红眼睛" class="headerlink" title="只有 2 只红眼睛"></a>只有 2 只红眼睛</h5><p>这一次我们假设，村子里有 98 人眼睛是蓝色的，只有 2 人眼睛是红色的。我们记他为 A 和 B。在这种情况下，外乡人公开宣布「村子里存在红眼睛的人」。于是：</p>
+<ul>
+<li>在外乡人离开的当天，以 A 为例：在他看来，如果自己的眼睛不是红色的，那么 B 明天就该自杀了，自己则平安无事。考虑到 A 和 B 地位等同，于是</li>
+<li>在外乡人离开后的第 1 天，平安无事，无人自杀。这回，A 开始犯嘀咕了：B 没有自杀，那么我的假设就错了，那么我的眼睛就是红色的，我明天得自杀了。考虑到 A 和 B 地位等同，因此，</li>
+<li>在外乡人离开后的第 2 天，A 和 B 自杀了。</li>
+</ul>
+<h5 id="只有-3-只红眼睛"><a href="#只有-3-只红眼睛" class="headerlink" title="只有 3 只红眼睛"></a>只有 3 只红眼睛</h5><p>这一次我们假设，村子里有 97 人眼睛是蓝色的，只有 3 人眼睛是红色的。我们记他为 A、B 和 C。在这种情况下，外乡人公开宣布「村子里存在红眼睛的人」。于是：</p>
+<ul>
+<li>在外乡人离开的当天，以 A 为例：如果自己的眼睛不是红色，那么村子里有 2 人红眼睛，情况回到了上一小节描述的那样：B 和 C 应该在外乡人离开后的第 2 天自杀，自己则平安无事。考虑到 A、B 和 C 地位等同，于是，</li>
+<li>在外乡人离开后的第 2 天，平安无事，无人自杀。这回，A 开始犯嘀咕了：B 和 C 没有自杀，那么我的假设就错了，那么我的眼睛就是红色的，我明天得自杀了。考虑到 A、B 和 C 地位等同，因此，</li>
+<li>在外乡人离开后的第 3 天，A、B 和 C 自杀了。</li>
+</ul>
+<h5 id="只有-k-只红眼睛"><a href="#只有-k-只红眼睛" class="headerlink" title="只有 k 只红眼睛"></a>只有 k 只红眼睛</h5><p>这一次我们假设，村子里有 $100-k$ 人眼睛是蓝色的，只有 $k$ 人眼睛是红色的。我们记他为 A 和他的红眼睛小伙伴们。在这种情况下，外乡人公开宣布「村子里存在红眼睛的人」。于是：</p>
+<ul>
+<li>在外乡人离开的当天，以 A 为例：如果自己的眼睛不是红色，那么村子里有 $k-1$ 人红眼睛：这些红眼睛的小伙伴们应该在外乡人离开后的第 $k-1$ 天自杀，自己则平安无事。考虑到 A 和他的小伙伴们地位等同，于是，</li>
+<li>在外乡人离开后的第 $k-1$ 天，平安无事，无人自杀。这回，A 开始犯嘀咕了：红眼睛的小伙伴们没有自杀，那么我的假设就错了，那么我的眼睛就是红色的，我明天得自杀了。考虑到 A 和他的小伙伴们地位等同，因此，</li>
+<li>在外乡人离开后的第 $k$ 天，A 和他的小伙伴们自杀了。<br>当 $k&#x3D;5$ 时，就是陶哲轩思维实验中的情况。</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>学过信息论就知道，外乡人并没有增加故事里的现实村子这个系统的信息量，所以不会有状态变化，所以这个推理过程是❌错误的。</p>
+<p>那具体错在哪里呢? 首先应当将推理与现实区分开来，村里的<strong>现实情况</strong>是5 红 + 95蓝， 而每个人都会在自己脑中建立上述 <strong>递推推数学模型</strong>。 然而外乡人是在现实中来来到这个村子并说: 你们中有红色眼睛, 而在村民的<strong>理论模型中并没有一个外乡人来打破僵局</strong>。</p>
+<p>所以现实情况是： 村民在脑中对该问题建模，层层正向思考下去发现 1红 + 99蓝的情况下，这个红色村民永远无法知道自己眼睛的颜色。</p>
+<h2 id="问题的起因"><a href="#问题的起因" class="headerlink" title="问题的起因"></a>问题的起因</h2><p>在数学归纳法向下的过程中，“岛上有红眼睛” 的信息会在 $k &#x3D; 1$ 时缺失: 那一个红眼人无法知道岛上是否有红色眼人。</p>
+<p>而当 $k \in (2, k)$ 时这个缺失的信息又被补充回来了，互联网上广为流传的版本中将 $k \in (2, k)$ 的情况作为了 $k &#x3D; 1$ 的情况的条件，以打破僵局。</p>
+<p>这种思考方式的结构很像 <strong>回溯性建构</strong>、<strong>因果倒置</strong>、<strong>神经网络</strong>。 把这个问题拿去问 CharGPT 他包理不清的。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/08/26/%E3%80%8A%E9%BB%91%E7%A5%9E%E8%AF%9D-%E6%82%9F%E7%A9%BA%E3%80%8B%E6%B8%B8%E6%88%8F%E4%BD%93%E9%AA%8C%E7%9B%B8%E5%85%B3%E6%80%9D%E8%80%83/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/02/12/%E7%8E%B0%E4%BB%A3%E8%AF%97'%E8%AF%81%E8%AF%8D'/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98%E7%9A%84%E8%B0%AC%E8%AF%AF"><span class="toc-text">红蓝眼睛问题的谬误</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%9D%80%E5%8E%9F%E5%9B%A0-%E5%B9%BF%E4%B8%BA%E6%B5%81%E4%BC%A0%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-text">自杀原因(广为流传的版本)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-1-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 1 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-2-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 2 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-3-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 3 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-k-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 k 只红眼睛</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E8%B5%B7%E5%9B%A0"><span class="toc-text">问题的起因</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98%E7%9A%84%E8%B0%AC%E8%AF%AF.md + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F11%2F05%2F%25E7%25BA%25A2%25E8%2593%259D%25E7%259C%25BC%25E7%259D%259B%25E9%2597%25AE%25E9%25A2%2598%25E7%259A%2584%25E8%25B0%25AC%25E8%25AF%25AF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/11/05/%E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98%E7%9A%84%E8%B0%AC%E8%AF%AF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

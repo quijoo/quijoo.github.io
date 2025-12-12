@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      游戏状态机 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">游戏状态机</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p>在各个Godot初学者教程中，实现第一个人物控制器都是使用的状态机，常见的有以下写法：</p>
+<h2 id="写法一-全在-Update-中"><a href="#写法一-全在-Update-中" class="headerlink" title="写法一 全在 Update 中"></a>写法一 全在 Update 中</h2><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ScriptName</span> : <span class="title">Node</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// fields</span></span><br><span class="line">   [<span class="meta">Export</span>] <span class="built_in">float</span> Speed；</span><br><span class="line">   [<span class="meta">Export</span>] <span class="built_in">float</span> JumpHeight;</span><br><span class="line">   <span class="keyword">private</span> State state = State.Idle;</span><br><span class="line">   <span class="keyword">public</span> <span class="built_in">enum</span> State : <span class="built_in">int</span></span><br><span class="line">   &#123;</span><br><span class="line">   		Run, Jump, Idle, Fall</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> Update</span><br><span class="line">   &#123;</span><br><span class="line">    	<span class="keyword">switch</span>(state)</span><br><span class="line">        &#123;</span><br><span class="line">        	<span class="keyword">case</span> State.Idel:</span><br><span class="line">            <span class="comment">// code</span></span><br><span class="line">           <span class="keyword">case</span> State.Run:</span><br><span class="line">           	<span class="comment">// code</span></span><br><span class="line">           <span class="keyword">case</span> State.Jump:</span><br><span class="line">           	<span class="comment">// code</span></span><br><span class="line">           <span class="keyword">case</span> State.Fall:</span><br><span class="line">           	<span class="comment">// code</span></span><br><span class="line">           <span class="literal">default</span>:</span><br><span class="line">           	<span class="comment">// code</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p><strong>优点</strong> ： 至少能实现功能，<br><strong>缺点</strong>： 不利于维护，不方便拓展 </p>
+<h2 id="写法二-写成状态类和状态机类"><a href="#写法二-写成状态类和状态机类" class="headerlink" title="写法二 写成状态类和状态机类"></a>写法二 写成状态类和状态机类</h2><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IState</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Enter</span>()</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Exit</span>()</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StateBase</span>&lt;<span class="title">T</span>&gt; : IState</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> StateMachine _machine;</span><br><span class="line">    <span class="keyword">private</span> T agent;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Enter</span>()</span> &#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Exit</span>()</span> &#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> &#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StateMachine</span> : <span class="title">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    Dictionary&lt;<span class="built_in">string</span>, IState&gt; StateInfo;</span><br><span class="line">    IState CurrentState;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ChangeTo</span>&lt;<span class="title">T</span>&gt;() <span class="keyword">where</span> T : IState</span> &#123; ... &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Process(<span class="built_in">float</span> delta)&#123; CurrentState.Update(delta); &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> _Process(<span class="built_in">float</span> delta) &#123; CurrentState.PhysicsUpdate(delta); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title">RunState</span> : <span class="title">StateBase</span>&lt;<span class="title">T</span>&gt; &#123; ... &#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">JumpState</span> : <span class="title">StateBase</span>&lt;<span class="title">T</span>&gt; &#123; ... &#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title">IdleState</span> : <span class="title">StateBase</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(Mathf.Abs(horizontalInput) &gt; <span class="number">0.01</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        _machine.ChangeTo&lt;RunState&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(verticalInput &gt; <span class="number">0.1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        _machine.ChangeTo&lt;Jump&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>优点</strong>:比写法一便于维护<br><strong>缺点</strong>：如果要实现一个 Player 的状态机 和一个Enemy的状态机，他们都有相似的移动逻辑，但是Player状态机多出一些技能相关的状态；如果采用上述写法，ChangeTo()是硬编码在状态内部的，这样就不方便添加边和状态以拓展状态机</p>
+<h2 id="写法三-：基于-GraphEditor的状态机"><a href="#写法三-：基于-GraphEditor的状态机" class="headerlink" title="写法三 ：基于 GraphEditor的状态机"></a>写法三 ：基于 GraphEditor的状态机</h2><p><a target="_blank" rel="noopener" href="https://godotengine.org/asset-library/asset">Godot Asset Store</a> 有很多基于 GraphEdit 的状态机实现，通过：</p>
+<ol>
+<li>为状态绑定状态脚本</li>
+<li>为转移边绑定脚本或者添加转换条件</li>
+</ol>
+<p>减少状态 和 转移边 的耦合。<br>它们都有一个共同的缺点：不支持 c# 或者c#版本bug多<br>所以能不能实现一个足够简单的，C#版本的，解耦状态和转化边的状态机呢？</p>
+<h2 id="写法四"><a href="#写法四" class="headerlink" title="写法四"></a>写法四</h2><h3 id="状态类"><a href="#状态类" class="headerlink" title="状态类"></a>状态类</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Godot;</span><br><span class="line"><span class="keyword">using</span> Godot.Collections;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">StateMachine.Base</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IState</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">string</span> StateName &#123;<span class="keyword">get</span>;&#125;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Init</span>(<span class="params">Object agent, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; blackboard, IStateMachine machine</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">OnEnter</span>()</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">OnExit</span>()</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">Exit</span>()</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StateBase</span> : <span class="title">Object</span>, <span class="title">IState</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// state 只持有 agent 对象不持有状态机对象</span></span><br><span class="line">        <span class="keyword">protected</span> <span class="built_in">string</span> _StateName = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> StateName =&gt; _StateName;</span><br><span class="line">        <span class="keyword">public</span> Object agent;</span><br><span class="line">        <span class="keyword">public</span> IStateMachine machine;</span><br><span class="line">        <span class="keyword">private</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; blackboard;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Init</span>(<span class="params">Object _agent, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; _blackboard,  IStateMachine _machine</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            agent = _agent;</span><br><span class="line">            blackboard = _blackboard;</span><br><span class="line">            machine = _machine;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnEnter</span>()</span> &#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> &#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span> &#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnExit</span>()</span> &#123; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Exit</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            machine.Transition(StateName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>   状态类内部不能调用StateMachine的ChangeTo()方法，只能实现状态自身的更新逻辑 </p>
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><p>IStateMachine 接口，Condition 是用于转换边的方法（返回true就转换，否则就不转换）<br>满足AssertTo.condition 则转换到AssertTo.nextState<br>Transition的属性用于标志该方法是判断哪个状态转移到哪个状态的<br>   <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IStateMachine</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Transition</span>(<span class="params"><span class="built_in">string</span> current</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"><span class="built_in">string</span> name</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Exit</span>()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="built_in">bool</span> <span class="title">Condition</span>()</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AssertTo</span> : <span class="title">Godot.Object</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Condition condition;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> nextState;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AssertTo</span>(<span class="params">Condition _condition, <span class="built_in">string</span> _nextState</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        condition = _condition;</span><br><span class="line">        nextState = _nextState;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">[<span class="meta">System.AttributeUsage(System.AttributeTargets.Method)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Transition</span> : <span class="title">System.Attribute</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> <span class="keyword">from</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> to;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Transition</span>(<span class="params"><span class="built_in">string</span> _from, <span class="built_in">string</span> _to</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">from</span> = _from;</span><br><span class="line">        to = _to;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></p>
+<h3 id="状态机类"><a href="#状态机类" class="headerlink" title="状态机类"></a>状态机类</h3><p>状态机类继承自 StateBase，因此状态机是可嵌套的</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StateMachineBase</span> : <span class="title">StateBase</span>, <span class="title">IStateMachine</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> IState CurrentState = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">protected</span> Dictionary&lt;<span class="built_in">string</span>, Array&lt;AssertTo&gt;&gt; TransitionMap = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, Array&lt;AssertTo&gt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> Dictionary&lt;<span class="built_in">string</span>, Godot.Object&gt; Name2State = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, Godot.Object&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 状态机黑板</span></span><br><span class="line">    <span class="keyword">protected</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; blackboard;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Init</span>(<span class="params">Godot.Object _agent, Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt; _blackboard = <span class="literal">null</span>, IStateMachine _machine = <span class="literal">null</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">base</span>.Init(_agent, _blackboard, _machine);</span><br><span class="line">        <span class="keyword">if</span>(blackboard == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            blackboard = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(_machine == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// 初始化状态列表 &amp;&amp; 初始化状态名</span></span><br><span class="line">    <span class="keyword">foreach</span>(<span class="keyword">var</span> info <span class="keyword">in</span> <span class="keyword">this</span>.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(info.ReflectedType.IsSubclassOf(<span class="keyword">typeof</span>(StateMachine.Base.StateBase)))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(Name2State.ContainsKey(info.Name))</span><br><span class="line">            &#123;</span><br><span class="line">                GD.Print(<span class="string">&quot;[FSM runtime] duplicate state &quot;</span>, info.Name);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                IState state = info.GetValue(<span class="keyword">this</span>) <span class="keyword">as</span> IState;</span><br><span class="line">                <span class="keyword">if</span>(state == <span class="literal">null</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// current state is null before start</span></span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                Name2State[info.Name] = state <span class="keyword">as</span> Godot.Object;</span><br><span class="line">                state.Init(agent, blackboard, <span class="keyword">this</span> <span class="keyword">as</span> IStateMachine);</span><br><span class="line">                (state <span class="keyword">as</span> Godot.Object).Set(<span class="string">&quot;_StateName&quot;</span>, info.Name);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化转换边列表</span></span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">var</span> info <span class="keyword">in</span> <span class="keyword">this</span>.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(info.GetCustomAttribute&lt;Transition&gt;() <span class="keyword">is</span> Transition transition)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(!Name2State.ContainsKey(transition.<span class="keyword">from</span>) || !Name2State.ContainsKey(transition.to))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(!TransitionMap.ContainsKey(transition.<span class="keyword">from</span>))</span><br><span class="line">                &#123;</span><br><span class="line">                    TransitionMap[transition.<span class="keyword">from</span>] = <span class="keyword">new</span> Array&lt;AssertTo&gt;();</span><br><span class="line">                &#125;</span><br><span class="line">                TransitionMap[transition.<span class="keyword">from</span>].Add(<span class="keyword">new</span> AssertTo((Condition)Delegate.CreateDelegate(<span class="keyword">typeof</span>(Condition), <span class="keyword">this</span>, info), transition.to));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">region</span> life cycle</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnEnter</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Start(<span class="string">&quot;entry&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Update</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(CurrentState == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        CurrentState.Update(delta);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(CurrentState == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        CurrentState.PhysicsUpdate(delta);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Exit</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">if</span>(machine == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        CurrentState = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">base</span>.Exit();</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// API</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Transition</span>(<span class="params"><span class="built_in">string</span> current</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(CurrentState == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span>(CurrentState <span class="keyword">is</span> ExitState)</span><br><span class="line">        &#123;</span><br><span class="line">            CurrentState.OnExit();</span><br><span class="line">            Exit();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!Name2State.ContainsKey(current))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(TransitionMap == <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!TransitionMap.ContainsKey(current))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">foreach</span>(AssertTo edge <span class="keyword">in</span> TransitionMap[current])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(edge.condition.Invoke())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 添加信号</span></span><br><span class="line">                CurrentState.OnExit();</span><br><span class="line">                CurrentState = Name2State[edge.nextState] <span class="keyword">as</span> IState;</span><br><span class="line">                CurrentState.OnEnter();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Start</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(Name2State.ContainsKey(name))</span><br><span class="line">        &#123;</span><br><span class="line">            CurrentState = Name2State[name] <span class="keyword">as</span> IState;</span><br><span class="line">            CurrentState.OnEnter();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 状态定义</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Idle</span> : <span class="title">StateBase</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnEnter</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        PlayAnimation(<span class="string">&quot;Idle&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(InputCache != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Exit();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Run</span> : <span class="title">StateBase</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnEnter</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        PlayAnimation(<span class="string">&quot;Run&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">PhysicsUpdate</span>(<span class="params"><span class="built_in">float</span> delta</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Position += velocity * delta;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayerStateMachine</span> : <span class="title">StateMachineBase</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 绑定状态名和状态类型</span></span><br><span class="line">    EntryState entry = <span class="keyword">new</span> EntryState();</span><br><span class="line">    Run run = <span class="keyword">new</span> Run();</span><br><span class="line">    Idle idle = <span class="keyword">new</span> Idle();</span><br><span class="line">    ExitState exit = <span class="keyword">new</span> ExitState();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义转换 </span></span><br><span class="line">    [<span class="meta">Transition(<span class="string">&quot;entry&quot;</span>, <span class="string">&quot;idle&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">transition_1</span>()</span> &#123; <span class="keyword">return</span> <span class="literal">true</span>;  &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Transition(<span class="string">&quot;idle&quot;</span>, <span class="string">&quot;run&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">transition_2</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(horizontalInput != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Transition(<span class="string">&quot;run&quot;</span>, <span class="string">&quot;idle&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">transition_3</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(agent.IsOnGround() &amp;&amp; velocity == agent.GetGroundVelocity())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>这样写就把状态 和 状态转移 分离开了，另外还可以实现一些编辑器工具来生成状态机的文件，以及为指定节点绑定状态机以简化操作</p>
+<p>Todo:<br>每个状态机绑定的对象类型不固定，但是状态机继承应该与 agent 对象继承具有相似的层级，所以每写一个新的状态机就强制转换agent类型过于繁琐，尝试找到优化方法！</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E6%97%A5%E4%B8%B9%E8%AF%BA%E5%A4%AB%E4%B8%BB%E4%B9%89%E7%9A%84%E5%B9%BD%E7%81%B5/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/Python%E4%BD%9C%E4%B8%BA%E5%86%85%E5%B5%8C%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%B3%95%E4%B8%80-%E5%85%A8%E5%9C%A8-Update-%E4%B8%AD"><span class="toc-text">写法一 全在 Update 中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%B3%95%E4%BA%8C-%E5%86%99%E6%88%90%E7%8A%B6%E6%80%81%E7%B1%BB%E5%92%8C%E7%8A%B6%E6%80%81%E6%9C%BA%E7%B1%BB"><span class="toc-text">写法二 写成状态类和状态机类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%B3%95%E4%B8%89-%EF%BC%9A%E5%9F%BA%E4%BA%8E-GraphEditor%E7%9A%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-text">写法三 ：基于 GraphEditor的状态机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%B3%95%E5%9B%9B"><span class="toc-text">写法四</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%B1%BB"><span class="toc-text">状态类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="toc-text">工具类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%E7%B1%BB"><span class="toc-text">状态机类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E6%9C%BA + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E6%25B8%25B8%25E6%2588%258F%25E7%258A%25B6%25E6%2580%2581%25E6%259C%25BA%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E6%9C%BA/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      GAMES104 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">GAMES104</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="Dynamic-Global-lllumination-GI"><a href="#Dynamic-Global-lllumination-GI" class="headerlink" title="Dynamic Global lllumination(GI)"></a>Dynamic Global lllumination(GI)</h1><h2 id="Ray-Tracing"><a href="#Ray-Tracing" class="headerlink" title="Ray Tracing"></a>Ray Tracing</h2><p> 先上祖师爷<br> $$<br>L_0(x, \omega_0) &#x3D; L_e(x,\omega_0) + \int_{H^2}f_r(x,\omega_0,\omega_i)L_i(x,\omega_i)\cos\theta_id\omega_i<br>$$</p>
+<p>$$<br>outgoing &#x3D; emitted + reflected<br>$$</p>
+<p>光照中最困难的部分就是积分，一个trick的方法是 <strong>蒙特卡洛积分</strong>，基于此就产生了<strong>蒙特卡洛光线追踪</strong><br><strong>原理：</strong><br>从像素点打出光纤，碰到物体做一次bounce，随着bounce次数增加，计算量是指数级的<br><strong>缺点：</strong></p>
+<ol>
+<li>量的地方很少，只有很少机会打中发光点</li>
+<li>计算量大</li>
+<li>采样次数越多，噪点越少<br>难点：采样</li>
+</ol>
+<p>tips：所以 Lumen 重点解决的就是采样<br><strong>采样</strong></p>
+<ol>
+<li>均匀采样</li>
+<li>概率分布函数（按照PDF分布）采样<br> 就是按照概率分布函数来采样，这样能更好的计算积分，朴素的来说，就是<strong>往更亮的地方发射更多的光线</strong><br> 例如：对于天空采样，那么使用 cos 函数（方向靠近正上方发射更多的射线）将会获得噪声更少的图像<br> 例如：对于光暗差别很大的场景使用 GGX PDF 可以获得对比度更强的光照效果<br> 但是这些都是特例，不具有普遍意义，这给我们的启示是 <strong>要往亮的地方发射更多的射线</strong></li>
+</ol>
+<p>但是上述的算法都是离线计算（用于电影动画广告？中的），但是对于游戏来说，需要一种 realtime 的方法</p>
+<h2 id="Lumen-的起始点"><a href="#Lumen-的起始点" class="headerlink" title="Lumen 的起始点"></a>Lumen 的起始点</h2><p>Lumen 这一系列方法的基本思路就是 Photon Mapping<br>思路如下：<br>提出从光源发射光子，光子最终停留在物体表面，最终渲染就是根据物体表面光子的分布来计算最终颜色</p>
+<p>Reflective Shadow Maps(RSM, 2005) 这个工作是这一系列方法的开山鼻祖</p>
+<h3 id="RSM-方法"><a href="#RSM-方法" class="headerlink" title="RSM 方法"></a>RSM 方法</h3><p>原文链接 ：<a target="_blank" rel="noopener" href="https://users.soe.ucsc.edu/~pang/160/s13/proposal/mijallen/proposal/media/p203-dachsbacher.pdf">Reflective Shadow Maps</a></p>
+<p>渲染物体是从相机视角去看世界的，渲染阴影的时候是从光的视角去看世界的。<br><strong>Reflective Shadow Maps</strong> 的意思就是：从光的角度去看世界，记录所有<strong>被照亮</strong>的表面，这个表面就是不考虑光线追踪的情况下，光子第一次到达的场景。</p>
+<p>空间所有中第一次被照亮的点会散射出光线照亮其他物体，那么在渲染任何一个眼睛看到的点的时候，只需要将所有散射出来的 radiance 收集起来即可。<br>也就是说对于每一个<strong>需要被渲染的像素点</strong>， 我们知道所有能照亮该点的<strong>亮点（在光的第一次传播被照亮的点）</strong>，那么计算被渲染点和亮点之间的距离即可知道光照强度。（这个牛逼啊）</p>
+<p><strong>缺点：是渲染复杂度太高</strong></p>
+<p><strong>优化1</strong> 使用了 Cone Tracing 来优化算法，就是发射许多圆锥去照亮点，如果 Cone 中的 RSM 越多那么就越亮，大概是这么个意思。后来还有更好的方法例如：</p>
+<p> <strong>对 RSM 做 MIP</strong>，对于漫反射面使用较大的圆锥去采样，对于光滑的表面用角度较小的圆锥去采样。</p>
+<p><strong>优化2</strong> 因为间接光照是低频的，所以在屏幕空间可以不用逐像素采样，而是采用 逐 k 像素采样，在 Lumen 中也有类似的思想（原来这么早就有了，看来Lumen是个大缝合怪）</p>
+<p><strong>优化3</strong> Cone Tracing 采样时，可以认为 <strong>空间位置相差太大</strong> 或者 <strong>法线朝向相差太大</strong> 的点被认为是<strong>无效点</strong>，就不采样，而是在第一次样样结束后进行一次<strong>单独采样</strong>，类似的 在 Lumen 中对于稀疏采样不work的点，会进行一次单独的加强采样采样（这个也是抄的）</p>
+<p><strong>总结</strong><br>将光子注入到世界的方法<br>但是没有想到 MIP方法<br>在低分辨率稀疏点采集间接光照进行插值，但是在特殊区域进行加强采样<br>使用 Cone 进行蒙特卡洛积分<br>没有检测遮挡<br>只能解决单次传播<br><strong>RSM 是非常具有启发性的算法</strong></p>
+<h3 id="Light-Propagation-Volumes-LPV"><a href="#Light-Propagation-Volumes-LPV" class="headerlink" title="Light Propagation Volumes(LPV)"></a>Light Propagation Volumes(LPV)</h3><p>上一个算发解决了将光子注入空间，这个算法解决<strong>光子在空间中传播</strong>，虽然是一个非常具有<strong>启发性</strong>的算法，但是在<strong>数学上有点问题</strong><br>重点是 <strong>Propagation</strong>， 但是想法很淳朴：</p>
+<p>将空间划分为很多 Voxel，对于每个 Voxel，接收到的光照是一个球面分布，球面无论采集多少个点都可以等价为加权累积到一起，可以用SH（双曲正弦函数）函数表达，这里 在GAMES 202 中会详细的讲，这个104讲得很笼统，不好理解（之后补202的时候仔细搞搞）。</p>
+<p>这个方法老师也没看懂，我肯定看不懂了，物理学意义是数学意义都点问题。</p>
+<h3 id="Sparse-Voxel-Octree-for-Real-time-Global-IIIumination-SVOGI"><a href="#Sparse-Voxel-Octree-for-Real-time-Global-IIIumination-SVOGI" class="headerlink" title="Sparse Voxel Octree for Real-time Global IIIumination(SVOGI)"></a>Sparse Voxel Octree for Real-time Global IIIumination(SVOGI)</h3><p>Nvidia 的工作，这个想法也很淳朴，解决对空间划分的粗细的问题，有以下事实：</p>
+<ol>
+<li>有的 Voxel 中没有物体是空的</li>
+<li>有的 Voxel 中是实心物体，只有表面有光</li>
+</ol>
+<p>使用硬件的<strong>保守光栅化</strong>：对于很小很薄的三角形保证至少有一个 Voxel 在里边，也就是说保证再小再薄的三角形也能被体素化，那就能收集所有表面的 Voxel，那就是用八叉树来对空间划分，但是在实现中 八叉树每个节点不止存子节点和父节点，还存了三个相邻节点，这使得做 过滤，抗锯齿的时候很方便，所以这个数据结构很复杂。</p>
+<p>这里有一个巧妙的思想：<br>使用 Cone 进行采样，而空间是类似 MIP 的八叉树划分，那么很近的地方，Cone 采样到的 Voxel 很少，但是很远的 地方Cone 采样到的Voxel就很多，而 MIP 的思想中，越靠近根节点的 一个 Voxel 就是很多小的 Voxel 的平均，这样就很巧妙的解决了 Cone 采样，越远点越多的情况。</p>
+<p>很多算法细节无法考证，并且八叉树在GPU 上不好表达，而且现在已经没人用这个算法了。</p>
+<h3 id="Voxelization-Based-Global-IIIumination-VXGI"><a href="#Voxelization-Based-Global-IIIumination-VXGI" class="headerlink" title="Voxelization Based Global IIIumination(VXGI)"></a>Voxelization Based Global IIIumination(VXGI)</h3><p>对于 GI 来说，是眼睛看到的区域最重要的部分，并且对于近处进行高精度采样，对远处进行低精度采样。<br>那么就是近距离的Voxel 很小，远处的 Voxel 很大，就行了。这种方法实现起来清晰明确简单，并且是 GPU 友好的。</p>
+<p><strong>trick1</strong> 循环UV，这样不会出错，但是不太懂这个的原理</p>
+<p><strong>trick2</strong> 按照距离来确定 Voxel 大小会导致屏幕空间上不管近远的 Voxel 大小都是几乎一致的。相当于 “地月距离和地日距离400倍，月球大小和太阳大小400倍，所以导致太阳月球看起来一样大。”  这样就很好,很一致！！</p>
+<p>那么光穿过 Voxel 能穿过多少呢？往往体素不是纯黑和纯透明的，而是有一定的透光率。<br>所以可以将体素中的实体投影到各个方向按照面积计算各个方向的透光率（三个方向）<br>那么就可以按照以下步骤来渲染</p>
+<ol>
+<li>光线注入，计算每一个被直接照亮的 Voxel</li>
+<li>对于屏幕上的每一个像素进行 Cone Tracing(可以不用每一个，可以 稀疏采样 + 加强采样)</li>
+<li>基于 BRDF 生成采样圆锥，如果表面比较粗糙生成均匀的多个圆锥，如果表面比较光滑生成角度比较集中的圆锥</li>
+<li>圆锥越远的时候使用 ClipMap 越上层的数据（近大远小）</li>
+<li>光线传播累计不透明度，完全不透明后就不再传播</li>
+</ol>
+<p><strong>问题：</strong></p>
+<ol>
+<li>透明度累计时，直接计算乘法不合理，可能光经过一层左半遮挡，经过一层右半遮挡就全挡完了，但是乘法就还剩0.25，会产生漏光现象</li>
+</ol>
+<p>在这种注入光子的思路中，该方法时集大成者！！！下面是另一种思路的算法，屏幕空间全局光照</p>
+<h3 id="Screen-Space-Global-IIIumination-SSGI"><a href="#Screen-Space-Global-IIIumination-SSGI" class="headerlink" title="Screen Space Global IIIumination(SSGI)"></a>Screen Space Global IIIumination(SSGI)</h3><p>最开始 在 GDC 上讲的方法，在计算反射时，例如光滑的地面反射墙壁，我们要渲染地面上的某个点，那么知道地面的法线，知道相机的方向，计算视线投射到地面时的出射方向即可，再利用这个方向去查询第一个碰到的物体。查询碰撞的方法可以使用GPU提供的屏幕空间的碰撞。</p>
+<p>Hierachical Tracing DX12支持，他会自动将我的Z-buffer做成 mips，mip的下层都包裹着上层，然后利用类似二分的方法来做碰撞检测。大致思路是这样的，复杂度是log的，大致的思路是这样的，但是细节不清楚。</p>
+<p>并且计算反射的 Light 是可以 Reuse 的，就是前一次光照得到点会成为后一次计算点的一个新的灯泡。大概理解，细节不理解。。。</p>
+<p>优点：处理很光滑的物体，效果很好，有很多BUG，但是非常有用，处理很近的contact shadow，hit点很准，场景复杂度无关(仅基于深度图)，处理动态物体</p>
+<h2 id="Lumen（重点，简称左脚踩右脚渲染）"><a href="#Lumen（重点，简称左脚踩右脚渲染）" class="headerlink" title="Lumen（重点，简称左脚踩右脚渲染）"></a>Lumen（重点，简称左脚踩右脚渲染）</h2><p>“Ray Tracing  is slow” 所以需要 Lumen<br>“Sampling is hard”     所以需要 Lumen<br>Low-res filtered scene space probes lit full pexels</p>
+<h3 id="Phase1：Fast-Ray-Trace-in-Any-Hardware"><a href="#Phase1：Fast-Ray-Trace-in-Any-Hardware" class="headerlink" title="Phase1：Fast Ray Trace in Any Hardware"></a>Phase1：Fast Ray Trace in Any Hardware</h3><p>Signed Distance Field(SDF) 有向距离场，物体的 外部为+，表面为0，内部为-</p>
+<p>SDF 和 顶点在本质上是对偶的<br>但是SDF 有很多优良性质</p>
+<ol>
+<li>均匀的</li>
+<li>连续的（可微的）</li>
+</ol>
+<p>先对 Mesh 做SDF 再对空间做SDF</p>
+<p>SDF 支持统一的线性变换</p>
+<p>对于很细的面，难以表达，所以稍微扩张一下</p>
+<p>光纤可以很快的找到表面，光一步步向物体推进，当靠近表面时，SDF 会告诉我们应该走多大的步长，当到达表面时是0，当进入表面后，这个值是负数，又能够退回到表面。</p>
+<p>做 Cone Tracing 时，可以预估目标的距离（按照圆的比值）：这个不懂</p>
+<p>Mesh SDF LoD（多细节层次）</p>
+<p>SDF 导数是表面法线</p>
+<p>做 MIP 节省40% 空间</p>
+<p>Global SDF：将所有物体的SDF 合成一个低精度的场景的SDF</p>
+<ol>
+<li>合成算法（由Mesh合成场景）</li>
+<li>更新算法（物体是移动的）</li>
+</ol>
+<p>总的来说就是，使用 SDF 来表达每一个Mesh 和场景，这样带来了很多计算上的好处，它能提高 Ray Tracing 的效率，从而不依赖于硬件的 Ray Tracing</p>
+<h3 id="Phase2-Radiance-Injection-and-Caching"><a href="#Phase2-Radiance-Injection-and-Caching" class="headerlink" title="Phase2 Radiance Injection and Caching"></a>Phase2 Radiance Injection and Caching</h3><p><strong>这一部分解决：如何抓住光的？</strong></p>
+<p><strong>Mesh card</strong> 就以相机为原点，对场景中所有物体进行快照，记录该物体 AABB Box 对应的各个面的光照信息（法线，光照，自发光，等），并且这个快照是LoD的（近处高分辨率，远处低分辨率）</p>
+<p><strong>Surface Cache：<strong>分配一个 4096x4096的空间，将每一个 Instance 的Card放到空间里，随着相机的移动，可能会替换（硬件提供方法来压缩），是对直接光照信息的一个表达（将光子固化在表面），在相机移动和物体移动时采用</strong>脏更新</strong>。</p>
+<p><strong>Lighting Cache Pipeline：</strong> </p>
+<ol>
+<li><p>做逐像素的直接光照（做shadow map，不会错的离谱）<br> 知道 Mesh 的各种光线相关的图，并且通过 SDF 可以很快的判断遮挡信息，所以可以很快的计算出直接光照图<br> 对于多个光源，累加在一起即可</p>
+</li>
+<li><p>在场景中建立 Voxelize 表达，并且将当前帧的光照信息传递给下一帧<br> 建立体素，来采样，本来我们的SDF是近距离精准，远距离模糊的，远距离模糊那怎么看有没有打到物体上呢？就应该使用 Global SDF，          但是 Global SDF 只能定位到像素点，而不能定位到具体某个 Instance。<br> Lumen的解决方法是：对于近处的物体，可以精准的拿到光照信息，对于远处的的物体：以相机为中心做一个 Voxelize的表达，然后 采样光线只要在Global SDF中Hit到了，就直接给那个位置的 Voxelize 的光照信息。<br> Lumen的具体方法：<br> 做一个 ClipMap，四层，每一层 64x64，一个Voxel 是0.78米，每个Voxel的6个面存储亮度，这样在对某个点光照信息积分的时候，发出的光纤就能永远的cast到一个值，这里的 voxel 6个面是只有一个值，而不是光场。这里有点迷惑。那怎么来照亮别人呢？</p>
+</li>
+<li><p>在下一帧中融合表面直接光照和由上一帧继承而来的光照图，得到真实光照<br> 虽然每次都只做了一次bounce但是在数学上可以推导，实际上就是做了多次bounce（GAMES202 会推导）</p>
+</li>
+</ol>
+<p>Tips:一些限制<br>直接光照不超过 1024x1024 texture<br>间接光照不超过 512x512    texture<br>选择页来更新，基于 Priority &#x3D; LastUsed - LastUpdated</p>
+<h3 id="Phase3：Screen-Probe-structure"><a href="#Phase3：Screen-Probe-structure" class="headerlink" title="Phase3：Screen Probe structure"></a>Phase3：Screen Probe structure</h3><p>怎么区分布Prob，对于屏幕上的每一个点如何使用 Prob去lighting</p>
+<p>采样使用<strong>八面体球面采样</strong>（几乎是均匀的），并且插值与球面几乎一致</p>
+<p>屏幕空间放置采样点，有一个问题，就是真实的场景中相邻屏幕空间采样点可能是相距很远的。他们并不能很好的插值。<br>所以应该添加真实距离作为权重，而如果两个相距超过某个阈值，那么就应该申请细分探针数量</p>
+<p>如果将屏幕空间的采样点打印出来，会发现所有几何变化较大的地方都会进行细分探针。</p>
+<p><strong>采样</strong><br>需要进行importance sampling，就会出现黑一块白一块。<br>最重要的是，需要朝“窗户”的地方多射一点。怎么知道光在哪里呢？<br>可以采集上一帧的光的位置（假设光的变化不是那么大）<br>采样的时候需要按照重要性分布来采样，也就是往光多的地方采样，并且重要性还与法向方向有关</p>
+<p>巴拉巴拉，没听懂我操。直接听大概意思吧。不学了。</p>
+<h3 id="Phase4"><a href="#Phase4" class="headerlink" title="Phase4"></a>Phase4</h3><p>拿到一个屏幕像素，如何使用Prob来做shading</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/2D%E7%A2%B0%E6%92%9E%E6%96%B9%E7%A8%8B/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/Godot%E5%AF%B9%E8%AF%9D%E6%8F%92%E4%BB%B6/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dynamic-Global-lllumination-GI"><span class="toc-text">Dynamic Global lllumination(GI)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ray-Tracing"><span class="toc-text">Ray Tracing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lumen-%E7%9A%84%E8%B5%B7%E5%A7%8B%E7%82%B9"><span class="toc-text">Lumen 的起始点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RSM-%E6%96%B9%E6%B3%95"><span class="toc-text">RSM 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Light-Propagation-Volumes-LPV"><span class="toc-text">Light Propagation Volumes(LPV)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sparse-Voxel-Octree-for-Real-time-Global-IIIumination-SVOGI"><span class="toc-text">Sparse Voxel Octree for Real-time Global IIIumination(SVOGI)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Voxelization-Based-Global-IIIumination-VXGI"><span class="toc-text">Voxelization Based Global IIIumination(VXGI)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Screen-Space-Global-IIIumination-SSGI"><span class="toc-text">Screen Space Global IIIumination(SSGI)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lumen%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%8C%E7%AE%80%E7%A7%B0%E5%B7%A6%E8%84%9A%E8%B8%A9%E5%8F%B3%E8%84%9A%E6%B8%B2%E6%9F%93%EF%BC%89"><span class="toc-text">Lumen（重点，简称左脚踩右脚渲染）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase1%EF%BC%9AFast-Ray-Trace-in-Any-Hardware"><span class="toc-text">Phase1：Fast Ray Trace in Any Hardware</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase2-Radiance-Injection-and-Caching"><span class="toc-text">Phase2 Radiance Injection and Caching</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase3%EF%BC%9AScreen-Probe-structure"><span class="toc-text">Phase3：Screen Probe structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Phase4"><span class="toc-text">Phase4</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + GAMES104 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2FGAMES104%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/GAMES104/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

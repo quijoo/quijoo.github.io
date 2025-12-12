@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      算法学习 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">算法学习</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><strong>参考列表</strong><br><a target="_blank" rel="noopener" href="https://github.com/williamfiset/Algorithms">Wialliam Fiset’s Algorithms</a><br><a target="_blank" rel="noopener" href="https://github.com/keon/algorithms">Keon’s Algorithms</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms">Xtaci’s Algorithms</a><br><a target="_blank" rel="noopener" href="https://github.com/labuladong/fucking-algorithm">Labuladong’s Fucking-Algorithms</a><br><a target="_blank" rel="noopener" href="https://github.com/geekxh/hello-algorithm">Geekxh’s Hello-Algorithms</a><br><a target="_blank" rel="noopener" href="https://github.com/algorithm-visualizer/algorithm-visualizer">Algorithm-Visualizer</a><br><a target="_blank" rel="noopener" href="https://github.com/justjavac/free-programming-books-zh_CN">Justjavac’s Free-Programming-Books</a><br><a target="_blank" rel="noopener" href="https://github.com/imarvinle/awesome-cs-books">Imarvinle’s Awesome-CS-Books</a><br><a target="_blank" rel="noopener" href="http://jeffe.cs.illinois.edu/teaching/algorithms/">Jeffe’s Algorithms Course</a></p>
+<p>主要关注其中 <strong>操作系统</strong>、<strong>算法</strong>、<strong>图形学</strong>、<strong>设计模式</strong>、<strong>游戏引擎</strong>、<strong>C#</strong>、 <strong>C&#x2F;C++</strong> 、<strong>编译器中间语言</strong>、<strong>元编程</strong></p>
+<p><a target="_blank" rel="noopener" href="http://jeffe.cs.illinois.edu/teaching/algorithms/">Jeffe’s Crouse</a> 用于<strong>学习</strong>，<a target="_blank" rel="noopener" href="https://github.com/williamfiset/Algorithms">Wialliam Fiset’s Algorithms</a>, <a target="_blank" rel="noopener" href="https://github.com/keon/algorithms">Keon’s Algorithms</a>, <a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms">Xtaci’s Algorithms</a> 用于<strong>拓展补充</strong>，<a target="_blank" rel="noopener" href="https://github.com/labuladong/fucking-algorithm">labuladong 的算法小抄</a>,  <a target="_blank" rel="noopener" href="https://www.geekxh.com/">小浩算法</a> 用于<strong>练习</strong></p>
+<p>这是一个利用<strong>空闲时间学习</strong>的<strong>长期计划</strong>，或许需要几年时间，学不完没关系，学一点赚一点，加油！</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><ul>
+<li><input disabled="" type="checkbox"> Balance Trees<ul>
+<li><input disabled="" type="checkbox"> AVL Tree (recursive)</li>
+<li><input disabled="" type="checkbox"> Red Black Tree (recursive)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Binary Search Tree</li>
+<li><input disabled="" type="checkbox"> Splay Tree</li>
+<li><input disabled="" type="checkbox"> Dynamic Array<ul>
+<li><input disabled="" type="checkbox"> Dynamic Array (integer only, fast)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Fenwick Tree<ul>
+<li><input disabled="" type="checkbox"> Fenwick Tree (range query, point update)</li>
+<li><input disabled="" type="checkbox"> (range update, point query)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Fibonacci Heap</li>
+<li><input disabled="" type="checkbox"> Hashtable<ul>
+<li><input disabled="" type="checkbox"> Hashtable (double hashing)</li>
+<li><input disabled="" type="checkbox"> Hashtable (linear probing)</li>
+<li><input disabled="" type="checkbox"> Hashtable (quadratic probing)</li>
+<li><input disabled="" type="checkbox"> Hashtable (sparate chaning)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Linked List</li>
+<li><input disabled="" type="checkbox"> Priority Queue<ul>
+<li><input disabled="" type="checkbox"> Min Binary Heap</li>
+<li><input disabled="" type="checkbox"> Min Indexed Binary Heap (sorted key-value pairs, similar to hash-table)</li>
+<li><input disabled="" type="checkbox"> Min D-Heap</li>
+<li><input disabled="" type="checkbox"> Min Indexed D-Heap (sorted key-value pairs, similar to hash table)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Queue<ul>
+<li><input disabled="" type="checkbox"> Queue (integer only, fixed size, fast)</li>
+<li><input disabled="" type="checkbox"> Queue (linked list, generic)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Segment Tree<ul>
+<li><input disabled="" type="checkbox"> Segement Tree (array based, compact)</li>
+<li><input disabled="" type="checkbox"> Segment Tree (linked list generic)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Sparse Table</li>
+<li><input disabled="" type="checkbox"> Stack<ul>
+<li><input disabled="" type="checkbox"> Stack (integer only, fixed size, fast)</li>
+<li><input disabled="" type="checkbox"> Stack (linked list, generic)</li>
+<li><input disabled="" type="checkbox"> Stack (array, generic)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Suffix Array<ul>
+<li><input disabled="" type="checkbox"> Suffix Array (O(n^2logn))</li>
+<li><input disabled="" type="checkbox"> Suffix Array (O(nlog^2(n))</li>
+<li><input disabled="" type="checkbox"> Suffix Array (O(nlogn))</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Trie</li>
+<li><input disabled="" type="checkbox"> Union Find</li>
+</ul>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/shuffle.h">Array shuffle</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/2darray.h">2D Array</a></p>
+<h2 id="动态编程"><a href="#动态编程" class="headerlink" title="动态编程"></a>动态编程</h2><ul>
+<li><input disabled="" type="checkbox"> Coin change problem</li>
+<li><input disabled="" type="checkbox"> Edit distance (iterative)</li>
+<li><input disabled="" type="checkbox"> Edit distance (recursive)</li>
+<li><input disabled="" type="checkbox"> Knapsack 0&#x2F;1</li>
+<li><input disabled="" type="checkbox"> Knapsack unbounded (0&#x2F;inf)</li>
+<li><input disabled="" type="checkbox"> Maximum contiguous subarray</li>
+<li><input disabled="" type="checkbox"> Longest Common Subsequence (LCS) </li>
+<li><input disabled="" type="checkbox"> Longest Increasing Subsequence (LIS) </li>
+<li><input disabled="" type="checkbox"> Longest Palindrome Subsequence (LPS)</li>
+<li><input disabled="" type="checkbox"> Traveling Salesman Problem (dynamic programming, iterative)</li>
+<li><input disabled="" type="checkbox"> Traveling Salesman Problem (dynamic programming, recursive)</li>
+<li><input disabled="" type="checkbox"> Minimum Weight Perfect Matching (iterative, complete graph)</li>
+</ul>
+<p>Examples:</p>
+<h3 id="Adhoc"><a href="#Adhoc" class="headerlink" title="Adhoc"></a>Adhoc</h3><ul>
+<li><input disabled="" type="checkbox"> Magic Cows</li>
+<li><input disabled="" type="checkbox"> Narrow Art Gallery</li>
+</ul>
+<h3 id="Tiling-problems"><a href="#Tiling-problems" class="headerlink" title="Tiling problems"></a>Tiling problems</h3><ul>
+<li><input disabled="" type="checkbox"> Tiling Dominoes</li>
+<li><input disabled="" type="checkbox"> Tiling Dominoes and Trominoes</li>
+<li><input disabled="" type="checkbox"> Mountain Scenes</li>
+</ul>
+<h2 id="计算几何"><a href="#计算几何" class="headerlink" title="计算几何"></a>计算几何</h2><ul>
+<li><input disabled="" type="checkbox"> Angle between 2D vectors - O(1)</li>
+<li><input disabled="" type="checkbox"> Angle between 3D vectors - O(1)</li>
+<li><input disabled="" type="checkbox"> Circle-circle intersection point(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Circle-line intersection point(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Circle-line segment intersection point(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Circle-point tangent line(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Closest pair of points (line sweeping algorithm) - O(nlog(n))</li>
+<li><input disabled="" type="checkbox"> Collinear points test (are three 2D points on the same line) - O(1)</li>
+<li><input disabled="" type="checkbox"> Convex hull (Graham Scan algorithm) - O(nlog(n))</li>
+<li><input disabled="" type="checkbox"> Convex hull (Monotone chain algorithm) - O(nlog(n))</li>
+<li><input disabled="" type="checkbox"> Convex polygon area - O(n)</li>
+<li><input disabled="" type="checkbox"> Convex polygon cut - O(n)</li>
+<li><input disabled="" type="checkbox"> Convex polygon contains points - O(log(n))</li>
+<li><input disabled="" type="checkbox"> Coplanar points test (are four 3D points on the same plane) - O(1)</li>
+<li><input disabled="" type="checkbox"> Line class (handy infinite line class) - O(1)</li>
+<li><input disabled="" type="checkbox"> Line-circle intersection point(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Line segment-circle intersection point(s) - O(1)</li>
+<li><input disabled="" type="checkbox"> Line segment to general form (ax + by &#x3D; c) - O(1)</li>
+<li><input disabled="" type="checkbox"> Line segment-line segment intersection - O(1)</li>
+<li><input disabled="" type="checkbox"> Longitude-Latitude geographic distance - O(1)</li>
+<li><input disabled="" type="checkbox"> Point is inside triangle check - O(1)</li>
+<li><input disabled="" type="checkbox"> Point rotation about point - O(1)</li>
+<li><input disabled="" type="checkbox"> Triangle area algorithms - O(1)</li>
+<li><input disabled="" type="checkbox"> [UNTESTED] Circle-circle intersection area - O(1)</li>
+<li><input disabled="" type="checkbox"> [UNTESTED] Circular segment area - O(1)</li>
+</ul>
+<h2 id="图论"><a href="#图论" class="headerlink" title="图论"></a>图论</h2><p><strong>Tree algorithms</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎥 Rooting an undirected tree - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Identifying isomorphic trees - O(?)</li>
+<li><input disabled="" type="checkbox"> 🎥 Tree center(s) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Tree diameter - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Lowest Common Ancestor (LCA, Euler tour) - O(1) queries, O(nlogn) preprocessing<br><strong>Network flow</strong></li>
+<li><input disabled="" type="checkbox"> Bipartite graph verification (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Max flow &amp; Min cut (Ford-Fulkerson with DFS, adjacency list) - O(fE)</li>
+<li><input disabled="" type="checkbox"> Max flow &amp; Min cut (Ford-Fulkerson with DFS, adjacency matrix) - O(fV2)</li>
+<li><input disabled="" type="checkbox"> 🎥 Max flow &amp; Min cut (Edmonds-Karp, adjacency list) - O(VE2)</li>
+<li><input disabled="" type="checkbox"> 🎥 Max flow &amp; Min cut (Capacity scaling, adjacency list) - O(E2log2(U))</li>
+<li><input disabled="" type="checkbox"> 🎥 Max flow &amp; Min cut (Dinic’s, adjacency list) - O(EV2) or O(E√V) for</li>
+<li><input disabled="" type="checkbox"> bipartite graphs</li>
+<li><input disabled="" type="checkbox"> Maximum Cardinality Bipartite Matching (augmenting path algorithm, adjacency list) - O(VE)</li>
+<li><input disabled="" type="checkbox"> Min Cost Max Flow (Bellman-Ford, adjacency list) - O(E2V2)</li>
+<li><input disabled="" type="checkbox"> Min Cost Max Flow (Johnson’s algorithm, adjacency list) - O(E2Vlog(V))<br><strong>Main graph theory algorithms</strong></li>
+<li><input disabled="" type="checkbox"> Articulation points&#x2F;cut vertices (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Bellman-Ford (edge list, negative cycles, fast &amp; optimized) - O(VE)</li>
+<li><input disabled="" type="checkbox"> 🎥 Bellman-Ford (adjacency list, negative cycles) - O(VE)</li>
+<li><input disabled="" type="checkbox"> Bellman-Ford (adjacency matrix, negative cycles) - O(V3)</li>
+<li><input disabled="" type="checkbox"> 🎥 Breadth first search (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Breadth first search (adjacency list, fast queue) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Bridges&#x2F;cut edges (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Find connected components (adjacency list, union find) - O(Elog(E))</li>
+<li><input disabled="" type="checkbox"> Find connected components (adjacency list, DFS) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Depth first search (adjacency list, iterative) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Depth first search (adjacency list, iterative, fast stack) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Depth first search (adjacency list, recursive) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Dijkstra’s shortest path (adjacency list, lazy implementation) - O(Elog(V))</li>
+<li><input disabled="" type="checkbox"> 🎥 Dijkstra’s shortest path (adjacency list, eager implementation + D-ary heap) - O(ElogE&#x2F;V(V))</li>
+<li><input disabled="" type="checkbox"> 🎥 Eulerian Path (directed edges) - O(E+V)</li>
+<li><input disabled="" type="checkbox"> 🎥 Floyd Warshall algorithm (adjacency matrix, negative cycle check) - O(V3)</li>
+<li><input disabled="" type="checkbox"> Graph diameter (adjacency list) - O(VE)</li>
+<li><input disabled="" type="checkbox"> 🎥 Kahn’s algorithm (topological sort, adjacency list) - O(E+V)</li>
+<li><input disabled="" type="checkbox"> Kruskal’s min spanning tree algorithm (edge list, union find) - O(Elog(E))</li>
+<li><input disabled="" type="checkbox"> 🎥 Kruskal’s min spanning tree algorithm (edge list, union find, lazy sorting) - O(Elog(E))</li>
+<li><input disabled="" type="checkbox"> Kosaraju’s strongly connected components algorithm (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Prim’s min spanning tree algorithm (lazy version, adjacency list) - O(Elog(E))</li>
+<li><input disabled="" type="checkbox"> Prim’s min spanning tree algorithm (lazy version, adjacency matrix) - O(V2)</li>
+<li><input disabled="" type="checkbox"> 🎥 Prim’s min spanning tree algorithm (eager version, adjacency list) - O(Elog(V))</li>
+<li><input disabled="" type="checkbox"> Steiner tree (minimum spanning tree generalization) - O(V3 + V2 _ 2T + V _ 3T)</li>
+<li><input disabled="" type="checkbox"> 🎥 Tarjan’s strongly connected components algorithm (adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> 🎥 Topological sort (acyclic graph, adjacency list) - O(V+E)</li>
+<li><input disabled="" type="checkbox"> Topological sort (acyclic graph, adjacency matrix) - O(V2)</li>
+<li><input disabled="" type="checkbox"> Traveling Salesman Problem (brute force) - O(n!)</li>
+<li><input disabled="" type="checkbox"> 🎥 Traveling Salesman Problem (dynamic programming, iterative) - O(n22n)</li>
+<li><input disabled="" type="checkbox"> Traveling Salesman Problem (dynamic programming, recursive) - O(n22n)</li>
+</ul>
+<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><p>Freivald’s algorithm (matrix multiplication verification) - O(kn2)<br>Gaussian elimination (solve system of linear equations) - O(cr2)<br>Gaussian elimination (modular version, prime finite field) - O(cr2)<br>Linear recurrence solver (finds nth term in a recurrence relation) - O(m3log(n))<br>Matrix determinant (Laplace&#x2F;cofactor expansion) - O((n+2)!)<br>Matrix inverse - O(n3)<br>Matrix multiplication - O(n3)<br>Matrix power - O(n3log(p))<br>Square matrix rotation - O(n2)</p>
+<h2 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h2><p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/integer.h">Arbitrary Integer</a><br>[UNTESTED] Chinese remainder theorem<br>Prime number sieve (sieve of Eratosthenes) - O(nlog(log(n)))<br>Prime number sieve (sieve of Eratosthenes, compressed) - O(nlog(log(n)))<br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/prime.h">Prime test(trial division)</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/prime.h">Prime test(Miller-Rabin’s method)</a><br>Totient function (phi function, relatively prime number count) - O(n1&#x2F;4)<br>Totient function using sieve (phi function, relatively prime number count) - O(nlog(log(n)))<br>Extended euclidean algorithm - ~O(log(a + b))<br>Greatest Common Divisor (GCD) - ~O(log(a + b))<br>Fast Fourier transform (quick polynomial multiplication) - O(nlog(n))<br>Fast Fourier transform (quick polynomial multiplication, complex numbers) - O(nlog(n))<br>Primality check - O(√n)<br>Primality check (Rabin-Miller) - O(k)<br>Least Common Multiple (LCM) - ~O(log(a + b))<br>Modular inverse - ~O(log(a + b))<br>Prime factorization (pollard rho) - O(n1&#x2F;4)<br>Relatively prime check (coprimality check) - ~O(log(a + b))</p>
+<h2 id="搜索算法"><a href="#搜索算法" class="headerlink" title="搜索算法"></a>搜索算法</h2><p>Binary search (real numbers) - O(log(n))<br>Interpolation search (discrete discrete) - O(n) or O(log(log(n))) with uniform input<br>Ternary search (real numbers) - O(log(n))<br>Ternary search (discrete numbers) - O(log(n))</p>
+<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><p>Bubble sort - O(n2)<br>Bucket sort - Θ(n + k)<br>Counting sort - O(n + k)<br>Heapsort - O(nlog(n))<br>Insertion sort - O(n2)<br>Mergesort - O(nlog(n))<br>Quicksort (in-place, Hoare partitioning) - Θ(nlog(n))<br>Quicksort3 (Dutch National Flag algorithm) - Θ(nlog(n))<br>Selection sort - O(n2)<br>Radix sort - O(n*w)</p>
+<h2 id="字符串算法"><a href="#字符串算法" class="headerlink" title="字符串算法"></a>字符串算法</h2><p>Booth’s algorithm (finds lexicographically smallest string rotation) - O(n)<br>Knuth-Morris-Pratt algorithm (finds pattern matches in text) - O(n+m)<br>Longest Common Prefix (LCP) array - O(nlog(n)) bounded by SA construction, otherwise O(n)<br>🎥 Longest Common Substring (LCS) - O(nlog(n)) bounded by SA construction, otherwise O(n)<br>🎥 Longest Repeated Substring (LRS) - O(nlog(n))<br>Manacher’s algorithm (finds all palindromes in text) - O(n)<br>Rabin-Karp algorithm (finds pattern match positions in text) - O(n+m)<br>Substring verification with suffix array - O(nlog(n)) SA construction and O(mlog(n)) per query</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>Bit manipulations - O(1)<br>List permutations - O(n!)<br>🎥 Power set (set of all subsets) - O(2n)<br>Set combinations - O(n choose r)<br>Set combinations with repetition - O((n+r-1) choose r)<br>Sliding Window Minimum&#x2F;Maximum - O(1)<br>Square Root Decomposition - O(1) point updates, O(√n) range queries<br>Unique set combinations - O(n choose r)<br>Lazy Range Adder - O(1) range updates, O(n) to finalize all updates<br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/random.h">Linear congruential generator</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/max_subarray.h">Maximum subarray problem</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/bitset.h">Bit-Set</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/double_linked_list.h">Double linked list</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/skiplist.h">Skip list</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/dos_tree.h">Dynamic order statistics</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/interval_tree.h">Interval tree</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/trie.h">Prefix Tree(Trie)</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/suffix_tree.h">Suffix Tree</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/btree.h">B-Tree</a></p>
+<h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h4><p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/hash_multi.h">Hash by multiplication</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/hash_table.h">Hash table</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/universal_hash.h">Universal hash function</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/perfect_hash.h">Perfect hash</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/hash_string.h">Java’s string hash</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/hash_string.h">FNV-1a string hash</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/simhash.h">SimHash</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/bloom_filter.h">Bloom Filter</a></p>
+<h4 id="密码学"><a href="#密码学" class="headerlink" title="密码学"></a>密码学</h4><p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/sha1.h">SHA-1 Message Digest Algorithm</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/md5.h">MD5</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/base64.h">Base64</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/relabel_to_front.h">Push–Relabel algorithm</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/huffman.h">Huffman Coding</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/word_seg.h">Word segementation</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/astar.h">A* algorithm</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/k-means.h">K-Means</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/kmp.h">Knuth–Morris–Pratt algorithm</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/disjoint-set.h">Disjoint-Set</a><br><a target="_blank" rel="noopener" href="https://github.com/xtaci/algorithms/blob/master/include/8queen.h">8-Queen Problem</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B"><span class="toc-text">动态编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Adhoc"><span class="toc-text">Adhoc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tiling-problems"><span class="toc-text">Tiling problems</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95"><span class="toc-text">计算几何</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E8%AE%BA"><span class="toc-text">图论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-text">线性代数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-text">数学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95"><span class="toc-text">搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="toc-text">排序算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%AE%97%E6%B3%95"><span class="toc-text">字符串算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hash"><span class="toc-text">hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="toc-text">密码学</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E7%25AE%2597%25E6%25B3%2595%25E5%25AD%25A6%25E4%25B9%25A0%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

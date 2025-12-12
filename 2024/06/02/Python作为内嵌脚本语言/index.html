@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      【转载】Python作为内嵌脚本语言 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">【转载】Python作为内嵌脚本语言</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p>脚本语言是快速编写富有弹性的代码的重要方法之一，在 Unix 系统自动化管理中已经应用了多种脚本语言。现在，在许多应用开发中，也提供了脚本层，这大大方便用户实现通用任务自动处理或者编写应用扩展，许多成功的应用，诸如 GIMP、Emacs、MS Office、PhotoShop、AutoCAD 等都应用了脚本技术。在某种意义上，一切皆可脚本化。</p>
+<p>在另一篇文章中，我们已经介绍了如何在 C 应用中嵌入 Python 语言，通过这项技术，可以让应用的高级用户来修改或定制化他们的程序，你可以充分利用 Python 的语言能力而不用自己去实现嵌入语言。Python 是一个不错的的选择，因为它提供了干净直观的 C 语言 API。关于如何在 C 应用中嵌入 Python 解释器，你可以参考：让Python成为嵌入式语言一文。</p>
+<p>现在我们来更深入地探讨一些问题。 鉴于许多复杂的应用都会利用多线程技术，本文将着重介绍如何创建线程安全的界面来调用Python解释器。</p>
+<p>这里的所有例子都是用 Python 2.7.2，所有的 Python 函数都以extern “C”定义，因此对于 C 和 C++，其使用是别无二致的。</p>
+<h2 id="Python-C-和线程"><a href="#Python-C-和线程" class="headerlink" title="Python C 和线程"></a>Python C 和线程</h2><p>在C程序中创建执行线程是很简单的。在 Linux 中，通常的做法是使用 POSIX 线程（pthread) API 并调用 pthread_create 函数。关于如何使用 pthreads，你可以参考 Felix Garcia 和Javier Fernandez 著的 “POSIX Thread Libraries”一文。为了支持多线程， Python 使用了互斥使访问内部数据结构串行化。这种互斥即 “全局解释器锁 – global interpreter lock”，当某个线程想使用 Python 的C API的时候，它必须获得 全局解释器锁，这避免了会导致解析器状态崩溃的竞争条件（race condition)。</p>
+<p>互斥的锁定和释放是通过 PyEval_AcquireLock 和 Eval_ReleaseLock 来描述的。调用了 PyEval_AcquireLock 之后，可以安全地假定你的线程已经持有了锁，其他相关线程不是被阻塞就是在执行与 Python 解析器无关的代码。现在你可以任意调用 Python 函数了。一旦取得了锁，你必须确保调用 PyEval_ReleaseLock 来释放它，否则就会导致线程死锁并冻结其他 Python 线程。</p>
+<p>更复杂的情况是，每个运行 Python 的线程维护着自己的状态信息。这些和特定线程相关的数据存储在称为 PyThreadState 的对象中。当在多线程应用中用 C 语言调用 Python API 函数时，你必须维护自己的 PyThreadState 对象以便能安全地执行并发的 Python 代码。</p>
+<p>如果你对开发多线程应用相当有经验，你可能会发现全局解释器锁的概念相当不方便。不过，现在它已经不像首次出现时那样糟糕了。当 Python 对脚本进行解释时，它会定期切换出当前 PyThreadState 对象并释放全局解释器锁，从而将控制权释放给其他线程。之前被阻塞的线程可以试图锁定全局解释器锁从而被运行。有些时候，原来的线程会再次获得全局解释器锁再次切回解释器。</p>
+<p>这意味着当调用 PyEval_SimpleString 时，即使你持有全局解释器锁，其他线程仍有机会被执行，这样的副作用无可避免。另外，当你调用以 C 语言写就的 Python 模块（包括许多内置模块） 存在着将控制权释放给其他线程的可能性。基于这个原因，当你用两个 C 线程来执行计算密集的 Python 脚本，它们确实能分享 CPU 时间并发运行，但由于全局解释器锁的存在，在多处理器的计算机上，Python 无法通过线程充分计算机的 CPU 处理能力。</p>
+<h2 id="启用线程支持"><a href="#启用线程支持" class="headerlink" title="启用线程支持"></a>启用线程支持</h2><p>在多线程的 C 程序使用 Python API 之前，必须调用一些初始化例程。如果编译解释器库时启用了多线程支持（通常情况如此），你就有了一个是否启用线程的运行时选项。除非你计划使用线程，否则不建议启用该选项。未启用该选项，Python 可以避免因互斥锁定其内部数据结构而产生的系统开销。但是如果你打算用 Python 来扩展多线程应用，你就需要在初始化解释器的时候启用线程支持。我个人建议，应该在主线程执行时就初始化 Python，最好是在应用程序启动的时候，就调用下面两行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// initialize Python</span><br><span class="line">Py_Initialize();</span><br><span class="line">// initialize thread support</span><br><span class="line">PyEval_InitThreads();</span><br></pre></td></tr></table></figure>
+
+<p>这两个函数都返回 void，所以无需检查错误代码。现在，我们可以假定 Python 解释器已准备好执行 Python 代码。Py_Initialize 分配解释器库使用的全局资源。调用PyEval_InitThreads 则启用运行时线程支持。这导致 Python 启用其内部的互斥锁机制，用于解释器内代码关键部分的系列化访问。此函数的另一个作用是锁定全局解释器锁。该函数完成后，需要由用户负责释放该锁。不过，在释放锁之前, 你应该捕获当前 PyThreadState 对象的指针。后续创建新的 Python 线程以及结束使用 Python 时要正确关闭解释器，都需要用到该对象。下面这段代码用来捕获 PyThreadState 对象指针:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PyThreadState * mainThreadState = NULL;</span><br><span class="line">// save a pointer to the main PyThreadState <span class="built_in">object</span></span><br><span class="line">mainThreadState = PyThreadState_Get();</span><br><span class="line">// release the lock</span><br><span class="line">PyEval_ReleaseLock();</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建新的执行线程"><a href="#创建新的执行线程" class="headerlink" title="创建新的执行线程"></a>创建新的执行线程</h2><p>在 Python 里，每个执行 Python 代码的线程都需要一个 PyThreadState 对象。解释器使用此对象来管理每个线程独立的数据空间。理论上，这意味着一个线程中的动作不会牵涉到另一个线程的状态。例如，你在一个线程中抛出异常，其他 Python 代码片段仍会继续运行，就好象什么事情都没有发生一样。你必须帮助 Python 管理每个线程的数据。为此，你需要为每个执行 Python 代码的 C 线程手工创建一个 PyThreadState 对象.要创建 PyThreadState 对象，你需要用到既有的 PyInterpreterState 对象。PyInterpreterState 对象带有为所有参与的线程所共享的信息。当你初始化 Python 时，它就会创建一个 PyInterpreterState 对象，并将它附加在主线程的 PyThreadState 对象上。你可以使用该解释器对象为你自己的 C 现成创建新的 PyThreadState。请参考下面代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// get the <span class="keyword">global</span> lock</span><br><span class="line">PyEval_AcquireLock();</span><br><span class="line">// get a reference to the PyInterpreterState</span><br><span class="line">PyInterpreterState * mainInterpreterState = mainThreadState-&gt;interp;</span><br><span class="line">// create a thread state <span class="built_in">object</span> <span class="keyword">for</span> this thread</span><br><span class="line">PyThreadState * myThreadState = PyThreadState_New(mainInterpreterState);</span><br><span class="line">// free the lock</span><br><span class="line">PyEval_ReleaseLock();</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行-Python-代码"><a href="#执行-Python-代码" class="headerlink" title="执行 Python 代码"></a>执行 Python 代码</h2><p>现在我们已创建 PyThreadState 对象，你的 C 线程就可以开始使用 Python API 执行 Python 脚本。从 C 线程执行 Python 代码时，你必须遵守一些简单的规则。首先，您在进行任何会改变当前线程状态的操作前必须持有全局解释器锁。第二，必须在执行任何 Python 代码之前，必须将该线程特定的 PyThreadState 对象加载到解释器。一旦您已经满足这些条件，您可以通过诸如 PyEval_SimpleString 函数来执行任意的 Python 代码，并记得在执行结束时切出 PyThreadState 对象并释放全局解释器锁。请参考下面代码，注意代码中“锁定、 切换、 执行、 切换，解锁”的对称关系：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// grab the <span class="keyword">global</span> interpreter lock</span><br><span class="line">PyEval_AcquireLock();</span><br><span class="line">// swap <span class="keyword">in</span> my thread state</span><br><span class="line">PyThreadState_Swap(myThreadState);</span><br><span class="line">// execute some python code</span><br><span class="line">PyEval_SimpleString(<span class="string">&quot;import sys\n&quot;</span>);</span><br><span class="line">PyEval_SimpleString(<span class="string">&quot;sys.stdout.write(‘Hello from a C thread!\n‘)\n&quot;</span>);</span><br><span class="line">// clear the thread state</span><br><span class="line">PyThreadState_Swap(NULL);</span><br><span class="line">// release our hold on the <span class="keyword">global</span> interpreter</span><br><span class="line">PyEval_ReleaseLock();</span><br></pre></td></tr></table></figure>
+
+<h2 id="清除线程"><a href="#清除线程" class="headerlink" title="清除线程"></a>清除线程</h2><p>一旦你的 C 线程不再需要 Python 解释器，你必须释放相关资源。为此，需要删除该线程的 PyThreadState 对象，相关代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// grab the lock</span><br><span class="line">PyEval_AcquireLock();</span><br><span class="line">// swap my thread state out of the interpreter</span><br><span class="line">PyThreadState_Swap(NULL);</span><br><span class="line">// clear out <span class="built_in">any</span> cruft <span class="keyword">from</span> thread state <span class="built_in">object</span></span><br><span class="line">PyThreadState_Clear(myThreadState);</span><br><span class="line">// delete my thread state <span class="built_in">object</span></span><br><span class="line">PyThreadState_Delete(myThreadState);</span><br><span class="line">// release the lock</span><br><span class="line">PyEval_ReleaseLock();</span><br></pre></td></tr></table></figure>
+
+<p>通过使用 Python API ，这个线程很有效率地完成了上述工作。现在你可以安全地调用 pthread_ext 来结束该线程的运行。</p>
+<h2 id="关闭解释器"><a href="#关闭解释器" class="headerlink" title="关闭解释器"></a>关闭解释器</h2><p>一旦应用不在需要 Python 解释器，你可以用下面的代码将 Python 关闭掉：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// shut down the interpreter</span><br><span class="line">PyEval_AcquireLock();</span><br><span class="line">Py_Finalize();</span><br></pre></td></tr></table></figure>
+
+<p>注意：因为 Python 已经被关系，这里就不需要释放锁。请确保在调用 Py_Finalize 之前用 PyThreadState_Clear 和 PyThreadState_Delete 删除掉所有线程状态对象。</p>
+<h2 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h2><p>作为嵌入式语言，Python 是一个不错的选择。Python 解释器同时支持嵌入和扩展，它允许 C 应用程序代码和嵌入的 Python 脚本之间的双向通信。此外，多线程支持促进了与多线程应用程序的集成，而且不影响性能。</p>
+<p>你可以从本文的后面下载有关案例Python embedded HTTP Server (29)，该案例实现了一个内嵌 Python 解释器的多线程 HTTP 服务器。此外我推荐您去 <a target="_blank" rel="noopener" href="http://www.python.org/docs/api/">http://www.python.org/docs/api/</a> 阅读有关的 Python C API 文档。另外 Python 解释器本身的代码也是一个很有价值的参考。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81%E6%9C%BA/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E6%89%AF%E6%8E%89%E4%BA%86%E4%B8%AD%E5%9B%BD%E7%A7%91%E6%8A%80%E5%9C%88%E7%9A%84%E9%81%AE%E7%BE%9E%E5%B8%83/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Python-C-%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="toc-text">Python C 和线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%94%AF%E6%8C%81"><span class="toc-text">启用线程支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84%E6%89%A7%E8%A1%8C%E7%BA%BF%E7%A8%8B"><span class="toc-text">创建新的执行线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C-Python-%E4%BB%A3%E7%A0%81"><span class="toc-text">执行 Python 代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E7%BA%BF%E7%A8%8B"><span class="toc-text">清除线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="toc-text">关闭解释器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="toc-text">小结：</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%90%E8%BD%AC%E8%BD%BD%E3%80%91Python%E4%BD%9C%E4%B8%BA%E5%86%85%E5%B5%8C%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2FPython%25E4%25BD%259C%25E4%25B8%25BA%25E5%2586%2585%25E5%25B5%258C%25E8%2584%259A%25E6%259C%25AC%25E8%25AF%25AD%25E8%25A8%2580%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/Python%E4%BD%9C%E4%B8%BA%E5%86%85%E5%B5%8C%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

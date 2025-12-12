@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      Godot交互水 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Godot交互水</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p>学习大佬的实现 <a target="_blank" rel="noopener" href="https://john-wigg.dev/DynamicWaterDemo/">john-wigg&#x2F;DynamicWaterDemo</a>, 做个记录！</p>
+<h2 id="如何描述水波"><a href="#如何描述水波" class="headerlink" title="如何描述水波"></a>如何描述水波</h2><p>物理学中的一个非常重要的方程: <strong>波动方程</strong>，它描述了许多类型的波的传播，如水波声波电磁波。因此它在流体力学，声学，光学等物理学领域发挥着重要作用，我们也用它描述波浪的行为。</p>
+<p>该方程是一个二阶片非分方程，如下所示：<br>$$<br>\triangle f(\pmb{x},t) - \frac{1}{c^2}\cdot \frac{\partial^2f(\pmb{x}, t)}{\partial t^2} &#x3D; 0<br>$$</p>
+<p>其中，$\triangle$ 是拉普来算子$\triangle &#x3D; \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}$</p>
+<p>不理解没关系，看这个 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV12o4y167nH">bilibili 经典波动方程</a>， 因为该方程是二阶方程，所以它描述了任何一个波函数<strong>在时间上需要满足的约束（个人理解）</strong></p>
+<p>为什么是任意波函数呢？水波可能是各种状态，例如多个石头落入水面产生的波纹，小船在水面上滑行产生的水波，所以对于水波而言<strong>初始状态</strong>是多种多样的，而一旦初始状态确定了该波函数就确定了（后续变变化由初始状态决定），所以波动方程约束了任意波函数<strong>在时间上的变化方式</strong></p>
+<p>对于水波模拟而言，对于任意已知的一个波 $f(t)$,  需要计算出在 $t+1$时刻的波函数 $f(t+1)$ ，所以我们可以使用差分的方法来解波动方程。（为什么这里是 $f(t)$ 而不是 $f(x,t)$, 因为对于一个水面而言，我们考虑锥面上所有点的高度值，所以这里的 $x\in (0,1) \times (0,1)$）</p>
+<h2 id="有限差分法"><a href="#有限差分法" class="headerlink" title="有限差分法"></a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Finite_difference_method">有限差分法</a></h2><p>什么是差分？在高等数学中通常用极限的方式定义函数的导数：<br>$$<br>f^{‘}(x) &#x3D; \lim_{\triangle {x} \rightarrow 0}  \frac{f(x+\triangle x) - f(x)}{\triangle{x}}<br>$$</p>
+<p>这就是差分，在 $\triangle x  \rightarrow 0$时得到导数的精确值，在$\triangle x &#x3D; h$ 时得到导数的一个近似估计，所以我们可以以一些离散的值来估计函数的导数 。<br>$$<br>f^{‘}(x) \approx  \frac{f(x+h) - f(x)}{h}<br>$$<br>这里的 h 就是我们对变量 x 进行离散化的间隔。为什么我们需要差分形式呢？</p>
+<p>在计算机中模拟现实世界总是一帧一帧的模拟，帧之间通常是固定时间间隔，并且计算机显示的图像也是一个个像素组成，这些都是离散化的表示，所谓可以用差分法将方程的解析式离散化。</p>
+<p>这种近似地模拟显然带存在误差，但是对差分法的误差衡量不是渲染技术的关注点（我们直接用就好了）</p>
+<p>有限差分法，有一些解微分方程的模板？（大概是这个意思，就是二维平面的差分应该选取空间上的哪些点来计算）</p>
+<h3 id="空间五点模板"><a href="#空间五点模板" class="headerlink" title="空间五点模板"></a>空间五点模板</h3><p>$$<br>\begin{flalign*}<br>\triangle f(x_{ij}) &amp;&#x3D; \frac{\partial^2 f(x_{ij})}{\partial x^2} + \frac{\partial^2 f(x_{ij})}{\partial y^2}<br>\<br>&amp;\approx \frac{z_{i+1,j} - 2\cdot z_{i,j} + z_{i-1, j}}{h^2} + \frac{z_{i,j+1} - 2\cdot z_{ij} + z_{i,j-1}}{h^2}</p>
+<p>\<br>&amp;&#x3D; \frac{z_{i+1,j} + z_{i,j+1} - 4\cdot z_{i,j} + z_{i-1,j} + z_{i,j-1}}{h^2}<br> \end{flalign*}<br>$$</p>
+<p><strong>五点模板</strong> 就是利用 $x_{i,j}$ 和附近的四个点来估计$f^{‘}(x_{i,j})$的方法，实际上就是<strong>二维的泰勒展开</strong>（保留一阶或者二阶精度）</p>
+<h3 id="空间三点模板"><a href="#空间三点模板" class="headerlink" title="空间三点模板"></a>空间三点模板</h3><p>$$<br>\frac{\partial^2f(x,t)}{\partial t^2}\approx \frac{z_{i,j}^{t+1} - a\cdot z_{i, j}^t + z_{i,j}^{t-1}}{\triangle{t^2}}<br>$$</p>
+<p>显然时间上的三点模板就是利用 $t-1$ 时刻，$t$ 时刻，$t+1$时刻的值来估计波动方程在该点对时间的偏导数。此处的 $t+1$ 时刻的值是未知的，我们通过将 <strong>三点模板</strong>，<strong>五点模板</strong>，<strong>波动方程</strong> 联立起来，利用空间相邻的值和时间相邻的值来估计当前的值！！！</p>
+<p>$$<br>\begin{flalign*}<br>0 &amp;&#x3D; \triangle{f(x,t)}-\frac{1}{c^2}\frac{\partial^2{f(x,t)}}{\partial{t^2}}<br>\<br>0 &amp;&#x3D; \frac{z_{i+1,j} + z_{i,j+1} - 4\cdot z_{i,j} + z_{i-1, j} + z_{i, j-1}}{h^2} - \frac{1}{c^2}\frac{z_{i,j}^{t+1}-2\cdot z_{i,j}^t+z_{i,j}^{t-1}}{\triangle{t^2}}<br>\<br>z_{i,j}^{t+1} &amp;&#x3D; a\cdot (z^t_{i+1,j} + z^t_{i,j+1} + z^t_{i-1,j} + z^t_{i,j-1}) + (2-4a)\cdot z^t_{i,j} - z^{t-1}_{i,j}<br>\end{flalign*}<br>$$</p>
+<p>其中 $a&#x3D;\frac{c^2\triangle{t^2}}{h^2}$,为了保持稳定的模拟，需要限制 $a\lt 0.5$，这里的 $\triangle {t}$ 是模拟真帧率（游戏中的渲染帧间隔），$h$ 是我们在 texture 上设定的网格。</p>
+<p>这里的疑惑是，对$\triangle {f(x,t)}$ 项的差分都是在 $t$ 时刻进行的!! 这里使用 $t$ 时刻和使用 $t+1$ 时刻有什么区别么？？</p>
+<p>以上就是 <strong>波动方程</strong> 和 <strong>有限差分法</strong> 的理论了，下面进入实践环节</p>
+<h2 id="有限差分法实现"><a href="#有限差分法实现" class="headerlink" title="有限差分法实现"></a>有限差分法实现</h2>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8F%8F%E8%BF%B0%E6%B0%B4%E6%B3%A2"><span class="toc-text">如何描述水波</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95"><span class="toc-text">有限差分法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%BA%94%E7%82%B9%E6%A8%A1%E6%9D%BF"><span class="toc-text">空间五点模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%B8%89%E7%82%B9%E6%A8%A1%E6%9D%BF"><span class="toc-text">空间三点模板</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">有限差分法实现</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Godot%E4%BA%A4%E4%BA%92%E6%B0%B4 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2FGodot%25E4%25BA%25A4%25E4%25BA%2592%25E6%25B0%25B4%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/Godot%E4%BA%A4%E4%BA%92%E6%B0%B4/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

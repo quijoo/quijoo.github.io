@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      内网穿透技术 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">内网穿透技术</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><a target="_blank" rel="noopener" href="https://evilpan.com/2015/10/31/p2p-over-middle-box/">原文</a><br>当今互联网到处存在着一些中间件(Middle Boxes),如NAT和防火墙,导致两个(不在同一内网)中的客户端无法直接通信. 这些问题即便是到了IPV6时代也会存在,因为即使不需要NAT,但还有其他中间件如防火墙阻挡了链接的建立. 目前部署的中间件多都是在C&#x2F;S架构上设计的,其中相对隐匿的客户机主动向周知的服务端(拥有静态IP地址和DNS名称)发起链接请求. 大多数中间件实现了一种非对称的通讯模型,即内网中的主机可以初始化对外的链接,而外网的主机却不能初始化对内网的链接, 除非经过中间件管理员特殊配置.</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在中间件为常见的NAPT的情况下（也是本文主要讨论的）,内网中的客户端没有单独的公网IP地址, 而是通过NAPT转换,和其他同一内网用户共享一个公网IP. 这种内网主机隐藏在中间件后的不可访问性对于一些客户端软件如浏览器来说 并不是一个问题,因为其只需要初始化对外的链接,从某方面来看反而还对隐私保护有好处. 然而在P2P应用中, 内网主机（客户端）需要对另外的终端（Peer）直接建立链接,但是发起者和响应者可能在不同的中间件后面, 两者都没有公网IP地址. 而外部对NAT公网IP和端口主动的链接或数据都会因内网未请求被丢弃掉. 本文讨论的就是如何跨越NAT实现内网主机直接通讯的问题.</p>
+<h2 id="一些术语"><a href="#一些术语" class="headerlink" title="一些术语"></a>一些术语</h2><h3 id="防火墙-Firewall"><a href="#防火墙-Firewall" class="headerlink" title="防火墙(Firewall)"></a>防火墙(Firewall)</h3><p>防火墙主要限制内网和公网的通讯,通常丢弃未经许可的数据包. 防火墙会检测(但是不修改)试图进入内网数据包的IP地址和TCP&#x2F;UDP端口信息.</p>
+<h3 id="网络地址转换器-NAT"><a href="#网络地址转换器-NAT" class="headerlink" title="网络地址转换器(NAT)"></a>网络地址转换器(NAT)</h3><p>NAT不止检查进入数据包的头部,而且对其进行修改,从而实现同一内网中不同主机共用更少的公网IP（通常是一个）.</p>
+<h3 id="基本NAT-Basic-NAT"><a href="#基本NAT-Basic-NAT" class="headerlink" title="基本NAT(Basic NAT)"></a>基本NAT(Basic NAT)</h3><p>基本NAT会将内网主机的IP地址映射为一个公网IP,不改变其TCP&#x2F;UDP端口号. 基本NAT通常只有在当NAT有公网IP池的时候才有用.</p>
+<h3 id="网络地址-端口转换器-NAPT"><a href="#网络地址-端口转换器-NAPT" class="headerlink" title="网络地址-端口转换器(NAPT)"></a>网络地址-端口转换器(NAPT)</h3><p>到目前为止最常见的即为NAPT,其检测并修改出入数据包的IP地址和端口号,从而允许多个内网主机同时共享一个公网IP地址.</p>
+<h3 id="锥形NAT-Cone-NAT"><a href="#锥形NAT-Cone-NAT" class="headerlink" title="锥形NAT(Cone NAT)"></a>锥形NAT(Cone NAT)</h3><p>在建立了一对（公网IP,公网端口）和（内网IP,内网端口）二元组的绑定之后,只要还有一个会话还是激活的,Cone NAT会重用这组绑定用于接下来该应用程序的所有会话（同一内网IP和端口）. 例如,假设客户端A建立了两个连续的对外会话,从相同的内部端点（10.0.0.1:1234）到两个不同的外部服务端S1和S2. Cone NAT只为两个会话映射了一个公网端点（155.99.25.11:62000）, 确保客户端端口的“身份”在地址转换的时候保持不变. 由于基本NAT和防火墙都不改变数据包的端口号,因此这些类型的中间件也可以看作是退化的Cone NAT.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    Server S1                                     Server S2</span><br><span class="line">18.181.0.31:1235                              138.76.29.7:1235</span><br><span class="line">       |                                             |</span><br><span class="line">       |                                             |</span><br><span class="line">       +----------------------+----------------------+</span><br><span class="line">                              |</span><br><span class="line">  ^  Session 1 (A-S1)  ^      |      ^  Session 2 (A-S2)  ^</span><br><span class="line">  |  18.181.0.31:1235  |      |      |  138.76.29.7:1235  |</span><br><span class="line">  v 155.99.25.11:62000 v      |      v 155.99.25.11:62000 v</span><br><span class="line">                              |</span><br><span class="line">                           Cone NAT</span><br><span class="line">                         155.99.25.11</span><br><span class="line">                              |</span><br><span class="line">  ^  Session 1 (A-S1)  ^      |      ^  Session 2 (A-S2)  ^</span><br><span class="line">  |  18.181.0.31:1235  |      |      |  138.76.29.7:1235  |</span><br><span class="line">  v   10.0.0.1:1234    v      |      v   10.0.0.1:1234    v</span><br><span class="line">                              |</span><br><span class="line">                           Client A</span><br><span class="line">                        10.0.0.1:1234</span><br></pre></td></tr></table></figure>
+<p>其中Cone NAT根据NAT如何接收已经建立的（公网IP,公网端口）对的输入数据还可以细分为以下三类：</p>
+<h4 id="1-全锥形NAT-Full-Cone-NAT"><a href="#1-全锥形NAT-Full-Cone-NAT" class="headerlink" title="1. 全锥形NAT(Full Cone NAT)"></a>1. 全锥形NAT(Full Cone NAT)</h4><p>在一个新会话建立了公网&#x2F;内网端口绑定之后,全锥形NAT接下来会接受对应公网端口的所有数据,无论是来自哪个（公网）终端. 全锥NAT有时候也被称为“混杂”NAT（promiscuous NAT）.</p>
+<h4 id="2-受限锥形NAT-Restricted-Cone-NAT"><a href="#2-受限锥形NAT-Restricted-Cone-NAT" class="headerlink" title="2. 受限锥形NAT(Restricted Cone NAT)"></a>2. 受限锥形NAT(Restricted Cone NAT)</h4><p>受限锥形NAT只会转发符合某个条件的输入数据包. 条件为：外部（源）IP地址匹配内网主机之前发送一个或多个数据包的结点的IP地址. AT通过限制输入数据包为一组“已知的”外部IP地址,有效地精简了防火墙的规则.</p>
+<h4 id="3-端口受限锥形NAT-Port-Restricted-Cone-NAT"><a href="#3-端口受限锥形NAT-Port-Restricted-Cone-NAT" class="headerlink" title="3. 端口受限锥形NAT(Port-Restricted Cone NAT)"></a>3. 端口受限锥形NAT(Port-Restricted Cone NAT)</h4><p>端口受限锥形NAT也类似,只当外部数据包的IP地址和端口号都匹配内网主机发送过的地址和端口号时才进行转发. 端口受限锥形NAT为内部结点提供了和对称NAT相同等级的保护,以隔离未关联的数据.</p>
+<h4 id="4-对称NAT-Symmetric-NAT"><a href="#4-对称NAT-Symmetric-NAT" class="headerlink" title="4. 对称NAT(Symmetric NAT)"></a>4. 对称NAT(Symmetric NAT)</h4><p>对称NAT正好相反,不在所有公网-内网对的会话中维持一个固定的端口绑定. 其为每个新的会话开辟一个新的端口. 如下图所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">   Server S1                                     Server S2</span><br><span class="line"><span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1235</span>                              <span class="number">138.76</span><span class="number">.29</span><span class="number">.7</span>:<span class="number">1235</span></span><br><span class="line">       |                                             |</span><br><span class="line">       |                                             |</span><br><span class="line">       +----------------------+----------------------+</span><br><span class="line">                              |</span><br><span class="line">  ^  Session <span class="number">1</span> (A-S1)  ^      |      ^  Session <span class="number">2</span> (A-S2)  ^</span><br><span class="line">  |  <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1235</span>  |      |      |  <span class="number">138.76</span><span class="number">.29</span><span class="number">.7</span>:<span class="number">1235</span>  |</span><br><span class="line">  v <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62000</span> v      |      v <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62001</span> v</span><br><span class="line">                              |</span><br><span class="line">                         Symmetric NAT</span><br><span class="line">                         <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span></span><br><span class="line">                              |</span><br><span class="line">  ^  Session <span class="number">1</span> (A-S1)  ^      |      ^  Session <span class="number">2</span> (A-S2)  ^</span><br><span class="line">  |  <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1235</span>  |      |      |  <span class="number">138.76</span><span class="number">.29</span><span class="number">.7</span>:<span class="number">1235</span>  |</span><br><span class="line">  v   <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>    v      |      v   <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>    v</span><br><span class="line">                              |</span><br><span class="line">                           Client A</span><br><span class="line">                        <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<h2 id="P2P通信技术"><a href="#P2P通信技术" class="headerlink" title="P2P通信技术"></a>P2P通信技术</h2><p>根据客户端的不同,客户端之间进行P2P传输的方法也略有不同,这里介绍了现有的穿越中间件进行P2P通信的几种技术.</p>
+<h3 id="中继（Relaying）"><a href="#中继（Relaying）" class="headerlink" title="中继（Relaying）"></a>中继（Relaying）</h3><p>这是最可靠但也是最低效的一种P2P通信实现. 其原理是通过一个有公网IP的服务器中间人对两个内网客户端的通信数据进行中继和转发. 如下图所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">                       Server S</span><br><span class="line">                          |</span><br><span class="line">                          |</span><br><span class="line">   +----------------------+----------------------+</span><br><span class="line">   |                                             |</span><br><span class="line"> NAT A                                         NAT B</span><br><span class="line">   |                                             |</span><br><span class="line">   |                                             |</span><br><span class="line">Client A                                      Client B</span><br></pre></td></tr></table></figure>
+<p>客户端A和客户端B不直接通信,而是先都与服务端S建立链接,然后再通过S和对方建立的通路来中继传递的数据. 这钟方法的缺陷很明显, 当链接的客户端变多之后,会显著增加服务器的负担,完全没体现出P2P的优势. 但这种方法的好处是能保证成功,因此在实践中也常作为一种备选方案.</p>
+<h3 id="逆向链接（Connection-reversal）"><a href="#逆向链接（Connection-reversal）" class="headerlink" title="逆向链接（Connection reversal）"></a>逆向链接（Connection reversal）</h3><p>第二种方法在当两个端点中有一个不存在中间件的时候有效. 例如,客户端A在NAT之后而客户端B拥有全局IP地址,如下图：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">                            Server S</span><br><span class="line">                        <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1235</span></span><br><span class="line">                               |</span><br><span class="line">                               |</span><br><span class="line">        +----------------------+----------------------+</span><br><span class="line">        |                                             |</span><br><span class="line">      NAT A                                           |</span><br><span class="line"><span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62000</span>                                    |</span><br><span class="line">        |                                             |</span><br><span class="line">        |                                             |</span><br><span class="line">     Client A                                      Client B</span><br><span class="line">  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>                               <span class="number">138.76</span><span class="number">.29</span><span class="number">.7</span>:<span class="number">1234</span>　</span><br></pre></td></tr></table></figure>
+<p>客户端A内网地址为10.0.0.1,且应用程序正在使用TCP端口1234. A和服务器S建立了一个链接,服务器的IP地址为18.181.0.31,监听1235端口. NAT A给客户端A分配了TCP端口62000,地址为NAT的公网IP地址155.99.25.11, 作为客户端A对外当前会话的临时IP和端口. 因此S认为客户端A就是155.99.25.11:62000. 而B由于有公网地址,所以对S来说B就是138.76.29.7:1234.</p>
+<p>当客户端B想要发起一个对客户端A的P2P链接时,要么链接A的外网地址155.99.25.11:62000,要么链接A的内网地址10.0.0.1:1234,然而两种方式链接都会失败. 链接10.0.0.1:1234失败自不用说,为什么链接155.99.25.11:62000也会失败呢？来自B的TCP SYN握手请求到达NAT A的时候会被拒绝,因为对NAT A来说只有外出的链接才是允许的. 在直接链接A失败之后,B可以通过S向A中继一个链接请求,从而从A方向“逆向“地建立起A-B之间的点对点链接.</p>
+<p>很多当前的P2P系统都实现了这种技术,但其局限性也是很明显的,只有当其中一方有公网IP时链接才能建立. 越来越多的情况下, 通信的双方都在NAT之后,因此就要用到我们下面介绍的第三种技术了.</p>
+<h3 id="UDP打洞（UDP-hole-punching）"><a href="#UDP打洞（UDP-hole-punching）" class="headerlink" title="UDP打洞（UDP hole punching）"></a>UDP打洞（UDP hole punching）</h3><p>第三种P2P通信技术,被广泛采用的,名为“P2P打洞“. P2P打洞技术依赖于通常防火墙和Cone NAT允许正当的P2P应用程序在中间件中打洞且与对方建立直接链接的特性. 下面主要考虑两种常见的场景,以及应用程序如何设计去完美地处理这些情况. 第一种场景代表了大多数情况,即两个需要直接链接的客户端处在两个不同的NAT之后； 第二种场景是两个客户端在同一个NAT之后,但客户端自己可能并不知道(比如同一ISP下面的不同子网).</p>
+<h4 id="端点在不同的NAT之后"><a href="#端点在不同的NAT之后" class="headerlink" title="端点在不同的NAT之后"></a>端点在不同的NAT之后</h4><p>假设客户端A和客户端B的地址都是内网地址,且在不同的NAT后面. A、B上运行的P2P应用程序和服务器S都使用了UDP端口1234,A和B分别初始化了 与Server的UDP通信,地址映射如图所示:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">                            Server S</span><br><span class="line">                        <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1234</span></span><br><span class="line">                               |</span><br><span class="line">                               |</span><br><span class="line">        +----------------------+----------------------+</span><br><span class="line">        |                                             |</span><br><span class="line">      NAT A                                         NAT B</span><br><span class="line"><span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62000</span>                            <span class="number">138.76</span><span class="number">.29</span><span class="number">.7</span>:<span class="number">31000</span></span><br><span class="line">        |                                             |</span><br><span class="line">        |                                             |</span><br><span class="line">     Client A                                      Client B</span><br><span class="line">  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>                                 <span class="number">10.1</span><span class="number">.1</span><span class="number">.3</span>:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<p>现在假设客户端A打算与客户端B直接建立一个UDP通信会话. 如果A直接给B的公网地址138.76.29.7:31000发送UDP数据,NAT B将很可能会无视进入的 数据（除非是Full Cone NAT）,因为源地址和端口与S不匹配,而最初只与S建立过会话. B往A直接发信息也类似.</p>
+<p>假设A开始给B的公网地址发送UDP数据的同时,给服务器S发送一个中继请求,要求B开始给A的公网地址发送UDP信息. A往B的输出信息会导致NAT A打开 一个A的内网地址与与B的外网地址之间的新通讯会话,B往A亦然. 一旦新的UDP会话在两个方向都打开之后,客户端A和客户端B就能直接通讯, 而无须再通过引导服务器S了.</p>
+<p>UDP打洞技术有许多有用的性质. 一旦一个的P2P链接建立,链接的双方都能反过来作为“引导服务器”来帮助其他中间件后的客户端进行打洞, 极大减少了服务器的负载. 应用程序不需要知道中间件具体是什么（如果有的话）,因为以上的过程在没有中间件或者有多个中间件的情况下 也一样能建立通信链路.</p>
+<h4 id="端点在相同的NAT之后"><a href="#端点在相同的NAT之后" class="headerlink" title="端点在相同的NAT之后"></a>端点在相同的NAT之后</h4><p>现在考虑这样一种情景,两个客户端A和B正好在同一个NAT之后（而且可能他们自己并不知道）,因此在同一个内网网段之内. 客户端A和服务器S建立了一个UDP会话,NAT为此分配了公网端口62000,B同样和S建立会话,分配到了端口62001,如下图：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">                          Server S</span><br><span class="line">                      <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1234</span></span><br><span class="line">                             |</span><br><span class="line">                             |</span><br><span class="line">                            NAT</span><br><span class="line">                   A-S <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62000</span></span><br><span class="line">                   B-S <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62001</span></span><br><span class="line">                             |</span><br><span class="line">      +----------------------+----------------------+</span><br><span class="line">      |                                             |</span><br><span class="line">   Client A                                      Client B</span><br><span class="line"><span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>                                 <span class="number">10.1</span><span class="number">.1</span><span class="number">.3</span>:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<p>假设A和B使用了上节介绍的UDP打洞技术来建立P2P通路,那么会发生什么呢？首先A和B会得到由S观测到的对方的公网IP和端口号,然后给对方的地址发送信息. 两个客户端只有在NAT允许内网主机对内网其他主机发起UDP会话的时候才能正常通信,我们把这种情况称之为”回环传输“(loopback transmission),因为从内部 到达NAT的数据会被“回送”到内网中而不是转发到外网. 例如,当A发送一个UDP数据包给B的公网地址时,数据包最初有源IP地址和端口地址10.0.0.1:1234和 目的地址155.99.25.11:62001,NAT收到包后,将其转换为源155.99.25.11:62000（A的公网地址）和目的10.1.1.3:1234,然后再转发给B. 即便NAT支持 回环传输,这种转换和转发在此情况下也是没必要的,且有可能会增加A与B的对话延时和加重NAT的负担.</p>
+<p>对于这个情况,优化方案是很直观的. 当A和B最初通过S交换地址信息时,他们应该包含自身的IP地址和端口号（从自己看）,同时也包含从服务器看的自己的 地址和端口号. 然后客户端同时开始从对方已知的两个的地址中同时开始互相发送数据,并使用第一个成功通信的地址作为对方地址. 如果两个客户端在同一个 NAT后,发送到对方内网地址的数据最有可能先到达,从而可以建立一条不经过NAT的通信链路；如果两个客户端在不同的NAT之后,发送给对方内网地址的数据包 根本就到达不了对方,但仍然可以通过公网地址来建立通路. 值得一提的是,虽然这些数据包通过某种方式验证,但是在不同NAT的情况下完全有可能会导致A往B 发送的信息发送到其他A内网网段中无关的结点上去的.</p>
+<h4 id="端点在多级NAT之后"><a href="#端点在多级NAT之后" class="headerlink" title="端点在多级NAT之后"></a>端点在多级NAT之后</h4><p>在一些拓朴结构中,可能会存在多级NAT设备,在这种情况下,如果没有关于拓朴的具体信息, 两个Peer要建立“最优”的P2P链接是不可能的,下面来说为什么. 以下图为例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">                            Server S</span><br><span class="line">                        <span class="number">18.181</span><span class="number">.0</span><span class="number">.31</span>:<span class="number">1234</span></span><br><span class="line">                               |</span><br><span class="line">                               |</span><br><span class="line">                             NAT X</span><br><span class="line">                     A-S <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62000</span></span><br><span class="line">                     B-S <span class="number">155.99</span><span class="number">.25</span><span class="number">.11</span>:<span class="number">62001</span></span><br><span class="line">                               |</span><br><span class="line">                               |</span><br><span class="line">        +----------------------+----------------------+</span><br><span class="line">        |                                             |</span><br><span class="line">      NAT A                                         NAT B</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span>:<span class="number">30000</span>                             <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">31000</span></span><br><span class="line">        |                                             |</span><br><span class="line">        |                                             |</span><br><span class="line">     Client A                                      Client B</span><br><span class="line">  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1234</span>                                 <span class="number">10.1</span><span class="number">.1</span><span class="number">.3</span>:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<p>假设NAT X是一个网络提供商ISP部署的工业级NAT,其下子网共用一个公网地址155.99.25.11,NAT A和NAT B分别是其下不同用户的网关部署的NAT. 只有服务器S 和NAT X有全局的路由地址. Client A在NAT A的子网中,同时Client B在NAT B的子网中,每经过一级NAT都要进行一次网络地址转换.</p>
+<p>现在假设A和B打算建立直接P2P链接,用一般的方法（通过Server S来打洞）自然是没问题的,那能不能优化呢？一种想当然的优化办法是A直接把信息发送给NAT B的 内网地址192.168.1.2:31000,且B通过NAT B把信息发送给A的路由地址192.168.1.1:30000,不幸的是,A和B都没有办法得知这两个目的地址,因为S只看见了客户端 ‵全局‵地址155.99.25.11. 退一步说,即便A和B通过某种方法得知了那些地址,我们也无法保证他们是可用的. 因为ISP分配的子网地址可能和NAT A B分配的子网地址 域相冲突. 因此客户端没有其他选择,只能使用S来进行打洞并进行回环传输.</p>
+<h3 id="固定端口绑定"><a href="#固定端口绑定" class="headerlink" title="固定端口绑定"></a>固定端口绑定</h3><p>UDP打洞技术有一个主要的条件：只有当两个NAT都是Cone NAT（或者非NAT的防火墙）时才能工作. 因为其维持了一个给定的（内网IP,内网UDP）二元组 和（公网IP, 公网UDP）二元组固定的端口绑定,只要该UDP端口还在使用中,就不会变化. 如果像对称NAT一样,给每个新会话分配一个新的公网端口,就 会导致UDP应用程序无法使用跟外部端点已经打通了的通信链路. 由于Cone NAT是当今最广泛使用的,尽管有一小部分的对称NAT是不支持打洞的,UDP打洞 技术也还是被广泛采纳应用.</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>一般的网络编程,都是客户端比服务端要难,因为要处理与服务器的通信同时还要处理来自用户的事件；对于P2P客户端来说更是如此,因为P2P客户端不止作 为客户端,同时也作为对等连接的服务器端. 这里的大体思路是,输入命令传输给服务器之后,接收来自服务器的反馈,并执行相应代码. 例如A想要与B建立 通信链路,先给服务器发送punch命令以及给B发送数据,服务器接到命令后给B发送punch_requst信息以及A的端点信息,B收到之后向A发送数据打通通路,然 后A与B就可以进行P2P通信了. 经测试,打通通路后即便把服务器关闭,A与B也能正常通信.</p>
+<p>一个UDP打洞的例子见P2P-Over-MiddleBoxes-Demo</p>
+<h2 id="TCP打洞-TCP-Hole-Punching"><a href="#TCP打洞-TCP-Hole-Punching" class="headerlink" title="TCP打洞(TCP Hole Punching)"></a>TCP打洞(TCP Hole Punching)</h2><p>关于TCP打洞,有一点需要提的是,因为TCP是基于连接的,所以任何未经连接而发送的数据都会被丢弃,这导致在recv的时候是无法直接从peer端读取数据. 其实这对UDP也一样,如果对UDP的socket进行了connect,其也会忽略连接之外的数据,详见connect(2).</p>
+<p>所以,如果我们要进行TCP打洞,通常需要重用本地的endpoint来发起新的TCP连接,这样才能将已经打开的NAT利用起来. 具体来说,则是要设置socket的 SO_REUSEADDR或SO_REUSEPORT属性,根据系统不同,其实现也不尽一致. 一般来说,TCP打洞的步骤如下：</p>
+<p>A 发送 SYN 到 B(出口地址,下同）,从而创建NAT A的一组映射<br>B 发送 SYN 到 A, 创建NAT B的一组映射<br>根据时序不同,两个SYN中有一个会被对方的NAT丢弃,另一个成功通过NAT<br>通过NAT的SYN报文被其中一方收到,即返回SYNACK, 完成握手<br>至此,TCP的打洞成功,获得一个不依赖于服务器的链接<br>由于TCP连接是由操作系统控制的, 而不是由应用控制的, 而且TCP包的序列号是随机生成, 所以TCP打洞的成功率就相对较低. 因此如果NAT对接收到的包进行TCP序列号检测时若没有现有的连接可以对应, 该TCP包很可能会被NAT丢弃掉.</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/%E4%BA%8C%E9%98%B6%E6%9B%B2%E7%BA%BF/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%9C%AF%E8%AF%AD"><span class="toc-text">一些术语</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99-Firewall"><span class="toc-text">防火墙(Firewall)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E5%99%A8-NAT"><span class="toc-text">网络地址转换器(NAT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACNAT-Basic-NAT"><span class="toc-text">基本NAT(Basic NAT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80-%E7%AB%AF%E5%8F%A3%E8%BD%AC%E6%8D%A2%E5%99%A8-NAPT"><span class="toc-text">网络地址-端口转换器(NAPT)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%A5%E5%BD%A2NAT-Cone-NAT"><span class="toc-text">锥形NAT(Cone NAT)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%85%A8%E9%94%A5%E5%BD%A2NAT-Full-Cone-NAT"><span class="toc-text">1. 全锥形NAT(Full Cone NAT)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8F%97%E9%99%90%E9%94%A5%E5%BD%A2NAT-Restricted-Cone-NAT"><span class="toc-text">2. 受限锥形NAT(Restricted Cone NAT)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%AB%AF%E5%8F%A3%E5%8F%97%E9%99%90%E9%94%A5%E5%BD%A2NAT-Port-Restricted-Cone-NAT"><span class="toc-text">3. 端口受限锥形NAT(Port-Restricted Cone NAT)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%AF%B9%E7%A7%B0NAT-Symmetric-NAT"><span class="toc-text">4. 对称NAT(Symmetric NAT)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P2P%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF"><span class="toc-text">P2P通信技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E7%BB%A7%EF%BC%88Relaying%EF%BC%89"><span class="toc-text">中继（Relaying）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%86%E5%90%91%E9%93%BE%E6%8E%A5%EF%BC%88Connection-reversal%EF%BC%89"><span class="toc-text">逆向链接（Connection reversal）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UDP%E6%89%93%E6%B4%9E%EF%BC%88UDP-hole-punching%EF%BC%89"><span class="toc-text">UDP打洞（UDP hole punching）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E7%82%B9%E5%9C%A8%E4%B8%8D%E5%90%8C%E7%9A%84NAT%E4%B9%8B%E5%90%8E"><span class="toc-text">端点在不同的NAT之后</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E7%82%B9%E5%9C%A8%E7%9B%B8%E5%90%8C%E7%9A%84NAT%E4%B9%8B%E5%90%8E"><span class="toc-text">端点在相同的NAT之后</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E7%82%B9%E5%9C%A8%E5%A4%9A%E7%BA%A7NAT%E4%B9%8B%E5%90%8E"><span class="toc-text">端点在多级NAT之后</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E7%AB%AF%E5%8F%A3%E7%BB%91%E5%AE%9A"><span class="toc-text">固定端口绑定</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-text">具体实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%89%93%E6%B4%9E-TCP-Hole-Punching"><span class="toc-text">TCP打洞(TCP Hole Punching)</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%8A%80%E6%9C%AF + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E5%2586%2585%25E7%25BD%2591%25E7%25A9%25BF%25E9%2580%258F%25E6%258A%2580%25E6%259C%25AF%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%8A%80%E6%9C%AF/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

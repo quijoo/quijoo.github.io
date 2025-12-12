@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      辅助瞄准 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">辅助瞄准</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p>由于本机需要运行游戏进程，再额外运行神经网络，这样做非常卷，所以使用一台额外的计算机来推理（在网吧直接开两台电脑🤡） f<br>现在有两种数据传输的方案：</p>
+<h3 id="使用采集卡"><a href="#使用采集卡" class="headerlink" title="使用采集卡"></a>使用采集卡</h3><p>能采集高帧率画面的采集卡售价已经超过1000RMB了，所以很不划算<br>将游戏主机记为 A，推理主机记为 B，该方案，A 只需要运行一个控制鼠标移动的小程序（几乎没有消耗，可以直接纯 Python实现），主机 A 需要捕获采集卡的视频，并且进行推理，将目标列表数据通过 TCP&#x2F;UDP 传输到主机A。两台主机需要通过<strong>采集卡</strong>和<strong>RJ45</strong>连接</p>
+<h3 id="进程间通信的方式"><a href="#进程间通信的方式" class="headerlink" title="进程间通信的方式"></a>进程间通信的方式</h3><p>优点是成本低，只用连接一根网线，缺点是速度可能会慢）<br>该方法在主机A运行<strong>屏幕捕获和鼠标更新</strong>进程，在主机B运行推理进程</p>
+<p>A-&gt;B : 剪裁后的 cv::Mat (320 x 320)<br>B-&gt;A : 鼠标控制数据<br>以 90 fps的推理速度来计算<br>$$<br>data &#x3D; \frac{90  \times 320 \times 320 \times 24}{8} &#x3D;  27,648,000(B&#x2F;s)&#x3D;27,000(KB&#x2F;s) &#x3D; 26.4(MB&#x2F;s)<br>$$<br>所以进程间 以网线连接 使用UDP 通信，需要保证26.4 MB&#x2F;s 的上传速度，不清楚这会不会导致过度占用网卡，导致游戏进程掉包</p>
+<p>本地两台 PC 之间的传输时延低于 1ms， 对于本应用可以忽略不计<br>我们考虑每一帧的情况<br>$$<br>data &#x3D; \frac{1  \times 320 \times 320 \times 24}{8} &#x3D;  307,200(B&#x2F;frame)&#x3D;300(KB&#x2F;frame) &#x3D; 0.293(MB&#x2F;frame)<br>$$<br>传输方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// send</span></span><br><span class="line"> Mat img = <span class="built_in">imread</span>(<span class="string">&quot;img/1.jpg&quot;</span>);</span><br><span class="line"><span class="type">int</span> imgSize = img.cols*img.rows*img.<span class="built_in">channels</span>();</span><br><span class="line"><span class="type">char</span> *pos = (<span class="type">char</span>*)img.data;</span><br><span class="line"><span class="type">int</span> total = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (total &lt; imgSize)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> sizelen = <span class="built_in">send</span>(sockfd, pos+total, imgSize-total, <span class="number">0</span>);</span><br><span class="line">    total = total + sizelen;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// recieve</span></span><br><span class="line"> <span class="keyword">if</span> ((connfd = <span class="built_in">accept</span>(listenfd, (<span class="keyword">struct</span> sockaddr*)<span class="literal">NULL</span>, <span class="literal">NULL</span>)) == <span class="number">-1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;accept socket error: %s(errno: %d)&quot;</span>,<span class="built_in">strerror</span>(errno),errno);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> buf[<span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>]; <span class="comment">// 图片宽高</span></span><br><span class="line"><span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="built_in">sizeof</span>(buf));</span><br><span class="line"><span class="type">int</span> total = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(total &lt; <span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">long</span> len = <span class="built_in">recv</span>(connfd, buf+total, <span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>-total, <span class="number">0</span>); <span class="comment">// 注意偏移量</span></span><br><span class="line">    total = total + len;</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;接收长度为: &quot;</span> &lt;&lt; total &lt;&lt; endl;</span><br><span class="line"><span class="function">Mat <span class="title">img</span><span class="params">(<span class="number">320</span> * <span class="number">320</span>, CV_8UC3, buf)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在开始开发之前需要测试<strong>网络和性能瓶颈</strong><br>时延计算<br>$$<br>timeDelay &#x3D; grabTime + cropTime + TransportTime_1 + InferenceTime + TransportTime_2<br>$$</p>
+<p>使用一个ZeroMQ 的头文件only版本就行了（非常方便）<br>这样就能单机运行和多机运行了（设置启动脚本即可）<br>tips:</p>
+<ol>
+<li>cppzmq 只是一个 c++ 的wrapper，其本质还是 基于c 的libzmq</li>
+<li>使用cppzmq 需要先编译 libzmq，并且将 libzmq&#x2F;include&#x2F;zmq.h 和 cppzmq&#x2F;* 添加到包含目录</li>
+<li>将 libzmq&#x2F;&lt;build_dir&gt;&#x2F;lib&#x2F;添加到库目录</li>
+<li>将以下文件作为链接器输入<br> wsock32.lib<br> ws2_32.lib<br> Iphlpapi.lib<br> libzmq-v143-mt-s-4_3_5.lib<br> libzmq-v143-mt-4_3_5.exp<br> testutil.lib<br> testutil-static.lib<br> unity.lib</li>
+</ol>
+<p>经过测试，使用 cppzmq 在本地计算机能完成 1ms 内的数据传输，目标数据的传输需要使用 json 进行序列化！</p>
+<p>由于本机需要运行游戏进程，再额外运行神经网络，这样做非常卷，所以使用一台额外的计算机来推理（在网吧直接开两台电脑🤡） f<br>现在有两种数据传输的方案：</p>
+<h3 id="使用采集卡-1"><a href="#使用采集卡-1" class="headerlink" title="使用采集卡"></a>使用采集卡</h3><p>能采集高帧率画面的采集卡售价已经超过1000RMB了，所以很不划算<br>将游戏主机记为 A，推理主机记为 B，该方案，A 只需要运行一个控制鼠标移动的小程序（几乎没有消耗，可以直接纯 Python实现），主机 A 需要捕获采集卡的视频，并且进行推理，将目标列表数据通过 TCP&#x2F;UDP 传输到主机A。两台主机需要通过<strong>采集卡</strong>和<strong>RJ45</strong>连接</p>
+<h3 id="进程间通信的方式-1"><a href="#进程间通信的方式-1" class="headerlink" title="进程间通信的方式"></a>进程间通信的方式</h3><p>优点是成本低，只用连接一根网线，缺点是速度可能会慢）<br>该方法在主机A运行<strong>屏幕捕获和鼠标更新</strong>进程，在主机B运行推理进程</p>
+<p>A-&gt;B : 剪裁后的 cv::Mat (320 x 320)<br>B-&gt;A : 鼠标控制数据<br>以 90 fps的推理速度来计算<br>$$<br>data &#x3D; \frac{90  \times 320 \times 320 \times 24}{8} &#x3D;  27,648,000(B&#x2F;s)&#x3D;27,000(KB&#x2F;s) &#x3D; 26.4(MB&#x2F;s)<br>$$<br>所以进程间 以网线连接 使用UDP 通信，需要保证26.4 MB&#x2F;s 的上传速度，不清楚这会不会导致过度占用网卡，导致游戏进程掉包</p>
+<p>本地两台 PC 之间的传输时延低于 1ms， 对于本应用可以忽略不计<br>我们考虑每一帧的情况<br>$$<br>data &#x3D; \frac{1  \times 320 \times 320 \times 24}{8} &#x3D;  307,200(B&#x2F;frame)&#x3D;300(KB&#x2F;frame) &#x3D; 0.293(MB&#x2F;frame)<br>$$<br>传输方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// send</span></span><br><span class="line"> Mat img = <span class="built_in">imread</span>(<span class="string">&quot;img/1.jpg&quot;</span>);</span><br><span class="line"><span class="type">int</span> imgSize = img.cols*img.rows*img.<span class="built_in">channels</span>();</span><br><span class="line"><span class="type">char</span> *pos = (<span class="type">char</span>*)img.data;</span><br><span class="line"><span class="type">int</span> total = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (total &lt; imgSize)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> sizelen = <span class="built_in">send</span>(sockfd, pos+total, imgSize-total, <span class="number">0</span>);</span><br><span class="line">    total = total + sizelen;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// recieve</span></span><br><span class="line"> <span class="keyword">if</span> ((connfd = <span class="built_in">accept</span>(listenfd, (<span class="keyword">struct</span> sockaddr*)<span class="literal">NULL</span>, <span class="literal">NULL</span>)) == <span class="number">-1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;accept socket error: %s(errno: %d)&quot;</span>,<span class="built_in">strerror</span>(errno),errno);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">char</span> buf[<span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>]; <span class="comment">// 图片宽高</span></span><br><span class="line"><span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="built_in">sizeof</span>(buf));</span><br><span class="line"><span class="type">int</span> total = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(total &lt; <span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">long</span> len = <span class="built_in">recv</span>(connfd, buf+total, <span class="number">320</span> * <span class="number">320</span> * <span class="number">3</span>-total, <span class="number">0</span>); <span class="comment">// 注意偏移量</span></span><br><span class="line">    total = total + len;</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;接收长度为: &quot;</span> &lt;&lt; total &lt;&lt; endl;</span><br><span class="line"><span class="function">Mat <span class="title">img</span><span class="params">(<span class="number">320</span> * <span class="number">320</span>, CV_8UC3, buf)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在开始开发之前需要测试<strong>网络和性能瓶颈</strong><br>时延计算<br>$$<br>timeDelay &#x3D; grabTime + cropTime + TransportTime_1 + InferenceTime + TransportTime_2<br>$$</p>
+<p>使用一个ZeroMQ 的头文件only版本就行了（非常方便）<br>这样就能单机运行和多机运行了（设置启动脚本即可）<br>tips:</p>
+<ol>
+<li>cppzmq 只是一个 c++ 的wrapper，其本质还是 基于c 的libzmq</li>
+<li>使用cppzmq 需要先编译 libzmq，并且将 libzmq&#x2F;include&#x2F;zmq.h 和 cppzmq&#x2F;* 添加到包含目录</li>
+<li>将 libzmq&#x2F;&lt;build_dir&gt;&#x2F;lib&#x2F;添加到库目录</li>
+<li>将以下文件作为链接器输入<br> wsock32.lib<br> ws2_32.lib<br> Iphlpapi.lib<br> libzmq-v143-mt-s-4_3_5.lib<br> libzmq-v143-mt-4_3_5.exp<br> testutil.lib<br> testutil-static.lib<br> unity.lib</li>
+</ol>
+<p>经过测试，使用 cppzmq 在本地计算机能完成 1ms 内的数据传输，目标数据的传输需要使用 json 进行序列化！</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/CART%E6%A0%91/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%87%87%E9%9B%86%E5%8D%A1"><span class="toc-text">使用采集卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">进程间通信的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%87%87%E9%9B%86%E5%8D%A1-1"><span class="toc-text">使用采集卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E6%96%B9%E5%BC%8F-1"><span class="toc-text">进程间通信的方式</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E8%BE%85%E5%8A%A9%E7%9E%84%E5%87%86 + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F%25E8%25BE%2585%25E5%258A%25A9%25E7%259E%2584%25E5%2587%2586%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/%E8%BE%85%E5%8A%A9%E7%9E%84%E5%87%86/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

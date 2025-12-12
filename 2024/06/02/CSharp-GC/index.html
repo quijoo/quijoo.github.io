@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      CSharp-GC 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">CSharp-GC</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="GC的前世与今生"><a href="#GC的前世与今生" class="headerlink" title="GC的前世与今生"></a>GC的前世与今生</h2><blockquote>
+<p>虽然本文是以 .Net 作为目标来讲述 GC，但是 GC 的概念并非才诞生不久。早在1958年，由鼎鼎大名的图林奖得主 <strong>John McCarthy</strong> 所实现的 Lisp 语言就已经提供了 GC 的功能，这是 GC 的第一次出现。Lisp的程序员认为内存管理太重要了，所以不能由程序员自己来管理。但后来的日子里Lisp却没有成气候，采用内存手动管理的语言占据了上风，以 C 为代表。出于同样的理由，不同的人却又不同的看法，C 程序员认为内存管理太重要了，所以不能由系统来管理，并且讥笑 Lisp 程序<strong>慢如乌龟</strong>的运行速度。的确，在那个对每一个 Byte 都要精心计算的年代 GC 的速度和对系统资源的大量占用使很多人的无法接受。而后，1984年由 Dave Ungar 开发的 Small talk 语言第一次采用了 Generational garbage collection的技术（这个技术在下文中会谈到），但是 Small talk 也没有得到十分广泛的应用。</p>
+<p>直到20世纪90年代中期 GC 才以主角的身份登上了历史的舞台，这不得不归功于 Java 的进步，今日的 GC 已非吴下阿蒙。Java采用VM（Virtual Machine）机制，由VM来管理程序的运行当然也包括对 GC 管理。90年代末期 .net 出现了，.net采用了和 Java 类似的方法由 CLR(Common Language Runtime) 来管理。这两大阵营的出现将人们引入了以虚拟平台为基础的开发时代，GC 也在这个时候越来越得到大众的关注。</p>
+</blockquote>
+<p>为什么要使用GC呢？也可以说是为什么要使用内存自动管理？有下面的几个原因：<br>1、提高了软件开发的抽象度；<br>2、程序员可以将精力集中在实际的问题上而不用分心来管理内存的问题；<br>3、可以使模块的接口更加的清晰，减小模块间的偶合；<br>4、大大减少了内存人为管理不当所带来的Bug；<br>5、使内存管理更加高效。<br>总的说来就是GC可以使程序员可以从复杂的内存问题中摆脱出来，从而提高了软件开发的速度、质量和安全性。</p>
+<h2 id="什么是GC"><a href="#什么是GC" class="headerlink" title="什么是GC"></a>什么是GC</h2><p>GC如其名，就是垃圾收集，当然这里仅就内存而言。Garbage Collector（垃圾收集器，在不至于混淆的情况下也成为GC）以应用程序的root为基础，遍历应用程序在Heap上动态分配的所有对象[2]，通过识别它们是否被引用来确定哪些对象是已经死亡的哪些仍需要被使用。已经不再被应用程序的root或者别的对象所引用的对象就是已经死亡的对象，即所谓的垃圾，需要被回收。这就是GC工作的原理。为了实现这个原理，GC有多种算法。比较常见的算法有Reference Counting，Mark Sweep，Copy Collection等等。目前主流的虚拟系统.net CLR，Java VM和Rotor都是采用的Mark Sweep算法。</p>
+<h2 id="Mark-Compact-标记压缩算法"><a href="#Mark-Compact-标记压缩算法" class="headerlink" title="Mark-Compact 标记压缩算法"></a>Mark-Compact 标记压缩算法</h2><p>简单把.NET的GC算法看作Mark-Compact算法</p>
+<ul>
+<li>阶段1: Mark-Sweep 标记清除阶段, 先假设heap中所有对象都可以回收，然后找出不能回收的对象，给这些对象打上标记，最后heap中没有打标记的对象都是可以被回收的</li>
+<li>阶段2: Compact 压缩阶段, 对象回收之后heap内存空间变得不连续，在heap中移动这些对象，使他们重新从heap基地址开始连续排列，类似于磁盘空间的碎片整理</li>
+</ul>
+<p>![](<a target="_blank" rel="noopener" href="https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-02-mark-compact.png">https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-02-mark-compact.png</a> &#x3D;500x)</p>
+<p>Heap内存经过回收、压缩之后，可以继续采用前面的heap内存分配方法，即仅用一个指针记录heap分配的起始地址就可以</p>
+<p>主要处理步骤：</p>
+<ol>
+<li>将线程挂起</li>
+<li>确定roots</li>
+<li>创建reachable objectsgraph</li>
+<li>对象回收</li>
+<li>heap压缩</li>
+<li>指针修复</li>
+</ol>
+<p>可以这样理解roots：heap中对象的引用关系错综复杂（交叉引用、循环引用），形成复杂的graph，roots是CLR在heap之外可以找到的各种入口点。GC搜索roots的地方包括<strong>全局对象</strong>、<strong>静态变量</strong>、<strong>局部对象</strong>、<strong>函数调用参数</strong>、<strong>当前CPU寄存器中的对象指针</strong>（还有<strong>finalizationqueue</strong>）等。</p>
+<p>主要可以归为2种类型：<strong>已经初始化了的静态变量</strong>、<strong>线程仍在使用的对象</strong>（stack+CPU register）</p>
+<p><strong>Reachable objects</strong>：指根据对象引用关系，从roots出发可以到达的对象。例如当前执行函数的局部变量对象A是一个rootobject，他的成员变量引用了对象B，则B是一个reachable object。从roots出发可以创建reachable objectsgraph，剩余对象即为unreachable，可以被回收</p>
+<p>![](<a target="_blank" rel="noopener" href="https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-05-reachable-graph.png">https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-05-reachable-graph.png</a> &#x3D;500x)</p>
+<p><strong>指针修复</strong> : 因为compact过程移动了heap对象，对象地址发生变化，需要修复所有引用指针，包括stack、CPUregister中的指针以及heap中其他对象的引用指针</p>
+<p>Debug和release执行模式之间稍有区别，release模式下后续代码没有引用的对象是unreachable的，而debug模式下需要等到当前函数执行完毕，这些对象才会成为unreachable，目的是为了调试时跟踪局部对象的内容, 传给了COM+的托管对象也会成为root，并且具有一个引用计数器以兼容COM+的内存管理机制，引用计数器为0时这些对象才可能成为被回收对象</p>
+<p><strong>Pinnedobjects</strong>：指分配之后不能移动位置的对象，例如传递给非托管代码的对象（或者使用了fixed关键字），GC在指针修复时无法修改非托管代码中的引用指针，因此将这些对象移动将发生异常。pinnedobjects会导致heap出现碎片，但大部分情况来说传给非托管代码的对象应当在GC时能够被回收掉</p>
+<h2 id="Generational-分代算法"><a href="#Generational-分代算法" class="headerlink" title="Generational 分代算法"></a>Generational 分代算法</h2><p>程序可能使用几百M、几G的内存，对这样的内存区域进行GC操作成本很高，分代算法具备一定统计学基础，对GC的性能改善效果比较明显。将对象按照生命周期分成新的、老的，根据统计分布规律所反映的结果，可以对新、老区域采用不同的回收策略和算法，加强对新区域的回收处理力度，争取<strong>在较短时间间隔、较小的内存区域内，以较低成本将执行路径上大量新近抛弃不再使用的局部对象及时回收掉</strong></p>
+<p>分代算法的假设前提条件：</p>
+<ol>
+<li>大量新创建的对象生命周期都比较短，而较老的对象生命周期会更长</li>
+<li>对部分内存进行回收比基于全部内存的回收操作要快</li>
+<li>新创建的对象之间关联程度通常较强。heap分配的对象是连续的，关联度较强有利于提高CPU cache的命中率</li>
+</ol>
+<p>.NET将heap分成3个代龄区域: Gen 0、Gen 1、Gen 2 Heap分为3个代龄区域，相应的GC有3种方式: </p>
+<ul>
+<li>Gen 0 collections ： Gen 0 heap内存达到阀值，则触发0代GC， 0代GC后Gen 0中幸存的对象进入Gen1。</li>
+<li>Gen 1 collections ： Gen 1的内存达到阀值，则进行1代GC，1代GC将Gen 0 heap和Gen 1 heap一起进行回收，幸存的对象进入Gen2。</li>
+<li>Gen 2 collections： 2代GC将Gen 0 heap、Gen 1 heap和Gen 2 heap一起回收</li>
+</ul>
+<p>![](<a target="_blank" rel="noopener" href="https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-06-generation.png">https://images.cnblogs.com/cnblogs_com/riccc/dotnet/net-mem-06-generation.png</a> &#x3D;500x)</p>
+<p>Gen 0和Gen 1比较小，这两个代龄加起来总是保持在16M左右；Gen2的大小由应用程序确定，可能达到几G，因此0代和1代GC的成本非常低，2代GC称为fullGC，通常成本很高。粗略的计算0代和1代GC应当能在<strong>几毫秒到几十毫秒</strong>之间完成，Gen 2 heap比较大时fullGC可能需要花费<strong>几秒</strong>时间。大致上来讲.NET应用运行期间2代、1代和0代GC的频率应当大致为1:10:100。</p>
+<h2 id="Finalization-Queue和Freachable-Queue"><a href="#Finalization-Queue和Freachable-Queue" class="headerlink" title="Finalization Queue和Freachable Queue"></a>Finalization Queue和Freachable Queue</h2><p>这两个队列和.net对象所提供的Finalize方法有关。这两个队列并不用于存储真正的对象，而是存储一组指向对象的指针。</p>
+<p>当程序中使用了new操作符在Managed Heap上分配空间时，GC会对其进行分析，如果该对象含有Finalize方法则在Finalization Queue中添加一个指向该对象的指针。在GC被启动以后，经过Mark阶段分辨出哪些是垃圾。再在垃圾中搜索，如果发现垃圾中有被Finalization Queue中的指针所指向的对象，则将这个对象从垃圾中分离出来，并将指向它的指针移动到Freachable Queue中。这个过程被称为是对象的复生（Resurrection），本来死去的对象就这样被救活了。为什么要救活它呢？因为这个对象的Finalize方法还没有被执行，所以不能让它死去。</p>
+<p>Freachable Queue平时不做什么事，但是一旦里面被添加了指针之后，它就会去触发所指对象的Finalize方法执行，之后将这个指针从队列中剔除，这是对象就可以安静的死去了。.net framework的System.GC类提供了控制Finalize的两个方法，ReRegisterForFinalize和SuppressFinalize。前者是请求系统完成对象的Finalize方法，后者是请求系统不要完成对象的Finalize方法。ReRegisterForFinalize方法其实就是将指向对象的指针重新添加到Finalization Queue中。这就出现了一个很有趣的现象，因为在Finalization Queue中的对象可以复生，如果在对象的Finalize方法中调用ReRegisterForFinalize方法，这样就形成了一个在堆上永远不会死去的对象，像凤凰涅槃一样每次死的时候都可以复生。</p>
+<h3 id="托管资源-非托管资源"><a href="#托管资源-非托管资源" class="headerlink" title="托管资源 &amp;&amp; 非托管资源"></a>托管资源 &amp;&amp; 非托管资源</h3><p>Net中的所有类型都是（直接或间接）从System.Object类型派生的。</p>
+<p>CTS中的类型被分成两大类——引用类型（reference type，又叫托管类型[managed type]），分配在内存堆上，值类型（value type）。值类型分配在堆栈上。如图</p>
+<p>![](<a target="_blank" rel="noopener" href="https://images.cnblogs.com/cnblogs_com/frank_xl/CSType.gif">https://images.cnblogs.com/cnblogs_com/frank_xl/CSType.gif</a> &#x3D;500x)</p>
+<p><strong>值类型</strong> 在栈里，先进后出，值类型变量的生命有先后顺序，这个确保了值类型变量在推出作用域以前会释放资源。比引用类型更简单和高效。堆栈是从高地址往低地址分配内存。</p>
+<p><strong>引用类型</strong> 分配在托管堆(Managed Heap)上，声明一个变量在栈上保存，当使用new创建对象时，会把对象的地址存储在这个变量里。托管堆相反，从低地址往高地址分配内存，如图<br>![](<a target="_blank" rel="noopener" href="https://images.cnblogs.com/cnblogs_com/frank_xl/StackHeap.gif">https://images.cnblogs.com/cnblogs_com/frank_xl/StackHeap.gif</a> &#x3D;500x)</p>
+<p>.net中超过80%的资源都是托管资源。</p>
+<p><strong>非托管资源</strong><br>ApplicationContext,Brush,Component,ComponentDesigner,Container,Context,Cursor,FileStream,Font,Icon,Image,Matrix,Object,OdbcDataReader,OleDBDataReader,Pen,Regex,Socket,StreamWriter,Timer,Tooltip ,文件句柄,GDI资源,数据库连接等等资源。可能在使用的时候很多都没有注意到！</p>
+<p>.NET的GC机制有这样两个问题：</p>
+<p>首先，GC并不是能释放所有的资源。它不能自动释放非托管资源。</p>
+<p>第二，GC并不是实时性的，这将会造成系统性能上的瓶颈和不确定性。</p>
+<p>GC并不是实时性的，这会造成系统性能上的瓶颈和不确定性。所以有了IDisposable接口，IDisposable接口定义了Dispose方法，这个方法用来供程序员显式调用以释放非托管资源。使用using 语句可以简化资源管理。</p>
+<p>示例</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 执行SQL语句，返回影响的记录数</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;SQLString&quot;&gt;</span>SQL语句<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>影响的记录数<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> <span class="title">ExecuteSql</span>(<span class="params"><span class="built_in">string</span> SQLString</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (SqlConnection connection = <span class="keyword">new</span> SqlConnection(connectionString))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (SqlCommand cmd = <span class="keyword">new</span> SqlCommand(SQLString, connection))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                connection.Open();</span><br><span class="line">                <span class="built_in">int</span> rows = cmd.ExecuteNonQuery();</span><br><span class="line">                <span class="keyword">return</span> rows;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (System.Data.SqlClient.SqlException e)</span><br><span class="line">            &#123;</span><br><span class="line">                connection.Close();</span><br><span class="line">                <span class="keyword">throw</span> e;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">finally</span></span><br><span class="line">            &#123;</span><br><span class="line">                cmd.Dispose();</span><br><span class="line">                connection.Close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当你用Dispose方法释放未托管对象的时候，应该调用GC.SuppressFinalize。如果对象正在终结队列(finalization queue),GC.SuppressFinalize会阻止GC调用Finalize方法。因为Finalize方法的调用会牺牲部分性能。如果你的Dispose方法已经对委托管资源作了清理，就没必要让GC再调用对象的Finalize方法(MSDN)。附上MSDN的代码，大家可以参考.</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BaseResource</span> : <span class="title">IDisposable</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 指向外部非托管资源</span></span><br><span class="line">    <span class="keyword">private</span> IntPtr handle;</span><br><span class="line">    <span class="comment">// 此类使用的其它托管资源.</span></span><br><span class="line">    <span class="keyword">private</span> Component Components;</span><br><span class="line">    <span class="comment">// 跟踪是否调用.Dispose方法，标识位，控制垃圾收集器的行为</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">bool</span> disposed = <span class="literal">false</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseResource</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Insert appropriate constructor code here.</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 实现接口IDisposable.</span></span><br><span class="line">    <span class="comment">// 不能声明为虚方法virtual.</span></span><br><span class="line">    <span class="comment">// 子类不能重写这个方法.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dispose(<span class="literal">true</span>);</span><br><span class="line">        <span class="comment">// 离开终结队列Finalization queue </span></span><br><span class="line">        <span class="comment">// 设置对象的阻止终结器代码</span></span><br><span class="line">        <span class="comment">// </span></span><br><span class="line">        GC.SuppressFinalize(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Dispose(bool disposing) 执行分两种不同的情况.</span></span><br><span class="line">    <span class="comment">// 如果disposing 等于 true, 方法已经被调用</span></span><br><span class="line">    <span class="comment">// 或者间接被用户代码调用. 托管和非托管的代码都能被释放</span></span><br><span class="line">    <span class="comment">// 如果disposing 等于false, 方法已经被终结器 finalizer 从内部调用过，</span></span><br><span class="line">    <span class="comment">//你就不能在引用其他对象，只有非托管资源可以被释放。</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"><span class="built_in">bool</span> disposing</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 检查Dispose 是否被调用过.</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.disposed)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 如果等于true, 释放所有托管和非托管资源 </span></span><br><span class="line">            <span class="keyword">if</span> (disposing)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 释放托管资源.</span></span><br><span class="line">                Components.Dispose();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 释放非托管资源，如果disposing为 false, </span></span><br><span class="line">            <span class="comment">// 只会执行下面的代码.</span></span><br><span class="line">            CloseHandle(handle);</span><br><span class="line">            handle = IntPtr.Zero;</span><br><span class="line">            <span class="comment">// 注意这里是非线程安全的.</span></span><br><span class="line">            <span class="comment">// 在托管资源释放以后可以启动其它线程销毁对象，</span></span><br><span class="line">            <span class="comment">// 但是在disposed标记设置为true前</span></span><br><span class="line">            <span class="comment">// 如果线程安全是必须的，客户端必须实现。</span></span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line">        disposed = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 使用interop 调用方法 </span></span><br><span class="line">    <span class="comment">// 清除非托管资源.</span></span><br><span class="line">    [<span class="meta">System.Runtime.InteropServices.DllImport(<span class="string">&quot;Kernel32&quot;</span>)</span>]</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">extern</span> <span class="keyword">static</span> Boolean <span class="title">CloseHandle</span>(<span class="params">IntPtr handle</span>)</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 使用C# 析构函数来实现终结器代码</span></span><br><span class="line">    <span class="comment">// 这个只在Dispose方法没被调用的前提下，才能调用执行。</span></span><br><span class="line">    <span class="comment">// 如果你给基类终结的机会.</span></span><br><span class="line">    <span class="comment">// 不要给子类提供析构函数.</span></span><br><span class="line">    ~BaseResource()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 不要重复创建清理的代码.</span></span><br><span class="line">        <span class="comment">// 基于可靠性和可维护性考虑，调用Dispose(false) 是最佳的方式</span></span><br><span class="line">        Dispose(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 允许你多次调用Dispose方法,</span></span><br><span class="line">    <span class="comment">// 但是会抛出异常如果对象已经释放。</span></span><br><span class="line">    <span class="comment">// 不论你什么时间处理对象都会核查对象的是否释放, </span></span><br><span class="line">    <span class="comment">// check to see if it has been disposed.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DoSomething</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.disposed)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ObjectDisposedException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 不要设置方法为virtual.</span></span><br><span class="line">    <span class="comment">// 继承类不允许重写这个方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Close</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 无参数调用Dispose参数.</span></span><br><span class="line">        Dispose();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Insert code here to create</span></span><br><span class="line">        <span class="comment">// and use a BaseResource object.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>GC.Collect() 方法<br>作用：强制进行垃圾回收。</p>
+<p>GC的方法：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Collect()</td>
+<td align="center">强制对所有代进行回收</td>
+</tr>
+<tr>
+<td>Collect(Int32)</td>
+<td align="center">对0到指定代进行回收</td>
+</tr>
+<tr>
+<td>Collect(Int32, GCCollectionMode)</td>
+<td align="center">强制在 GCCollectionMode 值所指定的时间对零代到指定代进行垃圾回收。</td>
+</tr>
+</tbody></table>
+<p>GC注意事项：</p>
+<ol>
+<li>只管理内存，非托管资源，如文件句柄，GDI资源，数据库连接等还需要用户去管理</li>
+<li>循环引用，网状结构等的实现会变得简单。GC的标志也压缩算法能有效的检测这些关系，并将不再被引用的网状结构整体删除。</li>
+<li>GC通过从程序的根对象开始遍历来检测一个对象是否可被其他对象访问，而不是用类似于COM中的引用计数方法。</li>
+<li>GC在一个独立的线程中运行来删除不再被引用的内存</li>
+<li>GC每次运行时会压缩托管堆</li>
+<li>你必须对非托管资源的释放负责。可以通过在类型中定义Finalizer来保证资源得到释放。</li>
+<li>对象的Finalizer被执行的时间是在对象不再被引用后的某个不确定的时间。注意并非和C++中一样在对象超出声明周期时立即执行析构函数</li>
+<li>Finalizer的使用有性能上的代价。需要Finalization的对象不会立即被清除，而需要先执行Finalizer.Finalizer不是在GC执行的线程被调用。GC把每一个需要执行Finalizer的对象放到一个队列中去，然后启动另一个线程来执行所有这些Finalizer.而GC线程继续去删除其他待回收的对象。在下一个GC周期，这些执行完Finalizer的对象的内存才会被回收。</li>
+<li>.NET GC使用”代”(generations)的概念来优化性能。代帮助GC更迅速的识别那些最可能成为垃圾的对象。在上次执行完垃圾回收后新创建的对象为第0代对象。经历了一次GC周期的对象为第1代对象。经历了两次或更多的GC周期的对象为第2代对象。代的作用是为了区分局部变量和需要在应用程序生存周期中一直存活的对象。大部分第0代对象是局部变量。成员变量和全局变量很快变成第1代对象并最终成为第2代对象。</li>
+<li>GC对不同代的对象执行不同的检查策略以优化性能。每个GC周期都会检查第0代对象。大约1&#x2F;10的GC周期检查第0代和第1代对象。大约1&#x2F;100的GC周期检查所有的对象。重新思考Finalization的代价：需要Finalization的对象可能比不需要Finalization在内存中停留额外9个GC周期。如果此时它还没有被Finalize,就变成第2代对象，从而在内存中停留更长时间。</li>
+</ol>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/CART%E6%A0%91/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/Fourier/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GC%E7%9A%84%E5%89%8D%E4%B8%96%E4%B8%8E%E4%BB%8A%E7%94%9F"><span class="toc-text">GC的前世与今生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFGC"><span class="toc-text">什么是GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mark-Compact-%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="toc-text">Mark-Compact 标记压缩算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generational-%E5%88%86%E4%BB%A3%E7%AE%97%E6%B3%95"><span class="toc-text">Generational 分代算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Finalization-Queue%E5%92%8CFreachable-Queue"><span class="toc-text">Finalization Queue和Freachable Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%98%E7%AE%A1%E8%B5%84%E6%BA%90-%E9%9D%9E%E6%89%98%E7%AE%A1%E8%B5%84%E6%BA%90"><span class="toc-text">托管资源 &amp;&amp; 非托管资源</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + CSharp-GC + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2FCSharp-GC%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/CSharp-GC/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

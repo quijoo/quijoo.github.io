@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Quijoo" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      2D碰撞方程 
+      
+      
+      |
+    
+     Quijoo 记录
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Oranges</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">2D碰撞方程</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+          2025-12-13 06:32:43
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <p><strong>bilibili BV1Sv411M7LP</strong></p>
+<h2 id="灵感来源"><a href="#灵感来源" class="headerlink" title="灵感来源"></a>灵感来源</h2><p>前段时间玩了 <a target="_blank" rel="noopener" href="https://wiki.teamfortress.com/wiki/Portal_2/zh-hans">传送门2</a>, 想到一个新的游戏机制</p>
+<blockquote>
+<p>玩家A可以发射一个<strong>交换球</strong>，交换球碰撞到特定的<strong>可交换物体</strong> B后交换 A 和 B 的位置</p>
+</blockquote>
+<p>该机制可以用来设计同传送门相似的各种奇思妙想的关卡，需要将整个机制分解为以下两个机制</p>
+<ol>
+<li>移动场景中的物体</li>
+<li>玩家获得位置移动</li>
+</ol>
+<h2 id="需要解决的问题？"><a href="#需要解决的问题？" class="headerlink" title="需要解决的问题？"></a>需要解决的问题？</h2><ul>
+<li>上文中 A 和 B 的<strong>体积</strong> 和 <strong>碰撞 Layer&#x2F;Mask</strong> 都是不一样的，如何保证交换的物体在交换后不会与场景中已有的物体发生冲突呢？</li>
+<li>如何进行碰撞测试？</li>
+</ul>
+<h2 id="如何进行有效的冲突测试？"><a href="#如何进行有效的冲突测试？" class="headerlink" title="如何进行有效的冲突测试？"></a>如何进行有效的冲突测试？</h2><p>引擎提供的冲突检测仅给出碰撞点和碰撞方向, 要实现将物体放置到安全位置还需要知道冲突重叠区域在碰撞法线方向上投影的最大宽度(将物体平移到恰好不碰撞的位移)</p>
+<p>所以我们定义一个 <strong>恢复偏移向量</strong>: </p>
+<blockquote>
+<p>假设物体 A 和环境碰撞体 B 发生碰撞, 碰撞点为 P, 碰撞法线为 N, 那么以 P 点为起始点方向为 -N 发射射线, 与 A 的碰撞体积计算几何交点 $Q_i$ 取最长的 $Q_iP$<br>QP, QP 则是<strong>恢复偏移向量</strong></p>
+</blockquote>
+<p>按照 QP 移动物体能解决 A&#x2F;B 的冲突但是可能引入新的冲突, 所以需要多次进行 冲突测试-避免冲突</p>
+<p><strong>几何交点</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Vector2&gt; <span class="title">GeometryIntersection</span>(<span class="params">Polygon polygon, Ray ray</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    List&lt;Vector2&gt; res = <span class="keyword">new</span> List&lt;Vector2&gt;();</span><br><span class="line">    <span class="keyword">foreach</span>(Segment segment <span class="keyword">in</span> polygon.GetSegments())</span><br><span class="line">    &#123;</span><br><span class="line">        Vector2 intersection = GeometryIntersection(segment, ray);</span><br><span class="line">        <span class="keyword">if</span>(intersection != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            res.Add(intersection);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Vector2&gt; <span class="title">GeometryIntersection</span>(<span class="params">Segment segment, Ray ray</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Vector2 A = segment.Start;</span><br><span class="line">    Vector2 B = segment.End;</span><br><span class="line">    Vector2 P = ray.Start;</span><br><span class="line">    Vector2 D = ray.Direction;</span><br><span class="line">    <span class="built_in">float</span> k = ((B.x - P.x) * D.y - (B.y - P.y) * D.x) / ((B.x - A.x)*D.y - (B.y - A.y) * D.x);</span><br><span class="line">    <span class="built_in">float</span> t = (B.x - P.x - k * (B.x - A.x)) / D.x;</span><br><span class="line">    <span class="keyword">if</span>(k &gt;= <span class="number">0</span> &amp;&amp; k &lt;=<span class="number">1</span> &amp;&amp; t &gt;= <span class="number">0</span>) <span class="keyword">return</span> P + t * D;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决碰撞冲突-网格搜索"><a href="#解决碰撞冲突-网格搜索" class="headerlink" title="解决碰撞冲突(网格搜索)"></a>解决碰撞冲突(网格搜索)</h2><p>目前已知物体 A &#x2F; B, 要交换它们的位置，当某个物体改变位置后如果发生碰撞，我们可以<strong>微调</strong>目标位置，使其以最小的偏移实现 <strong>无碰撞交换</strong></p>
+<p>但是微调是一个很暧昧的概念，什么叫微调，移动多远的距离算微调，如果对微调距离不加限制，那么 A&#x2F;B 呆在原地也恰好不发生碰撞，所以限制微调距离是必要的</p>
+<p>交换指 <em>位置互换</em>，微调指在一定的 <em>容忍范围</em> 内移动目标位置</p>
+<p>所以我们可以得到一个朴素的假算法</p>
+<blockquote>
+<p>假定有目标位置 $P(x_0, y_0)$, 容忍距离 $d$, 有点集:<br>$$<br>D &#x3D; \lbrace (x, y) | \sqrt{(x-x_0)^2 + (y-y_0)^2} &lt; d \rbrace<br>$$<br>搜索点集中距离 P 最近并且无碰撞的点作为新的目标位置</p>
+</blockquote>
+<p>上述算法存在几个问题</p>
+<ul>
+<li>点集 D 是无穷集合无法枚举</li>
+<li>环境的碰撞不是有序的(无法简单的二分)</li>
+</ul>
+<h3 id="方法一-网格枚举"><a href="#方法一-网格枚举" class="headerlink" title="方法一(网格枚举)"></a>方法一(网格枚举)</h3><p>可以使用网格划分 D ，然后由P点到边缘的顺序枚举每一个网格点，并对点其进行 <strong>碰撞测试</strong>，找到第一个无碰撞的点 记划分粒度为 k, 算法复杂度为 $O(\frac{d^2}{k^2})$<br>(可以使用QP 向量来减小碰撞测试的次数)</p>
+<p><strong>缺点</strong> 网格碰撞, 可能因为空间的整数划分而找不到安全点(可能实际上有安全点)<br><strong>解决</strong> 配合碰撞解算(方法三)</p>
+<h3 id="方法二-碰撞解算"><a href="#方法二-碰撞解算" class="headerlink" title="方法二(碰撞解算)"></a>方法二(碰撞解算)</h3><blockquote>
+<p>在该方法中, 我们将物体在某一位置的所有碰撞简化为与多条直线的碰撞(直线与法线 N 垂直,并且过点 P)<br>对于任意碰撞 $c_i$, 可以计算碰撞的 $(QP)_i$ 向量, 我们移动物体解决碰撞的本质是 计算一个 $M_i$ 向量, 该向量在 $(QP)_i$ 方向的投影大于等于 $|(QP)_i|$</p>
+</blockquote>
+<p>$$<br>\frac{\vec{M} \cdot \vec{QP}}{|\vec{QP}|} \ge |\vec{QP}| \<br>\quad\<br>\Rightarrow \vec{M} \cdot \vec{QP} \ge |\vec{QP}|^2<br>$$</p>
+<p>此外还需要满足 M 尽可能地小的约束(确保靠近选中的位置)<br>所以对于所有的碰撞点:</p>
+<p>$$<br>\begin{cases}<br>\vec{M} \cdot \vec{QP_i} \ge |\vec{QP_i}|^2,\quad i &#x3D; 1,2,3,…\\<br>\<br>\arg \mathop{\min}\limits_{M} |\vec{QP_i}|<br>\end{cases}<br>$$</p>
+<p>我们观察上式, 所有的 $QP$ 是已知的, 每一个不等式约束都是一个线性约束设  $M(x, y)$, 每一个约束都是一个关于 $x, y$ 的不等式<br>所以该问题就转化为了熟悉的不等式约束的优化问题, 优化目标是 $M$ 位移的距离</p>
+<p>可以使用<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41133375/article/details/105642352">带 KKT 条件的拉格朗日乘数法</a>来解 M</p>
+<h3 id="线性约束的非线性规划问题"><a href="#线性约束的非线性规划问题" class="headerlink" title="线性约束的非线性规划问题"></a>线性约束的非线性规划问题</h3><p>但是优化问题相关的第三方库都是使用迭代的数值优化方法来计算解, 这会导致算法复杂度可能无法预估。<br>所以这里我们用一个朴素的算法来解决线性约束的非线性规划问题, 算法分成两步:</p>
+<p>由于所有的约束都是线性约束, 所以可行域一定是多边形区域(或者开放的凸多边形区域)<br>最优解的点只会取约束直线上某点或者顶点(不会取可行域内的点)<br>如何计算 <strong>可行域边界</strong> ？</p>
+<ol>
+<li><p>每个约束条件与其余约束条件计算公共区域(<code>Intercepted</code> 方法)</p>
+<ul>
+<li>Tips1: 存在线段和射线约束, 需要检查交点是否在线段或者射线上</li>
+<li>Tips2：直线的法线代表可行域区域, 可以通过两条直线的<strong>方向</strong> 和 <strong>法线方向</strong>判断两线相交分割出的四条射线哪两段是有效的 (见 <code>Intercepted</code> 中判断 <code>Direction</code> 和 <code>Normal</code> 夹角 &lt;&#x3D; 90&gt;)</li>
+<li>Tips3: 线的相交只会缩短端点, 所以需要进行 Max&#x2F;Min 判断(见 Intercepted)</li>
+<li>Tips4: 那些 左端点 &gt;&#x3D; 右端点 的边界视为无效边界( 见<code>SolveCollition</code> 和 <code>Line.IsValid()</code>)<br>  更深层的意思是, 出现无效边时, 可能有以下几种情况(但是只要去除所有无效边即可获得正确的可行域)</li>
+</ul>
+</li>
+<li><p>得到一个边界集合(元素可能是 直线&#x2F;线段&#x2F;射线), 其中某些边界有效, 某些边界无效</p>
+</li>
+<li><p>对边界集合中所有有效的边界, 计算其与 O(0,0) 点的距离, 并取最小距离，最小距离仅可能以下情况：</p>
+<ul>
+<li>O 向边界线作垂线的垂足(需要保证垂足再 minT 和 maxT 约束之间)</li>
+<li>边界射线端点</li>
+<li>边界线段断电<br> 所以, 只需要遍历所有的边界线垂足和边界顶点, 取与 O 最近的点即可 (见 SolveCollition 第二个 for 循环)<br>该算法复杂度为 $O(n^2)$, 比计算出所有交点, 再检查焦点是否在可行域内的方法($O(n^3)$)更快</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Line</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> Vector2 Point;</span><br><span class="line">    <span class="keyword">public</span> Vector2 Normal;</span><br><span class="line">    <span class="keyword">public</span> Vector2 Direction;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">float</span> minT = <span class="built_in">float</span>.MinValue;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">float</span> maxT = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Line</span>(<span class="params">Vector2 _p, Vector2 _n</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Point = _p; Normal = _n;</span><br><span class="line">        Direction = <span class="keyword">new</span> Vector2(Normal.y, -Normal.x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsRay</span>()</span> =&gt; (minT == <span class="built_in">float</span>.MinValue &amp;&amp; maxT != <span class="built_in">float</span>.MaxValue) || (minT != <span class="built_in">float</span>.MinValue &amp;&amp; maxT == <span class="built_in">float</span>.MaxValue);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsLine</span>()</span> =&gt; minT == <span class="built_in">float</span>.MinValue &amp;&amp; maxT == <span class="built_in">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsSegment</span>()</span> =&gt; minT != <span class="built_in">float</span>.MinValue &amp;&amp; maxT != <span class="built_in">float</span>.MaxValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">IsValid</span>()</span> =&gt; minT &lt;= maxT;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Vector2 <span class="title">GetRayPoint</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (minT == <span class="built_in">float</span>.MinValue &amp;&amp; maxT != <span class="built_in">float</span>.MaxValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> Point + maxT * Direction;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (minT != <span class="built_in">float</span>.MinValue &amp;&amp; maxT == <span class="built_in">float</span>.MaxValue)</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="keyword">return</span> Point + minT * Direction;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Point;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Vector2 <span class="title">GetRayDirection</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (minT == <span class="built_in">float</span>.MinValue &amp;&amp; maxT != <span class="built_in">float</span>.MaxValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> -Direction;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (minT != <span class="built_in">float</span>.MinValue &amp;&amp; maxT == <span class="built_in">float</span>.MaxValue)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> Direction;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Vector2.Zero;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Perpendicular</span>(<span class="params">Vector2 point, <span class="keyword">out</span> Vector2 foot, <span class="keyword">out</span> <span class="built_in">float</span> distance</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Line pLine = <span class="keyword">new</span> Line(point, <span class="keyword">this</span>.Direction);</span><br><span class="line">        Intersect(<span class="keyword">this</span>, pLine, <span class="keyword">out</span> <span class="built_in">float</span> t1, <span class="keyword">out</span> <span class="built_in">float</span> t2);</span><br><span class="line">        foot = pLine.Point + pLine.Direction * t2;</span><br><span class="line">        <span class="keyword">if</span>(t1 &lt;= maxT &amp;&amp; t1 &gt;= minT) distance = (foot - point).Length();</span><br><span class="line">        <span class="keyword">else</span> distance = <span class="built_in">float</span>.MaxValue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Intersect</span>(<span class="params">Line B1, Line B2, <span class="keyword">out</span> <span class="built_in">float</span> t1, <span class="keyword">out</span> <span class="built_in">float</span> t2</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Vector2 P1 = B1.Point; Vector2 P2 = B2.Point;</span><br><span class="line">    Vector2 D1 = B1.Direction; Vector2 D2 = B2.Direction;</span><br><span class="line">    t2 = (D1.y * (P1.x - P2.x) - D1.x * (P1.y - P2.y)) / (D2.x * D1.y - D1.x * D2.y);</span><br><span class="line">    t1 = (P2.x + t2 * D2.x - P1.x) / D1.x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Intercepted</span>(<span class="params"><span class="keyword">ref</span> Line B1, <span class="keyword">ref</span> Line B2</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Intersect(B1, B2, <span class="keyword">out</span> <span class="built_in">float</span> k1, <span class="keyword">out</span> <span class="built_in">float</span> k2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (B1.Direction.Dot(B2.Normal) &gt;= <span class="number">0</span>) B1.minT = Mathf.Max(k1, B1.minT);</span><br><span class="line">    <span class="keyword">else</span> B1.maxT = Mathf.Min(k1, B1.maxT);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (B2.Direction.Dot(B1.Normal) &gt;= <span class="number">0</span>) B2.minT = Mathf.Max(k2, B2.minT);</span><br><span class="line">    <span class="keyword">else</span> B2.maxT = Mathf.Min(k2, B2.maxT);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> Vector2 <span class="title">SolveCollition</span>(<span class="params">Line[] lines</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; lines.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            Intercepted(<span class="keyword">ref</span> lines[i], <span class="keyword">ref</span> lines[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">float</span> distance = <span class="built_in">float</span>.MaxValue; Vector2 Selected = Vector2.Zero;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> lines)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 跳过无效边</span></span><br><span class="line">        <span class="keyword">if</span> (!line.IsValid()) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="comment">// 计算线上垂点</span></span><br><span class="line">        line.Perpendicular(Vector2.Zero, <span class="keyword">out</span> Vector2 f, <span class="keyword">out</span> <span class="built_in">float</span> d);</span><br><span class="line">        <span class="keyword">if</span> (d &lt; distance) &#123; Selected = f; distance = d; &#125;</span><br><span class="line">        <span class="comment">// 计算射线起点</span></span><br><span class="line">        <span class="keyword">if</span> (line.IsRay())</span><br><span class="line">        &#123;</span><br><span class="line">            Vector2 rayPoint = line.GetRayPoint();</span><br><span class="line">            <span class="keyword">if</span> (rayPoint.Length() &lt; distance) &#123; Selected = rayPoint; distance = rayPoint.Length(); &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 计算线段端点</span></span><br><span class="line">        <span class="keyword">if</span> (line.IsSegment())</span><br><span class="line">        &#123;</span><br><span class="line">            Vector2 L = line.Point + line.minT * line.Direction;</span><br><span class="line">            Vector2 R = line.Point + line.maxT * line.Direction;</span><br><span class="line">            <span class="keyword">if</span> (L.Length() &lt; distance) &#123; Selected = L; distance = L.Length(); &#125;</span><br><span class="line">            <span class="keyword">if</span> (R.Length() &lt; distance) &#123; Selected = R; distance = R.Length(); &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (distance != <span class="built_in">float</span>.MaxValue) <span class="keyword">return</span> Selected;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> Vector2.Zero;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>最后一个问题</strong> 如何将线性规划的约束条件转化为 (Point, Normal) 的形式？</p>
+<p>设 约束条件为 $ax + by \ge c$, 边界上一点 $(x_0, y_0)$</p>
+<p>边界直线的法线方向有 $(a, b)$ 和 $(-a, -b)$ 两个方向</p>
+<p>可以计算得到边界直线外一点 $(x_1, y_1) &#x3D; (x_0 + a, y_0 + b)$, 将该点带入直线方程<br>$$<br>a (x_0 + a) + b(y_0 + b) &#x3D; (ax_0 + by_0) + a^2 + b^2 &#x3D; c + (a^2 + b^2) \ge c<br>$$<br>所以 $N(a, b)$ 是该边界指向内部的法线</p>
+<p><strong>无解条件</strong></p>
+<ul>
+<li>如果所有 QP 向量分解到 x, y 轴上并同时有 $x^-, x^+, y^-, y^-$ 方向的移动, 那么是不可解的</li>
+<li>拉格朗日乘数法无解</li>
+</ul>
+<p><strong>问题</strong> 解决一次碰撞后可能产生新的碰撞,如果新的碰撞和原有的碰撞是冲突的那该怎么办？</p>
+<p><strong>解决</strong> 暂时没想到什么更好的方法, 就顶一个数字m, 每次都进行 m 次移动, 如果找不到安全位置就判定为失败即可。</p>
+<h3 id="方法三-网格划分-碰撞解算"><a href="#方法三-网格划分-碰撞解算" class="headerlink" title="方法三(网格划分 + 碰撞解算)"></a>方法三(网格划分 + 碰撞解算)</h3><p>这是一个启发式的方法(没什么依据,乱想的):</p>
+<ol>
+<li><p>使用网格划分, 记每个格点上的所有 QP 的长度之和为 $W &#x3D; \sum_i |QP_i|$</p>
+</li>
+<li><p>取 W 值最小的格点并在此处执行碰撞解算</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>实际上由于不知道物体周围的全部碰撞信息, 碰撞解算并不能避免掉未知的碰撞, 一次碰撞解决后可能引入新的碰撞, 所以基于解算的方法在不知道全局碰撞信息的情况下是不可靠的。</p>
+<p>而基于迭代的解算完全不需要使用解算得到的移动方向, 只需要使用当前所有碰撞法线的求和得到移动方向。</p>
+<p>所以这篇博客实际上<strong>没什么用</strong>, 唯一的作用可能是O(n^2)的解决了一个特定的线性规划问题。 确实没什么用？</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/06/02/Fourier/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>上一页</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
+              2025-12-13 06:32:43
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/06/02/GAMES104/" target="_self">
+                <span>下一页</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">目录</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%81%B5%E6%84%9F%E6%9D%A5%E6%BA%90"><span class="toc-text">灵感来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">需要解决的问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%9C%89%E6%95%88%E7%9A%84%E5%86%B2%E7%AA%81%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="toc-text">如何进行有效的冲突测试？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%A2%B0%E6%92%9E%E5%86%B2%E7%AA%81-%E7%BD%91%E6%A0%BC%E6%90%9C%E7%B4%A2"><span class="toc-text">解决碰撞冲突(网格搜索)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80-%E7%BD%91%E6%A0%BC%E6%9E%9A%E4%B8%BE"><span class="toc-text">方法一(网格枚举)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C-%E7%A2%B0%E6%92%9E%E8%A7%A3%E7%AE%97"><span class="toc-text">方法二(碰撞解算)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E7%BA%A6%E6%9D%9F%E7%9A%84%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92%E9%97%AE%E9%A2%98"><span class="toc-text">线性约束的非线性规划问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89-%E7%BD%91%E6%A0%BC%E5%88%92%E5%88%86-%E7%A2%B0%E6%92%9E%E8%A7%A3%E7%AE%97"><span class="toc-text">方法三(网格划分 + 碰撞解算)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>首次搜索，正在载入索引文件，请稍后……<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>没有找到内容，请尝试更换检索词。<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>未找到search.xml文件，具体请参考：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>请求失败，尝试重新刷新页面或稍后重试。<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 2D%E7%A2%B0%E6%92%9E%E6%96%B9%E7%A8%8B + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F06%2F02%2F2D%25E7%25A2%25B0%25E6%2592%259E%25E6%2596%25B9%25E7%25A8%258B%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://dev.quijoo.site:8002/2024/06/02/2D%E7%A2%B0%E6%92%9E%E6%96%B9%E7%A8%8B/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
