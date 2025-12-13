@@ -13,7 +13,7 @@
   
   <title>
     
-      红蓝眼睛问题的谬误.md 
+      红蓝眼睛问题.md 
       
       
       |
@@ -153,16 +153,16 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">红蓝眼睛问题的谬误.md</div>
+      <div class="post-title">红蓝眼睛问题.md</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-          2025-12-13 06:32:43
+          2025-12-13 09:35:06
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="红蓝眼睛问题的谬误"><a href="#红蓝眼睛问题的谬误" class="headerlink" title="红蓝眼睛问题的谬误"></a>红蓝眼睛问题的谬误</h1><p>华人数学家陶哲轩曾经设计了这么一个有趣的思维实验：</p>
+        <h1 id="红蓝眼睛问题"><a href="#红蓝眼睛问题" class="headerlink" title="红蓝眼睛问题"></a>红蓝眼睛问题</h1><p>华人数学家陶哲轩曾经设计了这么一个有趣的思维实验：</p>
 <ul>
 <li>一个村子里有 100 聪明人；</li>
 <li>100 人中，有 5 人眼睛是红色的，其余 95 人的眼睛是蓝色的；</li>
@@ -193,12 +193,6 @@
 <li>在外乡人离开后的第 $k-1$ 天，平安无事，无人自杀。这回，A 开始犯嘀咕了：红眼睛的小伙伴们没有自杀，那么我的假设就错了，那么我的眼睛就是红色的，我明天得自杀了。考虑到 A 和他的小伙伴们地位等同，因此，</li>
 <li>在外乡人离开后的第 $k$ 天，A 和他的小伙伴们自杀了。<br>当 $k&#x3D;5$ 时，就是陶哲轩思维实验中的情况。</li>
 </ul>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>学过信息论就知道，外乡人并没有增加故事里的现实村子这个系统的信息量，所以不会有状态变化，所以这个推理过程是❌错误的。</p>
-<p>那具体错在哪里呢? 首先应当将推理与现实区分开来，村里的<strong>现实情况</strong>是5 红 + 95蓝， 而每个人都会在自己脑中建立上述 <strong>递推推数学模型</strong>。 然而外乡人是在现实中来来到这个村子并说: 你们中有红色眼睛, 而在村民的<strong>理论模型中并没有一个外乡人来打破僵局</strong>。</p>
-<p>所以现实情况是： 村民在脑中对该问题建模，层层正向思考下去发现 1红 + 99蓝的情况下，这个红色村民永远无法知道自己眼睛的颜色。</p>
-<h2 id="问题的起因"><a href="#问题的起因" class="headerlink" title="问题的起因"></a>问题的起因</h2><p>在数学归纳法向下的过程中，“岛上有红眼睛” 的信息会在 $k &#x3D; 1$ 时缺失: 那一个红眼人无法知道岛上是否有红色眼人。</p>
-<p>而当 $k \in (2, k)$ 时这个缺失的信息又被补充回来了，互联网上广为流传的版本中将 $k \in (2, k)$ 的情况作为了 $k &#x3D; 1$ 的情况的条件，以打破僵局。</p>
-<p>这种思考方式的结构很像 <strong>回溯性建构</strong>、<strong>因果倒置</strong>、<strong>神经网络</strong>。 把这个问题拿去问 CharGPT 他包理不清的。</p>
 
       </div>
       
@@ -214,7 +208,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="更新时间"></i>
-              2025-12-13 06:32:43
+              2025-12-13 09:35:06
             </span>
             
           </div>
@@ -237,7 +231,7 @@
     <div class="title">目录</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98%E7%9A%84%E8%B0%AC%E8%AF%AF"><span class="toc-text">红蓝眼睛问题的谬误</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%9D%80%E5%8E%9F%E5%9B%A0-%E5%B9%BF%E4%B8%BA%E6%B5%81%E4%BC%A0%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-text">自杀原因(广为流传的版本)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-1-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 1 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-2-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 2 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-3-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 3 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-k-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 k 只红眼睛</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E8%B5%B7%E5%9B%A0"><span class="toc-text">问题的起因</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98"><span class="toc-text">红蓝眼睛问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%9D%80%E5%8E%9F%E5%9B%A0-%E5%B9%BF%E4%B8%BA%E6%B5%81%E4%BC%A0%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-text">自杀原因(广为流传的版本)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-1-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 1 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-2-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 2 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-3-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 3 只红眼睛</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89-k-%E5%8F%AA%E7%BA%A2%E7%9C%BC%E7%9D%9B"><span class="toc-text">只有 k 只红眼睛</span></a></li></ol></li></ol></li></ol>
       
     </div>
   </div>
@@ -525,7 +519,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98%E7%9A%84%E8%B0%AC%E8%AF%AF.md + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F11%2F05%2F%25E7%25BA%25A2%25E8%2593%259D%25E7%259C%25BC%25E7%259D%259B%25E9%2597%25AE%25E9%25A2%2598%25E7%259A%2584%25E8%25B0%25AC%25E8%25AF%25AF%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%BA%A2%E8%93%9D%E7%9C%BC%E7%9D%9B%E9%97%AE%E9%A2%98.md + '&url=' + http%3A%2F%2Fdev.quijoo.site%3A8002%2F2024%2F11%2F05%2F%25E7%25BA%25A2%25E8%2593%259D%25E7%259C%25BC%25E7%259D%259B%25E9%2597%25AE%25E9%25A2%2598%25E7%259A%2584%25E8%25B0%25AC%25E8%25AF%25AF%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
